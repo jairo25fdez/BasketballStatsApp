@@ -1,25 +1,26 @@
 module.exports = function(app){
 
-    const MongoClient = require('mongodb').MongoClient;
+    const mongoose = require('mongoose')
     const assert = require('assert');
+    const path = require('path');
+    const dbName = path.join(__dirname,"stats.db");
+    const BASE_API_URL = "/api/v1";
+    const mongo_db_url = "mongodb://localhost:27017/stats";
 
-    // Connection URL
-    const url = 'mongodb://localhost:27017';
+    //Importamos los schemas de MongoDB
+    const User = require('./database/models/user.js');
 
-    // Database Name
-    const dbName = 'database';
+    mongoose.connect(mongo_db_url, {useNewUrlParser: true});
 
-    // Create a new MongoClient
-    const client = new MongoClient(url);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+        console.log("DB connected.");
+    });
 
-    // Use connect method to connect to the Server
-    client.connect(function(err) {
-        assert.equal(null, err);
-        console.log("Connected successfully to server");
-
-        const db = client.db(dbName);
-
-        client.close();
+    app.get(BASE_API_URL+"/stats/loadData", (request, response) =>{
+        db.
+        response.sendStatus(200, "CREATED DATA");
     });
 
 
