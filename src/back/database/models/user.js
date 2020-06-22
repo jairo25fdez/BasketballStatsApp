@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
-let userSchema = new Schema({
-    displayName: String,
+var userSchema = new Schema({
+    displayName: {type: String, required: true},
     avatar: String,
     name: String,
     last_name: String,
-    password: {type: String, select: false}, //El select: false hace que por defecto al hacer un GET no nos devuelva la password.
-    email: {type: String, unique: true},
+    password: {type: String, select: false, required: true}, //El select: false hace que por defecto al hacer un GET no nos devuelva la password.
+    email: {type: String, unique: true, required: true},
     phone: Number,
     rol: {type: String, enum: ['admin', 'coordinador', 'empleado']},
     club: String
