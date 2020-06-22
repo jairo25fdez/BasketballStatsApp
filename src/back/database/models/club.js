@@ -10,4 +10,4 @@ var clubSchema = new Schema({
     email: {type: String, unique: true}
 });
 
-mongoose.model('Club', clubSchema);
+module.exports = mongoose.model('Club', clubSchema);

@@ -9,4 +9,4 @@ var teamSchema = new Schema({
     roster: [{id: {type: Schema.Types.ObjectId, ref: 'Player'}}]
 });
 
-mongoose.model('Team', teamSchema);
+module.exports = mongoose.model('Team', teamSchema); 

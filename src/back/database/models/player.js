@@ -15,4 +15,4 @@ var playerSchema = new Schema({
     clubs: [{club_id: {type: Schema.Types.ObjectId, ref: 'Club'}, season: Date}]
 });
 
-mongoose.model('Player', playerSchema);
+module.exports = mongoose.model('Player', playerSchema);
