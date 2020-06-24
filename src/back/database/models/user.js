@@ -11,7 +11,7 @@ var userSchema = new Schema({
     password: {type: String, select: false, required: true}, //El select: false hace que por defecto al hacer un GET no nos devuelva la password.
     email: {type: String, unique: true, required: true},
     phone: Number,
-    rol: {type: String, enum: ['admin', 'coordinador', 'empleado']},
+    rol: {type: String, enum: ['admin', 'coordinator', 'employee']},
     club: String
 });
 
