@@ -23,4 +23,4 @@ var playSchema = new Schema({
     to: {type: Schema.Types.ObjectId, ref: 'Player'}, //Player that receives the action
 });
 
-module.exports = mongoose.model('Play', gameSchema);
+module.exports = mongoose.model('Play', playSchema);

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var gameSchema = new Schema({
+var player_boxscoreSchema = new Schema({
     player: {type: Schema.Types.ObjectId, ref: 'Player'},
     game: {type: Schema.Types.ObjectId, ref: 'Game'},
     minutes_played: Date,
@@ -30,4 +30,4 @@ var gameSchema = new Schema({
     
 });
 
-module.exports = mongoose.model('Player Boxscore', gameSchema);
+module.exports = mongoose.model('Player Boxscore', player_boxscoreSchema);
