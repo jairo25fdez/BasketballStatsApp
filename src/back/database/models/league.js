@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var clubSchema = new Schema({
+var leagueSchema = new Schema({
     name: String,
     location: String,
-    stadium: String,
+    season: Date,
     teams: [{team_id: {type: Schema.Types.ObjectId, ref: 'Team'}}],
-    phone: Number,
-    email: {type: String, unique: true}
+    games_played: Number
 });
 
-module.exports = mongoose.model('Club', clubSchema);
+module.exports = mongoose.model('League', leagueSchema);

@@ -12,13 +12,11 @@ var gameSchema = new Schema({
     boxscore: {
         home_team: {type: Schema.Types.ObjectId, ref: 'Team'},
         home_boxscore: [{
-            player: {type: Schema.Types.ObjectId, ref: 'Player'},
-            player_stats: {type: Schema.Types.ObjectId, ref: 'Player Stats'}
+            player_stats: {type: Schema.Types.ObjectId, ref: 'Player Boxscore'}
         }],
         visitor_team: {type: Schema.Types.ObjectId, ref: 'Team'},
         visitor_boxscore: [{
-            player: {type: Schema.Types.ObjectId, ref: 'Player'},
-            player_stats: {type: Schema.Types.ObjectId, ref: 'Player Game Stats'}
+            player_stats: {type: Schema.Types.ObjectId, ref: 'Player Boxscore'}
         }]
     },
     play_by_play: [{type: Schema.Types.ObjectId, ref: 'Play'}]
