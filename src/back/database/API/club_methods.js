@@ -1,3 +1,6 @@
+const { isNull } = require('util');
+const { update } = require('../models/club');
+
 module.exports = function (app){
 
     const path = require('path');
@@ -82,6 +85,7 @@ module.exports = function (app){
 		Club.deleteOne({name: club_name}, function (err){
             if(err){
                 console.log("Error while trying to delete "+club_name);
+                response.sendStatus(500);
             }
             else{
                 response.sendStatus(200, "Deleted "+club_name+" Club.");
@@ -91,17 +95,57 @@ module.exports = function (app){
         
     });
 
+    //GET a specific Club by the name and city.
+    app.get(BASE_API_URL+"/clubs/:club_name/:club_city",(request,response) =>{
+        var club_name = request.params.club_name;
+        var club_city = request.params.club_city;
 
-    app.get(BASE_API_URL+"/clubs/:club_id",(request,response) =>{
+        Club.findOne({name: club_name, city: club_city}, function (err, doc){
+            if(isNull(doc)){
+                console.log(club_name+" from "+club_city+" doesn't exists in the database.");
+                response.sendStatus(400);
+            }
+            else{
+                response.send(JSON.stringify(doc,null,2));
+            }
+        });
 
     });
 
+
     //POST is not allowed when we are working with a specific club.
-    app.post(BASE_API_URL+"/clubs/:club_id",(request,response) =>{
+    app.post(BASE_API_URL+"/clubs/:club_name/:club_city",(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
     });
 
-    app.put(BASE_API_URL+"/clubs/:club_id",(request,response) =>{
+    //PUT a specific Club in the database.
+    app.put(BASE_API_URL+"/clubs/:club_name/:club_city",(request,response) =>{
+
+        var club_name = request.params.club_name;
+        var club_city = request.params.club_city;
+        var updatedData = request.body;
+
+        Club.findOne({name: club_name, city: club_city}, function (err, club){
+            if(isNull(club)){
+                console.log(club_name+" from "+club_city+" doesn't exists in the database.");
+                response.sendStatus(400);
+            }
+            else{
+                club.teams = updatedData.teams;
+                club.name = updatedData.name;
+                club.acronym = updatedData.acronym;
+                club.country = updatedData.country;
+                club.city = updatedData.city;
+                club.location = updatedData.location;
+                club.stadium = updatedData.stadium;
+                club.phone = updatedData.phone;
+                club.email = updatedData.email;
+
+                club.save();
+
+                response.sendStatus(200, "Updated club "+club_name);
+            }
+        });
 
     });
 
