@@ -6,7 +6,6 @@ const mongoose_util = require(path.join(__dirname, '/../mongoose_util.js'));
 const db = mongoose_util.getDB;
 
 var clubSchema = new Schema({
-    _id: {select: false },
     name: String,
     acronym: String,
     country: String,

@@ -1,5 +1,6 @@
 const { isNull } = require('util');
 const { update } = require('../models/club');
+const { log } = require('console');
 
 module.exports = function (app){
 
@@ -30,12 +31,12 @@ module.exports = function (app){
     //GET every Club in DB.
     app.get(BASE_API_URL+"/clubs",(request,response) =>{
 
-        Club.find({}, function (err, docs){
+        Club.find({}, {_id: 0}, function (err, clubs){
             if(err){
                 console.log("Error while trying to receive the list of clubs.");
             }
             else{
-                response.send(JSON.stringify(docs,null,2));
+                response.send(JSON.stringify(clubs,null,2));
             }
         });
 
@@ -59,7 +60,8 @@ module.exports = function (app){
 
         club.save(function(err,doc){
             if(err){
-                console.log("Error while trying to post the club into the DB.");
+                console.log("Error while trying to post the club into the database.");
+                console.log("Check the following error: "+err);
                 response.sendStatus(500);
             }
             else{
@@ -100,7 +102,7 @@ module.exports = function (app){
         var club_name = request.params.club_name;
         var club_city = request.params.club_city;
 
-        Club.findOne({name: club_name, city: club_city}, function (err, doc){
+        Club.findOne({name: club_name, city: club_city}, {_id: 0}, function (err, doc){
             if(isNull(doc)){
                 console.log(club_name+" from "+club_city+" doesn't exists in the database.");
                 response.sendStatus(400);

@@ -1,4 +1,5 @@
 const club_methods = require('./database/API/club_methods.js');
+const game_methods = require('./database/API/game_methods.js');
 
 module.exports = function(app){
     
@@ -9,6 +10,7 @@ module.exports = function(app){
 
     //Initialize API methods.
     club_methods(app);
+    game_methods(app);
 
 
 
