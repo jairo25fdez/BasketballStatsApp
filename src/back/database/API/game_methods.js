@@ -33,8 +33,6 @@ module.exports = function (app){
             }
             else{
                 /* Debo buscar una alternativa a devolver los IDs o hacerlo solo en caso de que sea necesario. */
-
-
                 response.send(JSON.stringify(games,null,2));
             }
         });
@@ -45,12 +43,20 @@ module.exports = function (app){
     app.post(BASE_API_URL+"/games",(request,response) =>{
         let game_data = request.body;
 
+        /* Debo comprobar: 
+            - Nombre de liga.
+            - Nombres de los clubes.
+            - Ganador y perdedor.
+            - 
+
+
+        */
+
         let game = new Game({
             date: game_data.date,
             league: {
                 league_name: game_data.league.league_name,
-                //Debo formatear la season.
-                //season
+                season: game_data.league.season
             },
             home_team: game_data.home_team,
             visitor_team: game_data.visitor_team,

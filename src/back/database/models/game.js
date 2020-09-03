@@ -1,34 +1,27 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const player_stats_gameSchema = require('../schemas/player_stats_game.js');
+const playSchema = require('../schemas/play.js');
+
 var gameSchema = new Schema({
     date: Date,
-    league: {
-        league_name: String,
-        season: Date
-    },
-    home_team: String,
-    visitor_team: String,
+    league: {type: Schema.Types.ObjectId, ref: 'League'},
+    home_team: {type: Schema.Types.ObjectId, ref: 'Team'},
+    visitor_team: {type: Schema.Types.ObjectId, ref: 'Team'},
     home_team_score: Number,
     visitor_team_score: Number,
-    winner_team: String,
-    loser_team: String,
-    minutes_played: Number,
+    winner_team: {type: Schema.Types.ObjectId, ref: 'Team'},
+    loser_team: {type: Schema.Types.ObjectId, ref: 'Team'},
     overtime: Boolean,
     overtime_count: Number,
     boxscore: {
-        home_team: String,
-        home_boxscore: [{
-            player_stats: {type: Schema.Types.ObjectId, ref: 'Player Boxscore'}
-        }],
-        visitor_team: String,
-        visitor_boxscore: [{
-            player_stats: {type: Schema.Types.ObjectId, ref: 'Player Boxscore'}
-        }]
+        home_team_boxscore: [player_stats_gameSchema],
+        visitor_team_boxscore: [player_stats_gameSchema]
     },
-    play_by_play: [{type: Schema.Types.ObjectId, ref: 'Play'}]
+    play_by_play: [playSchema]
 });
 
-gameSchema.index( {date:1, league:1, home_team: 1, visitor_team: 1}, { unique: true } );
+gameSchema.index( {date: 1, home_team: 1, visitor_team: 1}, { unique: true } );
 
 module.exports = mongoose.model('Game', gameSchema);

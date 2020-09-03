@@ -12,7 +12,8 @@ var clubSchema = new Schema({
     city: String,
     location: String,
     stadium: String,
-    teams: [{type: Schema.Types.ObjectId, ref: 'Team'}],
+    active_teams: [{type: Schema.Types.ObjectId, ref: 'Team'}],
+    former_teams: [{type: Schema.Types.ObjectId, ref: 'Team'}],
     phone: Number,
     email: String
 });

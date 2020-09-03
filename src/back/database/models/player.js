@@ -10,9 +10,11 @@ var playerSchema = new Schema({
     phone: Number,
     weight: Number,
     height: Number,
-    position: {type: String, enum: ['Base', 'Escolta', 'Alero', 'Ala-Pívot', 'Pívot']},
+    primary_position: {type: String, enum: ['Base', 'Escolta', 'Alero', 'Ala-Pívot', 'Pívot']},
+    second_position: {type: String, enum: ['Base', 'Escolta', 'Alero', 'Ala-Pívot', 'Pívot']},
     number: {type: Number, min: 0, max: 99},
-    clubs: [{club_id: {type: Schema.Types.ObjectId, ref: 'Club'}, season: Date}]
+    actual_team: {club_id: {type: Schema.Types.ObjectId, ref: 'Club'}, team_id: {type: Schema.Types.ObjectId, ref: 'Team'},
+    former_teams: [{club_id: {type: Schema.Types.ObjectId, ref: 'Club'}, team_id: {type: Schema.Types.ObjectId, ref: 'Team'}, season: Date}]
 });
 
 module.exports = mongoose.model('Player', playerSchema);

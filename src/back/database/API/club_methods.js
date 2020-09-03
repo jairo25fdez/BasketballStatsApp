@@ -53,7 +53,8 @@ module.exports = function (app){
             city: club_data.city,
             location: club_data.location,
             stadium: club_data.stadium,
-            teams: club_data.teams,
+            active_teams: club_data.active_teams,
+            former_teams: club_data.former_teams,
             phone: club_data.phone,
             email: club_data.email
         });
@@ -133,13 +134,15 @@ module.exports = function (app){
                 response.sendStatus(400);
             }
             else{
-                club.teams = updatedData.teams;
+                
                 club.name = updatedData.name;
                 club.acronym = updatedData.acronym;
                 club.country = updatedData.country;
                 club.city = updatedData.city;
                 club.location = updatedData.location;
                 club.stadium = updatedData.stadium;
+                club.active_teams = updatedData.active_teams;
+                club.former_teams = updatedData.former_teams;
                 club.phone = updatedData.phone;
                 club.email = updatedData.email;
 
