@@ -27,7 +27,7 @@ module.exports = function (app){
     //GET every Game in DB.
     app.get(BASE_API_URL+"/games",(request,response) =>{
 
-        Game.find({}, {_id: 0}, function (err, games){
+        Game.find({}, /*{_id: 0},*/ function (err, games){
             if(err){
                 console.log("Error while trying to receive the list of games.");
             }
@@ -77,7 +77,7 @@ module.exports = function (app){
                 response.sendStatus(500);
             }
             else{
-                response.sendStatus(200, "Created game.");
+                response.sendStatus(201, "Created game.");
             }
         });
 

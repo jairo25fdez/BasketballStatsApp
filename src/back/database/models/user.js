@@ -12,9 +12,9 @@ var userSchema = new Schema({
     email: {type: String, unique: true, required: true},
     phone: Number,
     rol: {type: String, enum: ['admin', 'coordinator', 'employee']},
-    club: String
+    club: {type: Schema.Types.ObjectId, ref: 'Club'}
 });
-
+/*
 userSchema.pre('save', (next) => {
     let user = this;
 
@@ -50,5 +50,5 @@ userSchema.methods.gravatar = function(){
     return 'https://gravatar.com/avatar/'+md5+'?s=200&d=retro';
 
 }
-
+*/
 module.exports = mongoose.model('User', userSchema);

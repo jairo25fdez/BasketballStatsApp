@@ -1,37 +1,37 @@
-const { isNull } = require('util');
-
 module.exports = function (app){
 
+    var assert = require('assert');
     const path = require('path');
     const mongoose_util = require(path.join(__dirname, '/../mongoose_util.js'));
 
     const BASE_API_URL = "/api/v1";
 
-    const Club = require(path.join(__dirname, '/../models/club.js'));
+    const Player = require(path.join(__dirname, '/../models/player.js'));
+
 
     //Get DB data.
     mongoose_util.getDB();
 
     //Methods to work with the whole collection.
 
-    //DELETE every Club in DB.
-    app.delete(BASE_API_URL+"/clubs",(request,response) =>{
-        Club.deleteMany({}, function (err) {
+    //DELETE every Player in DB.
+    app.delete(BASE_API_URL+"/players",(request,response) =>{
+        Player.deleteMany({}, function (err) {
             if(err){
-                console.log("Error while trying to delete clubs.");
+                console.log("Error while trying to delete players.");
             }
             else{
-                response.sendStatus(200, "Deleted clubs.");
+                response.sendStatus(200, "Deleted players.");
             }
         });
     });
 
-    //GET every Club in DB.
-    app.get(BASE_API_URL+"/clubs",(request,response) =>{
+    //GET every Player in DB.
+    app.get(BASE_API_URL+"/players",(request,response) =>{
 
-        Club.find({}, /*{_id: 0},*/ function (err, clubs){
+        Player.find({}, /*{_id: 0},*/ function (err, clubs){
             if(err){
-                console.log("Error while trying to receive the list of clubs.");
+                console.log("Error while trying to receive the list of players.");
             }
             else{
                 response.send(JSON.stringify(clubs,null,2));
@@ -40,33 +40,42 @@ module.exports = function (app){
 
     });
 
-    //POST a Club in DB.
-    app.post(BASE_API_URL+"/clubs",(request,response) =>{
-        let club_data = request.body;
+    //POST a Player in DB.
+    app.post(BASE_API_URL+"/players",(request,response) =>{
+        let player_data = request.body;
 
-        let club = new Club({
-            name: club_data.name,
-            acronym: club_data.acronym,
-            country: club_data.country,
-            city: club_data.city,
-            location: club_data.location,
-            stadium: club_data.stadium,
-            active_teams: club_data.active_teams,
-            former_teams: club_data.former_teams,
-            phone: club_data.phone,
-            email: club_data.email
+        let player = new Player({
+            name: player_data.name,
+            last_name: player_data.last_name,
+            birth: player_data.birth,
+            avatar: player_data.avatar,
+            email: player_data.email,
+            phone: player_data.phone,
+            weight: player_data.weight,
+            height: player_data.height,
+            primary_position: player_data.primary_position,
+            secondary_position: player_data.second_position,
+            number: player_data.number,
+            actual_team: player_data.actual_team,
+            former_teams: player_data.former_teams
         });
 
-        club.save(function(err,doc){
+        
+        player.save(function(err,doc){
+            //console.log(Player.schema.path('primary_position').enumValues);
+ 
             if(err){
-                console.log("Error while trying to post the club into the database.");
+                console.log("Error while trying to post the player into the database.");
                 console.log("Check the following error: "+err);
+                //console.log(err.errors.primary_position.message);
                 response.sendStatus(500);
             }
             else{
-                response.sendStatus(201, "Created club");
+                response.sendStatus(201, "Created player.");
             }
+            
         });
+        
 
 
     });
@@ -146,7 +155,7 @@ module.exports = function (app){
 
                 club.save();
 
-                response.sendStatus(201, "Updated club "+club_name);
+                response.sendStatus(200, "Updated club "+club_name);
             }
         });
 

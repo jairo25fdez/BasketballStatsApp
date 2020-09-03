@@ -5,7 +5,7 @@ var playSchema = new Schema({
     player_name: {type: Schema.Types.ObjectId, ref: 'Player'},
     team: {type: Schema.Types.ObjectId, ref: 'Team'},
     time: Date,
-    period: {Number, min: 1},
+    period: {type: Number, min: 1},
     type: {type: String, enum: ['shot', 'rebound', 'assist', 'steal', 'lost_ball', 'block', 'personal_foul', 'sustitution'] },
     //Shot data
     shot_type: {type: String, enum: ['ft', 'fg']},
