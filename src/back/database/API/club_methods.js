@@ -1,8 +1,7 @@
-const { isNull } = require('util');
-
 module.exports = function (app){
 
     const path = require('path');
+    const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, '/../mongoose_util.js'));
 
     const BASE_API_URL = "/api/v1";
@@ -79,31 +78,30 @@ module.exports = function (app){
 
     //Methods to work with a specific club.
 
-    //DELETE a specific Club by the name.
-    app.delete(BASE_API_URL+"/clubs/:club_name",(request,response) =>{
-        var club_name = request.params.club_name;
+    //DELETE a specific Club by the ID.
+    app.delete(BASE_API_URL+"/clubs/:club_id",(request,response) =>{
+        var club_id = request.params.club_id;
 
-		Club.deleteOne({name: club_name}, function (err){
+		Club.deleteOne({_id: club_id}, function (err){
             if(err){
-                console.log("Error while trying to delete "+club_name);
+                console.log("Error while trying to delete the club with id: "+club_id);
                 response.sendStatus(500);
             }
             else{
-                response.sendStatus(200, "Deleted "+club_name+" Club.");
+                response.sendStatus(200, "Deleted club with id: "+club_id);
             }
         });
 		
         
     });
 
-    //GET a specific Club by the name and city.
-    app.get(BASE_API_URL+"/clubs/:club_name/:club_city",(request,response) =>{
-        var club_name = request.params.club_name;
-        var club_city = request.params.club_city;
+    //GET a specific Club by the ID.
+    app.get(BASE_API_URL+"/clubs/:club_id",(request,response) =>{
+        var club_id = request.params.club_id;
 
-        Club.findOne({name: club_name, city: club_city}, {_id: 0}, function (err, doc){
+        Club.findOne({_id: club_id}, function (err, doc){
             if(isNull(doc)){
-                console.log(club_name+" from "+club_city+" doesn't exists in the database.");
+                console.log("Club with id: "+club_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
             else{
@@ -115,24 +113,22 @@ module.exports = function (app){
 
 
     //POST is not allowed when we are working with a specific club.
-    app.post(BASE_API_URL+"/clubs/:club_name/:club_city",(request,response) =>{
+    app.post(BASE_API_URL+"/clubs/:club_id",(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
     });
 
     //PUT a specific Club in the database.
-    app.put(BASE_API_URL+"/clubs/:club_name/:club_city",(request,response) =>{
+    app.put(BASE_API_URL+"/clubs/:club_id",(request,response) =>{
 
-        var club_name = request.params.club_name;
-        var club_city = request.params.club_city;
+        var club_id = request.params.club_id;
         var updatedData = request.body;
 
-        Club.findOne({name: club_name, city: club_city}, function (err, club){
+        Club.findOne({_id: club_id}, function (err, club){
             if(isNull(club)){
-                console.log(club_name+" from "+club_city+" doesn't exists in the database.");
+                console.log("Club with id: "+club_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
             else{
-                
                 club.name = updatedData.name;
                 club.acronym = updatedData.acronym;
                 club.country = updatedData.country;
@@ -146,7 +142,7 @@ module.exports = function (app){
 
                 club.save();
 
-                response.sendStatus(201, "Updated club "+club_name);
+                response.sendStatus(200, "Updated club "+club_id);
             }
         });
 

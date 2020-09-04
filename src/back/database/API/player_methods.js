@@ -1,7 +1,7 @@
 module.exports = function (app){
 
-    var assert = require('assert');
     const path = require('path');
+    const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, '/../mongoose_util.js'));
 
     const BASE_API_URL = "/api/v1";
@@ -44,10 +44,14 @@ module.exports = function (app){
     app.post(BASE_API_URL+"/players",(request,response) =>{
         let player_data = request.body;
 
+        console.log(player_data.birth_date);
+
         let player = new Player({
             name: player_data.name,
             last_name: player_data.last_name,
-            birth: player_data.birth,
+            birth_date: player_data.birth_date,
+            nationality: player_data.nationality,
+            birthplace: player_data.birthplace,
             avatar: player_data.avatar,
             email: player_data.email,
             phone: player_data.phone,
@@ -63,11 +67,12 @@ module.exports = function (app){
         
         player.save(function(err,doc){
             //console.log(Player.schema.path('primary_position').enumValues);
+            /* If we want to access de error info: console.log(err.errors.primary_position.message); */
  
             if(err){
                 console.log("Error while trying to post the player into the database.");
                 console.log("Check the following error: "+err);
-                //console.log(err.errors.primary_position.message);
+                
                 response.sendStatus(500);
             }
             else{
@@ -81,38 +86,37 @@ module.exports = function (app){
     });
 
     //PUT is not allowed when we are working with collections.
-    app.put(BASE_API_URL+"/clubs",(request,response) =>{
+    app.put(BASE_API_URL+"/players",(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A COLLECTION.")
     });
 
 
-    //Methods to work with a specific club.
+    //Methods to work with a specific player.
 
-    //DELETE a specific Club by the name.
-    app.delete(BASE_API_URL+"/clubs/:club_name",(request,response) =>{
-        var club_name = request.params.club_name;
+    //DELETE a specific player by the ID.
+    app.delete(BASE_API_URL+"/players/:player_id",(request,response) =>{
+        var player_id = request.params.player_id;
 
-		Club.deleteOne({name: club_name}, function (err){
+		Player.deleteOne({_id: pplayer_id}, function (err){
             if(err){
-                console.log("Error while trying to delete "+club_name);
+                console.log("Error while trying to delete the player with id: "+player_id);
                 response.sendStatus(500);
             }
             else{
-                response.sendStatus(200, "Deleted "+club_name+" Club.");
+                response.sendStatus(200, "Deleted player with id: "+player_id);
             }
         });
 		
         
     });
 
-    //GET a specific Club by the name and city.
-    app.get(BASE_API_URL+"/clubs/:club_name/:club_city",(request,response) =>{
-        var club_name = request.params.club_name;
-        var club_city = request.params.club_city;
+    //GET a specific player by the ID.
+    app.get(BASE_API_URL+"/players/:player_id",(request,response) =>{
+        var player_id = request.params.player_id;
 
-        Club.findOne({name: club_name, city: club_city}, {_id: 0}, function (err, doc){
+        Player.findOne({_id: player_id}, function (err, doc){
             if(isNull(doc)){
-                console.log(club_name+" from "+club_city+" doesn't exists in the database.");
+                console.log(player_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
             else{
@@ -123,39 +127,42 @@ module.exports = function (app){
     });
 
 
-    //POST is not allowed when we are working with a specific club.
-    app.post(BASE_API_URL+"/clubs/:club_name/:club_city",(request,response) =>{
+    //POST is not allowed when we are working with a specific player.
+    app.post(BASE_API_URL+"/players/:player_id",(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
     });
 
-    //PUT a specific Club in the database.
-    app.put(BASE_API_URL+"/clubs/:club_name/:club_city",(request,response) =>{
+    //PUT a specific player in the database.
+    app.put(BASE_API_URL+"/players/:player_id",(request,response) =>{
 
-        var club_name = request.params.club_name;
-        var club_city = request.params.club_city;
+        var player_id = request.params.player_id;
         var updatedData = request.body;
 
-        Club.findOne({name: club_name, city: club_city}, function (err, club){
-            if(isNull(club)){
-                console.log(club_name+" from "+club_city+" doesn't exists in the database.");
+        Player.findOne({_id: player_id}, function (err, player){
+            if(isNull(player)){
+                console.log("The player with id: "+player_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
             else{
-                
-                club.name = updatedData.name;
-                club.acronym = updatedData.acronym;
-                club.country = updatedData.country;
-                club.city = updatedData.city;
-                club.location = updatedData.location;
-                club.stadium = updatedData.stadium;
-                club.active_teams = updatedData.active_teams;
-                club.former_teams = updatedData.former_teams;
-                club.phone = updatedData.phone;
-                club.email = updatedData.email;
+                player.name = updatedData.name;
+                player.last_name = updatedData.last_name;
+                player.birth_date = updatedData.birth_date;
+                player.nationality = updatedData.nationality;
+                player.birthplace = updatedData.birthplace;
+                player.avatar = updatedData.avatar;
+                player.email = updatedData.email;
+                player.phone = updatedData.phone;
+                player.weight = updatedData.weight;
+                player.height = updatedData.height;
+                player.primary_position = updatedData.primary_position;
+                player.secondary_position = updatedData.secondary_position;
+                player.number = updatedData.number;
+                player.actual_team = updatedData.actual_team;
+                player.former_teams = updatedData.former_teams;
 
-                club.save();
+                player.save();
 
-                response.sendStatus(200, "Updated club "+club_name);
+                response.sendStatus(200, "Updated player "+player.name+" "+player.last_name+" with id: "+player.id);
             }
         });
 
