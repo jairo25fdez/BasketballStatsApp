@@ -37,7 +37,7 @@ module.exports = function (app){
                 console.log("Error while trying to receive the list of teams.");
             }
             else{
-                response.send(JSON.stringify(clubs,null,2));
+                response.send(JSON.stringify(teams,null,2));
             }
         });
 

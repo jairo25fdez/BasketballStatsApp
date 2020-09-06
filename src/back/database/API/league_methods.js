@@ -34,7 +34,7 @@ module.exports = function (app){
     //GET every League in DB.
     app.get(BASE_API_URL+"/leagues",(request,response) =>{
 
-        League.find({}, {_id: 0}, function (err, leagues){
+        League.find({}, function (err, leagues){
             if(err){
                 console.log("Error while trying to receive the list of leagues.");
             }

@@ -17,7 +17,7 @@ var teamSchema = new Schema({
     },
     league: {
         _id: false,
-        league_id: {type: Schema.Types.ObjectId, ref: 'League', required: true},
+        league_id: {type: Schema.Types.ObjectId, ref: 'League'},
         league_name: String
     },
     season: {type: Number, required: true},

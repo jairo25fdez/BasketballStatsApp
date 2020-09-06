@@ -1,6 +1,7 @@
 module.exports = function (app){
 
     const path = require('path');
+    const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, '/../mongoose_util.js'));
 
     const BASE_API_URL = "/api/v1";
@@ -43,28 +44,16 @@ module.exports = function (app){
     app.post(BASE_API_URL+"/games",(request,response) =>{
         let game_data = request.body;
 
-        /* Debo comprobar: 
-            - Nombre de liga.
-            - Nombres de los clubes.
-            - Ganador y perdedor.
-            - 
-
-
-        */
-
         let game = new Game({
             date: game_data.date,
-            league: {
-                league_name: game_data.league.league_name,
-                season: game_data.league.season
-            },
+            season: game_data.season,
+            league: game_data.league,
             home_team: game_data.home_team,
             visitor_team: game_data.visitor_team,
             home_team_score: game_data.home_team_score,
             visitor_team_score: game_data.visitor_team_score,
             winner_team: game_data.winner_team,
             loser_team: game_data.loser_team,
-            minutes_played: game_data.minutes_played,
             overtime: game_data.overtime,
             overtime_count: game_data.overtime_count,
             boxscore: game_data.boxscore,
@@ -87,6 +76,81 @@ module.exports = function (app){
     //PUT is not allowed when we are working with collections.
     app.put(BASE_API_URL+"/games",(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A COLLECTION.")
+    });
+
+    //Methods to work with a specific game.
+
+    //DELETE a specific Game by the ID.
+    app.delete(BASE_API_URL+"/games/:game_id",(request,response) =>{
+        var game_id = request.params.game_id;
+
+		Game.deleteOne({_id: game_id}, function (err){
+            if(err){
+                console.log("Error while trying to delete the game with id: "+game_id);
+                response.sendStatus(500);
+            }
+            else{
+                response.sendStatus(200, "Deleted game with id: "+game_id);
+            }
+        });
+		
+        
+    });
+
+    //GET a specific Game by the ID.
+    app.get(BASE_API_URL+"/games/:game_id",(request,response) =>{
+        var game_id = request.params.game_id;
+
+        Game.findOne({_id: game_id}, function (err, doc){
+            if(isNull(doc)){
+                console.log("Game with id: "+game_id+" doesn't exists in the database.");
+                response.sendStatus(400);
+            }
+            else{
+                response.send(JSON.stringify(doc,null,2));
+            }
+        });
+
+    });
+
+
+    //POST is not allowed when we are working with a specific game.
+    app.post(BASE_API_URL+"/games/:game_id",(request,response) =>{
+        response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
+    });
+
+    //PUT a specific Game in the database.
+    app.put(BASE_API_URL+"/games/:game_id",(request,response) =>{
+
+        var game_id = request.params.game_id;
+        var updatedData = request.body;
+
+        Game.findOne({_id: game_id}, function (err, game){
+            if(isNull(game)){
+                console.log("Game with id: "+game_id+" doesn't exists in the database.");
+                response.sendStatus(400);
+            }
+            else{
+                game.date = updatedData.date,
+                game.season = updatedData.season,
+                game.league = updatedData.league,
+                game.home_team = updatedData.home_team,
+                game.visitor_team = updatedData.visitor_team,
+                game.home_team_score = updatedData.home_team_score,
+                game.visitor_team_score = updatedData.visitor_team_score,
+                game.winner_team = updatedData.winner_team,
+                game.loser_team = updatedData.loser_team,
+                game.overtime = updatedData.overtime,
+                game.overtime_count = updatedData.overtime_count,
+                game.boxscore = updatedData.boxscore,
+                game.play_by_play = updatedData.plays
+
+                game.save();
+
+                response.sendStatus(200, "Updated game "+game_id);
+            }
+        });
+
     });
 
 }

@@ -10,7 +10,7 @@ var leagueSchema = new Schema({
     teams: [{
         _id: false,
         club_id: {type: Schema.Types.ObjectId, ref: 'Club'},
-        club_name: {type: String, required: true},
+        club_name: {type: String},
         team_id: {type: Schema.Types.ObjectId, ref: 'Team'}
     }],
     games_played: [{

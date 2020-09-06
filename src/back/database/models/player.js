@@ -22,8 +22,8 @@ var playerSchema = new Schema({
     actual_team: {
         club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
         club_name: {type: String, required: true},
-        team_id: {type: Schema.Types.ObjectId, ref: 'League', required: true},
-        team_name: {type: String, required: true},
+        team_id: {type: Schema.Types.ObjectId, ref: 'League'},
+        team_name: {type: String},
         season: {type: Number, required: true}
     },
     former_teams: [{

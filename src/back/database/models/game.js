@@ -6,28 +6,32 @@ const playSchema = require('../schemas/play.js');
 
 var gameSchema = new Schema({
     date: Date,
+    season : Number,
     league: {
         league_id: {type: Schema.Types.ObjectId, ref: 'League', required: true},
         league_name: String
     },
     home_team: {
         club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
-        club_name: {type: String, required: true}
+        club_name: {type: String, required: true},
+        team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true}
     },
     visitor_team: {
         club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
-        club_name: {type: String, required: true}
+        club_name: {type: String, required: true},
+        team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true}
     },
     home_team_score: Number,
     visitor_team_score: Number,
     winner_team: {
         team_id: {type: Schema.Types.ObjectId, ref: 'Team'},
-        club_name: {type: String, required: true}
+        club_name: {type: String}
     },
     loser_team: {
         team_id: {type: Schema.Types.ObjectId, ref: 'Team'},
-        club_name: {type: String, required: true}
+        club_name: {type: String}
     },
+    minutes_played: Number,
     overtime: Boolean,
     overtime_count: Number,
     boxscore: {
