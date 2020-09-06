@@ -6,7 +6,11 @@ module.exports = function (app){
 
     const BASE_API_URL = "/api/v1";
 
-    const Club = require(path.join(__dirname, '/../models/club.js'));
+    /*
+    const ClubModule = require(path.join(__dirname, '/../models/club.js'));
+    const Club = ClubModule.ClubModel;
+    */
+   const Club = require(path.join(__dirname, '/../models/club.js'));
 
     //Get DB data.
     mongoose_util.getDB();

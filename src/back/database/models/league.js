@@ -2,16 +2,24 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var leagueSchema = new Schema({
-    name: String,
+    name: {type: String, required: true},
     location: String,
-    season: {type: Number, min: 2000}, //Year when the season ends.
     quarter_length: {type: Number, min: 1},
     shot_clock: Number, //0 if there is no shot clock.
     max_personal_fouls: {type: Number, min: 1, max: 6},
-    teams: [{type: Schema.Types.ObjectId, ref: 'Team'}],
-    games_played: [{type: Schema.Types.ObjectId, ref: 'Game'}]
+    teams: [{
+        _id: false,
+        club_id: {type: Schema.Types.ObjectId, ref: 'Club'},
+        club_name: {type: String, required: true},
+        team_id: {type: Schema.Types.ObjectId, ref: 'Team'}
+    }],
+    games_played: [{
+        _id: false,
+        game_id: {type: Schema.Types.ObjectId, ref: 'Game'}
+    }]
 });
 
-leagueSchema.index( {name:1}, { unique: true } );
+leagueSchema.index( {name: 1, season: 1}, { unique: true } );
 
+module.exports = mongoose.Schema(leagueSchema);
 module.exports = mongoose.model('League', leagueSchema);
