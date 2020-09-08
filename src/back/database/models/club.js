@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 const path = require('path');
 
 const mongoose_util = require(path.join(__dirname, '/../mongoose_util.js'));
-const db = mongoose_util.getDB;
-
-const teamModule = require('./team.js');
-const teamSchema = teamModule.TeamSchema;
 
 var clubSchema = new Schema({
     name: {type: String, required: true},

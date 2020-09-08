@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const player_stats_gameSchema = require('../schemas/player_stats_game.js');
-const playSchema = require('../schemas/play.js');
+const player_stats_gameModule = require('./player_stats_game.js');
+const player_stats_gameSchema = player_stats_gameModule.Player_stats_gameSchema;
+
+const playModule = require('./play.js');
+const playSchema = playModule.PlaySchema;
 
 var gameSchema = new Schema({
     date: Date,

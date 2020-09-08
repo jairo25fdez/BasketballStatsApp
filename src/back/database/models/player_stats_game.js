@@ -50,4 +50,10 @@ var player_stats_gameSchema = new Schema({
     usage: Number, //Using %.
 });
 
-module.exports = mongoose.Schema(player_stats_gameSchema);
+player_stats_gameSchema = mongoose.Schema(player_stats_gameSchema);
+player_stats_gameModel = mongoose.model('Player Stats Game', player_stats_gameSchema);
+
+module.exports = {
+    Player_stats_gameSchema: player_stats_gameSchema,
+    Player_stats_gameModel: player_stats_gameModel
+}

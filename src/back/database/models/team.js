@@ -1,14 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const playerModule = require('./player.js');
-const gameModule = require('./game.js');
-//const clubModule = require('./club.js');
-
-const playerSchema = playerModule.PlayerSchema;
-const gameSchema = gameModule.GameSchema;
-//const clubSchema = clubModule.ClubSchema;
-
 var teamSchema = new Schema({
     club: {
         _id: false,

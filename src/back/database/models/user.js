@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const Schema = mongoose.Schema;
 
 var userSchema = new Schema({
     displayName: {type: String, required: true},
     avatar: String,
     name: String,
     last_name: String,
-    password: {type: String, select: false, required: true}, //El select: false hace que por defecto al hacer un GET no nos devuelva la password.
+    password: {type: String, required: true}, //El select: false hace que por defecto al hacer un GET no nos devuelva la password.
     email: {type: String, unique: true, required: true},
     phone: Number,
     rol: {type: String, enum: ['admin', 'coordinator', 'employee']},
     club: {type: Schema.Types.ObjectId, ref: 'Club'}
 });
-/*
-userSchema.pre('save', (next) => {
+
+userSchema.pre('save', function(next) {
     let user = this;
 
     if(!user.isModified('password')){
@@ -41,6 +41,9 @@ userSchema.pre('save', (next) => {
 
 });
 
+
+
+/*
 userSchema.methods.gravatar = function(){
     if(!this.email){
         return 'https://gravatar.com/avatar/?s=200'

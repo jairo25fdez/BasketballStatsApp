@@ -3,6 +3,8 @@ const game_methods = require('./database/API/game_methods.js');
 const player_methods = require('./database/API/player_methods.js');
 const team_methods = require('./database/API/team_methods.js');
 const league_methods = require('./database/API/league_methods.js');
+const user_methods = require('./database/API/user_methods.js');
+const play_methods = require('./database/API/play_methods.js');
 
 module.exports = function(app){
     
@@ -17,6 +19,8 @@ module.exports = function(app){
     player_methods(app);
     team_methods(app);
     league_methods(app);
+    user_methods(app);
+    play_methods(app);
 
 
 }
