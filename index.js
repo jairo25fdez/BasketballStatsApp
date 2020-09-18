@@ -18,8 +18,6 @@ app.get('*', (request, response) => {
 	response.sendFile(path.join(__dirname,"front","myteam","dist","myteam","index.html"));
 });
 
-console.log("RUTA: "+path.join(__dirname,"/front/myteam/dist/myteam"));
-
 const stats_API = require(path.join(__dirname,"/back"));
 stats_API(app);
 
