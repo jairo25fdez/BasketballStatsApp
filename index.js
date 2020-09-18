@@ -12,6 +12,8 @@ const port = process.env.PORT || 8000;
 app.use("/", express.static(path.join(__dirname,"/front/myteam/dist/myteam")));
 //app.use("/", express.static(path.join(__dirname,"/front/myteam-app/src")));
 
+console.log("RUTA: "+path.join(__dirname,"/front/myteam/dist/myteam"));
+
 const stats_API = require(path.join(__dirname,"/back"));
 stats_API(app);
 
