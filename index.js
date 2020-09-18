@@ -10,7 +10,8 @@ const port = process.env.PORT || 8000;
 
 //Prueba Heroku
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname,"/front/myteam/dist/myteam")));
+	console.log("Entro en production");
+	app.use(express.static('front/myteam/dist/myteam'));
 }
 
 app.get('*', (request, response) => {
