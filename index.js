@@ -6,7 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const port = process.env.PORT || 8000;
-app.use("/", express.static("./src/front"));
+//app.use("/", express.static("./src/front"));
 
 const stats_API = require(path.join(__dirname,"/src/back"));
 stats_API(app);
