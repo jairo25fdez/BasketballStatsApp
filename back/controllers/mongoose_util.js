@@ -6,14 +6,14 @@ const mongo_db_url = process.env.DB_URL;
 var db;
 
 module.exports = {
+    
 
     connectDB: function(){
+
         mongoose.connect(mongo_db_url, {useNewUrlParser: true, useUnifiedTopology: true})
             .catch(function(err){
                 console.log("Error connecting to DB: "+err);
             });
-
-            console.log("PRUEBA URL: "+mongo_db_url);
 
         db = mongoose.connection;
         
