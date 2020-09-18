@@ -15,7 +15,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname, "/front/myteam/dist/myteam/index.html"));
+	//response.sendFile(path.join(__dirname, "/front/myteam/dist/myteam/index.html"));
+	response.sendFile("./front/myteam/dist/myteam/index.html");
 });
 
 console.log("RUTA: "+path.join(__dirname,"/front/myteam/dist/myteam"));
