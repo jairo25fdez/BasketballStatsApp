@@ -1,14 +1,14 @@
-const club_methods = require('./database/API/club_methods.js');
-const game_methods = require('./database/API/game_methods.js');
-const player_methods = require('./database/API/player_methods.js');
-const team_methods = require('./database/API/team_methods.js');
-const league_methods = require('./database/API/league_methods.js');
-const user_methods = require('./database/API/user_methods.js');
-const play_methods = require('./database/API/play_methods.js');
+const club_methods = require('./controllers/club_methods.js');
+const game_methods = require('./controllers/game_methods.js');
+const player_methods = require('./controllers/player_methods.js');
+const team_methods = require('./controllers/team_methods.js');
+const league_methods = require('./controllers/league_methods.js');
+const user_methods = require('./controllers/user_methods.js');
+const play_methods = require('./controllers/play_methods.js');
 
 module.exports = function(app){
     
-    const mongoose_util = require('./database/mongoose_util.js');
+    const mongoose_util = require('./controllers/mongoose_util.js');
 
     //Connection to DB.
     mongoose_util.connectDB();

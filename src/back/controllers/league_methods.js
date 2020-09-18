@@ -4,7 +4,7 @@ module.exports = function (app){
 
     const path = require('path');
     const { isNull } = require('util');
-    const mongoose_util = require(path.join(__dirname, '/../mongoose_util.js'));
+    const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
     const BASE_API_URL = "/api/v1";
 

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const path = require('path');
 
-const mongoose_util = require(path.join(__dirname, '/../mongoose_util.js'));
+const mongoose_util = require(path.join(__dirname, '/../controllers/mongoose_util.js'));
 
 var clubSchema = new Schema({
     name: {type: String, required: true},
