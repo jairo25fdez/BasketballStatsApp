@@ -8,7 +8,10 @@ var db;
 module.exports = {
 
     connectDB: function(){
-        mongoose.connect(mongo_db_url, {useNewUrlParser: true, useUnifiedTopology: true});
+        mongoose.connect(mongo_db_url, {useNewUrlParser: true, useUnifiedTopology: true})
+            .catch(function(err){
+                console.log("Error connecting to DB: "+err);
+            });
 
         db = mongoose.connection;
         
