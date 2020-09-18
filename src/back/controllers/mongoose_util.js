@@ -13,6 +13,8 @@ module.exports = {
                 console.log("Error connecting to DB: "+err);
             });
 
+            console.log("PRUEBA URL: "+mongo_db_url);
+
         db = mongoose.connection;
         
         db.on('error', console.error.bind(console, 'connection error:'));
