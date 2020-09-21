@@ -9,11 +9,11 @@ const port = process.env.PORT || 8000;
 //app.use("/", express.static(path.join(__dirname,"/front/myteam-app/src")));
 
 //Prueba Heroku
-/*
+
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(__dirname,'front/myteam/dist/myteam')));
 }
-*/
+
 
 app.get('/', (request, response) => {
 	//response.sendFile(path.join(__dirname,"/front/myteam/dist/myteam/index.html"));
