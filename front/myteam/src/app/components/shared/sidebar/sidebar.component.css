@@ -1,8 +1,30 @@
-.dashboard-sidebar{
-    height: 100vh;
-}
+    .dashboard-sidebar{
+        height: 100vh;
+    }
 
-li{
-    margin-top: 7vh;
-    margin-bottom: 7vh;
-}
+    div.dropdown-menu{
+        background-color: #343A40;
+        padding: 0%;
+    }
+
+
+    a{
+        display: flex;
+        align-items: center; /* Alinea los items en el centro vertical */
+        justify-content: center; /* Alinea los items en el centro horizontal */
+    }
+
+
+    a:hover{
+        color: white;
+        background-color: #007BFF;
+    }
+
+    div.dropdown-menu a{
+        color: #007BFF;
+    }
+
+    div.dropdown-menu a:hover{
+        color: white;
+    }
+
