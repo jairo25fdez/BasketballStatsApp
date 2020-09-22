@@ -1,5 +1,9 @@
+    .body{
+        overflow: hidden;
+    }
+
     .dashboard-sidebar{
-        height: 100vh;
+        height: 100vh; 
     }
 
     div.dropdown-menu{
@@ -7,13 +11,11 @@
         padding: 0%;
     }
 
-
     a{
         display: flex;
         align-items: center; /* Alinea los items en el centro vertical */
         justify-content: center; /* Alinea los items en el centro horizontal */
     }
-
 
     a:hover{
         color: white;
