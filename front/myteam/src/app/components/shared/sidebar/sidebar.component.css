@@ -1,32 +1,17 @@
-    .body{
-        overflow: hidden;
-    }
-
-    .dashboard-sidebar{
-        height: 100vh; 
-    }
-
-    div.dropdown-menu{
-        background-color: #343A40;
-        padding: 0%;
-    }
-
-    a{
-        display: flex;
-        align-items: center; /* Alinea los items en el centro vertical */
-        justify-content: center; /* Alinea los items en el centro horizontal */
-    }
-
-    a:hover{
-        color: white;
-        background-color: #007BFF;
-    }
-
-    div.dropdown-menu a{
-        color: #007BFF;
-    }
-
-    div.dropdown-menu a:hover{
-        color: white;
-    }
-
+/*
+ul{
+    border: solid;
+    border-color: red;
+}
+li{
+    border: solid;
+    border-color: yellow;
+}
+a{
+    border: solid;
+    border-color: blue;
+}
+*/
+.navbar-nav {
+    position: fixed;
+}
