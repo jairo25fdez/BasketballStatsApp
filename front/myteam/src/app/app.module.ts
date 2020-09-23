@@ -1,20 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+//Routes
+//import { AppRoutingModule } from './app-routing.module';
+import { APP_ROUTING } from './app-routing.module';
+
+//Components
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
+import { LiveGameComponent } from './components/body/game/live-game/live-game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    LiveGameComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    //AppRoutingModule,
+    APP_ROUTING
   ],
   providers: [],
   bootstrap: [AppComponent]

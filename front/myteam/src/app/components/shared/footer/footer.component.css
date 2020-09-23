@@ -1,0 +1,22 @@
+footer{
+    color: white;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: #E69C1C;
+}
+
+p{
+    display: inline-block;
+    border: solid;
+    border-color: yellow;
+}
+
+.icons-link{
+    text-align: right;
+}
+
+div{
+    border: solid;
+    border-color: red;
+}
