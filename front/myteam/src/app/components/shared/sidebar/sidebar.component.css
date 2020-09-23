@@ -1,3 +1,15 @@
 span.navbar-brand{
     color: white;
 }
+
+.sidebar-icon{
+    padding-top: 15%;
+}
+
+a:hover{
+    color: white;
+    background-color: #E69C1C;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
