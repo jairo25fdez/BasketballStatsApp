@@ -1,0 +1,14 @@
+
+.card{
+    display: flex;
+    vertical-align: center;
+}
+
+.card-body{
+    background-color: #27293D;
+    color: white;
+}
+
+.card-img-top{
+    background-color: #27293D;
+}
