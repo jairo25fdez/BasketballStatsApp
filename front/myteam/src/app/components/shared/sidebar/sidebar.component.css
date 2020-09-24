@@ -2,10 +2,6 @@ span.navbar-brand{
     color: white;
 }
 
-.sidebar-icon{
-    padding-top: 15%;
-}
-
 a:hover{
     color: white;
     background-color: #E69C1C;
@@ -18,16 +14,16 @@ a:hover{
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-    width: 150px;
+    width: 175px;
     background-color:#0B0C10;
     margin-left: 20px;
-    margin-top: 50px;
+    margin-top: 50px;    
 }
 
 li img{
-    height: 50px;
+    width: 35px;
 }
+
 a{
-    display: flex;
     color: #66FCF1;
 }
