@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-.body-col{
+.background{
     background-color: #1C1C2C;
+}
+
+.body-div{
+    box-sizing: border-box;
 }

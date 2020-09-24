@@ -13,3 +13,21 @@ a:hover{
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
 }
+
+#sticky-sidebar{
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    width: 150px;
+    background-color:#0B0C10;
+    margin-left: 20px;
+    margin-top: 50px;
+}
+
+li img{
+    height: 50px;
+}
+a{
+    display: flex;
+    color: #66FCF1;
+}
