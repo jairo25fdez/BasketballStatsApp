@@ -1,3 +1,16 @@
-p{
-    background-color: #1C1C2C;
+.scoreboard{
+    background-color: grey;
+    border: solid;
+    border-color: red;
+    margin: auto;
+}
+.scoreboard div{
+    margin: auto;
+    border: solid;
+    border-color: blue;
+}
+
+.row{
+    border: solid;
+    border-color: yellow;
 }
