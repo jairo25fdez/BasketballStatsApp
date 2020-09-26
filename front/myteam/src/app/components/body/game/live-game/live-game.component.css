@@ -1,58 +1,11 @@
-.scoreboard{
-    background-color: grey;
-    margin: auto;
-    height: 300px;
-
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border: solid;
-    border-width: 2px;
-    border-color: red;
-    background-color: black;
+.nav a{
     color: white;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: solid;
+    border-width: 0.5px;
 }
-
-p{
-    margin: auto;
-}
-
-.home-team-info{
-    margin-left: auto;
-    margin-top: auto;
-}
-
-.visitor-team-info{
-    margin-right: auto;
-    margin-top: auto;
-}
-
-img{
-    width: 80px;
-    margin: auto;
-}
-
-.time div{
-    margin: auto;
-    
-}
-
-.dot {
-    height: 10px;
-    width: 10px;
-    background-color: white;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.ht-dot-1, .ht-dot-2, .ht-dot-3, .ht-dot-4{
-    background-color: green;
-}
-
-.vt-dot-1, .vt-dot-2, .vt-dot-3, .vt-dot-4{
-    background-color: green;
-}
-
-.ht-dot-5, .vt-dot-5{
-    background-color: red;
+.nav a:hover{
+    background-color: #E69C1C;
 }

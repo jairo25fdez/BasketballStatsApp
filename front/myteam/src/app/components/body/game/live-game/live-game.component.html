@@ -1,106 +1,19 @@
 <div class="vh-100">
 
-    <!-- 1st ROW: SCOREBOARD -->
-    <div class="row no-gutters ">
+    <nav class="nav nav-pills nav-justified p-1">
+        <a class="nav-item nav-link active border-warning" data-toggle="pill" href="#live">En Vivo</a>
+        <a class="nav-item nav-link border-warning" data-toggle="pill" href="#boxscore">Boxscore</a>
+        <a class="nav-item nav-link border-warning" data-toggle="pill" href="#playbyplay">Play by Play</a>
+    </nav>
 
-        <div class="scoreboard p-1 h-100">
-
-            <div class="d-flex flex-row">
-
-                <div class="home-team-info d-flex flex-column">
-                    <p class="home-team-name h2">DAL</p>
-                    <img class="home-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
-                    
-                    <p class="home-team-score pl-5 pr-5 h1">30</p>
-                    <div style="text-align:center">
-                        <span class="dot ht-dot-1"></span>
-                        <span class="dot ht-dot-2"></span>
-                        <span class="dot ht-dot-3"></span>
-                        <span class="dot ht-dot-4"></span>
-                        <span class="dot ht-dot-5"></span>
-                    </div>
-                </div>
-
-                
-                <div class=" d-flex flex-column">
-
-                    <div class="time-div d-flex flex-row">
-
-                        <div class="minutes-buttons d-flex flex-column">
-                            <button type="button" class="btn btn-warning">+</button>
-                            <button type="button" class="btn btn-danger">-</button>
-
-                            <button type="button" class="btn btn-warning mt-4">+</button>
-                        </div>
-
-                        
-                        <div class="time d-flex flex-column">
-                            <div class="pt-2">
-                                <p class="h1">01:45</p>
-                            </div>
-                            
-                            <div class="mt-4">
-                                <p class="h5">QTR</p>
-                                <p class="h3 text-center">4</p>
-                            </div>
-                            
-                        </div>
-
-                        <div class="seconds-buttons d-flex flex-column">
-                            <button type="button" class="btn btn-warning">+</button>
-                            <button type="button" class="btn btn-danger">-</button>
-
-                            <button type="button" class="btn btn-warning mt-4">-</button>
-                        </div>
-
-                    </div>
-
-                </div>
-                
-
-                <div class="visitor-team-info d-flex flex-column">
-                    <p class="visitor-team-name h2">LAC</p>
-                    <img class="visitor-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
-                    <p class="visitor-team-score pl-5 pr-5 h1">35</p>
-                    <div style="text-align:center">
-                        <span class="dot vt-dot-1"></span>
-                        <span class="dot vt-dot-3"></span>
-                        <span class="dot vt-dot-2"></span>
-                        <span class="dot vt-dot-4"></span>
-                        <span class="dot vt-dot-5"></span>
-                    </div>
-                </div>
-                
-            </div>
-
-            <!--
-
-            <div class="teams d-flex flex-row">
-
-                <div class="home-team d-flex flex-column">
-                    <p class="home-team-name">DAL</p>
-                    <img class="home-team-logo" src="">
-                </div>
-
-                <div class="marcador d-flex flex-row">
-                    <p class="home-team-score pl-5 pr-5">30</p>
-                    <p class=""> - </p>
-                    <p class="visitor-team-score pl-5 pr-5">35</p>
-                </div>
-
-                <div class="visitor-team d-flex flex-column">
-                    <p class="visitor-team-name">LAC</p>
-                    <img class="visitor-team-logo" src="">
-                </div>
-
-            </div>
-
-            -->
-
+    <div class="pill-content" id="mypillContent">
+        <div class="pill-pane fade show active" id="live" role="pillpanel" aria-labelledby="home-pill">
+            <app-livegame-main-page></app-livegame-main-page>
         </div>
-
+        <div class="pill-pane fade" id="boxscore" role="pillpanel" aria-labelledby="profile-pill">
+            <app-footer></app-footer>
+        </div>
+        <div class="pill-pane fade" id="playbyplay" role="pillpanel">...</div>
     </div>
-
-    <!-- 2nd ROW -->
 
 </div>

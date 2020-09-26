@@ -11,6 +11,7 @@ import { FooterComponent } from './components/shared/footer/footer.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { LiveGameComponent } from './components/body/game/live-game/live-game.component';
 import { GameMenuComponent } from './components/body/game/game-menu/game-menu.component';
+import { MainPageComponent } from './components/body/game/live-game/main-page/livegame-main-page';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { GameMenuComponent } from './components/body/game/game-menu/game-menu.co
     FooterComponent,
     SidebarComponent,
     LiveGameComponent,
-    GameMenuComponent
+    GameMenuComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
