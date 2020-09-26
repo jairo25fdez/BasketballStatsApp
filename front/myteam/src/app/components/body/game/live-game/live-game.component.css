@@ -1,16 +1,32 @@
 .scoreboard{
     background-color: grey;
-    border: solid;
-    border-color: red;
     margin: auto;
-}
-.scoreboard div{
-    margin: auto;
-    border: solid;
-    border-color: blue;
+    height: 300px;
 }
 
-.row{
-    border: solid;
-    border-color: yellow;
+p{
+    margin: auto;
+}
+
+.home-team-info{
+    margin-left: auto;
+    margin-top: auto;
+}
+
+.visitor-team-info{
+    margin-right: auto;
+    margin-top: auto;
+}
+
+img{
+    width: 80px;
+    margin: auto;
+}
+
+.time-div{
+    margin: auto;
+}
+
+.time div{
+    margin: auto;
 }

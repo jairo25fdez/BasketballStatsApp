@@ -1,30 +1,91 @@
 <div class="vh-100">
 
-    <div class="row no-gutters h-25 ">
+    <div class="row no-gutters  ">
 
-        <div class="scoreboard w-50 h-100">
-
-            <div class="time">01:45</div>
+        <div class="scoreboard p-1 h-100">
 
             <div class="d-flex flex-row">
 
-                <div class="home_team">
+                <div class="home-team-info d-flex flex-column">
+                    <p class="home-team-name h2">DAL</p>
+                    <img class="home-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
+                    <p>12345</p>
+                </div>
+
+                
+                <div class=" d-flex flex-column">
+
+                    <div class="time-div d-flex flex-row">
+
+                        <div class="minutes-buttons d-flex flex-column">
+                            <button type="button" class="btn btn-dark">+</button>
+                            <button type="button" class="btn btn-dark">-</button>
+
+                            <button type="button" class="btn btn-dark mt-4">+</button>
+                        </div>
+
+                        
+                        <div class="time d-flex flex-column">
+                            <div class="pt-2">
+                                <p class="h1">01:45</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <p class="h5">QTR</p>
+                                <p class="h3 text-center">4</p>
+                            </div>
+                            
+                        </div>
+
+                        <div class="seconds-buttons d-flex flex-column">
+                            <button type="button" class="btn btn-dark">+</button>
+                            <button type="button" class="btn btn-dark">-</button>
+
+                            <button type="button" class="btn btn-dark mt-4">-</button>
+                        </div>
+
+                    </div>
+
+                    
+                    <div class="marcador d-flex flex-row mt-2">
+                        <p class="home-team-score pl-5 pr-5 h1">30</p>
+                        <p class="h3"> - </p>
+                        <p class="visitor-team-score pl-5 pr-5 h1">35</p>
+                    </div>
+
+                </div>
+                
+
+                <div class="visitor-team-info d-flex flex-column">
+                    <p class="visitor-team-name h2">LAC</p>
+                    <img class="visitor-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
+                </div>
+                
+            </div>
+
+            <!--
+
+            <div class="teams d-flex flex-row">
+
+                <div class="home-team d-flex flex-column">
                     <p class="home-team-name">DAL</p>
                     <img class="home-team-logo" src="">
                 </div>
 
                 <div class="marcador d-flex flex-row">
-                    <p class="home-team-score">30</p>
-                    <p> - </p>
-                    <p class="visitor_team-score">35</p>
+                    <p class="home-team-score pl-5 pr-5">30</p>
+                    <p class=""> - </p>
+                    <p class="visitor-team-score pl-5 pr-5">35</p>
                 </div>
 
-                <div class="visitor_team">
-                    <p class="visitor_team-name">LAC</p>
+                <div class="visitor-team d-flex flex-column">
+                    <p class="visitor-team-name">LAC</p>
                     <img class="visitor-team-logo" src="">
                 </div>
 
             </div>
+
+            -->
 
         </div>
 
