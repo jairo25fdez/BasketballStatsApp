@@ -5,6 +5,10 @@ span.navbar-brand{
 a:hover{
     color: white;
     background-color: #E69C1C;
+    
+}
+
+li, a{
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -26,4 +30,8 @@ li img{
 
 a{
     color: #66FCF1;
+}
+
+li.active{
+    background-color: #E69C1C;
 }

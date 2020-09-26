@@ -5,7 +5,13 @@
     -webkit-border-radius: 5px;
     border: solid;
     border-width: 0.5px;
+    background-color: #27293D;
 }
 .nav a:hover{
+    border-color: #E69C1C;
+}
+
+.nav a.active{
     background-color: #E69C1C;
+    border-color: #E69C1C;;
 }
