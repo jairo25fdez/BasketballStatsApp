@@ -1,87 +1,152 @@
-<!-- 1st ROW: SCOREBOARD -->
-<div class="row no-gutters p-2">
+<div class="container-fluid no-gutters">
+    <!-- 1st ROW: SCOREBOARD -->
+    <div class="row no-gutters p-2">
 
-    <div class="scoreboard p-1 h-100">
+        <div class="scoreboard p-1 h-100">
 
-        <div class="d-flex flex-row">
+            <div class="d-flex flex-row">
 
-            <div class="home-team-info d-flex flex-column">
-                <p class="home-team-name h2">DAL</p>
-                <img class="home-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
-                
-                <p class="home-team-score pl-5 pr-5 h1">30</p>
-                <div style="text-align:center">
-                    <span class="dot ht-dot-1"></span>
-                    <span class="dot ht-dot-2"></span>
-                    <span class="dot ht-dot-3"></span>
-                    <span class="dot ht-dot-4"></span>
-                    <span class="dot ht-dot-5"></span>
-                </div>
-            </div>
-
-            
-            <div class=" d-flex flex-column">
-
-                <div class="time-div d-flex flex-row">
-
-                    <div class="minutes-buttons d-flex flex-column">
-                        <button type="button" class="btn btn-warning">+</button>
-                        <button type="button" class="btn btn-danger">-</button>
-
-                        <button type="button" class="btn btn-warning mt-4">+</button>
-                    </div>
-
+                <div class="home-team-info d-flex flex-column">
+                    <p class="home-team-name h2">DAL</p>
+                    <img class="home-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
                     
-                    <div class="time d-flex flex-column">
-                        <div class="pt-2">
-                            <p class="h1">01:45</p>
-                        </div>
-                        
-                        <div class="mt-4">
-                            <p class="h5">QTR</p>
-                            <p class="h3 text-center">4</p>
-                        </div>
-                        
+                    <p class="home-team-score pl-5 pr-5 h1">30</p>
+                    <div style="text-align:center">
+                        <span class="dot ht-dot-1"></span>
+                        <span class="dot ht-dot-2"></span>
+                        <span class="dot ht-dot-3"></span>
+                        <span class="dot ht-dot-4"></span>
+                        <span class="dot ht-dot-5"></span>
                     </div>
+                </div>
 
-                    <div class="seconds-buttons d-flex flex-column">
-                        <button type="button" class="btn btn-warning">+</button>
-                        <button type="button" class="btn btn-danger">-</button>
+                
+                <div class=" d-flex flex-column">
 
-                        <button type="button" class="btn btn-warning mt-4">-</button>
+                    <div class="time-div d-flex flex-row">
+
+                        <div class="minutes-buttons d-flex flex-column">
+                            <button type="button" class="btn btn-warning">+</button>
+                            <button type="button" class="btn btn-danger">-</button>
+
+                            <button type="button" class="btn btn-warning mt-4">+</button>
+                        </div>
+
+                        
+                        <div class="time d-flex flex-column">
+                            <div class="pt-2">
+                                <p class="h1">01:45</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <p class="h5">QTR</p>
+                                <p class="h3 text-center">4</p>
+                            </div>
+                            
+                        </div>
+
+                        <div class="seconds-buttons d-flex flex-column">
+                            <button type="button" class="btn btn-warning">+</button>
+                            <button type="button" class="btn btn-danger">-</button>
+
+                            <button type="button" class="btn btn-warning mt-4">-</button>
+                        </div>
+
                     </div>
 
                 </div>
+                
 
-            </div>
-            
-
-            <div class="visitor-team-info d-flex flex-column">
-                <p class="visitor-team-name h2">LAC</p>
-                <img class="visitor-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
-                <p class="visitor-team-score pl-5 pr-5 h1">35</p>
-                <div style="text-align:center">
-                    <span class="dot vt-dot-1"></span>
-                    <span class="dot vt-dot-3"></span>
-                    <span class="dot vt-dot-2"></span>
-                    <span class="dot vt-dot-4"></span>
-                    <span class="dot vt-dot-5"></span>
+                <div class="visitor-team-info d-flex flex-column">
+                    <p class="visitor-team-name h2">LAC</p>
+                    <img class="visitor-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
+                    <p class="visitor-team-score pl-5 pr-5 h1">35</p>
+                    <div style="text-align:center">
+                        <span class="dot vt-dot-1"></span>
+                        <span class="dot vt-dot-3"></span>
+                        <span class="dot vt-dot-2"></span>
+                        <span class="dot vt-dot-4"></span>
+                        <span class="dot vt-dot-5"></span>
+                    </div>
                 </div>
+                
             </div>
-            
+
+        </div>
+
+        <div class="time-commands p-2 d-flex flex-column">
+            <button type="button" class="btn btn-success w-100 h-50 m-1">
+                <i class="fa fa-play" style="font-size:24px"></i>
+            </button>
+            <button type="button" class="btn btn-primary w-100 h-50 m-1">
+                <i class="fa fa-pause" style="font-size:24px"></i>
+            </button>
         </div>
 
     </div>
 
-    <div class="time-commands p-2 d-flex flex-column">
-        <button type="button" class="btn btn-success w-100 h-50 m-1">
-            <i class="fa fa-play" style="font-size:24px"></i>
-        </button>
-        <button type="button" class="btn btn-primary w-100 h-50 m-1">
-            <i class="fa fa-pause" style="font-size:24px"></i>
-        </button>
+    <!-- 2nd ROW -->
+    <div class="row no-gutters">
+
+            <div class="d-flex flex-column col-6">
+
+                <div class="lineup row no-gutters mb-1">
+
+                    <div class="d-flex flex-column col-11">
+                        <div class="frontcourt row no-gutters">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            
+                        </div>
+                        <div class="backcourt row no-gutters">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                        </div>
+                    </div>
+                        
+                    <div class="d-flex flex-column col-1">
+                        <button type="button" class="h-100 p-0 btn btn-warning">
+                            <img class="img-fluid substitution-img" src="https://image.flaticon.com/icons/png/512/1666/1666005.png">
+                        </button>
+                    </div>
+
+                </div>
+        
+
+                <div class="lineup row no-gutters mt-1">
+
+                    <div class="d-flex flex-column col-11">
+
+                        <div class="frontcourt row no-gutters">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                        </div>
+                        <div class="backcourt row no-gutters">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex flex-column col-1">
+                        <button type="button" class="h-100 p-0 btn btn-warning">
+                            <img class="img-fluid substitution-img" src="https://image.flaticon.com/icons/png/512/1666/1666005.png">
+                        </button>
+                    </div>
+
+                </div>
+
+
+                
+                    
+
+            </div>
+
+
+        
+        
     </div>
 
 </div>
-
-<!-- 2nd ROW -->

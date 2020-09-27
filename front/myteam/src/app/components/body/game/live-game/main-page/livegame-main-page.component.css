@@ -1,4 +1,4 @@
-
+/* SCOREBOARD */
 .scoreboard{
     background-color: grey;
     height: 300px;
@@ -58,4 +58,22 @@ img{
 }
 .time-commands{
     margin-right: auto;
+}
+
+/* 2ND ROW */
+
+.substitution-img{
+    height: 25%;
+}
+
+.lineup{
+    border: solid;
+    border-color: blue;
+    -webkit-box-shadow: 0 0 10px #fff;
+    box-shadow: 0 0 15px black;
+}
+
+.player{
+    margin-left: auto;
+    width: 28%;
 }
