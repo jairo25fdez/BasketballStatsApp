@@ -67,8 +67,10 @@ img{
 }
 
 .lineup{
-    border: solid;
-    border-color: blue;
+    background-color: #27293D;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
     -webkit-box-shadow: 0 0 10px #fff;
     box-shadow: 0 0 15px black;
 }
@@ -76,4 +78,46 @@ img{
 .player{
     margin-left: auto;
     width: 28%;
+    border: solid;
+    border-color: transparent;
 }
+
+.player:active{
+    border-width: 2px;
+    border-color: #E69C1C;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+/* SHOTCHART */
+
+.court {
+    fill: #7A7A7A;
+    stroke: #2B2B2B;
+    stroke-width: 4;
+    stroke-miterlimit: 10;
+}
+
+.zone {
+    fill: #7A7A7A;
+    stroke: #2B2B2B;
+    stroke-width: 4;
+    stroke-miterlimit: 10;
+}
+
+.zone:hover {
+    fill: #FEA400;
+    cursor: pointer;
+}
+
+#basketball{
+    border: solid;
+    border-color: red;
+}
+
+#actions-column{
+    border: solid;
+    border-color: yellow;
+}
+
