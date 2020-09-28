@@ -93,14 +93,14 @@ img{
 /* SHOTCHART */
 
 .court {
-    fill: #7A7A7A;
+    fill: transparent;
     stroke: #2B2B2B;
     stroke-width: 4;
     stroke-miterlimit: 10;
 }
 
 .zone {
-    fill: #7A7A7A;
+    fill: transparent;
     stroke: #2B2B2B;
     stroke-width: 4;
     stroke-miterlimit: 10;
@@ -111,13 +111,20 @@ img{
     cursor: pointer;
 }
 
-#basketball{
+#court{
     border: solid;
     border-color: red;
+    /*
+    background-image: url("../../../../../../assets/img/game/shot_chart.png");
+    background-repeat: no-repeat; 
+    
+    background-size: auto;
+    */
 }
 
 #actions-column{
     border: solid;
     border-color: yellow;
 }
+
 

@@ -147,12 +147,15 @@
 
 
             <!-- SHOTCHART COLUMN-->
-            <div class="d-flex flex-column col-6" id="actions-column">
+            <div class="d-flex flex-column col-6 " id="actions-column">
 
-                <svg id="basketball"  viewBox="0 0 1280 1024">
-                    <rect x="25" y="31" class="court" width="1228" height="771"></rect>
+                <svg id="court" class="col-10 " viewBox="0 0 1280 1024">
+
+                    <image width="1228" height="1024" xlink:href="../../../../../../assets/img/game/shot_chart.png"  />
+
+                    <rect x="25" y="31" class="court" width="1228" height="771" fill="url(#img1)"></rect>
                     <!--Left Corner 3P -->
-                    <rect x="25" y="31" class="zone" width="180" height="426"/>
+                    <rect id="circleView" x="25" y="31" class="zone" width="180" height="426"/>
                     <!-- Right Corner 3P -->
                     <rect x="1073" y="31" class="zone" width="180" height="426"/>
                     <!-- Left Corner -->
@@ -179,6 +182,8 @@
                     <rect x="639" y="281" class="zone" width="200" height="250"/>
                     <!-- Right Paint -->
                     <rect x="639" y="31" class="zone" width="200" height="250"/>
+
+                    
                   </svg>
 
             </div>
