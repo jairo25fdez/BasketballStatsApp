@@ -61,6 +61,9 @@ img{
 }
 
 /* 2ND ROW */
+.lineuups-column{
+    margin: auto;
+}
 
 .substitution-img{
     height: 25%;
@@ -92,16 +95,19 @@ img{
 
 /* SHOTCHART */
 
-.court {
+#court {
     fill: transparent;
-    stroke: #2B2B2B;
+    stroke: yellow;
     stroke-width: 4;
     stroke-miterlimit: 10;
+    border: solid;
+    border-color: blue;
 }
 
 .zone {
     fill: transparent;
-    stroke: #2B2B2B;
+    /*stroke: #2B2B2B;*/
+    stroke: red;
     stroke-width: 4;
     stroke-miterlimit: 10;
 }
@@ -111,20 +117,17 @@ img{
     cursor: pointer;
 }
 
-#court{
-    border: solid;
-    border-color: red;
-    /*
-    background-image: url("../../../../../../assets/img/game/shot_chart.png");
-    background-repeat: no-repeat; 
-    
-    background-size: auto;
-    */
-}
-
 #actions-column{
     border: solid;
     border-color: yellow;
+}
+
+svg{
+    margin-left: 0px;
+}
+
+svg img{
+    margin-left: 0px;
 }
 
 
