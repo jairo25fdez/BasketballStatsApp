@@ -74,7 +74,7 @@ img{
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-    -webkit-box-shadow: 0 0 10px #fff;
+    -webkit-box-shadow: 0 0 10px black;
     box-shadow: 0 0 15px black;
 }
 
@@ -100,8 +100,6 @@ img{
     stroke: yellow;
     stroke-width: 4;
     stroke-miterlimit: 10;
-    border: solid;
-    border-color: blue;
 }
 
 .zone {
@@ -119,15 +117,45 @@ img{
 
 #actions-column{
     border: solid;
-    border-color: yellow;
+    background-color: #27293D;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: 0 0 10px black;
+    box-shadow: 0 0 15px black;
 }
 
-svg{
-    margin-left: 0px;
+#actions-column .nav a{
+    color: white;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: solid;
+    border-width: 0.5px;
+    background-color: #27293D;
+}
+#actions-column .nav a:hover{
+    border-color: #E69C1C;
 }
 
-svg img{
-    margin-left: 0px;
+#actions-column .nav a.active{
+    background-color: #E69C1C;
+    border-color: #E69C1C;;
+}
+
+.shot-actions, .rebound-actions, .steal-actions, .assist-actions, .fouls-actions{
+    border: solid;
+    border-color: white;
+    border-width: 2px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: 0 0 10px black;
+    box-shadow: 0 0 15px black;
+}
+
+#actions-column p{
+    color: white;
 }
 
 

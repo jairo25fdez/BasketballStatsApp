@@ -6,13 +6,16 @@
         <a class="nav-item nav-link " data-toggle="pill" href="#playbyplay">Play by Play</a>
     </nav>
 
-    <div class="pill-content" id="mypillContent">
-        <div class="pill-pane fade show active" id="live" role="pillpanel" aria-labelledby="home-pill">
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="live" role="tabpanel" >
             <app-livegame-main-page></app-livegame-main-page>
         </div>
-        <div class="pill-pane fade" id="boxscore" role="pillpanel" aria-labelledby="profile-pill">
+        <div class="tab-pane fade" id="boxscore" role="tabpanel">
+            <app-footer></app-footer>
         </div>
-        <div class="pill-pane fade" id="playbyplay" role="pillpanel">...</div>
+        <div class="tab-pane fade" id="playbyplay" role="tabpanel">
+            <app-livegame-main-page></app-livegame-main-page>
+        </div>
     </div>
 
 </div>
