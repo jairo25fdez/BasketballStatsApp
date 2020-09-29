@@ -12,6 +12,8 @@ import { SidebarComponent } from './components/shared/sidebar/sidebar.component'
 import { LiveGameComponent } from './components/body/game/live-game/live-game.component';
 import { GameMenuComponent } from './components/body/game/game-menu/game-menu.component';
 import { MainPageComponent } from './components/body/game/live-game/main-page/livegame-main-page';
+import { BoxscoreComponent } from './components/body/game/live-game/boxscore/boxscore.component';
+import { PlayByPlayComponent } from './components/body/game/live-game/play-by-play/play-by-play.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { MainPageComponent } from './components/body/game/live-game/main-page/li
     SidebarComponent,
     LiveGameComponent,
     GameMenuComponent,
-    MainPageComponent
+    MainPageComponent,
+    BoxscoreComponent,
+    PlayByPlayComponent
   ],
   imports: [
     BrowserModule,

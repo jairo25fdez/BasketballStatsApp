@@ -1,0 +1,123 @@
+<div class="container-fluid no-gutters table-responsive">
+
+    <h3>Equipo Local</h3>
+    <table class="table table-bordered table-dark table-striped table-hover mt-2 local-team-table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">D</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Min</th>
+            <th scope="col">P</th>
+            <th scope="col">T2 I</th>
+            <th scope="col">T2 A</th>
+            <th scope="col">%T2</th>
+            <th scope="col">T3 I</th>
+            <th scope="col">T3 A</th>
+            <th scope="col">%T3</th>
+            <th scope="col">T1 I</th>
+            <th scope="col">T1 A</th>
+            <th scope="col">%T1</th>
+            <th scope="col">RO</th>
+            <th scope="col">RD</th>
+            <th scope="col">RT</th>
+            <th scope="col">A</th>
+            <th scope="col">BR</th>
+            <th scope="col">BP</th>
+            <th scope="col">TF</th>
+            <th scope="col">TC</th>
+            <th scope="col">FP F</th>
+            <th scope="col">FP C</th>
+        </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let jugador of boxscore_jugadores">
+            <th scope="row align-items-center">{{ jugador.number }}</th>
+            <td>{{ jugador.name }}</td>
+            <td>{{ jugador.minutes }}</td>
+            <td>{{ jugador.points }}</td>
+            <td>{{ jugador.t2m }}</td>
+            <td>{{ jugador.t2a }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+        </tbody>
+    </table>
+
+    <h3>Equipo Visitante</h3>
+    <table class="table table-bordered table-dark table-striped table-hover mt-2 visitor-team-table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">D</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Min</th>
+            <th scope="col">P</th>
+            <th scope="col">T2 I</th>
+            <th scope="col">T2 A</th>
+            <th scope="col">%T2</th>
+            <th scope="col">T3 I</th>
+            <th scope="col">T3 A</th>
+            <th scope="col">%T3</th>
+            <th scope="col">T1 I</th>
+            <th scope="col">T1 A</th>
+            <th scope="col">%T1</th>
+            <th scope="col">RO</th>
+            <th scope="col">RD</th>
+            <th scope="col">RT</th>
+            <th scope="col">A</th>
+            <th scope="col">BR</th>
+            <th scope="col">BP</th>
+            <th scope="col">TF</th>
+            <th scope="col">TC</th>
+            <th scope="col">FP F</th>
+            <th scope="col">FP C</th>
+        </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let jugador of boxscore_jugadores">
+            <th scope="row align-items-center">{{ jugador.number }}</th>
+            <td>{{ jugador.name }}</td>
+            <td>{{ jugador.minutes }}</td>
+            <td>{{ jugador.points }}</td>
+            <td>{{ jugador.t2m }}</td>
+            <td>{{ jugador.t2a }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+        </tbody>
+    </table>
+
+</div>
