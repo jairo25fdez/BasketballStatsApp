@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 export class LeaguesService{
 
     private leagues:any[] = [];
-    private leaguesUrl = 'api/v1/leagues'
+    private leaguesUrl = 'http://localhost:8000/api/v1/leagues'
 
     constructor(private http: HttpClient){
         console.log("Servicio listo");

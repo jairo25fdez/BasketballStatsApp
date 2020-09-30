@@ -2,13 +2,15 @@ const express = require("express");
 const bodyParser = require("body-parser"); 
 const path = require("path");
 
+const cors = require("cors");
+
 const app = express();
 app.use(bodyParser.json());
 
 const port = process.env.PORT || 8000;
 //app.use("/", express.static(path.join(__dirname,"/front/myteam-app/src")));
 
-//Prueba Heroku
+app.use(cors());
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(__dirname,'front/myteam/dist/myteam')));
