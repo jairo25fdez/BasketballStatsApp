@@ -7,7 +7,8 @@ import { LeaguesService } from '../../../../services/leagues.service';
 @Component({
   selector: 'app-newplayer-form',
   templateUrl: './newplayer-form.component.html',
-  styleUrls: ['./newplayer-form.component.css']
+  styleUrls: ['./newplayer-form.component.css'],
+  providers: [LeaguesService]
 })
 export class NewplayerFormComponent implements OnInit {
 
@@ -17,7 +18,7 @@ export class NewplayerFormComponent implements OnInit {
   constructor( private fb:FormBuilder, private _leaguesService:LeaguesService ) { 
 
     this.crearFormulario();
-    this.leagues = _leaguesService.getLeagues();
+    _leaguesService.getLeagues();
 
   }
 

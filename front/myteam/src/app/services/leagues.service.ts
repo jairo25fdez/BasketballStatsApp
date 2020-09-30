@@ -5,16 +5,16 @@ import { HttpClient } from '@angular/common/http';
 export class LeaguesService{
 
     private leagues:any[] = [];
+    private leaguesUrl = 'api/v1/leagues'
 
     constructor(private http: HttpClient){
         console.log("Servicio listo");
     }
 
     getLeagues(){
-        this.http.get("api/v1/leagues").subscribe( (resp:any) => {
-            this.leagues = resp;
+        this.http.get(this.leaguesUrl).subscribe( (resp:any) => {
+            console.log(resp);
         });
-        return this.leagues;
     }
 
 }
