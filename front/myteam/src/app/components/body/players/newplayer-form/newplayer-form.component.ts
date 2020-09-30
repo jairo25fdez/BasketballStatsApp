@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+//Servicios
+import { LeaguesService } from '../../../../services/leagues.service';
+
 @Component({
   selector: 'app-newplayer-form',
   templateUrl: './newplayer-form.component.html',
@@ -9,10 +12,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class NewplayerFormComponent implements OnInit {
 
   formulario:FormGroup;
+  private leagues:any[] = [];
 
-  constructor( private fb:FormBuilder ) { 
+  constructor( private fb:FormBuilder, private _leaguesService:LeaguesService ) { 
 
     this.crearFormulario();
+    this.leagues = _leaguesService.getLeagues();
 
   }
 

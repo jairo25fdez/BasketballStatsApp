@@ -1,15 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-//Http
-import { HttpClientModule } from '@angular/common/http';
 
-//Routes
+import { HttpClientModule } from '@angular/common/http'; //Http
 //import { AppRoutingModule } from './app-routing.module';
-import { APP_ROUTING } from './app-routing.module';
+import { APP_ROUTING } from './app-routing.module'; //Routes
+import {ReactiveFormsModule} from '@angular/forms'; //Forms
 
-//Forms
-import {ReactiveFormsModule} from '@angular/forms';
+//Services
+import { LeaguesService } from './services/leagues.service';
 
 //Components
 import { AppComponent } from './app.component';
@@ -43,7 +42,9 @@ import { NewplayerFormComponent } from './components/body/players/newplayer-form
     //Http
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    LeaguesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
