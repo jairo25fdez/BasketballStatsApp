@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var zone_shotsSchema = new Schema({
-    made: Number,
-    attempted: Number
+    attempted: Number,
+    made: Number
+    
 });
 
 var shots_listSchema = new Schema({
