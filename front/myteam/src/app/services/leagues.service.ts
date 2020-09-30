@@ -11,9 +11,11 @@ export class LeaguesService{
     }
 
     getLeagues(){
-        this.http.get("api/v1/leagues").subscribe( (resp:any) => {
+        this.http.get("https://jbasketstats.herokuapp/api/v1/leagues").subscribe( (resp:any) => {
             this.leagues = resp;
+            console.log(this.leagues);
         });
+        
         return this.leagues;
     }
 
