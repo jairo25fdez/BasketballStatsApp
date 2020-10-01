@@ -1,0 +1,137 @@
+<div class="container-fluid vh-100 no-gutters">
+
+    <div class="row no-gutters main-row ">
+
+        
+        <form class="col-12 mt-3 p-3 " [formGroup]="formulario" (ngSubmit)="guardar()">
+    
+            <h4>Crear liga</h4>
+            <hr>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Nombre</label>
+
+                <div class="col-8">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Nombre"
+                            formControlName="name"
+                            [class.is-invalid]="nameNoValid">
+                    <small *ngIf="nameNoValid" class="text-danger">Ingrese un nombre</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">País/Localización</label>
+
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Localización"
+                            formControlName="location"
+                            [class.is-invalid]="locationNoValid">
+                    <small *ngIf="locationNoValid" class="text-danger">Ingrese una localización</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Número de partes por partido</label>
+
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="number"
+                            placeholder="Número de partes por partido"
+                            formControlName="quarters_num"
+                            [class.is-invalid]="quartersnumNoValid">
+                    <small *ngIf="quartersnumNoValid" class="text-danger">Ingrese un número de partes</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Duración de cada parte</label>
+
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="number"
+                            placeholder="Duración de cada parte"
+                            formControlName="quarter_length"
+                            [class.is-invalid]="quarterlengthNoValid">
+                    <small *ngIf="quarterlengthNoValid" class="text-danger">Ingrese una duración</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Duración de cada parte de la prórroga</label>
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="number"
+                            placeholder="Duración de cada prórroga"
+                            formControlName="overtime_length"
+                            [class.is-invalid]="overtimelengthNoValid">
+                    <small *ngIf="overtimelengthNoValid" class="text-danger">Ingrese una duración</small>
+                </div>
+                
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Duración de la posesión</label>
+                <div class="col-8  align-items-center">
+    
+                <input class="form-control"
+                        type="number"
+                        placeholder="Duración máxima de posesión"
+                        formControlName="shot_clock"
+                        [class.is-invalid]="shotclockNoValid">
+                <small *ngIf="shotclockNoValid" class="text-danger">Ingrese una duración</small>
+                </div>
+            </div>
+
+            <div class="form-group row no-gutters">
+
+                <label class="col-2 col-form-label">Máximas faltas personales por partido</label>
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="number"
+                            placeholder="Máximas faltas personales por partido"
+                            formControlName="max_personal_fouls"
+                            [class.is-invalid]="shotclockNoValid">
+                    <small *ngIf="personalfoulsNoValid" class="text-danger">Ingrese un número</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+
+                <label class="col-2 col-form-label">Faltas de equipo por cuarto para bonus</label>
+                <div class="col-8  align-items-center">
+    
+                    <input class="form-control"
+                            type="number"
+                            placeholder="Faltas de equipo para alcanzar bonus"
+                            formControlName="max_team_fouls"
+                            [class.is-invalid]="teamfoulsNoValid">
+                    <small *ngIf="teamfoulsNoValid" class="text-danger">Ingrese un número</small>
+                </div>
+
+            </div>
+    
+            <div class="form-group row">
+                <label class="col-2 col-form-label">&nbsp;</label>
+                <div class="input-group col-md-8">
+                <button type="submit" class="btn btn-primary w-100">
+                    Guardar
+                </button>
+                </div>
+            </div>
+    
+        </form>
+    
+        
+    </div>
+    
+</div>

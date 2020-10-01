@@ -13,16 +13,16 @@ export class NewplayerFormComponent implements OnInit {
 
   formulario:FormGroup;
   leagues: any;
+  league_teams:any[] = [];
 
   constructor( private fb:FormBuilder, private _leaguesService:LeaguesService ) { 
 
-    this.crearFormulario();
-
     this._leaguesService.getLeagues().then((res) => {
       this.leagues = res;
+
     });
 
-    
+    this.crearFormulario();
 
   }
 
@@ -41,6 +41,8 @@ export class NewplayerFormComponent implements OnInit {
       height: [''],
       number: [''],
       actual_team: [''],
+      leagues: [''],
+      league_teams: ['']
     });
 
   }
@@ -57,6 +59,17 @@ export class NewplayerFormComponent implements OnInit {
     return this.formulario.get('birth_date').invalid && this.formulario.get('birth_date').touched;
   }
 
+  setLeague(){
+    this.league_teams = this.leagues[this.formulario.get('leagues').value].teams.club_name;
+
+    let league_index = this.formulario.get('leagues').value;
+
+    this.league_teams = this.leagues[league_index].teams;
+
+    console.log("TEAMS: "+JSON.stringify(this.league_teams));
+
+  }
+
   guardar(){
     console.log(this.formulario);
 
@@ -66,6 +79,9 @@ export class NewplayerFormComponent implements OnInit {
         control.markAsTouched();
       });
 
+    }
+    else{
+      /* Llamada a POST */
     }
 
   }

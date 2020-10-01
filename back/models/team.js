@@ -3,14 +3,22 @@ const Schema = mongoose.Schema;
 
 var teamSchema = new Schema({
     club: {
-        _id: false,
-        club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
-        club_name: {type: String, required: true}
+        type: new Schema({
+            _id: false,
+            club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
+            club_name: {type: String, required: true}
+        }),
+        required: true
     },
     league: {
-        _id: false,
-        league_id: {type: Schema.Types.ObjectId, ref: 'League'},
-        league_name: String
+        type: new Schema({
+            _id: false,
+            league_id: {type: Schema.Types.ObjectId, ref: 'League'},
+            league_name: String,
+            wins: Number,
+            losses: Number
+        }),
+        required: true
     },
     season: {type: Number, required: true},
     coach: {type: String},

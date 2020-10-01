@@ -98,7 +98,7 @@ module.exports = function (app){
         
     });
 
-    //GET a specific Club by the ID.
+    //GET a specific League by the ID.
     app.get(BASE_API_URL+"/leagues/:league_id",(request,response) =>{
         var league_id = request.params.league_id;
 
@@ -115,12 +115,12 @@ module.exports = function (app){
     });
 
 
-    //POST is not allowed when we are working with a specific club.
+    //POST is not allowed when we are working with a specific league.
     app.post(BASE_API_URL+"/leagues/:league_id",(request,response) =>{
-        response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
+        response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC LEAGUE.")
     });
 
-    //PUT a specific Club in the database.
+    //PUT a specific League in the database.
     app.put(BASE_API_URL+"/leagues/:league_id",(request,response) =>{
 
         var league_id = request.params.league_id;
