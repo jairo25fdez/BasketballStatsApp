@@ -12,9 +12,10 @@ export class LeaguesService{
     }
 
     getLeagues(){
-        this.http.get(this.leaguesUrl).subscribe( (resp:any) => {
-            console.log(resp);
-        });
+
+        return this.http.get(this.leaguesUrl).toPromise();
+
     }
+
 
 }
