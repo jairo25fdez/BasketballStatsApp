@@ -16,7 +16,8 @@
                             type="text"
                             placeholder="Nombre"
                             formControlName="name"
-                            [class.is-invalid]="nameNoValid">
+                            [class.is-invalid]="nameNoValid"
+                            [(ngModel)]="league.name">
                     <small *ngIf="nameNoValid" class="text-danger">Ingrese un nombre</small>
                 </div>
 
@@ -30,7 +31,8 @@
                             type="text"
                             placeholder="Localización"
                             formControlName="location"
-                            [class.is-invalid]="locationNoValid">
+                            [class.is-invalid]="locationNoValid"
+                            [(ngModel)]="league.location">
                     <small *ngIf="locationNoValid" class="text-danger">Ingrese una localización</small>
                 </div>
 
@@ -44,7 +46,8 @@
                             type="number"
                             placeholder="Número de partes por partido"
                             formControlName="quarters_num"
-                            [class.is-invalid]="quartersnumNoValid">
+                            [class.is-invalid]="quartersnumNoValid"
+                            [(ngModel)]="league.quarters_num">
                     <small *ngIf="quartersnumNoValid" class="text-danger">Ingrese un número de partes</small>
                 </div>
 
@@ -58,7 +61,8 @@
                             type="number"
                             placeholder="Duración de cada parte"
                             formControlName="quarter_length"
-                            [class.is-invalid]="quarterlengthNoValid">
+                            [class.is-invalid]="quarterlengthNoValid"
+                            [(ngModel)]="league.quarter_length">
                     <small *ngIf="quarterlengthNoValid" class="text-danger">Ingrese una duración</small>
                 </div>
 
@@ -71,7 +75,8 @@
                             type="number"
                             placeholder="Duración de cada prórroga"
                             formControlName="overtime_length"
-                            [class.is-invalid]="overtimelengthNoValid">
+                            [class.is-invalid]="overtimelengthNoValid"
+                            [(ngModel)]="league.overtime_length">
                     <small *ngIf="overtimelengthNoValid" class="text-danger">Ingrese una duración</small>
                 </div>
                 
@@ -86,7 +91,8 @@
                         type="number"
                         placeholder="Duración máxima de posesión"
                         formControlName="shot_clock"
-                        [class.is-invalid]="shotclockNoValid">
+                        [class.is-invalid]="shotclockNoValid"
+                        [(ngModel)]="league.shot_clock">
                 <small *ngIf="shotclockNoValid" class="text-danger">Ingrese una duración</small>
                 </div>
             </div>
@@ -99,7 +105,8 @@
                             type="number"
                             placeholder="Máximas faltas personales por partido"
                             formControlName="max_personal_fouls"
-                            [class.is-invalid]="shotclockNoValid">
+                            [class.is-invalid]="shotclockNoValid"
+                            [(ngModel)]="league.max_personal_fouls">
                     <small *ngIf="personalfoulsNoValid" class="text-danger">Ingrese un número</small>
                 </div>
 
@@ -114,7 +121,8 @@
                             type="number"
                             placeholder="Faltas de equipo para alcanzar bonus"
                             formControlName="max_team_fouls"
-                            [class.is-invalid]="teamfoulsNoValid">
+                            [class.is-invalid]="teamfoulsNoValid"
+                            [(ngModel)]="league.max_team_fouls">
                     <small *ngIf="teamfoulsNoValid" class="text-danger">Ingrese un número</small>
                 </div>
 

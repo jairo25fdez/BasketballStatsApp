@@ -1,5 +1,14 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LeagueModel } from '../../../../models/league.model';
+
+//Servicios
+import { LeaguesService } from '../../../../services/leagues.service';
+
+//Notificaciones
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-newleague-form',
@@ -9,9 +18,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class NewleagueFormComponent implements OnInit {
 
   formulario: FormGroup;
+  league = new LeagueModel();
 
 
-  constructor(private fb:FormBuilder) { 
+  constructor(private fb:FormBuilder, private _leaguesService:LeaguesService) { 
     this.crearFormulario();
 
   }
@@ -30,7 +40,7 @@ export class NewleagueFormComponent implements OnInit {
       overtime_length: ['', [Validators.required]],
       shot_clock: [''],
       max_personal_fouls: [''],
-      max_team_fouls: ['', [Validators.required]],
+      max_team_fouls: ['', [Validators.required]]
 
     });
 
@@ -60,6 +70,14 @@ export class NewleagueFormComponent implements OnInit {
     return this.formulario.get('max_team_fouls').invalid && this.formulario.get('max_team_fouls').touched;
   }
 
+  get personalfoulsNoValid(){
+    return this.formulario.get('max_personal_fouls').invalid && this.formulario.get('max_personal_fouls').touched;
+  }
+
+  get shotclockNoValid(){
+    return this.formulario.get('shot_clock').invalid && this.formulario.get('shot_clock').touched;
+  }
+
   guardar(){
     console.log(this.formulario);
 
@@ -71,7 +89,36 @@ export class NewleagueFormComponent implements OnInit {
 
     }
     else{
-      /* Llamada a POST */
+
+      Swal.fire({
+        title: 'Espere',
+        text: 'Guardando información',
+        icon: 'info',
+        allowOutsideClick: false
+      });
+
+      Swal.showLoading();
+
+      this._leaguesService.createLeague(this.league).then(resp => {
+        //If the post success
+        console.log(resp);
+
+        Swal.fire({
+          title: 'Liga creada correctamente.',
+          icon: 'success'
+        });
+
+      })
+      //If the post fails:
+      .catch( (err: HttpErrorResponse) => {
+        console.error('Ann error occurred: ', err.error);
+        Swal.fire({
+          title: 'Error al crear la liga.',
+          text: 'Compruebe que no existe una liga con el mismo nombre.',
+          icon: 'error'
+        });
+      });
+
     }
 
   }

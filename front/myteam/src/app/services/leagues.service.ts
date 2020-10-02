@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { LeagueModel } from '../models/league.model';
 
 @Injectable()
 export class LeaguesService{
@@ -12,9 +13,11 @@ export class LeaguesService{
     }
 
     getLeagues(){
-
         return this.http.get(this.leaguesUrl).toPromise();
+    }
 
+    createLeague(league: LeagueModel){
+        return this.http.post(this.leaguesUrl, league, {responseType: 'text'}).toPromise();
     }
 
 
