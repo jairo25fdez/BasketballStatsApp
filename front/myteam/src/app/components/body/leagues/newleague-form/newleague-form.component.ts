@@ -9,6 +9,7 @@ import { LeaguesService } from '../../../../services/leagues.service';
 
 //Notificaciones
 import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-newleague-form',
@@ -21,12 +22,22 @@ export class NewleagueFormComponent implements OnInit {
   league = new LeagueModel();
 
 
-  constructor(private fb:FormBuilder, private _leaguesService:LeaguesService) { 
+  constructor(private fb:FormBuilder, private LeaguesService:LeaguesService, private route:ActivatedRoute) { 
     this.crearFormulario();
 
   }
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log(id);
+
+    if(id != null){
+      //Call to GET
+      this.LeaguesService.getLeague(id).then((res:LeagueModel) => {
+        this.league = res;
+      });
+    }
+
   }
 
 
@@ -99,7 +110,7 @@ export class NewleagueFormComponent implements OnInit {
 
       Swal.showLoading();
 
-      this._leaguesService.createLeague(this.league).then(resp => {
+      this.LeaguesService.createLeague(this.league).then(resp => {
         //If the post success
         console.log(resp);
 

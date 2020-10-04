@@ -12,13 +12,27 @@ export class LeaguesService{
         console.log("Leagues services ready");
     }
 
+    //Methods that work with the whole collection.
+
     getLeagues(){
         return this.http.get(this.leaguesUrl).toPromise();
+    }
+
+    deleteLeagues(){
+
+    }
+
+    //Methods that work with a single object.
+
+    getLeague(league_id:string){
+        return this.http.get(this.leaguesUrl+"/"+league_id).toPromise();
     }
 
     createLeague(league: LeagueModel){
         return this.http.post(this.leaguesUrl, league, {responseType: 'text'}).toPromise();
     }
+
+    
 
 
 }

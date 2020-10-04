@@ -21,6 +21,7 @@ const routes: Routes = [
   //Leagues routes
     {path: 'new-league', component: NewleagueFormComponent},
     {path: 'leagues-menu', component: LeaguesMenuComponent},
+    {path: 'edit-league/:id', component: NewleagueFormComponent},
   //Default routes
     {path: '**', pathMatch: 'full', redirectTo: ''},
 

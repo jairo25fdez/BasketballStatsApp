@@ -6,4 +6,5 @@
 .body-div{
     box-sizing: border-box;
     padding-left: 200px;
+    height: 100vh;
 }
