@@ -52,11 +52,12 @@ module.exports = function (app){
         let league = new League({
             name: league_data.name,
             location: league_data.location,
+            quarters_num: league_data.quarters_num,
             quarter_length: league_data.quarter_length,
+            overtime_length: league_data.overtime_length,
             shot_clock: league_data.shot_clock,
             max_personal_fouls: league_data.max_personal_fouls,
-            teams: league_data.teams,
-            games_played: league_data.games_played
+            max_team_fouls: league_data.max_team_fouls
         });
 
         league.save(function(err,doc){
@@ -127,18 +128,19 @@ module.exports = function (app){
         var updatedData = request.body;
 
         League.findOne({_id: league_id}, function (err, league){
-            if(isNull(club)){
+            if(isNull(league)){
                 console.log("League with id: "+league_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
             else{
-                league.club = updatedData.club,
-                league.league = updatedData.league,
-                league.season = updatedData.season,
-                league.coach = updatedData.coach,
-                league.coaching_staff = updatedData.coaching_staff,
-                league.roster = updatedData.roster,
-                league.games_played = updatedData.games_played
+                league.name = updatedData.name,
+                league.location = updatedData.location,
+                league.quarters_num = updatedData.quarters_num,
+                league.quarter_length = updatedData.quarter_length,
+                league.overtime_length = updatedData.overtime_length,
+                league.shot_clock = updatedData.shot_clock,
+                league.max_personal_fouls = updatedData.max_personal_fouls,
+                league.max_team_fouls = updatedData.max_team_fouls
 
                 league.save();
 

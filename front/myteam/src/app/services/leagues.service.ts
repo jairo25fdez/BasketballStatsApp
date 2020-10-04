@@ -32,6 +32,10 @@ export class LeaguesService{
         return this.http.post(this.leaguesUrl, league, {responseType: 'text'}).toPromise();
     }
 
+    updateLeague(league_id:string, league:LeagueModel){
+        return this.http.put(this.leaguesUrl+"/"+league_id, league).toPromise();
+    }
+
     
 
 
