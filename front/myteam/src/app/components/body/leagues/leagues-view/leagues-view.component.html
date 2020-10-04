@@ -1,0 +1,36 @@
+
+
+<div class="row d-flex justify-content-center no-gutters addScroll overflow-auto">
+
+    <div class="leagues d-flex col-10 mt-2">
+
+        <div class="row justify-content-center ">
+
+            <div class="card col-5 m-3 text-center h-25 w-100 pr-0 p-3" *ngFor="let league of leagues; index as league_index;" value="{{league_index}}">
+
+                <div class="row no-gutters w-100">
+                    <div class="flex-column col-6">
+                        <a class="h-100" [routerLink]="[]">
+                            <img class="card-img-top w-75" src="https://1000marcas.net/wp-content/uploads/2019/12/NBA-Logo.png" alt="Whistle">
+                            
+                            <div class="card-body">
+                                <h5 class="card-title">{{league.name}}</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="flex-column col-6 h-75 ">
+                        <button type="button" class="btn btn-warning h-50 w-100">Editar</button>
+                        <button type="button" class="btn btn-danger h-50 w-100">Eliminar</button>
+                    </div>
+
+                </div>
+                
+            </div>
+
+        </div>
+    
+    </div>
+
+
+</div>
+

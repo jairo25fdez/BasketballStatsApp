@@ -10,7 +10,7 @@ import { NewplayerFormComponent } from './components/body/players/newplayer-form
 
 //Leagues components
 import {NewleagueFormComponent} from './components/body/leagues/newleague-form/newleague-form.component';
-
+import { LeaguesMenuComponent } from './components/body/leagues/menu/leagues-menu.component';
 
 const routes: Routes = [
   //Game routes
@@ -20,6 +20,7 @@ const routes: Routes = [
     {path: 'new-player', component: NewplayerFormComponent},
   //Leagues routes
     {path: 'new-league', component: NewleagueFormComponent},
+    {path: 'leagues-menu', component: LeaguesMenuComponent},
   //Default routes
     {path: '**', pathMatch: 'full', redirectTo: ''},
 

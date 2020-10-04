@@ -26,6 +26,8 @@ import { PlayByPlayComponent } from './components/body/game/live-game/play-by-pl
 import { NewplayerFormComponent } from './components/body/players/newplayer-form/newplayer-form.component';
 //Leagues
 import { NewleagueFormComponent } from './components/body/leagues/newleague-form/newleague-form.component';
+import { LeaguesMenuComponent } from './components/body/leagues/menu/leagues-menu.component';
+import { LeaguesViewComponent } from './components/body/leagues/leagues-view/leagues-view.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { NewleagueFormComponent } from './components/body/leagues/newleague-form
     BoxscoreComponent,
     PlayByPlayComponent,
     NewplayerFormComponent,
-    NewleagueFormComponent
+    NewleagueFormComponent,
+    LeaguesMenuComponent,
+    LeaguesViewComponent
   ],
   imports: [
     BrowserModule,

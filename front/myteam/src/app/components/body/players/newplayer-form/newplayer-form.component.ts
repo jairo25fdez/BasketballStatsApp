@@ -15,9 +15,9 @@ export class NewplayerFormComponent implements OnInit {
   leagues: any;
   league_teams:any[] = [];
 
-  constructor( private fb:FormBuilder, private _leaguesService:LeaguesService ) { 
+  constructor( private fb:FormBuilder, private leaguesService:LeaguesService ) { 
 
-    this._leaguesService.getLeagues().then((res) => {
+    this.leaguesService.getLeagues().then((res) => {
       this.leagues = res;
 
     });
