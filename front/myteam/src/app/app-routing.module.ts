@@ -21,7 +21,6 @@ const routes: Routes = [
     {path: 'new-player', component: NewplayerFormComponent},
   //Leagues routes
   
-  {path: 'edit-league/:id', component: NewleagueFormComponent},
     {path: 'leagues', component: LeaguesMenuComponent,
       children: [
         {path: 'new-league', component: NewleagueFormComponent},
