@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LeagueModel } from '../models/league.model';
 
 @Injectable()
 export class LeaguesService{
 
-    private leagues:any[] = [];
-    private leaguesUrl = 'http://localhost:8000/api/v1/leagues'
+    
+    private leaguesUrl = 'http://localhost:8000/api/v1/leagues';
 
     constructor(private http: HttpClient){
         console.log("Leagues services ready");
@@ -32,11 +32,21 @@ export class LeaguesService{
         return this.http.post(this.leaguesUrl, league, {responseType: 'text'}).toPromise();
     }
 
-    updateLeague(league_id:string, league:LeagueModel){
-        return this.http.put(this.leaguesUrl+"/"+league_id, league).toPromise();
+    updateLeague(league:LeagueModel){
+
+        const leagueTemp = {
+            ...league
+        };
+
+        delete leagueTemp._id;
+
+        return this.http.put(this.leaguesUrl+"/"+league._id, leagueTemp, {responseType: 'text'}).toPromise();
     }
 
-    
+    deleteLeague(league_id:string){
+        return this.http.delete(this.leaguesUrl+"/"+league_id, {responseType: 'text'}).toPromise();
+    }
+
 
 
 }

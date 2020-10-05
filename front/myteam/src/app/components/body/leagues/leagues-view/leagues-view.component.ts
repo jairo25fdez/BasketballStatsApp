@@ -7,6 +7,8 @@ import { LeaguesService } from '../../../../services/leagues.service';
 import {LeagueModel} from '../../../../models/league.model';
 
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-leagues-view',
@@ -15,7 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class LeaguesViewComponent implements OnInit {
 
-  leagues: LeagueModel[] = [];
+  public leagues: LeagueModel[] = [];
 
   constructor(private LeaguesService:LeaguesService, private route:ActivatedRoute) { 
 
@@ -26,8 +28,43 @@ export class LeaguesViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
-    
+
+  }
+  
+
+  deleteLeague(league: LeagueModel){
+
+
+    Swal.fire({
+      title: 'Espere',
+      text: 'Borrando liga',
+      icon: 'info',
+      allowOutsideClick: false
+    });
+
+    Swal.showLoading();
+
+    this.LeaguesService.deleteLeague(league._id).then(res => {
+
+      Swal.fire({
+        title: 'Liga borrada correctamente.',
+        icon: 'success'
+      });
+
+      //Reload Leagues info when delete is successful
+      this.LeaguesService.getLeagues().then((res:LeagueModel[]) => {
+        this.leagues = res;
+      });
+
+    })
+    .catch( (err: HttpErrorResponse) => {
+      console.error('Ann error occurred: ', err.error);
+      Swal.fire({
+        title: 'Error al borrar la liga.',
+        icon: 'error'
+      });
+    });
+
 
   }
 

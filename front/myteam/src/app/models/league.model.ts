@@ -1,5 +1,5 @@
 export class LeagueModel{
-
+    _id: string;
     name: string;
     location: string;
     quarters_num: number;

@@ -6,7 +6,7 @@
 
         <div class="row justify-content-center ">
 
-            <div class="card col-5 m-3 text-center h-25 w-100 pr-0 p-3" *ngFor="let league of leagues; index as league_index;" value="{{league_index}}">
+            <div class="card col-3 m-3 text-center h-25 w-100 pr-0 p-3" *ngFor="let league of leagues; index as league_index;" value="{{league_index}}">
 
                 <div class="row no-gutters w-100">
                     <div class="flex-column col-6">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="flex-column col-6 h-75 ">
                         <button type="button" class="btn btn-warning h-50 w-100" [routerLink]="['/edit-league', league._id]">Editar</button>
-                        <button type="button" class="btn btn-danger h-50 w-100">Eliminar</button>
+                        <button type="button" class="btn btn-danger h-50 w-100" (click)="deleteLeague(league)">Eliminar</button>
                     </div>
 
                 </div>

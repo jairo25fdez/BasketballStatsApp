@@ -7,6 +7,7 @@ import { LeagueModel } from '../../../../models/league.model';
 //Servicios
 import { LeaguesService } from '../../../../services/leagues.service';
 
+
 //Notificaciones
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
@@ -20,6 +21,7 @@ export class NewleagueFormComponent implements OnInit {
 
   formulario: FormGroup;
   league = new LeagueModel();
+  update = false;
 
 
   constructor(private fb:FormBuilder, private LeaguesService:LeaguesService, private route:ActivatedRoute) { 
@@ -29,13 +31,16 @@ export class NewleagueFormComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
 
     if(id != null){
       //Call to GET
       this.LeaguesService.getLeague(id).then((res:LeagueModel) => {
         this.league = res;
       });
+      this.update = true;
+    }
+    else{
+      this.update = false;
     }
 
   }
@@ -90,7 +95,6 @@ export class NewleagueFormComponent implements OnInit {
   }
 
   guardar(){
-    console.log(this.formulario);
 
     if(this.formulario.invalid){
 
@@ -101,37 +105,75 @@ export class NewleagueFormComponent implements OnInit {
     }
     else{
 
-      Swal.fire({
-        title: 'Espere',
-        text: 'Guardando información',
-        icon: 'info',
-        allowOutsideClick: false
-      });
-
-      Swal.showLoading();
-
-      this.LeaguesService.createLeague(this.league).then(resp => {
-        //If the post success
-        console.log(resp);
+      if(this.update){
 
         Swal.fire({
-          title: 'Liga creada correctamente.',
-          icon: 'success'
+          title: 'Espere',
+          text: 'Guardando información',
+          icon: 'info',
+          allowOutsideClick: false
+        });
+  
+        Swal.showLoading();
+  
+        this.LeaguesService.updateLeague(this.league).then( resp => {
+          //If the put success
+          console.log(resp);
+  
+          Swal.fire({
+            title: 'Liga editada correctamente.',
+            icon: 'success'
+          });
+  
+        })
+        //If the update fails:
+        .catch( (err: HttpErrorResponse) => {
+          console.error('Ann error occurred: ', err.error);
+          console.log(err);
+          Swal.fire({
+            title: 'Error al editar la liga.',
+            icon: 'error'
+          });
         });
 
-      })
-      //If the post fails:
-      .catch( (err: HttpErrorResponse) => {
-        console.error('Ann error occurred: ', err.error);
+      }
+      else{
+
         Swal.fire({
-          title: 'Error al crear la liga.',
-          text: 'Compruebe que no existe una liga con el mismo nombre.',
-          icon: 'error'
+          title: 'Espere',
+          text: 'Guardando información',
+          icon: 'info',
+          allowOutsideClick: false
         });
-      });
+  
+        Swal.showLoading();
+  
+        this.LeaguesService.createLeague(this.league).then(resp => {
+          //If the post success
+  
+          Swal.fire({
+            title: 'Liga creada correctamente.',
+            icon: 'success'
+          });
+  
+        })
+        //If the post fails:
+        .catch( (err: HttpErrorResponse) => {
+          console.error('Ann error occurred: ', err.error);
+          Swal.fire({
+            title: 'Error al crear la liga.',
+            text: 'Compruebe que no existe una liga con el mismo nombre.',
+            icon: 'error'
+          });
+        });
+      }
+
+      
 
     }
 
   }
+
+  
 
 }
