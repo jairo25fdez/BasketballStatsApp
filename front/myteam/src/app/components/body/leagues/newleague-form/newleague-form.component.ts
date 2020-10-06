@@ -23,6 +23,7 @@ export class NewleagueFormComponent implements OnInit {
   league = new LeagueModel();
   update:boolean = false;
   selectedFile:File = null;
+  exists_img:boolean = false; 
 
 
   constructor(private fb:FormBuilder, private LeaguesService:LeaguesService, private ImagesService:ImagesService, private route:ActivatedRoute, private http: HttpClient) { 
@@ -37,8 +38,15 @@ export class NewleagueFormComponent implements OnInit {
       //Call to GET
       this.LeaguesService.getLeague(id).then((res:LeagueModel) => {
         this.league = res;
+        if('img' in res){
+          this.exists_img = true;
+        }
+        else{
+          this.exists_img = false;
+        }
       });
       this.update = true;
+      
     }
     else{
       this.update = false;
