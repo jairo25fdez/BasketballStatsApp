@@ -49,6 +49,7 @@ module.exports = function (app){
 
         let club = new Club({
             name: club_data.name,
+            img: club_data.img,
             acronym: club_data.acronym,
             country: club_data.country,
             city: club_data.city,
@@ -134,6 +135,7 @@ module.exports = function (app){
             }
             else{
                 club.name = updatedData.name;
+                club.img = updatedData.img;
                 club.acronym = updatedData.acronym;
                 club.country = updatedData.country;
                 club.city = updatedData.city;

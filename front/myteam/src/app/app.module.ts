@@ -10,6 +10,7 @@ import {ReactiveFormsModule} from '@angular/forms'; //Forms
 //Services
 import { LeaguesService } from './services/leagues.service';
 import { ImagesService } from './services/images.service';
+import { ClubsService } from './services/clubs.service';
 
 
 //Components
@@ -26,12 +27,15 @@ import { BoxscoreComponent } from './components/body/game/live-game/boxscore/box
 import { PlayByPlayComponent } from './components/body/game/live-game/play-by-play/play-by-play.component';
 //Players
 import { NewplayerFormComponent } from './components/body/players/newplayer-form/newplayer-form.component';
+import { PlayersMenuComponent } from './components/body/players/players-menu/players-menu.component';
+import { PlayersViewComponent } from './components/body/players/players-view/players-view.component';
 //Leagues
 import { NewleagueFormComponent } from './components/body/leagues/newleague-form/newleague-form.component';
 import { LeaguesMenuComponent } from './components/body/leagues/menu/leagues-menu.component';
 import { LeaguesViewComponent } from './components/body/leagues/leagues-view/leagues-view.component';
-import { PlayersMenuComponent } from './components/body/players/players-menu/players-menu.component';
-import { PlayersViewComponent } from './components/body/players/players-view/players-view.component';
+//Clubs
+import { ClubsMenuComponent } from './components/body/clubs/clubs-menu/clubs-menu.component';
+import { ClubsListComponent } from './components/body/clubs/clubs-list/clubs-list.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +52,9 @@ import { PlayersViewComponent } from './components/body/players/players-view/pla
     LeaguesMenuComponent,
     LeaguesViewComponent,
     PlayersMenuComponent,
-    PlayersViewComponent
+    PlayersViewComponent,
+    ClubsMenuComponent,
+    ClubsListComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +67,8 @@ import { PlayersViewComponent } from './components/body/players/players-view/pla
   ],
   providers: [
     LeaguesService,
-    ImagesService
+    ImagesService,
+    ClubsService
   ],
   bootstrap: [AppComponent]
 })

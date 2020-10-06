@@ -10,3 +10,6 @@ form{
     -webkit-box-shadow: 0 0 10px black;
     box-shadow: 0 0 15px black;
 }
+.addScroll{
+    height: 92vh;
+}

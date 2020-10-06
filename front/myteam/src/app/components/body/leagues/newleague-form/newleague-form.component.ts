@@ -10,7 +10,6 @@ import { ImagesService } from '../../../../services/images.service';
 //Notificaciones
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
-import { ImageModel } from 'src/app/models/image.model';
 
 @Component({
   selector: 'app-newleague-form',

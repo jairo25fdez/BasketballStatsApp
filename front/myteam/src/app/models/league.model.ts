@@ -9,5 +9,4 @@ export class LeagueModel{
     shot_clock: number;
     max_personal_fouls: number;
     max_team_fouls: number;
-
 }

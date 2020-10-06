@@ -1,6 +1,10 @@
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+//Clubs components
+import { ClubsMenuComponent } from './components/body/clubs/clubs-menu/clubs-menu.component';
+import { ClubsListComponent } from './components/body/clubs/clubs-list/clubs-list.component';
+
 //Games components
 import { LiveGameComponent } from './components/body/game/live-game/live-game.component';
 import { GameMenuComponent } from './components/body/game/game-menu/game-menu.component';
@@ -16,6 +20,15 @@ import { LeaguesViewComponent } from './components/body/leagues/leagues-view/lea
 import { LeaguesMenuComponent } from './components/body/leagues/menu/leagues-menu.component';
 
 const routes: Routes = [
+  //Clubs routes
+  {path: 'clubs', component: ClubsMenuComponent,
+    children: [
+      {path: 'clubs-list', component: ClubsListComponent},
+      //{path: 'new-club', component: NewClubFormComponent},
+      //{path: 'edit-club/:id', component: NewClubFormComponent},
+      {path: '**', pathMatch: 'full', redirectTo: 'clubs-list'}
+    ]
+  },
   //Game routes
     {path: 'live-game', component: LiveGameComponent},
     {path: 'game-menu', component: GameMenuComponent},

@@ -63,15 +63,6 @@ module.exports = function (app){
             max_team_fouls: league_data.max_team_fouls
         });
 
-        console.log("ENTRO");
-
-        /*
-        league.logo.data = fs.readFileSync(league_data.logo);
-        league.logo.contentType = 'img/png';
-        */
-
-        console.log("LEAGUE: "+league);
-
         league.save(function(err,doc){
             if(err){
                 console.log("Error while trying to post the league into the database.");
