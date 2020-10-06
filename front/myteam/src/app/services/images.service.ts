@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ImageModel } from '../models/image.model';
 
 @Injectable()
 export class ImagesService{
@@ -16,7 +15,7 @@ export class ImagesService{
     }
 
     uploadImage(image){
-        return this.http.post(this.imagesUrl, image, {responseType: 'text'}).toPromise();
+        return this.http.post(this.imagesUrl, image).toPromise();
     }
 
     

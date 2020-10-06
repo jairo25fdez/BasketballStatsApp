@@ -55,21 +55,29 @@ module.exports = function (app){
         
         cloudinary.uploader.upload(file_path)
         .then( (res) => {
-            //Si acierto obtengo la URL de la imagen y la guardo en Mongo
+            //Get the image URL
             const image_url = res.secure_url;  
-            response.sendStatus(200);
+
+            //Delete the temp file
+            try {
+                fs.unlinkSync(file_path)
+            }
+            catch(err) {
+                console.error("Couldnt delete the img.");
+            }
+
+            response.json({
+                status: 200,
+                image_url: image_url
+            });
+            //response.sendStatus(200);
         })
         .catch( (err) => {
             console.log("ERROR: "+JSON.stringify(err));
             response.sendStatus(500);
         });
 
-        try {
-            fs.unlinkSync(file_path)
-        }
-        catch(err) {
-            console.error("Couldnt delete the img.");
-        }
+        
         
 
     });

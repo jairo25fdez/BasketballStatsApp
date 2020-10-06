@@ -53,6 +53,7 @@ module.exports = function (app){
 
         let league = new League({
             name: league_data.name,
+            img: league_data.img,
             location: league_data.location,
             quarters_num: league_data.quarters_num,
             quarter_length: league_data.quarter_length,
@@ -62,8 +63,12 @@ module.exports = function (app){
             max_team_fouls: league_data.max_team_fouls
         });
 
+        console.log("ENTRO");
+
+        /*
         league.logo.data = fs.readFileSync(league_data.logo);
         league.logo.contentType = 'img/png';
+        */
 
         console.log("LEAGUE: "+league);
 
@@ -141,6 +146,7 @@ module.exports = function (app){
             }
             else{
                 league.name = updatedData.name,
+                league.img = updatedData.img,
                 league.location = updatedData.location,
                 league.quarters_num = updatedData.quarters_num,
                 league.quarter_length = updatedData.quarter_length,

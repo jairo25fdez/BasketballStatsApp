@@ -51,7 +51,7 @@ export class NewleagueFormComponent implements OnInit {
 
     this.formulario = this.fb.group({
       name: ['', [Validators.required] ],
-      logo: [''],
+      img: [''],
       location: ['', ],
       quarters_num: ['', [Validators.required]],
       quarter_length: ['', [Validators.required]],
@@ -98,20 +98,39 @@ export class NewleagueFormComponent implements OnInit {
 
   onFileSelected(event){
     this.selectedFile = <File>event.target.files[0];
-    console.log(event.target.files[0]);
   }
 
   uploadImage(){
     const fd = new FormData();
     fd.append('image', this.selectedFile, this.selectedFile.name);
 
+    Swal.fire({
+      title: 'Espere',
+      text: 'Guardando imagen',
+      icon: 'info',
+      allowOutsideClick: false
+    });
 
-    this.ImagesService.uploadImage(fd).then((res) => {
-      if(res == 'OK'){
-        console.log("Image uploaded");
+    Swal.showLoading();
+
+    this.ImagesService.uploadImage(fd).then((res:any) => {
+      
+      if(res.status == 200){
+        //Guardo la url en la propiedad correspondiente
+        this.league.img = res.image_url;
+
+        console.log("LEAGUE: "+JSON.stringify(this.league));
+
+        Swal.fire({
+          title: 'Imagen subida correctamente.',
+          icon: 'success'
+        });
       }
       else{
-        console.error("Couldnt upload img");
+        Swal.fire({
+          title: 'Error al subir la imagen.',
+          icon: 'error'
+        });
       }
     });
 
@@ -130,7 +149,7 @@ export class NewleagueFormComponent implements OnInit {
     }
     else{
 
-      console.log("LEAGUE: "+JSON.stringify(this.league));
+      
 
       if(this.update){
 
@@ -145,7 +164,6 @@ export class NewleagueFormComponent implements OnInit {
   
         this.LeaguesService.updateLeague(this.league).then( resp => {
           //If the put success
-          console.log(resp);
   
           Swal.fire({
             title: 'Liga editada correctamente.',
@@ -174,6 +192,8 @@ export class NewleagueFormComponent implements OnInit {
         });
   
         Swal.showLoading();
+
+        console.log("LEAGUE: "+JSON.stringify(this.league));
   
         this.LeaguesService.createLeague(this.league).then(resp => {
           //If the post success

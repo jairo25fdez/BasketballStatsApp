@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 var leagueSchema = new Schema({
     name: {type: String, required: true},
+    img: {type: String},
     location: String,
     quarter_length: {type: Number, min: 1},
     shot_clock: Number, //0 if there is no shot clock.
