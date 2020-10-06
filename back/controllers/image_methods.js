@@ -1,8 +1,3 @@
-
-
-const { resolve } = require('path');
-const league = require('../models/image');
-
 module.exports = function (app){
     const multer = require('multer'); 
     const cloudinary = require('cloudinary').v2;

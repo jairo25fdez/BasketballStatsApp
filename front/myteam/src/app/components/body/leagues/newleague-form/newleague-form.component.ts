@@ -119,7 +119,6 @@ export class NewleagueFormComponent implements OnInit {
         //Guardo la url en la propiedad correspondiente
         this.league.img = res.image_url;
 
-        console.log("LEAGUE: "+JSON.stringify(this.league));
 
         Swal.fire({
           title: 'Imagen subida correctamente.',
@@ -192,8 +191,6 @@ export class NewleagueFormComponent implements OnInit {
         });
   
         Swal.showLoading();
-
-        console.log("LEAGUE: "+JSON.stringify(this.league));
   
         this.LeaguesService.createLeague(this.league).then(resp => {
           //If the post success

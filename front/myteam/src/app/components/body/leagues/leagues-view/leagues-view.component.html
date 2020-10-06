@@ -4,17 +4,15 @@
 
         <div class="row justify-content-center ">
 
-            <div class="card col-3 m-3 text-center h-25 w-100 pr-0 p-3" *ngFor="let league of leagues; index as league_index;" value="{{league_index}}">
+            <div class="card col-3 m-3 text-center w-100 pr-0 p-3" *ngFor="let league of leagues; index as league_index;" value="{{league_index}}">
 
-                <div class="row no-gutters w-100">
+                <div class="row no-gutters w-100 h-100">
                     <div class="flex-column col-6">
-                        <a class="h-100" [routerLink]="[]">
-                            <img class="card-img-top w-75" src="{{league.img}}" alt="Whistle">
-                            
-                            <div class="card-body">
-                                <h5 class="card-title">{{league.name}}</h5>
-                            </div>
-                        </a>
+                        <img class="card-img-top w-75" src="{{league.img}}">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{league.name}}</h5>
+                        </div>
                     </div>
                     <div class="flex-column col-6 h-75 ">
                         <button type="button" class="btn btn-warning h-50 w-100" [routerLink]="['../edit-league', league._id]">Editar</button>
@@ -23,7 +21,7 @@
 
                 </div>
                 
-            </div>
+            </div>     
 
         </div>
     
