@@ -16,7 +16,6 @@ export class ImagesService{
     }
 
     uploadImage(image){
-        
         return this.http.post(this.imagesUrl, image, {responseType: 'text'}).toPromise();
     }
 
