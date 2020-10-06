@@ -1,0 +1,52 @@
+<div class="">
+
+    <div class="row no-gutters">
+        
+        <form class="col mt-1 p-3 d-flex" [formGroup]="form">
+
+    
+            <div class="form-group d-flex col-4 no-gutters">
+
+                <label class="col-3 col-form-label">Liga</label>
+                <div class="col-8">
+                    <select class="custom-select" formControlName="leagues" (change)="setLeague()">
+                        <option disabled>Liga del Jugador</option>
+                        <option *ngFor="let league of leagues;" value="{{league._id}}">{{league.name}}</option>
+                    </select>
+                </div>
+                
+            </div>
+
+            <div class="form-group d-flex col-4 no-gutters">
+
+                <label class="col-3 col-form-label">Club</label>
+                <div class="col-8">
+                    <select class="custom-select" formControlName="clubs">
+                        <option *ngFor="let club of leagues" value="{{club_id}}">{{club.club_name}}</option>
+                    </select>
+                </div>
+                
+            </div>
+
+            <div class="form-group d-flex col-4 no-gutters">
+
+                <label class="col-3 col-form-label">Equipo</label>
+                <div class="col-8">
+                    <select class="custom-select" formControlName="teams">
+                        <option *ngFor="let club of leagues" value="{{club_id}}">{{club.club_name}}</option>
+                    </select>
+                </div>
+                
+            </div>
+
+            
+            
+    
+        </form>
+
+    </div>
+    <div class="row no-gutters">
+
+    </div>
+
+</div>

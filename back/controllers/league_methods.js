@@ -4,6 +4,7 @@ module.exports = function (app){
 
     const path = require('path');
     const { isNull } = require('util');
+    const fs = require('fs');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
     const BASE_API_URL = "/api/v1";
@@ -37,6 +38,7 @@ module.exports = function (app){
         League.find({}, function (err, leagues){
             if(err){
                 console.log("Error while trying to receive the list of leagues.");
+                response.sendStatus(500);
             }
             else{
                 response.send(JSON.stringify(leagues,null,2));
@@ -59,6 +61,11 @@ module.exports = function (app){
             max_personal_fouls: league_data.max_personal_fouls,
             max_team_fouls: league_data.max_team_fouls
         });
+
+        league.logo.data = fs.readFileSync(league_data.logo);
+        league.logo.contentType = 'img/png';
+
+        console.log("LEAGUE: "+league);
 
         league.save(function(err,doc){
             if(err){

@@ -1,6 +1,7 @@
 export class LeagueModel{
     _id: string;
     name: string;
+    img: string;
     location: string;
     quarters_num: number;
     quarter_length: number;

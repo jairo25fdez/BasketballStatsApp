@@ -1,16 +1,16 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { ThrowStmt } from '@angular/compiler';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LeagueModel } from '../../../../models/league.model';
 
 //Servicios
 import { LeaguesService } from '../../../../services/leagues.service';
-
+import { ImagesService } from '../../../../services/images.service';
 
 //Notificaciones
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
+import { ImageModel } from 'src/app/models/image.model';
 
 @Component({
   selector: 'app-newleague-form',
@@ -21,10 +21,11 @@ export class NewleagueFormComponent implements OnInit {
 
   formulario: FormGroup;
   league = new LeagueModel();
-  update = false;
+  update:boolean = false;
+  selectedFile:File = null;
 
 
-  constructor(private fb:FormBuilder, private LeaguesService:LeaguesService, private route:ActivatedRoute) { 
+  constructor(private fb:FormBuilder, private LeaguesService:LeaguesService, private ImagesService:ImagesService, private route:ActivatedRoute, private http: HttpClient) { 
     this.crearFormulario();
 
   }
@@ -50,6 +51,7 @@ export class NewleagueFormComponent implements OnInit {
 
     this.formulario = this.fb.group({
       name: ['', [Validators.required] ],
+      logo: [''],
       location: ['', ],
       quarters_num: ['', [Validators.required]],
       quarter_length: ['', [Validators.required]],
@@ -94,7 +96,30 @@ export class NewleagueFormComponent implements OnInit {
     return this.formulario.get('shot_clock').invalid && this.formulario.get('shot_clock').touched;
   }
 
+  onFileSelected(event){
+    this.selectedFile = <File>event.target.files[0];
+    console.log(event.target.files[0]);
+  }
+
+  uploadImage(){
+    const fd = new FormData();
+    fd.append('image', this.selectedFile, this.selectedFile.name);
+
+
+    this.ImagesService.uploadImage(fd).then((res) => {
+      if(res == 'OK'){
+        console.log("Image uploaded");
+      }
+      else{
+        console.error("Couldnt upload img");
+      }
+    });
+
+  }
+
+
   guardar(){
+
 
     if(this.formulario.invalid){
 
@@ -104,6 +129,8 @@ export class NewleagueFormComponent implements OnInit {
 
     }
     else{
+
+      console.log("LEAGUE: "+JSON.stringify(this.league));
 
       if(this.update){
 
@@ -174,6 +201,5 @@ export class NewleagueFormComponent implements OnInit {
 
   }
 
-  
 
 }

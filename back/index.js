@@ -6,6 +6,8 @@ const league_methods = require('./controllers/league_methods.js');
 const user_methods = require('./controllers/user_methods.js');
 const play_methods = require('./controllers/play_methods.js');
 
+const image_methods = require('./controllers/image_methods.js')
+
 module.exports = function(app){
     
     const mongoose_util = require('./controllers/mongoose_util.js');
@@ -21,6 +23,7 @@ module.exports = function(app){
     league_methods(app);
     user_methods(app);
     play_methods(app);
+    image_methods(app);
 
 
 }

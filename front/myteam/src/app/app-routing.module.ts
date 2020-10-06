@@ -7,6 +7,8 @@ import { GameMenuComponent } from './components/body/game/game-menu/game-menu.co
 
 //Players components
 import { NewplayerFormComponent } from './components/body/players/newplayer-form/newplayer-form.component';
+import { PlayersMenuComponent } from './components/body/players/players-menu/players-menu.component';
+import { PlayersViewComponent } from './components/body/players/players-view/players-view.component';
 
 //Leagues components
 import { NewleagueFormComponent } from './components/body/leagues/newleague-form/newleague-form.component';
@@ -18,9 +20,14 @@ const routes: Routes = [
     {path: 'live-game', component: LiveGameComponent},
     {path: 'game-menu', component: GameMenuComponent},
   //Player routes
-    {path: 'new-player', component: NewplayerFormComponent},
+    {path: 'players', component: PlayersMenuComponent,
+    children: [
+        {path: 'new-player', component: NewplayerFormComponent},
+        {path: 'players-view', component: PlayersViewComponent},
+        {path: '**', pathMatch: 'full', redirectTo: 'players-view'}
+      ]
+    },
   //Leagues routes
-  
     {path: 'leagues', component: LeaguesMenuComponent,
       children: [
         {path: 'new-league', component: NewleagueFormComponent},

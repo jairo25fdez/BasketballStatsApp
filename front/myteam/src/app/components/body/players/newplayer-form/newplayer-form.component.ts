@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 //Servicios
 import { LeaguesService } from '../../../../services/leagues.service';
+import { LeagueModel } from '../../../../models/league.model';
 
 @Component({
   selector: 'app-newplayer-form',
@@ -12,12 +13,12 @@ import { LeaguesService } from '../../../../services/leagues.service';
 export class NewplayerFormComponent implements OnInit {
 
   formulario:FormGroup;
-  leagues: any;
+  leagues: LeagueModel[];
   league_teams:any[] = [];
 
   constructor( private fb:FormBuilder, private leaguesService:LeaguesService ) { 
 
-    this.leaguesService.getLeagues().then((res) => {
+    this.leaguesService.getLeagues().then((res:LeagueModel[]) => {
       this.leagues = res;
 
     });
@@ -32,7 +33,7 @@ export class NewplayerFormComponent implements OnInit {
   crearFormulario(){
 
     this.formulario = this.fb.group({
-      name: ['Jairo', [Validators.required] ],
+      name: ['', [Validators.required] ],
       last_name: ['', [Validators.required] ],
       email: ['', [Validators.email] ],
       birth_date: ['', Validators.required],
@@ -59,14 +60,7 @@ export class NewplayerFormComponent implements OnInit {
     return this.formulario.get('birth_date').invalid && this.formulario.get('birth_date').touched;
   }
 
-  setLeague(){
-    this.league_teams = this.leagues[this.formulario.get('leagues').value].teams.club_name;
-
-    let league_index = this.formulario.get('leagues').value;
-
-    this.league_teams = this.leagues[league_index].teams;
-
-    console.log("TEAMS: "+JSON.stringify(this.league_teams));
+  setLeague(){ //CAMBIAR
 
   }
 

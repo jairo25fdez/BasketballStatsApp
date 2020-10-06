@@ -4,8 +4,14 @@ const path = require("path");
 
 const cors = require("cors");
 
+
+
 const app = express();
 app.use(bodyParser.json());
+/*
+const multer = require("multer");
+app.use(multer({dest:'upload/temp'}).single('file'));
+*/
 
 const port = process.env.PORT || 8000;
 //app.use("/", express.static(path.join(__dirname,"/front/myteam-app/src")));

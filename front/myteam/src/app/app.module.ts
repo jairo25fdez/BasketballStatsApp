@@ -9,6 +9,8 @@ import {ReactiveFormsModule} from '@angular/forms'; //Forms
 
 //Services
 import { LeaguesService } from './services/leagues.service';
+import { ImagesService } from './services/images.service';
+
 
 //Components
 
@@ -28,6 +30,8 @@ import { NewplayerFormComponent } from './components/body/players/newplayer-form
 import { NewleagueFormComponent } from './components/body/leagues/newleague-form/newleague-form.component';
 import { LeaguesMenuComponent } from './components/body/leagues/menu/leagues-menu.component';
 import { LeaguesViewComponent } from './components/body/leagues/leagues-view/leagues-view.component';
+import { PlayersMenuComponent } from './components/body/players/players-menu/players-menu.component';
+import { PlayersViewComponent } from './components/body/players/players-view/players-view.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +46,9 @@ import { LeaguesViewComponent } from './components/body/leagues/leagues-view/lea
     NewplayerFormComponent,
     NewleagueFormComponent,
     LeaguesMenuComponent,
-    LeaguesViewComponent
+    LeaguesViewComponent,
+    PlayersMenuComponent,
+    PlayersViewComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +60,8 @@ import { LeaguesViewComponent } from './components/body/leagues/leagues-view/lea
     HttpClientModule
   ],
   providers: [
-    LeaguesService
+    LeaguesService,
+    ImagesService
   ],
   bootstrap: [AppComponent]
 })
