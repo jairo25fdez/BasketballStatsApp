@@ -12,6 +12,7 @@ import { LeaguesService } from './services/leagues.service';
 import { ImagesService } from './services/images.service';
 import { ClubsService } from './services/clubs.service';
 import { TeamsService } from './services/teams.service';
+import { PlayersService } from './services/players.service';
 
 
 //Components
@@ -42,30 +43,37 @@ import { TeamsMenuComponent } from './components/body/teams/teams-menu/teams-men
 import { TeamsListComponent } from './components/body/teams/teams-list/teams-list.component';
 import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
 import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
+import { UpdateplayerFormComponent } from './components/body/players/updateplayer-form/updateplayer-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
     SidebarComponent,
+    //Game Components
     LiveGameComponent,
     GameMenuComponent,
     MainPageComponent,
     BoxscoreComponent,
     PlayByPlayComponent,
+    //Players components
     NewplayerFormComponent,
+    PlayersMenuComponent,
+    PlayersViewComponent,
+    //Leagues components
     NewleagueFormComponent,
     LeaguesMenuComponent,
     LeaguesViewComponent,
-    PlayersMenuComponent,
-    PlayersViewComponent,
+    //Clubs components
     ClubsMenuComponent,
     ClubsListComponent,
     NewclubFormComponent,
+    //Teams components
     TeamsMenuComponent,
     TeamsListComponent,
     NewteamFormComponent,
-    UpdateteamFormComponent
+    UpdateteamFormComponent,
+    UpdateplayerFormComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +88,8 @@ import { UpdateteamFormComponent } from './components/body/teams/updateteam-form
     LeaguesService,
     ImagesService,
     ClubsService,
-    TeamsService
+    TeamsService,
+    PlayersService
   ],
   bootstrap: [AppComponent]
 })

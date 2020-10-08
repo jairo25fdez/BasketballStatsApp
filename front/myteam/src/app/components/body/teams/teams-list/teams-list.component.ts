@@ -11,6 +11,8 @@ import { ClubModel } from '../../../../models/club.model';
 //Services
 import { TeamsService } from '../../../../services/teams.service';
 import { LeaguesService } from '../../../../services/leagues.service';
+import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-teams-list',
@@ -50,6 +52,42 @@ export class TeamsListComponent implements OnInit {
 
 
   setLeague(){
+
+  }
+
+  deleteTeam(team: TeamModel){
+
+
+    Swal.fire({
+      title: 'Espere',
+      text: 'Borrando equipo...',
+      icon: 'info',
+      allowOutsideClick: false
+    });
+
+    Swal.showLoading();
+
+    this.TeamsService.deleteTeam(team._id).then(res => {
+
+      Swal.fire({
+        title: 'Equipo borrado correctamente.',
+        icon: 'success'
+      });
+
+      //Reload Leagues info when delete is successful
+      this.TeamsService.getTeams().then((res:TeamModel[]) => {
+        this.teams = res;
+      });
+
+    })
+    .catch( (err: HttpErrorResponse) => {
+      console.error('Ann error occurred: ', err.error);
+      Swal.fire({
+        title: 'Error al borrar el equipo.',
+        icon: 'error'
+      });
+    });
+
 
   }
 

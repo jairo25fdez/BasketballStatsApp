@@ -109,70 +109,35 @@ export class UpdateteamFormComponent implements OnInit {
     }
     else{
       
+      Swal.fire({
+        title: 'Espere',
+        text: 'Guardando información',
+        icon: 'info',
+        allowOutsideClick: false
+      });
 
-      if(this.update){
+      Swal.showLoading();
 
-        Swal.fire({
-          title: 'Espere',
-          text: 'Guardando información',
-          icon: 'info',
-          allowOutsideClick: false
-        });
-  
-        Swal.showLoading();
-  
-        this.TeamsService.updateTeam(this.team).then( resp => {
-          //If the put success
-  
-          Swal.fire({
-            title: 'Equipo editado correctamente.',
-            icon: 'success'
-          });
-  
-        })
-        //If the update fails:
-        .catch( (err: HttpErrorResponse) => {
-          console.error('Ann error occurred: ', err.error);
-          console.log(err);
-          Swal.fire({
-            title: 'Error al editar el equipo.',
-            icon: 'error'
-          });
-        });
+      //Debo comprobar el id del club y liga que tengo para actualizar el resto de info: nombre del club, nombre de la liga... a partir de ese ID
 
-      }
-      else{
+      this.TeamsService.updateTeam(this.team).then( resp => {
+        //If the put success
 
         Swal.fire({
-          title: 'Espere',
-          text: 'Guardando información',
-          icon: 'info',
-          allowOutsideClick: false
+          title: 'Equipo editado correctamente.',
+          icon: 'success'
         });
-  
-        Swal.showLoading();
-  
-        this.TeamsService.createTeam(this.team).then(resp => {
-          //If the post success
-  
-          Swal.fire({
-            title: 'Equipo creado correctamente.',
-            icon: 'success'
-          });
-  
-        })
-        //If the post fails:
-        .catch( (err: HttpErrorResponse) => {
-          console.error('Ann error occurred: ', err.error);
-          Swal.fire({
-            title: 'Error al crear el equipo.',
-            text: 'Compruebe que no existe un equipo para el mismo club, liga y temporada.',
-            icon: 'error'
-          });
-        });
-      }
 
-      
+      })
+      //If the update fails:
+      .catch( (err: HttpErrorResponse) => {
+        console.error('Ann error occurred: ', err.error);
+        console.log(err);
+        Swal.fire({
+          title: 'Error al editar el equipo.',
+          icon: 'error'
+        });
+      });
 
     }
 

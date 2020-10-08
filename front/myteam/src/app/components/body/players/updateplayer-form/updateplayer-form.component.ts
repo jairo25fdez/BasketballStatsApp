@@ -1,64 +1,73 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
 
-//Servicios
+//Services
 import { LeaguesService } from '../../../../services/leagues.service';
 import { ClubsService } from '../../../../services/clubs.service';
-import { PlayersService } from '../../../../services/players.service';
+import { TeamsService } from '../../../../services/teams.service';
+import { PlayersService } from 'src/app/services/players.service';
 
 //Models
+import { ClubModel } from '../../../../models/club.model';
 import { LeagueModel } from '../../../../models/league.model';
-import { ClubModel } from 'src/app/models/club.model';
+import { TeamModel } from '../../../../models/team.model';
 import { PlayerModel } from 'src/app/models/player.model';
 
 
 @Component({
-  selector: 'app-newplayer-form',
-  templateUrl: './newplayer-form.component.html',
-  styleUrls: ['./newplayer-form.component.css']
+  selector: 'app-updateplayer-form',
+  templateUrl: './updateplayer-form.component.html',
+  styleUrls: ['./updateplayer-form.component.css']
 })
-export class NewplayerFormComponent implements OnInit {
+export class UpdateplayerFormComponent implements OnInit {
 
   formulario:FormGroup;
   leagues: LeagueModel[];
   clubs: ClubModel[];
+  league_teams:LeagueModel[] = [];
   player:PlayerModel = new PlayerModel();
 
-  constructor( private fb:FormBuilder, private leaguesService:LeaguesService, private clubsService:ClubsService, private playersService:PlayersService ) { 
+  constructor( private fb:FormBuilder, private LeaguesService:LeaguesService, private PlayersService:PlayersService, private route:ActivatedRoute, private ClubsService:ClubsService ) { 
 
-    this.leaguesService.getLeagues().then((res:LeagueModel[]) => {
+    this.LeaguesService.getLeagues().then((res:LeagueModel[]) => {
       this.leagues = res;
+
     });
 
-    this.clubsService.getClubs().then((res:ClubModel[]) => {
+    this.ClubsService.getClubs().then((res:ClubModel[]) => {
       this.clubs = res;
     });
 
-    this.createForm();
+    this.crearFormulario();
 
   }
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+
+    this.PlayersService.getPlayer(id).then((res:PlayerModel) => {
+      this.player = res;
+    });
   }
 
-  createForm(){
+  crearFormulario(){
 
     this.formulario = this.fb.group({
       name: ['', [Validators.required] ],
       last_name: ['', [Validators.required] ],
       email: ['', [Validators.email] ],
       birth_date: ['', Validators.required],
-      primary_position: ['', [Validators.required] ],
+      primary_position: ['', Validators.required],
       secondary_position: ['', ],
       phone: [''],
       weight: [''],
       height: [''],
       number: [''],
       actual_team: [''],
-      league: [''],
-      club: [''],
+      leagues: [''],
       league_teams: ['']
     });
 
@@ -81,8 +90,6 @@ export class NewplayerFormComponent implements OnInit {
   }
 
   guardar(){
-    
-    console.log("PLAYER: "+JSON.stringify(this.player));
 
     if(this.formulario.invalid){
 
@@ -102,7 +109,7 @@ export class NewplayerFormComponent implements OnInit {
 
       Swal.showLoading();
 
-      this.playersService.createPlayer(this.player).then(resp => {
+      this.PlayersService.updatePlayer(this.player).then(resp => {
         //If the post success
 
         Swal.fire({
@@ -124,5 +131,6 @@ export class NewplayerFormComponent implements OnInit {
     }
 
   }
+
 
 }

@@ -19,22 +19,18 @@ var playerSchema = new Schema({
     primary_position: {type: String, enum: ['Base', 'Escolta', 'Alero', 'Ala-Pívot', 'Pívot']},
     secondary_position: {type: String, enum: ['Base', 'Escolta', 'Alero', 'Ala-Pívot', 'Pívot']},
     number: {type: Number, min: 0, max: 99},
-    actual_team: {
-        club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
-        club_name: {type: String, required: true},
-        team_id: {type: Schema.Types.ObjectId, ref: 'League'},
-        team_name: {type: String},
-        season: {type: Number, required: true}
-    },
-    former_teams: [{
+    teams: [{
         _id: false,
         club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
         club_name: {type: String, required: true},
+        club_img: {type: String, required: true},
         team_id: {type: Schema.Types.ObjectId, ref: 'League', required: true},
         team_name: {type: String, required: true},
         season: {type: Number, required: true}
     }]
 });
+
+playerSchema.index( {name:1, birth_date:1}, { unique: true } );
 
 module.exports = mongoose.model('Player', playerSchema);
 

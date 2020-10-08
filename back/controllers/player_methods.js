@@ -44,8 +44,6 @@ module.exports = function (app){
     app.post(BASE_API_URL+"/players",(request,response) =>{
         let player_data = request.body;
 
-        console.log(player_data.birth_date);
-
         let player = new Player({
             name: player_data.name,
             last_name: player_data.last_name,
@@ -58,7 +56,7 @@ module.exports = function (app){
             weight: player_data.weight,
             height: player_data.height,
             primary_position: player_data.primary_position,
-            secondary_position: player_data.second_position,
+            secondary_position: player_data.secondary_position,
             number: player_data.number,
             actual_team: player_data.actual_team,
             former_teams: player_data.former_teams
@@ -97,7 +95,7 @@ module.exports = function (app){
     app.delete(BASE_API_URL+"/players/:player_id",(request,response) =>{
         var player_id = request.params.player_id;
 
-		Player.deleteOne({_id: pplayer_id}, function (err){
+		Player.deleteOne({_id: player_id}, function (err){
             if(err){
                 console.log("Error while trying to delete the player with id: "+player_id);
                 response.sendStatus(500);
