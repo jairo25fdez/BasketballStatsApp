@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 //Clubs components
 import { ClubsMenuComponent } from './components/body/clubs/clubs-menu/clubs-menu.component';
 import { ClubsListComponent } from './components/body/clubs/clubs-list/clubs-list.component';
+import { NewclubFormComponent } from './components/body/clubs/newclub-form/newclub-form.component';
 
 //Games components
 import { LiveGameComponent } from './components/body/game/live-game/live-game.component';
@@ -24,8 +25,8 @@ const routes: Routes = [
   {path: 'clubs', component: ClubsMenuComponent,
     children: [
       {path: 'clubs-list', component: ClubsListComponent},
-      //{path: 'new-club', component: NewClubFormComponent},
-      //{path: 'edit-club/:id', component: NewClubFormComponent},
+      {path: 'new-club', component: NewclubFormComponent},
+      {path: 'edit-club/:id', component: NewclubFormComponent},
       {path: '**', pathMatch: 'full', redirectTo: 'clubs-list'}
     ]
   },

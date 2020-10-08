@@ -1,0 +1,157 @@
+<div class="container-fluid no-gutters">
+
+    <div class="row no-gutters main-row overflow-auto addScroll">
+
+        
+        <form class="col-12 mt-3 p-3 " [formGroup]="formulario" (ngSubmit)="guardar()">
+    
+            <h4>Crear/Actualizar club</h4>
+            <hr>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Nombre</label>
+
+                <div class="col-8">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Nombre"
+                            formControlName="name"
+                            [class.is-invalid]="nameNoValid"
+                            [(ngModel)]="club.name">
+                    <small *ngIf="nameNoValid" class="text-danger">Ingrese un nombre</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Logo
+                    <a class="" *ngIf="exists_img" href="{{ club.img }}">Logo subido</a>
+                </label>
+
+                <div class="col-8">
+                    <input class="form-control"
+                            type="file"
+                            (change)="onFileSelected($event)">
+                    <button type="button" class="btn btn-primary w-100" (click)="uploadImage()">Subir imagen</button>
+                </div>
+                
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Acrónimo</label>
+
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Acrónimo"
+                            formControlName="acronym"
+                            [class.is-invalid]="acronymNoValid"
+                            [(ngModel)]="club.acronym">
+                    <small *ngIf="acronymNoValid" class="text-danger">Ingrese un acrónimo de 3 letras</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">País</label>
+
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="País"
+                            formControlName="country"
+                            [(ngModel)]="club.country">
+                    <small *ngIf="quartersnumNoValid" class="text-danger">Ingrese un país</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Ciudad</label>
+
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Ciudad"
+                            formControlName="city"
+                            [(ngModel)]="club.city">
+                    <small *ngIf="cityNoValid" class="text-danger">Ingrese una ciudad</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Localización</label>
+
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Localización"
+                            formControlName="location"
+                            [(ngModel)]="club.location">
+                    <small *ngIf="locationNoValid" class="text-danger">Ingrese una localización</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Estadio</label>
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Estadio"
+                            formControlName="stadium"
+                            [class.is-invalid]="stadiumNoValid"
+                            [(ngModel)]="club.stadium">
+                    <small *ngIf="stadiumNoValid" class="text-danger">Ingrese un estadio</small>
+                </div>
+                
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Teléfono de contacto</label>
+                <div class="col-8  align-items-center">
+    
+                <input class="form-control"
+                        type="number"
+                        placeholder="Teléfono"
+                        formControlName="phone"
+                        [class.is-invalid]="phoneNoValid"
+                        [(ngModel)]="club.phone">
+                <small *ngIf="phoneNoValid" class="text-danger">Ingrese un teléfono</small>
+                </div>
+            </div>
+
+            <div class="form-group row no-gutters">
+
+                <label class="col-2 col-form-label">Email</label>
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="email"
+                            placeholder="Email"
+                            formControlName="email"
+                            [class.is-invalid]="emailNoValid"
+                            [(ngModel)]="club.email">
+                    <small *ngIf="emailNoValid" class="text-danger">Ingrese un email</small>
+                </div>
+
+            </div>
+
+    
+            <div class="form-group row">
+                <label class="col-2 col-form-label">&nbsp;</label>
+                <div class="input-group col-md-8">
+                <button type="submit" class="btn btn-primary w-100">
+                    Guardar
+                </button>
+                </div>
+            </div>
+    
+        </form>
+    
+        
+    </div>
+    
+</div>

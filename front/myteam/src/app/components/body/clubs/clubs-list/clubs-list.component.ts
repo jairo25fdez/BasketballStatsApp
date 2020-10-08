@@ -50,4 +50,40 @@ export class ClubsListComponent implements OnInit {
 
   }
 
+  deleteClub(club: ClubModel){
+
+
+    Swal.fire({
+      title: 'Espere',
+      text: 'Borrando liga',
+      icon: 'info',
+      allowOutsideClick: false
+    });
+
+    Swal.showLoading();
+
+    this.ClubsService.deleteClub(club._id).then(res => {
+
+      Swal.fire({
+        title: 'Club borrado correctamente.',
+        icon: 'success'
+      });
+
+      //Reload Leagues info when delete is successful
+      this.ClubsService.getClubs().then((res:ClubModel[]) => {
+        this.clubs = res;
+      });
+
+    })
+    .catch( (err: HttpErrorResponse) => {
+      console.error('Ann error occurred: ', err.error);
+      Swal.fire({
+        title: 'Error al borrar el club.',
+        icon: 'error'
+      });
+    });
+
+
+  }
+
 }

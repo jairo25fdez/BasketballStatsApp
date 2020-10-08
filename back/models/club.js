@@ -33,7 +33,8 @@ var clubSchema = new Schema({
         team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
         team_name: {type: String, required: true},
         league_id: {type: Schema.Types.ObjectId, ref: 'League', required: true},
-        league_name: {type: String, required: true}
+        league_name: {type: String, required: true},
+        active: {type: Boolean, required: true}
     }],
     phone: Number,
     email: String

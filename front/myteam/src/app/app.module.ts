@@ -36,6 +36,7 @@ import { LeaguesViewComponent } from './components/body/leagues/leagues-view/lea
 //Clubs
 import { ClubsMenuComponent } from './components/body/clubs/clubs-menu/clubs-menu.component';
 import { ClubsListComponent } from './components/body/clubs/clubs-list/clubs-list.component';
+import { NewclubFormComponent } from './components/body/clubs/newclub-form/newclub-form.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ClubsListComponent } from './components/body/clubs/clubs-list/clubs-lis
     PlayersMenuComponent,
     PlayersViewComponent,
     ClubsMenuComponent,
-    ClubsListComponent
+    ClubsListComponent,
+    NewclubFormComponent
   ],
   imports: [
     BrowserModule,

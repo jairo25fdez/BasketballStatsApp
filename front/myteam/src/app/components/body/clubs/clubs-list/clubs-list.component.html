@@ -1,4 +1,5 @@
  <div class="row no-gutters">
+
     <form class="col mt-1 p-3 d-flex" [formGroup]="form">
 
     
@@ -24,20 +25,7 @@
             </div>
             
         </div>
-
-        <div class="form-group d-flex col-4 no-gutters">
-
-            <label class="col-3 col-form-label">Equipo</label>
-            <div class="col-8">
-                <select class="custom-select" formControlName="teams">
-                    <option *ngFor="let club of leagues" value="{{club_id}}">{{club.club_name}}</option>
-                </select>
-            </div>
-            
-        </div>
-
-        
-        
+  
 
     </form>
 
@@ -52,16 +40,16 @@
             <div class="card col-5 m-3 text-center w-100 pr-0 p-3" *ngFor="let club of clubs; index as club_index;" value="{{club_index}}">
 
                 <div class="row no-gutters w-100 h-100">
-                    <div class="flex-column col-6">
+                    <div class="flex-column col-6 ">
                         <img class="card-img-top w-75" src="{{club.img}}">
                         
-                        <div class="card-body">
+                        <div class="card-body pt-0 pb-0">
                             <h5 class="card-title">{{club.name}}</h5>
                         </div>
                     </div>
-                    <div class="flex-column col-6 h-75 ">
-                        <button type="button" class="btn btn-warning h-50 w-100" [routerLink]="['../edit-club', club._id]">Editar</button>
-                        <button type="button" class="btn btn-danger h-50 w-100" (click)="deleteClub(club)">Eliminar</button>
+                    <div class="flex-column col-6">
+                        <button type="button" class="btn btn-warning  w-100" [routerLink]="['../edit-club', club._id]">Editar</button>
+                        <button type="button" class="btn btn-danger w-100" (click)="deleteClub(club)">Eliminar</button>
                     </div>
 
                 </div>
