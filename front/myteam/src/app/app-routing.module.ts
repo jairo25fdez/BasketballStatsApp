@@ -24,6 +24,7 @@ import { LeaguesMenuComponent } from './components/body/leagues/menu/leagues-men
 import { TeamsMenuComponent } from './components/body/teams/teams-menu/teams-menu.component';
 import { TeamsListComponent } from './components/body/teams/teams-list/teams-list.component';
 import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
+import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
 
 const routes: Routes = [
   //Clubs routes
@@ -51,7 +52,7 @@ const routes: Routes = [
     children: [
         {path: 'new-team', component: NewteamFormComponent},
         {path: 'teams-list', component: TeamsListComponent},
-        {path: 'edit-team/:id', component: NewteamFormComponent},
+        {path: 'edit-team/:id', component: UpdateteamFormComponent},
         {path: '**', pathMatch: 'full', redirectTo: 'teams-list'}
       ]
     },

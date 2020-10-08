@@ -14,15 +14,12 @@ import { ClubModel } from '../../../../models/club.model';
 import { LeagueModel } from '../../../../models/league.model';
 import { TeamModel } from '../../../../models/team.model';
 
-
-
-
 @Component({
-  selector: 'app-newteam-form',
-  templateUrl: './newteam-form.component.html',
-  styleUrls: ['./newteam-form.component.css']
+  selector: 'app-updateteam-form',
+  templateUrl: './updateteam-form.component.html',
+  styleUrls: ['./updateteam-form.component.css']
 })
-export class NewteamFormComponent implements OnInit {
+export class UpdateteamFormComponent implements OnInit {
 
   formulario: FormGroup;
   team:TeamModel = new TeamModel();
@@ -46,6 +43,12 @@ export class NewteamFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    const id = this.route.snapshot.paramMap.get('id');
+
+    this.TeamsService.getTeam(id).then((res:TeamModel) => {
+      this.team = res;
+    });
 
 
   }
@@ -105,8 +108,6 @@ export class NewteamFormComponent implements OnInit {
 
     }
     else{
-
-      console.log("TEAM: "+JSON.stringify(this.team));
       
 
       if(this.update){

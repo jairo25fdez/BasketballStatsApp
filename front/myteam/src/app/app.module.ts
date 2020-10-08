@@ -41,6 +41,7 @@ import { NewclubFormComponent } from './components/body/clubs/newclub-form/newcl
 import { TeamsMenuComponent } from './components/body/teams/teams-menu/teams-menu.component';
 import { TeamsListComponent } from './components/body/teams/teams-list/teams-list.component';
 import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
+import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { NewteamFormComponent } from './components/body/teams/newteam-form/newte
     NewclubFormComponent,
     TeamsMenuComponent,
     TeamsListComponent,
-    NewteamFormComponent
+    NewteamFormComponent,
+    UpdateteamFormComponent
   ],
   imports: [
     BrowserModule,

@@ -13,9 +13,9 @@
                 <label class="col-2 col-form-label">Club</label>
 
                 <div class="col-8">
-                    <select class="form-control" formControlName="club" >
+                    <select class="form-control" formControlName="club" [(ngModel)]="team.club.club_name">
                         <option disabled value="null">Club al que pertenece el Equipo</option>
-                        <option *ngFor="let club of clubs" value="{{club.name}}" >{{club.name}}</option>
+                        <option *ngFor="let club of clubs" value="{{club.name}}" [selected]="club._id == team.club.club_id">{{club.name}}</option>
                     </select>
                     
                     <small *ngIf="clubNoValid" class="text-danger mr-3">Ingrese un club</small>
@@ -28,9 +28,9 @@
                 <label class="col-2 col-form-label">Liga</label>
 
                 <div class="col-8">
-                    <select class="form-control" formControlName="league" (change)="setLeague()" >
+                    <select class="form-control" formControlName="league" (change)="setLeague()" [(ngModel)]="team.league.league_name">
                         <option disabled value="null">Liga en la que compite el Equipo</option>
-                        <option *ngFor="let league of leagues" value="{{league.name}}">{{league.name}}</option>
+                        <option *ngFor="let league of leagues" value="{{league.name}}" [selected]="league._id == team.league.league_id">{{league.name}}</option>
                     </select>
                     <small *ngIf="leagueNoValid" class="text-danger mr-3">Ingrese una liga</small>
                 </div>
