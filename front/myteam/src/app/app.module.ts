@@ -11,6 +11,7 @@ import {ReactiveFormsModule} from '@angular/forms'; //Forms
 import { LeaguesService } from './services/leagues.service';
 import { ImagesService } from './services/images.service';
 import { ClubsService } from './services/clubs.service';
+import { TeamsService } from './services/teams.service';
 
 
 //Components
@@ -37,6 +38,9 @@ import { LeaguesViewComponent } from './components/body/leagues/leagues-view/lea
 import { ClubsMenuComponent } from './components/body/clubs/clubs-menu/clubs-menu.component';
 import { ClubsListComponent } from './components/body/clubs/clubs-list/clubs-list.component';
 import { NewclubFormComponent } from './components/body/clubs/newclub-form/newclub-form.component';
+import { TeamsMenuComponent } from './components/body/teams/teams-menu/teams-menu.component';
+import { TeamsListComponent } from './components/body/teams/teams-list/teams-list.component';
+import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,10 @@ import { NewclubFormComponent } from './components/body/clubs/newclub-form/newcl
     PlayersViewComponent,
     ClubsMenuComponent,
     ClubsListComponent,
-    NewclubFormComponent
+    NewclubFormComponent,
+    TeamsMenuComponent,
+    TeamsListComponent,
+    NewteamFormComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +77,8 @@ import { NewclubFormComponent } from './components/body/clubs/newclub-form/newcl
   providers: [
     LeaguesService,
     ImagesService,
-    ClubsService
+    ClubsService,
+    TeamsService
   ],
   bootstrap: [AppComponent]
 })

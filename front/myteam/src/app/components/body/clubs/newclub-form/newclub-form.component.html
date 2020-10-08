@@ -62,7 +62,7 @@
                             placeholder="País"
                             formControlName="country"
                             [(ngModel)]="club.country">
-                    <small *ngIf="quartersnumNoValid" class="text-danger">Ingrese un país</small>
+                    <small *ngIf="countryNoValid" class="text-danger">Ingrese un país</small>
                 </div>
 
             </div>
@@ -118,9 +118,7 @@
                         type="number"
                         placeholder="Teléfono"
                         formControlName="phone"
-                        [class.is-invalid]="phoneNoValid"
                         [(ngModel)]="club.phone">
-                <small *ngIf="phoneNoValid" class="text-danger">Ingrese un teléfono</small>
                 </div>
             </div>
 

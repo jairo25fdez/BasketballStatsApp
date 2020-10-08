@@ -1,0 +1,88 @@
+<div class="container-fluid no-gutters">
+
+    <div class="row no-gutters main-row overflow-auto addScroll">
+
+        
+        <form class="col-12 mt-3 p-3 " [formGroup]="formulario" (ngSubmit)="guardar()">
+    
+            <h4>Crear/Actualizar equipo</h4>
+            <hr>
+
+            <div class="form-group row no-gutters">
+
+                <label class="col-2 col-form-label">Club</label>
+
+                <div class="col-8">
+                    <select class="form-control" formControlName="club" [(ngModel)]="team.club.club_name">
+                        <option disabled value="null">Club al que pertenece el Equipo</option>
+                        <option *ngFor="let club of clubs" value="{{club.name}}" [selected]="club._id == team.club.club_id">{{club.name}}</option>
+                    </select>
+                    
+                    <small *ngIf="clubNoValid" class="text-danger mr-3">Ingrese un club</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                
+                <label class="col-2 col-form-label">Liga</label>
+
+                <div class="col-8">
+                    <select class="form-control" formControlName="league" (change)="setLeague()" [(ngModel)]="team.league.league_name">
+                        <option disabled value="null">Liga en la que compite el Equipo</option>
+                        <option *ngFor="let league of leagues" value="{{league.name}}" [selected]="league._id == team.league.league_id">{{league.name}}</option>
+                    </select>
+                    <small *ngIf="leagueNoValid" class="text-danger mr-3">Ingrese una liga</small>
+                </div>
+
+            </div>
+
+            
+
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Temporada</label>
+
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="number"
+                            placeholder="Temporada en la que termina de competir el equipo (ej: 2021)"
+                            formControlName="season"
+                            [class.is-invalid]="seasonNoValid"
+                            [(ngModel)]="team.season">
+                    <small *ngIf="seasonNoValid" class="text-danger">Ingrese una temporada con un número de 4 cifras</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Coach</label>
+
+                <div class="col-8  align-items-center">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Nombre del entrenador"
+                            formControlName="coach"
+                            [class.is-invalid]="coachNoValid"
+                            [(ngModel)]="team.coach">
+                    <small *ngIf="coachNoValid" class="text-danger">Ingrese el nombre del entrenador</small>
+                </div>
+
+            </div>
+
+    
+            <div class="form-group row">
+                <label class="col-2 col-form-label">&nbsp;</label>
+                <div class="input-group col-md-8">
+                <button type="submit" class="btn btn-primary w-100">
+                    Guardar
+                </button>
+                </div>
+            </div>
+    
+        </form>
+    
+        
+    </div>
+    
+</div>

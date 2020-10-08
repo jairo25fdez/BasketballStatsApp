@@ -20,6 +20,11 @@ import { NewleagueFormComponent } from './components/body/leagues/newleague-form
 import { LeaguesViewComponent } from './components/body/leagues/leagues-view/leagues-view.component';
 import { LeaguesMenuComponent } from './components/body/leagues/menu/leagues-menu.component';
 
+//Teams components
+import { TeamsMenuComponent } from './components/body/teams/teams-menu/teams-menu.component';
+import { TeamsListComponent } from './components/body/teams/teams-list/teams-list.component';
+import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
+
 const routes: Routes = [
   //Clubs routes
   {path: 'clubs', component: ClubsMenuComponent,
@@ -39,6 +44,15 @@ const routes: Routes = [
         {path: 'new-player', component: NewplayerFormComponent},
         {path: 'players-view', component: PlayersViewComponent},
         {path: '**', pathMatch: 'full', redirectTo: 'players-view'}
+      ]
+    },
+    //Teams routes
+    {path: 'teams', component: TeamsMenuComponent,
+    children: [
+        {path: 'new-team', component: NewteamFormComponent},
+        {path: 'teams-list', component: TeamsListComponent},
+        {path: 'edit-team/:id', component: NewteamFormComponent},
+        {path: '**', pathMatch: 'full', redirectTo: 'teams-list'}
       ]
     },
   //Leagues routes

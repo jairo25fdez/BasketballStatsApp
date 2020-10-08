@@ -3,6 +3,7 @@ export class ClubModel{
     name: string;
     img: string;
     acronym: string;
+    country: string;
     city: string;
     location: string;
     stadium: string;
