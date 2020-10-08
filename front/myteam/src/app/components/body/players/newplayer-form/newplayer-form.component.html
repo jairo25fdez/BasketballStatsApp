@@ -82,7 +82,7 @@
             <div class="form-group row no-gutters">
                 <label class="col-2 col-form-label">Posición secundaria</label>
                 <div class="col-md-8">
-                    <select class="form-control" formControlName="secondary_position" [class.is-invalid]="secondarypositionNoValid" [(ngModel)]="player.secondary_position">
+                    <select class="form-control" formControlName="secondary_position" [(ngModel)]="player.secondary_position">
                         <option disabled>Posición secundaria</option>
                         <option value="Base">Base</option>
                         <option value="Escolta">Escolta</option>
@@ -90,7 +90,6 @@
                         <option value="Ala-Pívot">Ala-Pívot</option>
                         <option value="Pívot">Pívot</option>
                     </select>
-                    <small *ngIf="secondarypositionNoValid" class="text-danger">Ingrese una posición</small>
                 </div>
                 
             </div>
@@ -102,9 +101,7 @@
                             type="number"
                             placeholder="Peso (kg)"
                             formControlName="weight"
-                            [class.is-invalid]="weightNoValid"
                             [(ngModel)]="player.weight">
-                    <small *ngIf="weightNoValid" class="text-danger">Ingrese un peso</small>
                 </div>
             </div>
     
@@ -115,9 +112,7 @@
                             type="number"
                             placeholder="Altura (cm)"
                             formControlName="height"
-                            [class.is-invalid]="heightNoValid"
                             [(ngModel)]="player.height">
-                    <small *ngIf="heightNoValid" class="text-danger">Ingrese una altura</small>
                 </div>
             </div>
     
@@ -129,7 +124,6 @@
                         <option disabled>Liga del Equipo</option>
                         <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
                     </select>
-                    <small *ngIf="weightNoValid" class="text-danger">Ingrese una liga</small>
                 </div>
                 
             </div>
@@ -154,9 +148,7 @@
                         type="number"
                         placeholder="Dorsal"
                         formControlName="number"
-                        [class.is-invalid]="numberNoValid"
                         [(ngModel)]="player.number">
-                        <small *ngIf="weightNoValid" class="text-danger">Ingrese un dorsal</small>
                 </div>
             </div>
 

@@ -49,7 +49,7 @@ export class NewplayerFormComponent implements OnInit {
       name: ['', [Validators.required] ],
       last_name: ['', [Validators.required] ],
       email: ['', [Validators.email] ],
-      birth_date: ['', Validators.required],
+      birth_date: ['', [Validators.required]],
       primary_position: ['', [Validators.required] ],
       secondary_position: ['', ],
       phone: [''],
@@ -57,8 +57,8 @@ export class NewplayerFormComponent implements OnInit {
       height: [''],
       number: [''],
       actual_team: [''],
-      league: [''],
-      club: [''],
+      league: ['', [Validators.required]],
+      club: ['', [Validators.required]],
       league_teams: ['']
     });
 
@@ -68,12 +68,28 @@ export class NewplayerFormComponent implements OnInit {
     return this.formulario.get('name').invalid && this.formulario.get('name').touched;
   }
 
+  get emailNoValid(){
+    return this.formulario.get('email').invalid && this.formulario.get('email').touched;
+  }
+
   get lastnameNoValid(){
     return this.formulario.get('last_name').invalid && this.formulario.get('last_name').touched;
   }
 
   get birthdateNoValid(){
     return this.formulario.get('birth_date').invalid && this.formulario.get('birth_date').touched;
+  }
+
+  get primarypositionNoValid(){
+    return this.formulario.get('primary_position').invalid && this.formulario.get('primary_position').touched;
+  }
+
+  get secondarypositionNoValid(){
+    return this.formulario.get('secondary_position').invalid && this.formulario.get('secondary_position').touched;
+  }
+
+  get phoneNoValid(){
+    return this.formulario.get('phone').invalid && this.formulario.get('phone').touched;
   }
 
   setLeague(){ //CAMBIAR

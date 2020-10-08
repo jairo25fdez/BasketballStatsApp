@@ -60,15 +60,15 @@ export class UpdateplayerFormComponent implements OnInit {
       last_name: ['', [Validators.required] ],
       email: ['', [Validators.email] ],
       birth_date: ['', Validators.required],
-      primary_position: ['', Validators.required],
+      primary_position: ['', [Validators.required] ],
       secondary_position: ['', ],
       phone: [''],
       weight: [''],
       height: [''],
       number: [''],
       actual_team: [''],
-      leagues: [''],
-      league_teams: ['']
+      league: ['', Validators.required],
+      club: ['', Validators.required]
     });
 
   }
@@ -81,8 +81,24 @@ export class UpdateplayerFormComponent implements OnInit {
     return this.formulario.get('last_name').invalid && this.formulario.get('last_name').touched;
   }
 
+  get emailNoValid(){
+    return this.formulario.get('email').invalid && this.formulario.get('email').touched;
+  }
+
   get birthdateNoValid(){
     return this.formulario.get('birth_date').invalid && this.formulario.get('birth_date').touched;
+  }
+
+  get primarypositionNoValid(){
+    return this.formulario.get('primary_position').invalid && this.formulario.get('primary_position').touched;
+  }
+
+  get leagueNoValid(){
+    return this.formulario.get('league').invalid && this.formulario.get('league').touched;
+  }
+
+  get clubNoValid(){
+    return this.formulario.get('club').invalid && this.formulario.get('club').touched;
   }
 
   setLeague(){ //CAMBIAR
