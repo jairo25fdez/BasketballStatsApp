@@ -11,7 +11,7 @@
 
                 <label class="col-2 col-form-label">Liga</label>
                 <div class="col-md-8">
-                    <select class="form-control" formControlName="game_league" >
+                    <select class="form-control" formControlName="game_league" [(ngModel)]="game.league">
                         <option disabled>Liga a la que pertenece el partido</option>
                         <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
                     </select>
@@ -29,7 +29,7 @@
                         type="date"
                         placeholder="Fecha del partido"
                         formControlName="game_date"
-                        [(ngModel)]="game_date">
+                        [(ngModel)]="game.date">
                 </div>
             </div>
 
@@ -40,8 +40,8 @@
                     <input class="form-control"
                             type="number"
                             placeholder="Año en la que finaliza la liga (ej: 2021 para temporada 2020/2021)"
-                            formControlName="season"
-                            [(ngModel)]="season">
+                            formControlName="game_season"
+                            [(ngModel)]="game.season">
                     <small class="text-info">Dejar en blanco en caso de ser amistoso</small>
                 </div>
             </div>

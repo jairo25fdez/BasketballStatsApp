@@ -43,11 +43,11 @@ var gameSchema = new Schema({
     overtime_count: Number,
     stats: {
         home_team_stats:{
-            team_stats: {team_stats_gameSchema},
+            //team_stats: {team_stats_gameSchema},
             player_stats: [player_stats_gameSchema]
         },
         visitor_team_stats:{
-            team_stats: {team_stats_gameSchema},
+            //team_stats: {team_stats_gameSchema},
             player_stats: [player_stats_gameSchema]
         } 
     },

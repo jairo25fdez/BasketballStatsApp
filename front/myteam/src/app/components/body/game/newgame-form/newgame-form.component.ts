@@ -11,6 +11,7 @@ import { LeaguesService } from '../../../../services/leagues.service';
 import { ClubsService } from '../../../../services/clubs.service';
 import { PlayersService } from '../../../../services/players.service';
 import { PlayerModel } from '../../../../models/player.model';
+import { GameModel } from '../../../../models/game.model';
 
 @Component({
   selector: 'app-newgame-form',
@@ -23,10 +24,9 @@ export class NewgameFormComponent implements OnInit {
   
   league_selected = false;
 
+  game:GameModel = new GameModel;
   leagues:LeagueModel[];
   clubs:ClubModel[];
-
-  game_date:Date;
 
   selected_home_players = 0;
   selected_home_players_5i = 0;
@@ -94,7 +94,7 @@ export class NewgameFormComponent implements OnInit {
     this.form = this.fb.group({
       game_league: ['', [Validators.required] ],
       game_date: ['', ],
-      season: ['', Validators.required]
+      game_season: ['', Validators.required]
     });
 
   }

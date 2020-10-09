@@ -29,8 +29,14 @@ module.exports = function (app){
         });
     });
 
-    //GET every Club in DB.
+    //GET every Club in DB (include filters).
     app.get(BASE_API_URL+"/clubs",(request,response) =>{
+
+        
+        //If we receive a query.
+        if(Object.keys(request.query).length > 0){
+            console.log(request.query);
+        }
 
         Club.find({}, /*{_id: 0},*/ function (err, clubs){
             if(err){

@@ -1,15 +1,16 @@
+
+
 module.exports = function (app){
 
     const path = require('path');
     const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
+    //import aqp from 'api-query-params';
+    const aqp = require('api-query-params');
+
     const BASE_API_URL = "/api/v1";
 
-    /*
-    const teamModule = require(path.join(__dirname, '/../models/team.js'));
-    const Team = teamModule.TeamModel;
-    */
    const Team = require(path.join(__dirname, '/../models/team.js'));
 
     //Get DB data.
@@ -29,17 +30,25 @@ module.exports = function (app){
         });
     });
 
-    //GET every Team in DB.
+    //GET every Team in DB with filters.
     app.get(BASE_API_URL+"/teams",(request,response) =>{
 
-        Team.find({}, /*{_id: 0},*/ function (err, teams){
-            if(err){
-                console.log("Error while trying to receive the list of teams.");
-            }
-            else{
-                response.send(JSON.stringify(teams,null,2));
-            }
-        });
+        const { filter, skip, limit, sort, projection, population } = aqp(request.query);
+
+        Team.find(filter)
+            .skip(skip)
+            .limit(limit)
+            .sort(sort)
+            .select(projection)
+            .populate(population)
+            .exec((err, users) => {
+                if (err) {
+                    console.log(err);
+                    response.sendStatus(500);
+                }
+
+                response.send(users);
+            });
 
     });
 

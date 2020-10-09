@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/jairo25fdez/BasketballStatsApp#readme",
   "dependencies": {
+    "api-query-params": "^5.0.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.23.0",
