@@ -14,8 +14,8 @@ export class TeamsService{
 
     //Methods that work with the whole collection.
 
-    getTeams(){
-        return this.http.get(this.teamsUrl).toPromise();
+    getTeams(search=""){
+        return this.http.get(this.teamsUrl+search).toPromise();
     }
 
     deleteTeams(){

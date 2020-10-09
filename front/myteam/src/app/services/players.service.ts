@@ -13,8 +13,8 @@ export class PlayersService{
 
     //Players collection
 
-    getPlayers(){
-        return this.http.get(this.playersUrl).toPromise();
+    getPlayers(search=""){
+        return this.http.get(this.playersUrl+search).toPromise();
     }
 
     deletePlayers(){

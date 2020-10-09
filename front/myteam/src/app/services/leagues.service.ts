@@ -14,8 +14,8 @@ export class LeaguesService{
 
     //Methods that work with the whole collection.
 
-    async getLeagues(){
-        return this.http.get(this.leaguesUrl).toPromise();
+    getLeagues(search=""){
+        return this.http.get(this.leaguesUrl+search).toPromise();
     }
 
     deleteLeagues(){

@@ -13,8 +13,8 @@ export class ClubsService{
 
     //Clubs collection
 
-    getClubs(){
-        return this.http.get(this.clubsUrl).toPromise();
+    getClubs(search = ""){
+        return this.http.get(this.clubsUrl+search).toPromise();
     }
 
     deleteClubs(){
