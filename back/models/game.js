@@ -17,29 +17,39 @@ var gameSchema = new Schema({
     home_team: {
         club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
         club_name: {type: String, required: true},
+        club_img: {type: String, required: true},
         team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true}
     },
     visitor_team: {
         club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
         club_name: {type: String, required: true},
+        club_img: {type: String, required: true},
         team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true}
     },
     home_team_score: Number,
     visitor_team_score: Number,
     winner_team: {
         team_id: {type: Schema.Types.ObjectId, ref: 'Team'},
-        club_name: {type: String}
+        club_name: {type: String, required: true},
+        club_img: {type: String, required: true}
     },
     loser_team: {
         team_id: {type: Schema.Types.ObjectId, ref: 'Team'},
-        club_name: {type: String}
+        club_name: {type: String, required: true},
+        club_img: {type: String, required: true}
     },
     minutes_played: Number,
     overtime: Boolean,
     overtime_count: Number,
-    boxscore: {
-        home_team_boxscore: [player_stats_gameSchema],
-        visitor_team_boxscore: [player_stats_gameSchema]
+    stats: {
+        home_team_stats:{
+            team_stats: {team_stats_gameSchema},
+            player_stats: [player_stats_gameSchema]
+        },
+        visitor_team_stats:{
+            team_stats: {team_stats_gameSchema},
+            player_stats: [player_stats_gameSchema]
+        } 
     },
     play_by_play: [playSchema]
 });

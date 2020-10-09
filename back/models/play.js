@@ -6,15 +6,18 @@ var playSchema = new Schema({
         player_id: {type: Schema.Types.ObjectId, ref: 'Player', required: true},
         player_name: String
     },
-    club: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
-    time: {type: String},
+    team: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
+    time: {
+        minute: Number,
+        second: Number
+    },
     period: {type: Number, min: 1, required: true},
     type: {type: String, enum: ['shoot', 'rebound', 'assist', 'steal', 'lost_ball', 'block', 'personal_foul', 'sustitution'], required: true },
     //Shot data
-    shoot_type: {type: String, enum: ['ft', 'fg']},
-    shoot_position: {type: String, enum: ['lc3', 'le3', 'c3', 're3', 'rc3', 'lmc2', 'lme2', 'cm2', 'rme2', 'rmc2', 'lp2', 'cp2', 'rp2']},
-    shoot_made: Boolean, //true if the shot was made, false if the shot was missed
-    assisted_shoot: Boolean, //true if the shot was assisted, false if not.
+    shot_type: {type: String, enum: ['ft', 'fg']},
+    shot_position: {type: String, enum: ['lc3', 'le3', 'c3', 're3', 'rc3', 'lmc2', 'lme2', 'cm2', 'rme2', 'rmc2', 'lp2', 'cp2', 'rp2']},
+    shot_made: Boolean, //true if the shot was made, false if the shot was missed
+    assisted_shot: Boolean, //true if the shot was assisted, false if not.
     //Rebound data
     rebound_type: {type: String, enum:['offensive', 'defensive']},
     //Sustitution data

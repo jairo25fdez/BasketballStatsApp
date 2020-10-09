@@ -44,6 +44,7 @@ import { TeamsListComponent } from './components/body/teams/teams-list/teams-lis
 import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
 import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
 import { UpdateplayerFormComponent } from './components/body/players/updateplayer-form/updateplayer-form.component';
+import { NewgameFormComponent } from './components/body/game/newgame-form/newgame-form.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { UpdateplayerFormComponent } from './components/body/players/updateplaye
     TeamsListComponent,
     NewteamFormComponent,
     UpdateteamFormComponent,
-    UpdateplayerFormComponent
+    UpdateplayerFormComponent,
+    NewgameFormComponent
   ],
   imports: [
     BrowserModule,

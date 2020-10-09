@@ -18,14 +18,19 @@ var shots_listSchema = new Schema({
     rme2: zone_shotsSchema,
     rmc2: zone_shotsSchema,
     lp2: zone_shotsSchema,
-    cp2: zone_shotsSchema,
-    rp2: zone_shotsSchema
+    rp2: zone_shotsSchema,
+    lft2: zone_shotsSchema,
+    rft2: zone_shotsSchema
 });
 
 var player_stats_gameSchema = new Schema({
+    player_id: {type: Schema.Types.ObjectId, ref: 'Player', required: true},
     player_name: String,
     player_lastName: String,
-    minutes_played: Date, //We will use HH:mm.
+    time_played: {
+        minutes: Number,
+        seconds: Number
+    }, //We will use HH:mm.
     points: {type: Number, min: 0},
     t2_made: {type: Number, min: 0},
     t2_attempted: {type: Number, min: 0},

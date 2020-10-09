@@ -1,0 +1,173 @@
+<div class="container-fluid no-gutters">
+
+    <div class="row no-gutters main-row overflow-auto addScroll">
+
+        <form class="col-12 mt-3 p-3 " [formGroup]="form" (ngSubmit)="guardar()">
+
+            <h4>Crear partido</h4>
+
+            <!-- Game League -->
+            <div class="form-group row no-gutters">
+
+                <label class="col-2 col-form-label">Liga</label>
+                <div class="col-md-8">
+                    <select class="form-control" formControlName="game_league" >
+                        <option disabled>Liga a la que pertenece el partido</option>
+                        <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
+                    </select>
+                    <small class="text-info">Dejar en blanco en caso de ser amistoso</small>
+                </div>
+                
+            </div>
+
+            <!-- Game Date -->
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Fecha del partido</label>
+                <div class="col-8">
+    
+                <input class="form-control"
+                        type="date"
+                        placeholder="Fecha del partido"
+                        formControlName="game_date"
+                        [(ngModel)]="game_date">
+                </div>
+            </div>
+
+            <!-- Game Season -->
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Temporada</label>
+                <div class="col-md-8">
+                    <input class="form-control"
+                            type="number"
+                            placeholder="Año en la que finaliza la liga (ej: 2021 para temporada 2020/2021)"
+                            formControlName="season"
+                            [(ngModel)]="season">
+                    <small class="text-info">Dejar en blanco en caso de ser amistoso</small>
+                </div>
+            </div>
+
+            <!-- Teams Div -->
+            <div class="row no-gutters mt-5">
+
+                <!-- Home Team -->
+                <div class="col home_team text-center">
+                    <h5 class="text-center">Equipo Local</h5>
+
+                    <div class="form-group row no-gutters">
+
+                        <label class="col-2 col-form-label">Club</label>
+                        <div class="col-md-8">
+                            <select class="form-control" formControlName="home_club" >
+                                <option disabled>Club local</option>
+                                <option *ngFor="let club of clubs" value="{{club._id}}">{{club.name}}</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group row no-gutters" *ngIf="!league_selected">
+
+                        <label class="col-2 col-form-label">Liga</label>
+                        <div class="col-md-8">
+                            <select class="form-control" formControlName="home_team_league" >
+                                <option disabled>Liga a la que pertenece el equipo</option>
+                                <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                    <!--Home Players Table -->
+                    <div class="row no-gutters">
+                        <table class="table table-bordered table-dark table-striped table-hover">
+                            <thead class="thead-dark">
+                                <tr class="text-center">
+                                  <th scope="col">Dorsal</th>
+                                  <th scope="col">Jugador</th>
+                                  <th scope="col">Convocado</th>
+                                  <th scope="col">5i</th>
+                              </tr>
+                            </thead>
+                            <tr *ngFor="let player of home_team_players" class="text-center">
+                                <th>{{ player.number }}</th>
+                                <th>{{ player.name }} {{ player.last_name }}</th>
+                                <td ><input #checkBoxPlayer class="w-100" type="checkbox" name="home_player" (change)="checkHomePlayers($event, this.checkBoxPlayer.name)"></td>
+                                <td ><input #checkBox5i class="w-100" type="checkbox" name="home_player_5i" value="{{player._id}}" (change)="checkHomePlayers($event, this.checkBox5i.name)"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    
+
+                </div>
+
+                <div class="col-1"></div>
+
+                <!-- Visitor Team-->
+                <div class="col visitor_team text-center">
+                    <h5 class="text-center">Equipo Visitante</h5>
+
+                    <div class="form-group row no-gutters">
+
+                        <label class="col-2 col-form-label">Club</label>
+                        <div class="col-md-8">
+                            <select class="form-control" formControlName="home_club" >
+                                <option disabled>Club local</option>
+                                <option *ngFor="let club of clubs" value="{{club._id}}">{{club.name}}</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group row no-gutters" *ngIf="!league_selected">
+
+                        <label class="col-2 col-form-label">Liga</label>
+                        <div class="col-md-8">
+                            <select class="form-control" formControlName="visitor_team_league" >
+                                <option disabled>Liga a la que pertenece el equipo</option>
+                                <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Visitor Players Table -->
+                    <div class="row no-gutters">
+                        <table class="table table-bordered table-dark table-striped table-hover">
+                            <thead class="thead-dark">
+                                <tr class="text-center">
+                                  <th scope="col">Dorsal</th>
+                                  <th scope="col">Jugador</th>
+                                  <th scope="col">Convocado</th>
+                                  <th scope="col">5i</th>
+                              </tr>
+                            </thead>
+                            <tr *ngFor="let player of visitor_team_players" class="text-center">
+                                <th>{{ player.number }}</th>
+                                <th>{{ player.name }} {{ player.last_name }}</th>
+                                <td ><input #checkBoxPlayer class="w-100" type="checkbox" name="visitor_player" (change)="checkVisitorPlayers($event, this.checkBoxPlayer.name)"></td>
+                                <td ><input #checkBox5i class="w-100" type="checkbox" name="visitor_player_5i" value="{{player._id}}" (change)="checkVisitorPlayers($event, this.checkBox5i.name)"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Tems Div end -->
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">&nbsp;</label>
+                <div class="input-group col-md-8">
+                <button type="submit" class="btn btn-primary col-12">
+                    Comenzar partido
+                </button>
+                </div>
+            </div>
+
+        </form>
+
+        
+
+    </div>
+
+</div>

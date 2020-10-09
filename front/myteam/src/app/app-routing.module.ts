@@ -9,6 +9,7 @@ import { NewclubFormComponent } from './components/body/clubs/newclub-form/newcl
 //Games components
 import { LiveGameComponent } from './components/body/game/live-game/live-game.component';
 import { GameMenuComponent } from './components/body/game/game-menu/game-menu.component';
+import { NewgameFormComponent } from './components/body/game/newgame-form/newgame-form.component';
 
 //Players components
 import { NewplayerFormComponent } from './components/body/players/newplayer-form/newplayer-form.component';
@@ -40,6 +41,7 @@ const routes: Routes = [
   //Game routes
     {path: 'live-game', component: LiveGameComponent},
     {path: 'game-menu', component: GameMenuComponent},
+    {path: 'new-game', component: NewgameFormComponent},
   //Player routes
     {path: 'players', component: PlayersMenuComponent,
     children: [

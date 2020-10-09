@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
 
-//Servicios
+//Services
 import { LeaguesService } from '../../../../services/leagues.service';
 import { ClubsService } from '../../../../services/clubs.service';
 import { PlayersService } from '../../../../services/players.service';
