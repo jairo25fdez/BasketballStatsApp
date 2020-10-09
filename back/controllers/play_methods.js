@@ -4,10 +4,13 @@ module.exports = function (app){
     const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
+    //URL to Mongoose package.
+    const aqp = require('api-query-params');
+
     const BASE_API_URL = "/api/v1";
 
-   const PlayModule = require(path.join(__dirname, '/../models/play.js'));
-   const Play = PlayModule.PlayModel;
+    const PlayModule = require(path.join(__dirname, '/../models/play.js'));
+    const Play = PlayModule.PlayModel;
 
     //Get DB data.
     mongoose_util.getDB();
@@ -29,14 +32,23 @@ module.exports = function (app){
     //GET every Play in DB.
     app.get(BASE_API_URL+"/plays",(request,response) =>{
 
-        Play.find({}, /*{_id: 0},*/ function (err, plays){
-            if(err){
-                console.log("Error while trying to receive the list of plays.");
-            }
-            else{
-                response.send(JSON.stringify(plays,null,2));
-            }
-        });
+        const { filter, skip, limit, sort, projection, population } = aqp(request.query);
+
+        Play.find(filter)
+            .skip(skip)
+            .limit(limit)
+            .sort(sort)
+            .select(projection)
+            .populate(population)
+            .exec((err, plays) => {
+                if (err) {
+                    console.log(err);
+                    response.sendStatus(500);
+                }
+                else{
+                    response.send(JSON.stringify(plays,null,2));
+                }   
+            });
 
     });
 

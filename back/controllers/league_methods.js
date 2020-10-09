@@ -7,6 +7,9 @@ module.exports = function (app){
     const fs = require('fs');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
+    //URL to Mongoose package.
+    const aqp = require('api-query-params');
+
     const BASE_API_URL = "/api/v1";
 
     /*
@@ -35,15 +38,23 @@ module.exports = function (app){
     //GET every League in DB.
     app.get(BASE_API_URL+"/leagues",(request,response) =>{
 
-        League.find({}, function (err, leagues){
-            if(err){
-                console.log("Error while trying to receive the list of leagues.");
-                response.sendStatus(500);
-            }
-            else{
-                response.send(JSON.stringify(leagues,null,2));
-            }
-        });
+        const { filter, skip, limit, sort, projection, population } = aqp(request.query);
+
+        League.find(filter)
+            .skip(skip)
+            .limit(limit)
+            .sort(sort)
+            .select(projection)
+            .populate(population)
+            .exec((err, leagues) => {
+                if (err) {
+                    console.log(err);
+                    response.sendStatus(500);
+                }
+                else{
+                    response.send(JSON.stringify(leagues,null,2));
+                }   
+            });
 
     });
 

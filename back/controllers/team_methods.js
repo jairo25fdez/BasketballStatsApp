@@ -6,7 +6,7 @@ module.exports = function (app){
     const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
-    //import aqp from 'api-query-params';
+    //URL to Mongoose package.
     const aqp = require('api-query-params');
 
     const BASE_API_URL = "/api/v1";
@@ -41,13 +41,14 @@ module.exports = function (app){
             .sort(sort)
             .select(projection)
             .populate(population)
-            .exec((err, users) => {
+            .exec((err, teams) => {
                 if (err) {
                     console.log(err);
                     response.sendStatus(500);
                 }
-
-                response.send(users);
+                else{
+                    response.send(JSON.stringify(teams,null,2));
+                }   
             });
 
     });
