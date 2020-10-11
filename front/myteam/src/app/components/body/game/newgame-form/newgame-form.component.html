@@ -31,7 +31,9 @@
                         placeholder="Fecha del partido"
                         formControlName="game_date"
                         [(ngModel)]="game.date">
+                        <small class="text-danger" *ngIf="gamedateNoValid">Introduzca una fecha.</small>
                 </div>
+                
             </div>
 
             <!-- Game Season -->
@@ -40,10 +42,10 @@
                 <div class="col-md-8">
                     <input class="form-control"
                             type="number"
-                            placeholder="Año en la que finaliza la liga (ej: 2021 para temporada 2020/2021)"
+                            placeholder="Año en la que finaliza la temporada (ej: 2021 para temporada 2020/2021)"
                             formControlName="game_season"
                             [(ngModel)]="game.season">
-                    <small class="text-info">Dejar en blanco en caso de ser amistoso</small>
+                            <small class="text-danger" *ngIf="gameseasonNoValid">Introduzca una temporada.</small>
                 </div>
             </div>
 
@@ -85,7 +87,7 @@
 
                         <label class="col-2 col-form-label">Liga</label>
                         <div class="col-md-8">
-                            <select class="form-control" (click)="selectLocalTeam($event.target.value)">
+                            <select class="form-control" formControlName="home_team_league" (change)="selectLocalTeam($event.target.value)">
                                 <option disabled>Liga a la que pertenece el equipo</option>
                                 <option *ngFor="let team of local_club_teams; index as i;" value="{{i}}" >{{team.league.league_name}}</option>
                             </select>
@@ -127,7 +129,7 @@
 
                         <label class="col-2 col-form-label">Club</label>
                         <div class="col-md-8">
-                            <select class="form-control" formControlName="visitor_club" >
+                            <select class="form-control"  >
                                 <option disabled selected>Club visitante</option>
                                 <option *ngFor="let club of clubs; index as i;" value="{{i}}">{{club.name}}</option>
                             </select>
@@ -148,7 +150,7 @@
                         
                     </div>
 
-                    <!-- Visitor Team League -->
+                    <!-- Visitor Club League -->
                     <div class="form-group row no-gutters" *ngIf="!league_selected && visitor_club_selected">
 
                         <label class="col-2 col-form-label">Liga</label>

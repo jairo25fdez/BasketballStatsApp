@@ -74,13 +74,24 @@ export class NewgameFormComponent implements OnInit {
 
     this.form = this.fb.group({
       game_league: ['',  ],
-      game_date: ['', ],
+      game_date: ['', Validators.required],
       game_season: ['', Validators.required],
-      home_club: ['', Validators.required],
-      visitor_club: ['', Validators.required]
+      home_club: ['', ],
+      home_team_league: ['', ],
+
+      visitor_club: ['', ],
+      visitor_team_league: ['', ]
       
     });
 
+  }
+
+  get gamedateNoValid(){
+    return this.form.get('game_date').invalid && this.form.get('game_date').touched;
+  }
+
+  get gameseasonNoValid(){
+    return this.form.get('game_season').invalid && this.form.get('game_season').touched;
   }
 
   checkHomePlayers(event, checkBox) {
@@ -188,6 +199,10 @@ export class NewgameFormComponent implements OnInit {
       console.log("CAMBIO CLUB LOCALES");
     });
 
+    this.home_team_players = [];
+
+    this.form.get('home_team_league').setValue('');
+
   }
 
   setVisitorClub(club_index:number){
@@ -196,6 +211,11 @@ export class NewgameFormComponent implements OnInit {
     this.teamsService.getTeam("?club.club_id="+this.clubs[club_index]._id).then((res:TeamModel[]) => {
       this.visitor_club_teams = res;
     });
+
+    this.visitor_team_players = [];
+
+    this.form.get('visitor_team_league').setValue('');
+
   }
 
   selectLocalTeam(team_index:string){
@@ -207,7 +227,7 @@ export class NewgameFormComponent implements OnInit {
       team_id: this.local_club_teams[team_index]._id
     } 
 
-    console.log("LOCAL TEAM: "+JSON.stringify(this.game.home_team));
+    this.home_team_players = this.local_club_teams[team_index].roster;
 
   }
 
@@ -220,7 +240,7 @@ export class NewgameFormComponent implements OnInit {
       team_id: this.visitor_club_teams[team_index]._id
     }
 
-    console.log("VISITOR TEAM: "+JSON.stringify(this.game.visitor_team));
+    this.visitor_team_players = this.visitor_club_teams[team_index].roster;
 
   }
 
@@ -234,12 +254,25 @@ export class NewgameFormComponent implements OnInit {
 
   setLocalTeam(team_index:number){
 
+    this.game.home_team = {
+      club_id: this.teams[team_index].club.club_id,
+      club_name: this.teams[team_index].club.club_name,
+      club_img: this.teams[team_index].club.club_img,
+      team_id: this.teams[team_index]._id
+    } 
+
     this.home_team_players = this.teams[team_index].roster;
-    console.log("PLAYERS: "+JSON.stringify(this.home_team_players) );
 
   }
 
   setVisitorTeam(team_index:number){
+
+    this.game.visitor_team = {
+      club_id: this.teams[team_index].club.club_id,
+      club_name: this.teams[team_index].club.club_name,
+      club_img: this.teams[team_index].club.club_img,
+      team_id: this.teams[team_index]._id
+    }
 
     this.visitor_team_players = this.teams[team_index].roster;
 
@@ -255,7 +288,7 @@ export class NewgameFormComponent implements OnInit {
 
       console.log(JSON.stringify(this.game));
 
-      /*
+      
 
 
     if(this.form.invalid){
@@ -264,7 +297,7 @@ export class NewgameFormComponent implements OnInit {
         control.markAsTouched();
       });
 
-    }
+    }/*
     else{
 
       Swal.fire({
