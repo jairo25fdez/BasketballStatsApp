@@ -13,6 +13,7 @@ import { ImagesService } from './services/images.service';
 import { ClubsService } from './services/clubs.service';
 import { TeamsService } from './services/teams.service';
 import { PlayersService } from './services/players.service';
+import { GamesService } from './services/games.service';
 
 
 //Components
@@ -91,7 +92,8 @@ import { NewgameFormComponent } from './components/body/game/newgame-form/newgam
     ImagesService,
     ClubsService,
     TeamsService,
-    PlayersService
+    PlayersService,
+    GamesService
   ],
   bootstrap: [AppComponent]
 })

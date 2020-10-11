@@ -11,11 +11,12 @@
 
                 <label class="col-2 col-form-label">Liga</label>
                 <div class="col-md-8">
-                    <select class="form-control" formControlName="game_league" [(ngModel)]="game.league">
+                    <select class="form-control" formControlName="game_league" (change)="setGameLeague($event.target.value)">
                         <option disabled>Liga a la que pertenece el partido</option>
-                        <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
+                        <option value="friendly_game">Amistoso</option>
+                        <option *ngFor="let league of leagues; index as i;" value="{{i}}">{{league.name}}</option>
                     </select>
-                    <small class="text-info">Dejar en blanco en caso de ser amistoso</small>
+                    <small class="text-info">Dejar en blanco o seleccionar "Amistoso" en caso de no ser partido oficial.</small>
                 </div>
                 
             </div>
@@ -53,13 +54,27 @@
                 <div class="col home_team text-center">
                     <h5 class="text-center">Equipo Local</h5>
 
-                    <div class="form-group row no-gutters">
+                    <!-- Local Club -->
+                    <div class="form-group row no-gutters" *ngIf="!league_selected">
 
-                        <label class="col-2 col-form-label">Club</label>
+                        <label class="col-2 col-form-label" >Club</label>
                         <div class="col-md-8">
-                            <select class="form-control" formControlName="home_club" >
-                                <option disabled>Club local</option>
-                                <option *ngFor="let club of clubs" value="{{club._id}}">{{club.name}}</option>
+                            <select class="form-control" formControlName="home_club" (change)="setLocalClub($event.target.value)">
+                                <option disabled selected>Club local</option>
+                                <option *ngFor="let club of clubs;" value="{{club._id}}">{{club.name}}</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Local Team -->
+                    <div class="form-group row no-gutters" *ngIf="league_selected">
+
+                        <label class="col-2 col-form-label">Equipo</label>
+                        <div class="col-md-8">
+                            <select class="form-control" (change)="setLocalTeam($event.target.value)">
+                                <option disabled selected>Equipo local</option>
+                                <option *ngFor="let team of teams; index as i;" value="{{i}}">{{team.club.club_name}}</option>
                             </select>
                         </div>
                         
@@ -69,7 +84,7 @@
 
                         <label class="col-2 col-form-label">Liga</label>
                         <div class="col-md-8">
-                            <select class="form-control" formControlName="home_team_league" >
+                            <select class="form-control">
                                 <option disabled>Liga a la que pertenece el equipo</option>
                                 <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
                             </select>
@@ -89,8 +104,8 @@
                               </tr>
                             </thead>
                             <tr *ngFor="let player of home_team_players" class="text-center">
-                                <th>{{ player.number }}</th>
-                                <th>{{ player.name }} {{ player.last_name }}</th>
+                                <th>{{ player.player_number }}</th>
+                                <th>{{ player.player_name }} {{ player.player_last_name }}</th>
                                 <td ><input #checkBoxPlayer class="w-100" type="checkbox" name="home_player" (change)="checkHomePlayers($event, this.checkBoxPlayer.name)"></td>
                                 <td ><input #checkBox5i class="w-100" type="checkbox" name="home_player_5i" value="{{player._id}}" (change)="checkHomePlayers($event, this.checkBox5i.name)"></td>
                             </tr>
@@ -107,7 +122,7 @@
                 <div class="col visitor_team text-center">
                     <h5 class="text-center">Equipo Visitante</h5>
 
-                    <div class="form-group row no-gutters">
+                    <div class="form-group row no-gutters" *ngIf="!league_selected">
 
                         <label class="col-2 col-form-label">Club</label>
                         <div class="col-md-8">
@@ -119,11 +134,25 @@
                         
                     </div>
 
+                    <!-- Visitor Team -->
+                    <div class="form-group row no-gutters" *ngIf="league_selected">
+
+                        <label class="col-2 col-form-label">Equipo</label>
+                        <div class="col-md-8">
+                            <select class="form-control" (change)="setVisitorTeam($event.target.value)">
+                                <option disabled selected>Equipo visitante</option>
+                                <option *ngFor="let team of teams; index as i;" value="{{i}}">{{team.club.club_name}}</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Visitor Team League -->
                     <div class="form-group row no-gutters" *ngIf="!league_selected">
 
                         <label class="col-2 col-form-label">Liga</label>
                         <div class="col-md-8">
-                            <select class="form-control" formControlName="visitor_team_league" >
+                            <select class="form-control" >
                                 <option disabled>Liga a la que pertenece el equipo</option>
                                 <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
                             </select>
@@ -143,10 +172,10 @@
                               </tr>
                             </thead>
                             <tr *ngFor="let player of visitor_team_players" class="text-center">
-                                <th>{{ player.number }}</th>
-                                <th>{{ player.name }} {{ player.last_name }}</th>
-                                <td ><input #checkBoxPlayer class="w-100" type="checkbox" name="visitor_player" (change)="checkVisitorPlayers($event, this.checkBoxPlayer.name)"></td>
-                                <td ><input #checkBox5i class="w-100" type="checkbox" name="visitor_player_5i" value="{{player._id}}" (change)="checkVisitorPlayers($event, this.checkBox5i.name)"></td>
+                                <th>{{ player.player_number }}</th>
+                                <th>{{ player.player_name }} {{ player.player_last_name }}</th>
+                                <td ><input #checkBoxPlayer class="w-100" type="checkbox" name="home_player" (change)="checkHomePlayers($event, this.checkBoxPlayer.name)"></td>
+                                <td ><input #checkBox5i class="w-100" type="checkbox" name="home_player_5i" value="{{player._id}}" (change)="checkHomePlayers($event, this.checkBox5i.name)"></td>
                             </tr>
                         </table>
                     </div>
