@@ -6,7 +6,8 @@ var teamSchema = new Schema({
         type: new Schema({
             _id: false,
             club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
-            club_name: {type: String, required: true}
+            club_name: {type: String, required: true},
+            club_img: string
         }),
         required: true
     },

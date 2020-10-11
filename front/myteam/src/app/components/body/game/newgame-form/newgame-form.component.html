@@ -61,7 +61,7 @@
                         <div class="col-md-8">
                             <select class="form-control" formControlName="home_club" (change)="setLocalClub($event.target.value)">
                                 <option disabled selected>Club local</option>
-                                <option *ngFor="let club of clubs;" value="{{club._id}}">{{club.name}}</option>
+                                <option *ngFor="let club of clubs; index as i;" value="{{i}}">{{club.name}}</option>
                             </select>
                         </div>
                         
@@ -80,13 +80,14 @@
                         
                     </div>
 
-                    <div class="form-group row no-gutters" *ngIf="!league_selected">
+                    <!-- Local Club League -->
+                    <div class="form-group row no-gutters" *ngIf="!league_selected && local_club_selected">
 
                         <label class="col-2 col-form-label">Liga</label>
                         <div class="col-md-8">
-                            <select class="form-control">
+                            <select class="form-control" (click)="selectLocalTeam($event.target.value)">
                                 <option disabled>Liga a la que pertenece el equipo</option>
-                                <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
+                                <option *ngFor="let team of local_club_teams; index as i;" value="{{i}}" >{{team.league.league_name}}</option>
                             </select>
                         </div>
                         
@@ -122,13 +123,13 @@
                 <div class="col visitor_team text-center">
                     <h5 class="text-center">Equipo Visitante</h5>
 
-                    <div class="form-group row no-gutters" *ngIf="!league_selected">
+                    <div class="form-group row no-gutters" *ngIf="!league_selected" (change)="setVisitorClub($event.target.value)">
 
                         <label class="col-2 col-form-label">Club</label>
                         <div class="col-md-8">
-                            <select class="form-control" formControlName="home_club" >
-                                <option disabled>Club local</option>
-                                <option *ngFor="let club of clubs" value="{{club._id}}">{{club.name}}</option>
+                            <select class="form-control" formControlName="visitor_club" >
+                                <option disabled selected>Club visitante</option>
+                                <option *ngFor="let club of clubs; index as i;" value="{{i}}">{{club.name}}</option>
                             </select>
                         </div>
                         
@@ -148,13 +149,13 @@
                     </div>
 
                     <!-- Visitor Team League -->
-                    <div class="form-group row no-gutters" *ngIf="!league_selected">
+                    <div class="form-group row no-gutters" *ngIf="!league_selected && visitor_club_selected">
 
                         <label class="col-2 col-form-label">Liga</label>
                         <div class="col-md-8">
-                            <select class="form-control" >
-                                <option disabled>Liga a la que pertenece el equipo</option>
-                                <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
+                            <select class="form-control" (change)="selectVisitorTeam($event.target.value)">
+                                <option disabled selected>Liga a la que pertenece el equipo</option>
+                                <option *ngFor="let team of visitor_club_teams; index as i;" value="{{i}}">{{team.league.league_name}}</option>
                             </select>
                         </div>
                         

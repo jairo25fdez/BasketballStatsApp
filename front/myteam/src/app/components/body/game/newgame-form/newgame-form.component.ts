@@ -30,29 +30,33 @@ export class NewgameFormComponent implements OnInit {
   form:FormGroup;
   
   league_selected = false;
+  local_club_selected = false;
+  visitor_club_selected = false;
 
   game:GameModel = new GameModel();
-  local_leagues:LeagueModel[];
-  visitor_leagues:LeagueModel[];
   clubs:ClubModel[];
   teams:TeamModel[];
+  leagues:LeagueModel[];
+
+  local_club_teams:TeamModel[] = [];
+  visitor_club_teams:TeamModel[] = [];
+  
+
+  home_team_players = [];
+  visitor_team_players = [];
 
   selected_home_players = 0;
   selected_home_players_5i = 0;
   selected_visitor_players = 0;
   selected_visitor_players_5i = 0;
 
-  //home_team_players:PlayerModel[];
-  //visitor_team_players:PlayerModel[];
-  home_team_players = [];
-  visitor_team_players = [];
+  reset_local_select = true;
 
 
   constructor(private fb:FormBuilder, private leaguesService:LeaguesService, private teamsService:TeamsService, private gamesService:GamesService, private clubsService:ClubsService, private router:Router) {
 
     this.leaguesService.getLeagues().then((res:LeagueModel[]) => {
-      this.local_leagues = res;
-      this.visitor_leagues = res;
+      this.leagues = res;
     });
 
     this.clubsService.getClubs().then((res:ClubModel[]) => {
@@ -153,6 +157,8 @@ export class NewgameFormComponent implements OnInit {
       }
 
       this.league_selected = true;
+      this.local_club_selected = false;
+      this.visitor_club_selected = false;
 
       //Load the teams that belong to the selected league.
       this.setTeams(this.game.league.league_id);
@@ -161,11 +167,60 @@ export class NewgameFormComponent implements OnInit {
     else{
       this.league_selected = false;
     }
+
+    //Reset the values everytime we change the league.
+    this.local_club_teams = [];
+    this.visitor_club_teams = [];
+  
+    this.home_team_players = [];
+    this.visitor_team_players = [];
+
+    
     
 
   }
 
   setLocalClub(club_index:number){
+    this.local_club_selected = true;
+
+    this.teamsService.getTeam("?club.club_id="+this.clubs[club_index]._id).then((res:TeamModel[]) => {
+      this.local_club_teams = res;
+      console.log("CAMBIO CLUB LOCALES");
+    });
+
+  }
+
+  setVisitorClub(club_index:number){
+    this.visitor_club_selected = true;
+
+    this.teamsService.getTeam("?club.club_id="+this.clubs[club_index]._id).then((res:TeamModel[]) => {
+      this.visitor_club_teams = res;
+    });
+  }
+
+  selectLocalTeam(team_index:string){
+
+    this.game.home_team = {
+      club_id: this.local_club_teams[team_index].club.club_id,
+      club_name: this.local_club_teams[team_index].club.club_name,
+      club_img: this.local_club_teams[team_index].club.club_img,
+      team_id: this.local_club_teams[team_index]._id
+    } 
+
+    console.log("LOCAL TEAM: "+JSON.stringify(this.game.home_team));
+
+  }
+
+  selectVisitorTeam(team_index:string){
+
+    this.game.visitor_team = {
+      club_id: this.visitor_club_teams[team_index].club.club_id,
+      club_name: this.visitor_club_teams[team_index].club.club_name,
+      club_img: this.visitor_club_teams[team_index].club.club_img,
+      team_id: this.visitor_club_teams[team_index]._id
+    }
+
+    console.log("VISITOR TEAM: "+JSON.stringify(this.game.visitor_team));
 
   }
 
