@@ -55,7 +55,7 @@ export class NewplayerFormComponent implements OnInit {
       phone: [''],
       weight: [''],
       height: [''],
-      number: [''],
+      number: ['', Validators.required],
       actual_team: [''],
       league: ['', [Validators.required]],
       club: ['', [Validators.required]],
@@ -90,6 +90,22 @@ export class NewplayerFormComponent implements OnInit {
 
   get phoneNoValid(){
     return this.formulario.get('phone').invalid && this.formulario.get('phone').touched;
+  }
+
+  get clubNoValid(){
+    return this.formulario.get('club').invalid && this.formulario.get('club').touched;
+  }
+
+  get leagueNoValid(){
+    return this.formulario.get('league').invalid && this.formulario.get('league').touched;
+  }
+
+  get numberNoValid(){
+    return this.formulario.get('number').invalid && this.formulario.get('number').touched;
+  }
+
+  selectClub(){
+
   }
 
   setLeague(){ //CAMBIAR
