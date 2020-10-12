@@ -120,22 +120,22 @@
 
                 <label class="col-2 col-form-label">Club</label>
                 <div class="col-md-8">
-                    <select class="custom-select" formControlName="club" (change)="selectClub()">
+                    <select class="custom-select" formControlName="club" (change)="selectClub($event.target.value)">
                         <option disabled>Club del Jugador</option>
-                        <option *ngFor="let club of clubs" value="{{club._id}}">{{club.name}}</option>
+                        <option *ngFor="let club of clubs; index as i;" value="{{i}}">{{club.name}}</option>
                     </select>
                     <small *ngIf="clubNoValid" class="text-danger">Seleccione un club</small>
                 </div>
                 
             </div>
     
-            <div class="form-group row no-gutters">
+            <div class="form-group row no-gutters" *ngIf="club_selected">
 
                 <label class="col-2 col-form-label">Liga</label>
                 <div class="col-md-8">
-                    <select class="custom-select" formControlName="league" (change)="setLeague()">
+                    <select class="custom-select" formControlName="league" (change)="setLeague($event.target.value)">
                         <option disabled>Liga del Equipo</option>
-                        <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
+                        <option *ngFor="let team of teams; index as i;" value="{{i}}">{{team.league.league_name}}</option>
                     </select>
                     <small *ngIf="leagueNoValid" class="text-danger">Seleccione una liga</small>
                 </div>

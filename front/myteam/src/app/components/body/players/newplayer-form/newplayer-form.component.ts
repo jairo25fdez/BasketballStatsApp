@@ -7,11 +7,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LeaguesService } from '../../../../services/leagues.service';
 import { ClubsService } from '../../../../services/clubs.service';
 import { PlayersService } from '../../../../services/players.service';
+import { TeamsService } from '../../../../services/teams.service';
 
 //Models
 import { LeagueModel } from '../../../../models/league.model';
 import { ClubModel } from 'src/app/models/club.model';
 import { PlayerModel } from 'src/app/models/player.model';
+import { TeamModel } from 'src/app/models/team.model';
 
 
 @Component({
@@ -22,15 +24,13 @@ import { PlayerModel } from 'src/app/models/player.model';
 export class NewplayerFormComponent implements OnInit {
 
   formulario:FormGroup;
-  leagues: LeagueModel[];
   clubs: ClubModel[];
+  teams:TeamModel[];
   player:PlayerModel = new PlayerModel();
 
-  constructor( private fb:FormBuilder, private leaguesService:LeaguesService, private clubsService:ClubsService, private playersService:PlayersService ) { 
+  club_selected:boolean = false;
 
-    this.leaguesService.getLeagues().then((res:LeagueModel[]) => {
-      this.leagues = res;
-    });
+  constructor( private fb:FormBuilder, private leaguesService:LeaguesService, private clubsService:ClubsService, private teamsService:TeamsService, private playersService:PlayersService ) { 
 
     this.clubsService.getClubs().then((res:ClubModel[]) => {
       this.clubs = res;
@@ -56,10 +56,8 @@ export class NewplayerFormComponent implements OnInit {
       weight: [''],
       height: [''],
       number: ['', Validators.required],
-      actual_team: [''],
       league: ['', [Validators.required]],
       club: ['', [Validators.required]],
-      league_teams: ['']
     });
 
   }
@@ -104,11 +102,28 @@ export class NewplayerFormComponent implements OnInit {
     return this.formulario.get('number').invalid && this.formulario.get('number').touched;
   }
 
-  selectClub(){
+  selectClub(club_index){
+
+    this.teamsService.getTeam("?club.club_id="+this.clubs[club_index]._id).then((res:TeamModel[]) => {
+      this.teams = res;
+    });
+
+    let newClubInfo = {
+      club_id: this.clubs[club_index]._id,
+      club_name: this.clubs[club_index].name,
+      club_img: this.clubs[club_index].img
+    };
+
+    this.player.teams[0] = newClubInfo;
+
+    console.log("PLAYER TEAMS: "+JSON.stringify(this.player.teams));
+
+
+    this.club_selected = true;
 
   }
 
-  setLeague(){ //CAMBIAR
+  setLeague(team_index){ //CAMBIAR
 
   }
 

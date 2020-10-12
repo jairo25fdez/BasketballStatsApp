@@ -165,7 +165,7 @@ export class NewgameFormComponent implements OnInit {
       this.game.league = {
         league_id: this.leagues[league_index]._id,
         league_name: this.leagues[league_index].name
-      }
+      };
 
       this.league_selected = true;
       this.local_club_selected = false;
