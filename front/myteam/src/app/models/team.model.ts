@@ -1,5 +1,3 @@
-import { EnumDeclaration } from 'typescript';
-
 export class TeamModel{
     _id: string;
     club: {
@@ -16,17 +14,17 @@ export class TeamModel{
     season: number;
     coach: string;
     coaching_staff: [string];
-    roster: [{
+    roster: {
         player_id: string;
         player_name: string;
         player_last_name: string;
-        player_birth_date: string;
-        player_birthplace: string;
-        player_avatar: string;
+        player_birth_date: Date;
+        //player_birthplace: string;
+        player_img: string;
         player_number: number;
-        player_position: string;
-    }];
-    games_played: [{
+        player_primary_position: string;
+    }[];
+    games_played: {
         game_id: string;
         game_HomeTeam_id: string;
         game_HomeTeam_name: string;
@@ -36,6 +34,11 @@ export class TeamModel{
         winner_team_name: string;
         home_team_score: number;
         visitor_team_score: number;
-    }];
+    }[];
+
+    constructor(){
+        this.roster = [];
+        this.games_played = [];
+    }
 
 }

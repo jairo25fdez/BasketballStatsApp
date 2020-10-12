@@ -8,6 +8,7 @@ import { LeaguesService } from '../../../../services/leagues.service';
 import { ClubsService } from '../../../../services/clubs.service';
 import { PlayersService } from '../../../../services/players.service';
 import { TeamsService } from '../../../../services/teams.service';
+import { ImagesService } from '../../../../services/images.service';
 
 //Models
 import { LeagueModel } from '../../../../models/league.model';
@@ -27,10 +28,14 @@ export class NewplayerFormComponent implements OnInit {
   clubs: ClubModel[];
   teams:TeamModel[];
   player:PlayerModel = new PlayerModel();
+  
 
-  club_selected:boolean = false;
+  club_selected:Boolean = false;
+  selected_club_index:number;
+  selected_team_index:number;
+  selectedFile:File = null;
 
-  constructor( private fb:FormBuilder, private leaguesService:LeaguesService, private clubsService:ClubsService, private teamsService:TeamsService, private playersService:PlayersService ) { 
+  constructor( private fb:FormBuilder, private leaguesService:LeaguesService, private imagesService:ImagesService, private clubsService:ClubsService, private teamsService:TeamsService, private playersService:PlayersService ) { 
 
     this.clubsService.getClubs().then((res:ClubModel[]) => {
       this.clubs = res;
@@ -102,28 +107,73 @@ export class NewplayerFormComponent implements OnInit {
     return this.formulario.get('number').invalid && this.formulario.get('number').touched;
   }
 
+  onFileSelected(event){
+    this.selectedFile = <File>event.target.files[0];
+  }
+
+  uploadImage(){
+    const fd = new FormData();
+    fd.append('image', this.selectedFile, this.selectedFile.name);
+
+    Swal.fire({
+      title: 'Espere',
+      text: 'Guardando imagen',
+      icon: 'info',
+      allowOutsideClick: false
+    });
+
+    Swal.showLoading();
+
+    this.imagesService.uploadImage(fd).then((res:any) => {
+      
+      if(res.status == 200){
+        //Guardo la url en la propiedad correspondiente
+        this.player.img = res.image_url;
+
+
+        Swal.fire({
+          title: 'Imagen subida correctamente.',
+          icon: 'success'
+        });
+
+      
+      }
+      else{
+        Swal.fire({
+          title: 'Error al subir la imagen.',
+          icon: 'error'
+        });
+      }
+    });
+
+  }
+
   selectClub(club_index){
 
     this.teamsService.getTeam("?club.club_id="+this.clubs[club_index]._id).then((res:TeamModel[]) => {
       this.teams = res;
     });
 
-    let newClubInfo = {
-      club_id: this.clubs[club_index]._id,
-      club_name: this.clubs[club_index].name,
-      club_img: this.clubs[club_index].img
-    };
-
-    this.player.teams[0] = newClubInfo;
-
-    console.log("PLAYER TEAMS: "+JSON.stringify(this.player.teams));
-
+    this.selected_club_index = club_index;
 
     this.club_selected = true;
 
   }
 
-  setLeague(team_index){ //CAMBIAR
+  setLeague(team_index){ 
+
+    let newClubInfo = {
+      club_id: this.clubs[this.selected_club_index]._id,
+      club_name: this.clubs[this.selected_club_index].name,
+      club_img: this.clubs[this.selected_club_index].img,
+      team_id: this.teams[team_index]._id,
+      league_id: this.teams[team_index].league.league_id,
+      league_name: this.teams[team_index].league.league_name,
+      season: this.teams[team_index].season
+    };
+    
+
+    this.player.teams[0] = newClubInfo;
 
   }
 
@@ -140,6 +190,8 @@ export class NewplayerFormComponent implements OnInit {
     }
     else{
 
+      console.log("VALID FORM");
+
       Swal.fire({
         title: 'Espere',
         text: 'Guardando información',
@@ -150,22 +202,46 @@ export class NewplayerFormComponent implements OnInit {
       Swal.showLoading();
 
       this.playersService.createPlayer(this.player).then(resp => {
+        console.log("ENTRO");
         //If the post success
 
-        Swal.fire({
-          title: 'Jugador creado correctamente.',
-          icon: 'success'
-        });
+        //Need to push the player in the selected team roster
+        this.teamsService.getTeam(this.player.teams[0].team_id).then( (team:TeamModel) => {
+          //Tengo el equipo, le hago el push de jugador al roster
+          let newPlayer = {
+            player_id: this.player._id,
+            player_name: this.player.name,
+            player_last_name: this.player.last_name,
+            player_birth_date: this.player.birth_date,
+            player_img: this.player.img,
+            player_number: this.player.number,
+            player_primary_position: this.player.primary_position
+          };
 
-      })
-      //If the post fails:
-      .catch( (err: HttpErrorResponse) => {
-        console.error('Ann error occurred: ', err.error);
-        Swal.fire({
-          title: 'Error al crear el jugador.',
-          text: 'Compruebe que no existe un jugador con el mismo nombre y fecha de nacimiento.',
-          icon: 'error'
+          team.roster.push(newPlayer);
+
+          this.teamsService.updateTeam(team).then( res => {
+
+            Swal.fire({
+              title: 'Jugador creado correctamente.',
+              icon: 'success'
+            });
+
+          })
+          .catch( (err:HttpErrorResponse) => {
+            console.error('Ann error occurred: ', err.error);
+            Swal.fire({
+              title: 'Error al crear el jugador.',
+              text: 'Compruebe que no existe un jugador con el mismo nombre y fecha de nacimiento.',
+              icon: 'error'
+            });
+          });
+
+
         });
+        
+        
+
       });
 
     }

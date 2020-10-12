@@ -134,8 +134,9 @@ module.exports = function (app){
         var team_id = request.params.team_id;
         var updatedData = request.body;
 
+
         Team.findOne({_id: team_id}, function (err, team){
-            if(isNull(club)){
+            if(team === null){
                 console.log("Team with id: "+team_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }

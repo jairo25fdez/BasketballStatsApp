@@ -13,21 +13,18 @@ export class PlayerModel{
     primary_position: string;
     secondary_position: string;
     number: number;
-    teams: [{
+    teams: {
         club_id?: string;
         club_name?: string;
         club_img?: string;
         team_id?: string;
-        team_name?: string;
         league_id?: string;
         league_name?: string;
         season?: number;
-    }];
+    }[];
 
     constructor(){
-
-        this.teams = [{}];
-
+        this.teams = [];
     }
 
 
