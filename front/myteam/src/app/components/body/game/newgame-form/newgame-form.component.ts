@@ -45,10 +45,13 @@ export class NewgameFormComponent implements OnInit {
   home_team_players = [];
   visitor_team_players = [];
 
-  selected_home_players = 0;
-  selected_home_players_5i = 0;
-  selected_visitor_players = 0;
-  selected_visitor_players_5i = 0;
+  selected_home_players = 0; //Save the number of home players selected for the game. It can't be up to 15.
+  selected_home_players_5i = 0; //Save the number of starters home players.
+  home_starters = []; //A list of starters home players.
+
+  selected_visitor_players = 0; //Save the number of visitor players selected for the game.
+  selected_visitor_players_5i = 0; //Save the number of starters visitor players.
+  visitor_starters = [];
 
   reset_local_select = true;
 
@@ -111,7 +114,7 @@ export class NewgameFormComponent implements OnInit {
     }
     else{
       if(event.target.checked === true){
-        if(this.selected_home_players < 5){
+        if(this.selected_home_players < 15){
           this.selected_home_players++
         }
         else{
@@ -126,24 +129,30 @@ export class NewgameFormComponent implements OnInit {
     
   }
 
-  checkVisitorPlayers(event, checkBox) {
+  checkVisitorPlayers(event, checkBox, player_index) {
 
+    //If we receive a starter player
     if(checkBox == "visitor_player_5i"){
+
       if(event.target.checked === true){
-        if(this.selected_visitor_players_5i < 5){
+        if(this.selected_visitor_players_5i < 5 /*&& el jugador está convocado*/){
           this.selected_visitor_players_5i++
+          //Guardo el jugador en lista de titulares
         }
         else{
           event.target.checked = false;
         }
       }
       else if(this.selected_visitor_players_5i>0){
+        //Borro al jugador de lista de titulares
         this.selected_visitor_players_5i--;
       }
     }
+    //If we receive a player
     else{
       if(event.target.checked === true){
-        if(this.selected_visitor_players < 5){
+        if(this.selected_visitor_players < 15){
+          //Añado al jugador a la convocatoria
           this.selected_visitor_players++
         }
         else{
@@ -151,11 +160,11 @@ export class NewgameFormComponent implements OnInit {
         }
       }
       else if(this.selected_visitor_players>0){
+        //Borro al jugador de la convocatoria
         this.selected_visitor_players--;
       }
     }
 
-    
   }
 
   setGameLeague(league_index){
@@ -229,6 +238,10 @@ export class NewgameFormComponent implements OnInit {
 
     this.home_team_players = this.local_club_teams[team_index].roster;
 
+    this.home_team_players.sort(function(a,b){
+      return a.player_number-b.player_number;
+    });
+
   }
 
   selectVisitorTeam(team_index:string){
@@ -241,6 +254,10 @@ export class NewgameFormComponent implements OnInit {
     }
 
     this.visitor_team_players = this.visitor_club_teams[team_index].roster;
+
+    this.visitor_team_players.sort(function(a,b){
+      return a.player_number-b.player_number;
+    });
 
   }
 
@@ -263,6 +280,10 @@ export class NewgameFormComponent implements OnInit {
 
     this.home_team_players = this.teams[team_index].roster;
 
+    this.home_team_players.sort(function(a,b){
+      return a.player_number-b.player_number;
+    });
+
   }
 
   setVisitorTeam(team_index:number){
@@ -275,6 +296,10 @@ export class NewgameFormComponent implements OnInit {
     }
 
     this.visitor_team_players = this.teams[team_index].roster;
+
+    this.visitor_team_players.sort(function(a,b){
+      return a.player_number-b.player_number;
+    });
 
   }
 
