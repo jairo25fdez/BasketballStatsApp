@@ -7,7 +7,7 @@ export class ImagesService{
     private imagesUrl = 'http://localhost:8000/api/v1/images';
 
     constructor(private http: HttpClient){
-        console.log("Images services ready");
+        //console.log("Images services ready");
     }
 
     getImages(){

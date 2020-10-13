@@ -9,7 +9,7 @@ export class TeamsService{
     private teamsUrl = 'http://localhost:8000/api/v1/teams';
 
     constructor(private http: HttpClient){
-        console.log("Teams services ready");
+        //console.log("Teams services ready");
     }
 
     //Methods that work with the whole collection.

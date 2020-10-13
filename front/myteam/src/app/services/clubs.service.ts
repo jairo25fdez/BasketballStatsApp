@@ -8,7 +8,7 @@ export class ClubsService{
     private clubsUrl = 'http://localhost:8000/api/v1/clubs';
 
     constructor(private http: HttpClient){
-        console.log("Clubs service ready");
+        //console.log("Clubs service ready");
     }
 
     //Clubs collection

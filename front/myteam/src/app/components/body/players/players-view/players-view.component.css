@@ -25,7 +25,6 @@ p{
     border-color: white;
     border-width: 2px;
     background-color: #27293D;
-    height: 50%;
 }
 
 .card:hover{
@@ -44,6 +43,5 @@ p{
     padding-top: 2%;
 }
 
-button{
-    height: 35%;
-}
+
+

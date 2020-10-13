@@ -9,7 +9,7 @@ export class LeaguesService{
     private leaguesUrl = 'http://localhost:8000/api/v1/leagues';
 
     constructor(private http: HttpClient){
-        console.log("Leagues services ready");
+        //console.log("Leagues services ready");
     }
 
     //Methods that work with the whole collection.

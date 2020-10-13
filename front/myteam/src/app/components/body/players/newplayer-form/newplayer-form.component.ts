@@ -200,14 +200,10 @@ export class NewplayerFormComponent implements OnInit {
 
       this.playersService.createPlayer(this.player).then( resp => {
 
-        console.log("BUSCO EL JUGADOR: "+JSON.stringify(this.player));
-
         //Necesito recibir el jugador creado para obtener el ID generado por MongoDB.
         this.playersService.getPlayers("?name="+this.player.name+"&last_name="+this.player.last_name).then( (created_player:PlayerModel) => {
   
           this.player._id = created_player[0]._id;
-  
-          console.log("ENTRO");
   
           //Receive the initial player team
           this.teamsService.getTeam(this.player.teams[0].team_id).then( (team:TeamModel) => {
@@ -238,7 +234,7 @@ export class NewplayerFormComponent implements OnInit {
           console.error('Error while trying to receive the new player from the database'+err);
           this.err_msg = "Error al intentar leer el nuevo jugador desde la base de datos. El jugador ha sido creado.";
         });
-        
+
       })
       .catch( (err:HttpErrorResponse) => {
         console.error('Error while trying to post the player in the database: ', err.error);

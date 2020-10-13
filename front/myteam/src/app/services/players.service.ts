@@ -8,7 +8,7 @@ export class PlayersService{
     private playersUrl = 'http://localhost:8000/api/v1/players';
 
     constructor(private http: HttpClient){
-        console.log("Players service ready");
+        //console.log("Players service ready");
     }
 
     //Players collection
