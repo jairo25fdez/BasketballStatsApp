@@ -62,7 +62,7 @@ module.exports = function (app){
             birth_date: player_data.birth_date,
             nationality: player_data.nationality,
             birthplace: player_data.birthplace,
-            avatar: player_data.avatar,
+            img: player_data.img,
             email: player_data.email,
             phone: player_data.phone,
             weight: player_data.weight,
@@ -70,8 +70,7 @@ module.exports = function (app){
             primary_position: player_data.primary_position,
             secondary_position: player_data.secondary_position,
             number: player_data.number,
-            actual_team: player_data.actual_team,
-            former_teams: player_data.former_teams
+            teams: player_data.teams
         });
 
         
@@ -149,7 +148,7 @@ module.exports = function (app){
         var updatedData = request.body;
 
         Player.findOne({_id: player_id}, function (err, player){
-            if(isNull(player)){
+            if(player === null){
                 console.log("The player with id: "+player_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
@@ -159,7 +158,7 @@ module.exports = function (app){
                 player.birth_date = updatedData.birth_date;
                 player.nationality = updatedData.nationality;
                 player.birthplace = updatedData.birthplace;
-                player.avatar = updatedData.avatar;
+                player.img = updatedData.img;
                 player.email = updatedData.email;
                 player.phone = updatedData.phone;
                 player.weight = updatedData.weight;
@@ -167,8 +166,8 @@ module.exports = function (app){
                 player.primary_position = updatedData.primary_position;
                 player.secondary_position = updatedData.secondary_position;
                 player.number = updatedData.number;
-                player.actual_team = updatedData.actual_team;
-                player.former_teams = updatedData.former_teams;
+                player.teams = updatedData.teams;
+
 
                 player.save();
 

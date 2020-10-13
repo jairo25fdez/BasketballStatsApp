@@ -11,7 +11,7 @@ var playerSchema = new Schema({
     birth_date: Date,
     nationality: String,
     birthplace: String,
-    avatar: String,
+    img: String,
     email: String,
     phone: Number,
     weight: Number, //Kilogrames
@@ -24,13 +24,14 @@ var playerSchema = new Schema({
         club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
         club_name: {type: String, required: true},
         club_img: {type: String, required: true},
-        team_id: {type: Schema.Types.ObjectId, ref: 'League', required: true},
-        team_name: {type: String, required: true},
+        team_id: {type: String, red: 'Team', required: true},
+        league_id: {type: Schema.Types.ObjectId, ref: 'League', required: true},
+        league_name: {type: String, required: true},
         season: {type: Number, required: true}
     }]
 });
 
-playerSchema.index( {name:1, birth_date:1}, { unique: true } );
+playerSchema.index( {name:1, last_name:1, birth_date:1}, { unique: true } );
 
 module.exports = mongoose.model('Player', playerSchema);
 

@@ -31,7 +31,7 @@ var teamSchema = new Schema({
         player_last_name: {type: String},
         player_birth_date: {type: Date},
         player_birthplace: {type: String},
-        player_avatar: {type: String},
+        player_img: {type: String},
         player_number: {type: Number},
         player_position: {type: String, enum: ['Base', 'Escolta', 'Alero', 'Ala-Pívot', 'Pívot']}
     }],

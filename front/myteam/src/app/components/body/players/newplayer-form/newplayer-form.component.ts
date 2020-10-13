@@ -35,6 +35,8 @@ export class NewplayerFormComponent implements OnInit {
   selected_team_index:number;
   selectedFile:File = null;
 
+  err_msg:string = "";
+
   constructor( private fb:FormBuilder, private leaguesService:LeaguesService, private imagesService:ImagesService, private clubsService:ClubsService, private teamsService:TeamsService, private playersService:PlayersService ) { 
 
     this.clubsService.getClubs().then((res:ClubModel[]) => {
@@ -57,7 +59,6 @@ export class NewplayerFormComponent implements OnInit {
       birth_date: ['', [Validators.required]],
       primary_position: ['', [Validators.required] ],
       secondary_position: ['', ],
-      phone: [''],
       weight: [''],
       height: [''],
       number: ['', Validators.required],
@@ -178,9 +179,9 @@ export class NewplayerFormComponent implements OnInit {
   }
 
   guardar(){
-    
-    console.log("PLAYER: "+JSON.stringify(this.player));
 
+    console.log("PLAYER: "+JSON.stringify(this.player.teams[0]));
+    
     if(this.formulario.invalid){
 
       return Object.values(this.formulario.controls).forEach( control => {
@@ -189,8 +190,6 @@ export class NewplayerFormComponent implements OnInit {
 
     }
     else{
-
-      console.log("VALID FORM");
 
       Swal.fire({
         title: 'Espere',
@@ -201,50 +200,65 @@ export class NewplayerFormComponent implements OnInit {
 
       Swal.showLoading();
 
-      this.playersService.createPlayer(this.player).then(resp => {
-        console.log("ENTRO");
-        //If the post success
-
-        //Need to push the player in the selected team roster
-        this.teamsService.getTeam(this.player.teams[0].team_id).then( (team:TeamModel) => {
-          //Tengo el equipo, le hago el push de jugador al roster
-          let newPlayer = {
-            player_id: this.player._id,
-            player_name: this.player.name,
-            player_last_name: this.player.last_name,
-            player_birth_date: this.player.birth_date,
-            player_img: this.player.img,
-            player_number: this.player.number,
-            player_primary_position: this.player.primary_position
-          };
-
-          team.roster.push(newPlayer);
-
-          this.teamsService.updateTeam(team).then( res => {
-
-            Swal.fire({
-              title: 'Jugador creado correctamente.',
-              icon: 'success'
-            });
-
-          })
-          .catch( (err:HttpErrorResponse) => {
-            console.error('Ann error occurred: ', err.error);
-            Swal.fire({
-              title: 'Error al crear el jugador.',
-              text: 'Compruebe que no existe un jugador con el mismo nombre y fecha de nacimiento.',
-              icon: 'error'
-            });
-          });
-
-
-        });
-        
-        
-
+      this.playersService.createPlayer(this.player).catch( (err:HttpErrorResponse) => {
+        console.error('Error while trying to post the player in the database: ', err.error);
+        this.err_msg = "Error al crear el jugador";
       });
 
+      //Necesito recibir el jugador creado para obtener sus propiedades
+      this.playersService.getPlayer("?name="+this.player.name+"&last_name="+this.player.last_name+"&birth_date="+this.player.birth_date).then( (created_player:PlayerModel) => {
+
+        //Receive the initial player team
+        this.teamsService.getTeam(this.player.teams[0].team_id).then( (team:TeamModel) => {
+
+          let newPlayer = {
+            player_id: created_player._id,
+            player_name: created_player.name,
+            player_last_name: created_player.last_name,
+            player_birth_date: created_player.birth_date,
+            player_img: created_player.img,
+            player_number: created_player.number,
+            player_position: created_player.primary_position
+          };
+  
+          //Add the new player to the roster of the team
+          team.roster.push(newPlayer);
+  
+          this.teamsService.updateTeam(team).catch( (err:HttpErrorResponse) => {
+            console.error('Ann error occurred: ', err.error);
+            this.err_msg = "El jugador ha sido creado pero no se ha podido introducir en el roster de su equipo."
+          });
+  
+  
+        });
+
+      })
+      .catch( (err:HttpErrorResponse) => {
+        console.error('Error while trying to receive the new player from the database'+err);
+        this.err_msg = "Error al intentar leer el nuevo jugador desde la base de datos. El jugador ha sido creado.";
+      });
+
+      if(this.err_msg != ""){
+        Swal.fire({
+          title: 'Error al crear el jugador.',
+          text: this.err_msg,
+          icon: 'error'
+        });
+      }
+      else{
+
+        Swal.fire({
+          title: 'Jugador creado correctamente.',
+          icon: 'success'
+        });
+
+      }
+
+      
+
     }
+    
+    
 
   }
 

@@ -8,8 +8,8 @@ export class TeamModel{
     league: {
         league_id: string;
         league_name: string;
-        wins: number;
-        losses: number;
+        wins?: number;
+        losses?: number;
     };
     season: number;
     coach: string;
@@ -22,7 +22,7 @@ export class TeamModel{
         //player_birthplace: string;
         player_img: string;
         player_number: number;
-        player_primary_position: string;
+        player_position: string;
     }[];
     games_played: {
         game_id: string;

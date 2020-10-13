@@ -52,18 +52,18 @@
 
             <div class="card col-5 m-3 text-center w-100 pr-0 p-3" *ngFor="let player of players" value="{{player._id}}">
 
-                <div class="row no-gutters w-100 h-100">
+                <div class="row no-gutters w-100 h-100 ">
                     <div class="flex-column col-6 ">
-                        <img class="card-img-top w-75" src="{{player.img}}">
+                        <img class="card-img-top w-100" src="{{player.img}}">
                         
-                        <div class="card-body pt-0 pb-0">
+                        <div class="card-body pb-0">
                             <h5 class="card-title">{{player.name}} {{player.last_name}}</h5>
-                            <!-- <h5 class="card-title">{{player.teams[0].club_name}}</h5> -->
+                            <h5 class="card-title">{{player.teams[0].club_name}}</h5>
                         </div>
                     </div>
-                    <div class="flex-column col-6">
-                        <button type="button" class="btn btn-warning  w-100" [routerLink]="['../edit-player', player._id]">Editar</button>
-                        <button type="button" class="btn btn-danger w-100" (click)="deletePlayer(player)">Eliminar</button>
+                    <div class="flex-column col-6 p-2 ">
+                        <button type="button" class="btn btn-warning w-100 h-50" [routerLink]="['../edit-player', player._id]">Editar</button>
+                        <button type="button" class="btn btn-danger w-100 h-50" (click)="deletePlayer(player)">Eliminar</button>
                     </div>
 
                 </div>

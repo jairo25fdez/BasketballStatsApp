@@ -61,7 +61,22 @@ export class NewteamFormComponent implements OnInit {
 
   }
 
-  setLeague(){
+  setClub(club_index){
+
+    this.team.club = {
+      club_id: this.clubs[club_index]._id,
+      club_name: this.clubs[club_index].name,
+      club_img: this.clubs[club_index].img
+    }
+
+  }
+
+  setLeague(league_index){
+
+    this.team.league = {
+      league_id:  this.leagues[league_index]._id,
+      league_name: this.leagues[league_index].name
+    };
 
   }
 
@@ -95,7 +110,6 @@ export class NewteamFormComponent implements OnInit {
 
 
   guardar(){
-
 
     if(this.formulario.invalid){
 

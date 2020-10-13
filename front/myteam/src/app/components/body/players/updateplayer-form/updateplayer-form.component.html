@@ -34,6 +34,21 @@
                     <small *ngIf="lastnameNoValid" class="text-danger">Ingrese los apellidos</small>
                 </div>
             </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Imagen 
+                    <a class="" *ngIf="exists_img" href="{{ player.img }}">Imagen subida</a>
+                </label>
+
+                <div class="col-8">
+                    <input class="form-control"
+                            type="file"
+                            (change)="onFileSelected($event)">
+                    <button type="button" class="btn btn-primary w-100" (click)="uploadImage()">Subir imagen</button>
+                </div>
+                
+
+            </div>
     
             <div class="form-group row no-gutters">
                 <label class="col-2 col-form-label">Fecha de nacimiento</label>
@@ -129,32 +144,34 @@
                             [(ngModel)]="player.height">
                 </div>
             </div>
-    
+
+            <div class="form-group row no-gutters">
+
+                <label class="col-2 col-form-label">Club</label>
+                <div class="col-md-8">
+                    <select class="form-control" formControlName="club" (change)="selectClub($event.target.value)" [class.is-invalid]="clubNoValid" >
+                        <option disabled>Club del Jugador</option>
+                        <option *ngFor="let club of clubs; index as i;" value="{{i}}">{{club.name}}</option>
+                    </select>
+                    <small *ngIf="clubNoValid" class="text-danger">Ingrese un club</small>
+                </div>
+                
+            </div>
+
+            
             <div class="form-group row no-gutters">
 
                 <label class="col-2 col-form-label">Liga</label>
                 <div class="col-md-8">
-                    <select class="form-control" formControlName="league" (change)="setLeague()" [class.is-invalid]="leagueNoValid" [(ngModel)]="player.teams[0].league_id">
+                    <select class="form-control" formControlName="league" (change)="setLeague($event.target.value)" [class.is-invalid]="leagueNoValid" >
                         <option disabled>Liga del Equipo</option>
-                        <option *ngFor="let league of leagues" value="{{league._id}}">{{league.name}}</option>
+                        <option *ngFor="let league of leagues; index as i;" value="{{i}}">{{league.name}}</option>
                     </select>
                     <small *ngIf="leagueNoValid" class="text-danger">Ingrese una liga</small>
                 </div>
                 
             </div>
 
-            <div class="form-group row no-gutters">
-
-                <label class="col-2 col-form-label">Club</label>
-                <div class="col-md-8">
-                    <select class="form-control" formControlName="club">
-                        <option *ngFor="let club of clubs" value="{{club_id}}">{{club.club_name}}</option>
-                    </select>
-                </div>
-                
-            </div>
-            
-  
             <div class="form-group row no-gutters">
                 <label class="col-2 col-form-label">&nbsp;</label>
                 <div class="input-group col-md-8">

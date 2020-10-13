@@ -9,6 +9,7 @@ import { LeaguesService } from '../../../../services/leagues.service';
 import { ClubsService } from '../../../../services/clubs.service';
 import { TeamsService } from '../../../../services/teams.service';
 import { PlayersService } from 'src/app/services/players.service';
+import { ImagesService } from 'src/app/services/images.service';
 
 //Models
 import { ClubModel } from '../../../../models/club.model';
@@ -25,32 +26,91 @@ import { PlayerModel } from 'src/app/models/player.model';
 export class UpdateplayerFormComponent implements OnInit {
 
   formulario:FormGroup;
-  leagues: LeagueModel[];
+  leagues;
   clubs: ClubModel[];
-  league_teams:LeagueModel[] = [];
+  teams: TeamModel[];
   player:PlayerModel = new PlayerModel();
 
-  constructor( private fb:FormBuilder, private LeaguesService:LeaguesService, private PlayersService:PlayersService, private route:ActivatedRoute, private ClubsService:ClubsService ) { 
+  selectedFile:File = null;
 
+  exists_img:boolean = false;
+
+  selected_club_index:number;
+
+  constructor( private fb:FormBuilder, private LeaguesService:LeaguesService, private TeamsService:TeamsService, private ImagesService:ImagesService, private PlayersService:PlayersService, private route:ActivatedRoute, private ClubsService:ClubsService ) { 
+    
+    const id = this.route.snapshot.paramMap.get('id');
+
+    this.PlayersService.getPlayer(id).then((res:PlayerModel) => {
+      this.player = res;
+
+      if(this.player.img != undefined){
+        this.exists_img = true;
+      }
+
+      this.leagues = [{
+        name: this.player.teams[0].league_name
+      }];
+
+      let league_index = 0;
+
+      for(let league of this.leagues){
+
+        if(league.name == this.player.teams[0].league_name){
+          this.formulario.get('league').setValue(league_index);
+        }
+        league_index++;
+        
+      }
+
+      this.ClubsService.getClubs().then((res:ClubModel[]) => {
+        this.clubs = res;
+  
+        let club_index = 0;
+  
+        for(let club of this.clubs){
+  
+          if(club.name == this.player.teams[0].club_name){
+            this.formulario.get('club').setValue(club_index);
+          }
+          club_index++;
+  
+        }
+        
+  
+      });
+
+    });
+
+    /*
     this.LeaguesService.getLeagues().then((res:LeagueModel[]) => {
       this.leagues = res;
 
-    });
+      let league_index = 0;
 
-    this.ClubsService.getClubs().then((res:ClubModel[]) => {
-      this.clubs = res;
+      for(let league of this.leagues){
+
+        if(league.name == this.player.teams[0].league_name){
+          this.formulario.get('league').setValue(league_index);
+        }
+        league_index++;
+        
+      }
+
     });
+    */
+
+    
+
+    
+
 
     this.crearFormulario();
 
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-
-    this.PlayersService.getPlayer(id).then((res:PlayerModel) => {
-      this.player = res;
-    });
+    
   }
 
   crearFormulario(){
@@ -62,11 +122,9 @@ export class UpdateplayerFormComponent implements OnInit {
       birth_date: ['', Validators.required],
       primary_position: ['', [Validators.required] ],
       secondary_position: ['', ],
-      phone: [''],
       weight: [''],
       height: [''],
       number: [''],
-      actual_team: [''],
       league: ['', Validators.required],
       club: ['', Validators.required]
     });
@@ -101,7 +159,85 @@ export class UpdateplayerFormComponent implements OnInit {
     return this.formulario.get('club').invalid && this.formulario.get('club').touched;
   }
 
-  setLeague(){ //CAMBIAR
+  onFileSelected(event){
+    this.selectedFile = <File>event.target.files[0];
+  }
+
+  uploadImage(){
+    const fd = new FormData();
+    fd.append('image', this.selectedFile, this.selectedFile.name);
+
+    Swal.fire({
+      title: 'Espere',
+      text: 'Guardando imagen',
+      icon: 'info',
+      allowOutsideClick: false
+    });
+
+    Swal.showLoading();
+
+    this.ImagesService.uploadImage(fd).then((res:any) => {
+      
+      if(res.status == 200){
+        //Guardo la url en la propiedad correspondiente
+        this.player.img = res.image_url;
+
+
+        Swal.fire({
+          title: 'Imagen subida correctamente.',
+          icon: 'success'
+        });
+
+      
+      }
+      else{
+        Swal.fire({
+          title: 'Error al subir la imagen.',
+          icon: 'error'
+        });
+      }
+    });
+
+  }
+
+  selectClub(club_index){
+
+    this.TeamsService.getTeam("?club.club_id="+this.clubs[club_index]._id).then((res:TeamModel[]) => {
+      this.teams = res;
+
+      this.leagues = [];
+      for(let team of this.teams){
+
+        let league = {
+          name: team.league.league_name
+        }
+
+        this.leagues.push(league);
+
+      }
+
+    });
+
+    this.selected_club_index = club_index;
+
+    this.formulario.get('league').setValue('');
+
+
+  }
+
+  setLeague(team_index){ 
+
+    let newClubInfo = {
+      club_id: this.clubs[this.selected_club_index]._id,
+      club_name: this.clubs[this.selected_club_index].name,
+      club_img: this.clubs[this.selected_club_index].img,
+      team_id: this.teams[team_index]._id,
+      league_id: this.teams[team_index].league.league_id,
+      league_name: this.teams[team_index].league.league_name,
+      season: this.teams[team_index].season
+    };
+    
+    this.player.teams[0] = newClubInfo;
 
   }
 
