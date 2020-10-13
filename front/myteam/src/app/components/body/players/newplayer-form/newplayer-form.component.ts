@@ -198,45 +198,54 @@ export class NewplayerFormComponent implements OnInit {
 
       Swal.showLoading();
 
-      this.playersService.createPlayer(this.player).catch( (err:HttpErrorResponse) => {
+      this.playersService.createPlayer(this.player).then( resp => {
+
+        console.log("BUSCO EL JUGADOR: "+JSON.stringify(this.player));
+
+        //Necesito recibir el jugador creado para obtener el ID generado por MongoDB.
+        this.playersService.getPlayers("?name="+this.player.name+"&last_name="+this.player.last_name).then( (created_player:PlayerModel) => {
+  
+          this.player._id = created_player[0]._id;
+  
+          console.log("ENTRO");
+  
+          //Receive the initial player team
+          this.teamsService.getTeam(this.player.teams[0].team_id).then( (team:TeamModel) => {
+  
+            let newPlayer = {
+              player_id: this.player._id,
+              player_name: this.player.name,
+              player_last_name: this.player.last_name,
+              player_birth_date: this.player.birth_date,
+              player_img: this.player.img,
+              player_number: this.player.number,
+              player_position: this.player.primary_position
+            };
+    
+            //Add the new player to the roster of the team
+            team.roster.push(newPlayer);
+    
+            this.teamsService.updateTeam(team).catch( (err:HttpErrorResponse) => {
+              console.error('Ann error occurred: ', err.error);
+              this.err_msg = "El jugador ha sido creado pero no se ha podido introducir en el roster de su equipo."
+            });
+    
+    
+          });
+  
+        })
+        .catch( (err:HttpErrorResponse) => {
+          console.error('Error while trying to receive the new player from the database'+err);
+          this.err_msg = "Error al intentar leer el nuevo jugador desde la base de datos. El jugador ha sido creado.";
+        });
+        
+      })
+      .catch( (err:HttpErrorResponse) => {
         console.error('Error while trying to post the player in the database: ', err.error);
         this.err_msg = "Error al crear el jugador";
       });
 
-      //Necesito recibir el jugador creado para obtener el ID generado por MongoDB.
-      this.playersService.getPlayers("?name="+this.player.name+"&last_name="+this.player.last_name).then( (created_player:PlayerModel) => {
-
-        this.player._id = created_player[0]._id;
-
-        //Receive the initial player team
-        this.teamsService.getTeam(this.player.teams[0].team_id).then( (team:TeamModel) => {
-
-          let newPlayer = {
-            player_id: this.player._id,
-            player_name: this.player.name,
-            player_last_name: this.player.last_name,
-            player_birth_date: this.player.birth_date,
-            player_img: this.player.img,
-            player_number: this.player.number,
-            player_position: this.player.primary_position
-          };
-  
-          //Add the new player to the roster of the team
-          team.roster.push(newPlayer);
-  
-          this.teamsService.updateTeam(team).catch( (err:HttpErrorResponse) => {
-            console.error('Ann error occurred: ', err.error);
-            this.err_msg = "El jugador ha sido creado pero no se ha podido introducir en el roster de su equipo."
-          });
-  
-  
-        });
-
-      })
-      .catch( (err:HttpErrorResponse) => {
-        console.error('Error while trying to receive the new player from the database'+err);
-        this.err_msg = "Error al intentar leer el nuevo jugador desde la base de datos. El jugador ha sido creado.";
-      });
+      
 
       if(this.err_msg != ""){
         Swal.fire({
