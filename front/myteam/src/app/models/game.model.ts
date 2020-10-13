@@ -18,42 +18,43 @@ export class GameModel{
         club_img: string;
         team_id: string;
     };
-    home_team_score: number;
-    visitor_team_score: number;
-    winner_team: {
+    home_team_score?: number;
+    visitor_team_score?: number;
+    winner_team?: {
         team_id: string;
         club_name: string;
         club_img: string;
     };
-    loser_team: {
+    loser_team?: {
         team_id: string;
         club_name: string;
         club_img: string;
     };
-    minutes_played: number;
-    overtime: boolean;
-    overtime_count: number;
+    minutes_played?: number;
+    overtime?: boolean;
+    overtime_count?: number;
     stats: {
-        home_team_stats: {
-            team_stats: [{
+        home_team_stats?: {
+            team_stats?: {
 
-            }];
-            player_stats: [{
-                player_id: string;
-                player_name: string;
-                player_lastName: string;
-                time_played:{
+            };
+            player_stats?: [{
+                player_id?: string;
+                starter?: boolean;
+                player_name?: string;
+                player_lastName?: string;
+                time_played?:{
                     minutes: number;
                     seconds: number;
                 };
-                points: number;
-                t2_made: number;
-                t2_attempted: number;
-                t3_made: number;
-                t3_attempted: number;
-                t1_made: number;
-                t1_attempted: number;
-                shots_list: {
+                points?: number;
+                t2_made?: number;
+                t2_attempted?: number;
+                t3_made?: number;
+                t3_attempted?: number;
+                t1_made?: number;
+                t1_attempted?: number;
+                shots_list?: {
                     lc3: {made: number; attempted: number};
                     le3: {made: number; attempted: number};
                     c3: {made: number; attempted: number};
@@ -69,41 +70,42 @@ export class GameModel{
                     lft2: {made: number; attempted: number};
                     rft2: {made: number; attempted: number}
                 };
-                total_rebounds: number;
-                defensive_rebounds: number;
-                offensive_rebounds: number;
-                assists: number;
-                steals: number;
-                turnovers: number;
-                blocks_made: number;
-                blocks_received: number;
-                fouls_made: number;
-                fouls_received: number;
-                plus_minus: number;
-                approximate_value: number;
-                usage: number
+                total_rebounds?: number;
+                defensive_rebounds?: number;
+                offensive_rebounds?: number;
+                assists?: number;
+                steals?: number;
+                turnovers?: number;
+                blocks_made?: number;
+                blocks_received?: number;
+                fouls_made?: number;
+                fouls_received?: number;
+                plus_minus?: number;
+                approximate_value?: number;
+                usage?: {personal: number; team: number}
             }];
         };
-        visitor_team_stats: [{
-            team_stats: [{
+        visitor_team_stats?: {
+            team_stats?: {
 
-            }];
-            player_stats: [{
-                player_id: string;
-                player_name: string;
-                player_lastName: string;
-                time_played:{
+            };
+            player_stats?: [{
+                player_id?: string;
+                starter?: boolean;
+                player_name?: string;
+                player_lastName?: string;
+                time_played?:{
                     minutes: number;
                     seconds: number;
                 };
-                points: number;
-                t2_made: number;
-                t2_attempted: number;
-                t3_made: number;
-                t3_attempted: number;
-                t1_made: number;
-                t1_attempted: number;
-                shots_list: {
+                points?: number;
+                t2_made?: number;
+                t2_attempted?: number;
+                t3_made?: number;
+                t3_attempted?: number;
+                t1_made?: number;
+                t1_attempted?: number;
+                shots_list?: {
                     lc3: {made: number; attempted: number};
                     le3: {made: number; attempted: number};
                     c3: {made: number; attempted: number};
@@ -119,23 +121,23 @@ export class GameModel{
                     lft2: {made: number; attempted: number};
                     rft2: {made: number; attempted: number}
                 };
-                total_rebounds: number;
-                defensive_rebounds: number;
-                offensive_rebounds: number;
-                assists: number;
-                steals: number;
-                turnovers: number;
-                blocks_made: number;
-                blocks_received: number;
-                fouls_made: number;
-                fouls_received: number;
-                plus_minus: number;
-                approximate_value: number;
-                usage: number
+                total_rebounds?: number;
+                defensive_rebounds?: number;
+                offensive_rebounds?: number;
+                assists?: number;
+                steals?: number;
+                turnovers?: number;
+                blocks_made?: number;
+                blocks_received?: number;
+                fouls_made?: number;
+                fouls_received?: number;
+                plus_minus?: number;
+                approximate_value?: number;
+                usage?: {personal: number; team: number}
             }];
-        }];
+        };
     };
-    play_by_play: [{
+    play_by_play?: [{
         player: {
             player_id: string;
             player_name: string
@@ -157,5 +159,22 @@ export class GameModel{
         from: string;
         to: string;
     }];
+
+    constructor(){
+        
+        this.stats = {
+            home_team_stats: {
+                team_stats: {},
+                player_stats: [{}]
+            },
+            visitor_team_stats: {
+                team_stats: {},
+                player_stats: [{}]
+            },
+
+        };
+
+        
+    }
 
 }

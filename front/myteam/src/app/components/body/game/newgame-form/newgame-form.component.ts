@@ -42,18 +42,18 @@ export class NewgameFormComponent implements OnInit {
   visitor_club_teams:TeamModel[] = [];
   
 
-  home_team_players = [];
-  visitor_team_players = [];
+  home_team_players = []; //Whole roster of the home team.
+  visitor_team_players = []; //Whole roster of visitor team.
 
   selected_home_players = 0; //Save the number of home players selected for the game. It can't be up to 15.
   selected_home_players_5i = 0; //Save the number of starters home players.
-  home_players = [];
+  home_players = []; //Home team players selected to the game.
   home_starters = []; //A list of starters home players.
 
   selected_visitor_players = 0; //Save the number of visitor players selected for the game.
   selected_visitor_players_5i = 0; //Save the number of starters visitor players.
-  visitor_players = [];
-  visitor_starters = [];
+  visitor_players = []; //Visitor team players selected to the game.
+  visitor_starters = []; //A list of starters visitor players.
 
   reset_local_select = true;
 
@@ -157,16 +157,12 @@ export class NewgameFormComponent implements OnInit {
             //Borro al jugador de la convocatoria
             this.selected_home_players--;
           }
-          this.home_players.splice(this.home_players.indexOf(player_index));
+          this.home_players.splice(this.home_players.indexOf(player_index),1);
         }
         
       }
 
     }
-
-    console.log("HOME PLAYERS INDEX: "+this.home_players);
-    console.log("HOME STARTERS INDEX: "+this.home_starters);
-    console.log("");
     
   }
 
@@ -228,7 +224,7 @@ export class NewgameFormComponent implements OnInit {
             //Borro al jugador de la convocatoria
             this.selected_visitor_players--;
           }
-          this.visitor_players.splice(this.visitor_players.indexOf(player_index));
+          this.visitor_players.splice(this.visitor_players.indexOf(player_index),1);
         }
         
       }
@@ -378,17 +374,14 @@ export class NewgameFormComponent implements OnInit {
   }
 
 
-  guardar(){
+  createGame(){
 
     //Valido el formulario
       //Si es valido hago post, guardo el ID y me muevo al partido
       //this.router.navigateByUrl('/live-game');
       //Si no es valido me quedo
 
-      console.log(JSON.stringify(this.game));
-
       
-
 
     if(this.form.invalid){
 
@@ -396,39 +389,170 @@ export class NewgameFormComponent implements OnInit {
         control.markAsTouched();
       });
 
-    }/*
+    }
     else{
 
-      Swal.fire({
-        title: 'Espere',
-        text: 'Guardando información',
-        icon: 'info',
-        allowOutsideClick: false
-      });
-
-      Swal.showLoading();
-
-      this.gamesService.createGame(this.game).then(resp => {
-        //If the post success
+      if( (this.home_players.length < 5) ||  (this.visitor_players.length < 5) || (this.home_starters.length < 5) || (this.visitor_starters.length < 5) ){ //Need to check if the fields are filled.
 
         Swal.fire({
-          title: 'Jugador creado correctamente.',
-          icon: 'success'
-        });
-
-      })
-      //If the post fails:
-      .catch( (err: HttpErrorResponse) => {
-        console.error('Ann error occurred: ', err.error);
-        Swal.fire({
-          title: 'Error al crear el jugador.',
-          text: 'Compruebe que no existe un jugador con el mismo nombre y fecha de nacimiento.',
+          title: 'Error.',
+          text: 'Seleccione al menos 5 jugadores por equipo e indique los titulares.',
           icon: 'error'
         });
-      });
+
+      }
+      else{ //The has te correct fields.
+
+        //Formo un objeto igual al array de stats de jugadores
+
+        let cont = 0;
+
+        //Add home_team_stats player_stats
+        for(let player_index of this.home_players){
+          
+          let player_stats = {
+            player_id: this.home_team_players[player_index].player_id,
+            starter: false,
+            player_name: this.home_team_players[player_index].player_name,
+            player_lastName: this.home_team_players[player_index].player_last_name,
+            time_played:{
+              minutes: 0,
+              seconds: 0,
+            },
+            points: 0,
+            t2_made: 0,
+            t2_attempted: 0,
+            t3_made: 0,
+            t3_attempted: 0,
+            t1_made: 0,
+            t1_attempted: 0,
+            shots_list: {
+              lc3: {made: 0, attempted: 0},
+              le3: {made: 0, attempted: 0},
+              c3: {made: 0, attempted: 0},
+              re3: {made: 0, attempted: 0},
+              rc3: {made: 0, attempted: 0},
+              lmc2: {made: 0, attempted: 0},
+              lme2: {made: 0, attempted: 0},
+              cm2:  {made: 0, attempted: 0},
+              rme2: {made: 0, attempted: 0},
+              rmc2: {made: 0, attempted: 0},
+              lp2:  {made: 0, attempted: 0},
+              rp2:  {made: 0, attempted: 0},
+              lft2: {made: 0, attempted: 0},
+              rft2: {made: 0, attempted: 0}
+            },
+            total_rebounds: 0,
+            defensive_rebounds: 0,
+            offensive_rebounds:0,
+            assists: 0,
+            steals: 0,
+            turnovers: 0,
+            blocks_made: 0,
+            blocks_received: 0,
+            fouls_made: 0,
+            fouls_received: 0,
+            plus_minus: 0,
+            approximate_value: 0,
+            usage: {
+              personal: 0,
+              team: 0
+            }
+          };
+
+          if(this.home_starters.indexOf(player_index) != -1){
+            player_stats.starter = true;
+          }
+          
+          this.game.stats.home_team_stats.player_stats.push(player_stats);
+          
+          cont++;
+        }
+
+        console.log("");
+        cont = 0;
+
+        //Add visitor_team_stats player_stats
+        for(let player_index of this.visitor_players){
+          
+          let player_stats = {
+            player_id: this.visitor_team_players[player_index].player_id,
+            starter: false,
+            player_name: this.visitor_team_players[player_index].player_name,
+            player_lastName: this.visitor_team_players[player_index].player_last_name,
+            time_played:{
+              minutes: 0,
+              seconds: 0,
+            },
+            points: 0,
+            t2_made: 0,
+            t2_attempted: 0,
+            t3_made: 0,
+            t3_attempted: 0,
+            t1_made: 0,
+            t1_attempted: 0,
+            shots_list: {
+              lc3: {made: 0, attempted: 0},
+              le3: {made: 0, attempted: 0},
+              c3: {made: 0, attempted: 0},
+              re3: {made: 0, attempted: 0},
+              rc3: {made: 0, attempted: 0},
+              lmc2: {made: 0, attempted: 0},
+              lme2: {made: 0, attempted: 0},
+              cm2:  {made: 0, attempted: 0},
+              rme2: {made: 0, attempted: 0},
+              rmc2: {made: 0, attempted: 0},
+              lp2:  {made: 0, attempted: 0},
+              rp2:  {made: 0, attempted: 0},
+              lft2: {made: 0, attempted: 0},
+              rft2: {made: 0, attempted: 0}
+            },
+            total_rebounds: 0,
+            defensive_rebounds: 0,
+            offensive_rebounds:0,
+            assists: 0,
+            steals: 0,
+            turnovers: 0,
+            blocks_made: 0,
+            blocks_received: 0,
+            fouls_made: 0,
+            fouls_received: 0,
+            plus_minus: 0,
+            approximate_value: 0,
+            usage: {
+              personal: 0,
+              team: 0
+            }
+          };
+
+          if(this.visitor_starters.indexOf(this.visitor_players) != -1){
+            player_stats.starter = true;
+          }
+
+          if(this.home_starters.indexOf(player_index) != -1){
+            player_stats.starter = true;
+          }
+          
+          this.game.stats.visitor_team_stats.player_stats.push(player_stats);
+          
+          cont++;
+        }
+
+        //console.log(JSON.stringify(this.game));
+        console.log(JSON.stringify(this.game.stats.home_team_stats.player_stats[0].starter));
+        console.log("");
+        console.log("");
+        console.log("");
+        console.log(JSON.stringify(this.game.stats.home_team_stats.player_stats));
+
+        //Hago el POST del partido
+        //Hago GET de partido para conseguir ID
+        //Paso el partido con el ID
+
+      }
 
     }
-    */
+    
 
   }
 

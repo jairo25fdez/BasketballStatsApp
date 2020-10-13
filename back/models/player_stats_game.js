@@ -25,6 +25,7 @@ var shots_listSchema = new Schema({
 
 var player_stats_gameSchema = new Schema({
     player_id: {type: Schema.Types.ObjectId, ref: 'Player', required: true},
+    starter: {type: Boolean},
     player_name: String,
     player_lastName: String,
     time_played: {
@@ -52,7 +53,10 @@ var player_stats_gameSchema = new Schema({
     plus_minus: Number,
     approximate_value: Number,
     //Advanced stats
-    usage: Number, //Using %.
+    usage: {
+        personal: Number,
+        team: Number
+    }, //Using %.
 });
 
 player_stats_gameSchema = mongoose.Schema(player_stats_gameSchema);
