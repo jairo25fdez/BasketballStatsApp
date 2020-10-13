@@ -264,8 +264,31 @@ export class UpdateplayerFormComponent implements OnInit {
       this.PlayersService.updatePlayer(this.player).then(resp => {
         //If the post success
 
+        //Tengo que buscar al jugador en los rosters de los equipos para actualizar su información
+        this.TeamsService.getTeams("?roster.player_id="+this.player._id).then( (teams:TeamModel[]) => {
+
+          for(let player of teams[0].roster){
+            if(player.player_id == this.player._id){
+              player.player_id = this.player._id;
+              player.player_name = this.player.name;
+              //console.log("CAMBIO "+player.player_name+" POR "+this.player.name);
+              player.player_last_name = this.player.last_name;
+              player.player_birth_date = this.player.birth_date;
+              player.player_img = this.player.img;
+              player.player_number = this.player.number;
+              player.player_position = this.player.primary_position;
+            }
+          }
+
+          //Update the team
+          this.TeamsService.updateTeam(teams[0]).catch( (err:HttpErrorResponse) => {
+            console.error("Error while trying to update the player in the team roster");
+          });
+
+        });
+
         Swal.fire({
-          title: 'Jugador creado correctamente.',
+          title: 'Jugador actualizado correctamente.',
           icon: 'success'
         });
 
@@ -274,8 +297,7 @@ export class UpdateplayerFormComponent implements OnInit {
       .catch( (err: HttpErrorResponse) => {
         console.error('Ann error occurred: ', err.error);
         Swal.fire({
-          title: 'Error al crear el jugador.',
-          text: 'Compruebe que no existe un jugador con el mismo nombre y fecha de nacimiento.',
+          title: 'Error al actualizar el jugador.',
           icon: 'error'
         });
       });

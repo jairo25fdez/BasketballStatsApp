@@ -179,8 +179,6 @@ export class NewplayerFormComponent implements OnInit {
   }
 
   guardar(){
-
-    console.log("PLAYER: "+JSON.stringify(this.player.teams[0]));
     
     if(this.formulario.invalid){
 
@@ -205,20 +203,22 @@ export class NewplayerFormComponent implements OnInit {
         this.err_msg = "Error al crear el jugador";
       });
 
-      //Necesito recibir el jugador creado para obtener sus propiedades
-      this.playersService.getPlayer("?name="+this.player.name+"&last_name="+this.player.last_name+"&birth_date="+this.player.birth_date).then( (created_player:PlayerModel) => {
+      //Necesito recibir el jugador creado para obtener el ID generado por MongoDB.
+      this.playersService.getPlayers("?name="+this.player.name+"&last_name="+this.player.last_name).then( (created_player:PlayerModel) => {
+
+        this.player._id = created_player[0]._id;
 
         //Receive the initial player team
         this.teamsService.getTeam(this.player.teams[0].team_id).then( (team:TeamModel) => {
 
           let newPlayer = {
-            player_id: created_player._id,
-            player_name: created_player.name,
-            player_last_name: created_player.last_name,
-            player_birth_date: created_player.birth_date,
-            player_img: created_player.img,
-            player_number: created_player.number,
-            player_position: created_player.primary_position
+            player_id: this.player._id,
+            player_name: this.player.name,
+            player_last_name: this.player.last_name,
+            player_birth_date: this.player.birth_date,
+            player_img: this.player.img,
+            player_number: this.player.number,
+            player_position: this.player.primary_position
           };
   
           //Add the new player to the roster of the team
