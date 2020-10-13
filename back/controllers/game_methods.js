@@ -74,6 +74,7 @@ module.exports = function (app){
         game.save(function(err,doc){
             if(err){
                 console.log("Error while trying to post the game into the database.");
+                console.log(err);
                 response.sendStatus(500);
             }
             else{

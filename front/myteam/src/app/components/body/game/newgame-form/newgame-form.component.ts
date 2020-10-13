@@ -275,7 +275,6 @@ export class NewgameFormComponent implements OnInit {
 
     this.teamsService.getTeam("?club.club_id="+this.clubs[club_index]._id).then((res:TeamModel[]) => {
       this.local_club_teams = res;
-      console.log("CAMBIO CLUB LOCALES");
     });
 
     this.home_team_players = [];
@@ -375,13 +374,6 @@ export class NewgameFormComponent implements OnInit {
 
 
   createGame(){
-
-    //Valido el formulario
-      //Si es valido hago post, guardo el ID y me muevo al partido
-      //this.router.navigateByUrl('/live-game');
-      //Si no es valido me quedo
-
-      
 
     if(this.form.invalid){
 
@@ -538,14 +530,36 @@ export class NewgameFormComponent implements OnInit {
           cont++;
         }
 
-        //console.log(JSON.stringify(this.game));
-        console.log(JSON.stringify(this.game.stats.home_team_stats.player_stats[0].starter));
-        console.log("");
-        console.log("");
-        console.log("");
-        console.log(JSON.stringify(this.game.stats.home_team_stats.player_stats));
+        console.log("GAME");
+        console.log("HOME TEAM: "+JSON.stringify(this.game.home_team));
+        console.log("VISITOR TEAM: "+JSON.stringify(this.game.visitor_team));
 
         //Hago el POST del partido
+        this.gamesService.createGame(this.game).then( res => {
+
+          this.gamesService.getGames("?date="+this.game.date+"&home_team.team_id="+this.game.home_team.team_id+"&visitor_team.team_id="+this.game.visitor_team.team_id).then( (games:GameModel[]) => {
+          
+            this.router.navigateByUrl('/live-game/'+games[0]._id);
+          
+          })
+          .catch( (err:HttpErrorResponse) => {
+            Swal.fire({
+              title: 'Error.',
+              text: 'Error al intentar traer el partido de la base de datos.',
+              icon: 'error'
+            });
+          });
+
+        })
+        .catch( (err:HttpErrorResponse) => {
+
+          Swal.fire({
+            title: 'Error.',
+            text: 'Error al tratar de crear el partido en la base de datos.',
+            icon: 'error'
+          });
+
+        });
         //Hago GET de partido para conseguir ID
         //Paso el partido con el ID
 

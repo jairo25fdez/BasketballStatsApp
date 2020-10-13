@@ -39,7 +39,7 @@ const routes: Routes = [
     ]
   },
   //Game routes
-    {path: 'live-game', component: LiveGameComponent},
+    {path: 'live-game/:id', component: LiveGameComponent},
     {path: 'game-menu', component: GameMenuComponent},
     {path: 'new-game', component: NewgameFormComponent},
   //Player routes

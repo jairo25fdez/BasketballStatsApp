@@ -30,13 +30,13 @@ var gameSchema = new Schema({
     visitor_team_score: Number,
     winner_team: {
         team_id: {type: Schema.Types.ObjectId, ref: 'Team'},
-        club_name: {type: String, required: true},
-        club_img: {type: String, required: true}
+        club_name: {type: String},
+        club_img: {type: String}
     },
     loser_team: {
         team_id: {type: Schema.Types.ObjectId, ref: 'Team'},
-        club_name: {type: String, required: true},
-        club_img: {type: String, required: true}
+        club_name: {type: String},
+        club_img: {type: String}
     },
     minutes_played: Number,
     overtime: Boolean,
