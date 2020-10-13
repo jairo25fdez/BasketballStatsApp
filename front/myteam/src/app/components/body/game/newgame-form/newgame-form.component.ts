@@ -47,10 +47,12 @@ export class NewgameFormComponent implements OnInit {
 
   selected_home_players = 0; //Save the number of home players selected for the game. It can't be up to 15.
   selected_home_players_5i = 0; //Save the number of starters home players.
+  home_players = [];
   home_starters = []; //A list of starters home players.
 
   selected_visitor_players = 0; //Save the number of visitor players selected for the game.
   selected_visitor_players_5i = 0; //Save the number of starters visitor players.
+  visitor_players = [];
   visitor_starters = [];
 
   reset_local_select = true;
@@ -97,35 +99,74 @@ export class NewgameFormComponent implements OnInit {
     return this.form.get('game_season').invalid && this.form.get('game_season').touched;
   }
 
-  checkHomePlayers(event, checkBox) {
+  checkHomePlayers(event, checkBox, player_index) {
 
+    //If we receive a starter player
     if(checkBox == "home_player_5i"){
-      if(event.target.checked === true){
-        if(this.selected_home_players_5i < 5){
-          this.selected_home_players_5i++
+
+      if(event.target.checked === true ){ //Trying to check the starter player.
+        
+        if(this.home_players.indexOf(player_index) != -1){ //If the player IS listed for the game.
+
+          if(this.selected_home_players_5i < 5 ){ //If we found the player and have spaces to save it in the starters list.
+            this.selected_home_players_5i++
+            this.home_starters.push(player_index);
+          }
+          else{ //If we have no spaces for the new starter.
+            event.target.checked = false;
+          }
+
         }
-        else{
+        else{ //The player is not selected for the game so it can not be a starter.
+
           event.target.checked = false;
+          
         }
+
       }
-      else if(this.selected_home_players_5i>0){
-        this.selected_home_players_5i--;
+      else { //Trying to uncheck the starter player.
+
+        if(this.selected_home_players_5i>0){
+          this.selected_home_players_5i--;
+        }
+
+        this.home_starters.splice(this.home_starters.indexOf(player_index),1);
+        
       }
+
     }
+    //If we receive a player
     else{
-      if(event.target.checked === true){
+
+      if(event.target.checked === true){ //User is trying to check the option
         if(this.selected_home_players < 15){
+          this.home_players.push(player_index);
           this.selected_home_players++
         }
         else{
           event.target.checked = false;
         }
       }
-      else if(this.selected_home_players>0){
-        this.selected_home_players--;
+      else{ //User is trying to deselect the option
+
+        if(this.home_starters.indexOf(player_index) != -1){ //If we find the player in the starters list
+          event.target.checked = true; //Cancel the uncheck
+        }
+        else{ //We don't find the player in starters list
+          if(this.selected_home_players>0){
+            //Borro al jugador de la convocatoria
+            this.selected_home_players--;
+          }
+          this.home_players.splice(this.home_players.indexOf(player_index));
+        }
+        
       }
+
     }
 
+    console.log("HOME PLAYERS INDEX: "+this.home_players);
+    console.log("HOME STARTERS INDEX: "+this.home_starters);
+    console.log("");
     
   }
 
@@ -134,36 +175,69 @@ export class NewgameFormComponent implements OnInit {
     //If we receive a starter player
     if(checkBox == "visitor_player_5i"){
 
-      if(event.target.checked === true){
-        if(this.selected_visitor_players_5i < 5 /*&& el jugador está convocado*/){
-          this.selected_visitor_players_5i++
-          //Guardo el jugador en lista de titulares
+      if(event.target.checked === true ){ //Trying to check the starter player.
+        
+        if(this.visitor_players.indexOf(player_index) != -1){ //If the player IS listed for the game.
+
+          if(this.selected_visitor_players_5i < 5 ){ //If we found the player and have spaces to save it in the starters list.
+            this.selected_visitor_players_5i++
+            this.visitor_starters.push(player_index);
+          }
+          else{ //If we have no spaces for the new starter.
+            event.target.checked = false;
+          }
+
         }
-        else{
+        else{ //The player is not selected for the game so it can not be a starter.
+
           event.target.checked = false;
+          
         }
+
       }
-      else if(this.selected_visitor_players_5i>0){
-        //Borro al jugador de lista de titulares
-        this.selected_visitor_players_5i--;
+      else { //Trying to uncheck the starter player.
+
+        if(this.selected_visitor_players_5i>0){
+          this.selected_visitor_players_5i--;
+        }
+
+        this.visitor_starters.splice(this.visitor_starters.indexOf(player_index),1);
+        
       }
+
     }
     //If we receive a player
     else{
-      if(event.target.checked === true){
+
+      if(event.target.checked === true){ //User is trying to check the option
         if(this.selected_visitor_players < 15){
-          //Añado al jugador a la convocatoria
+          this.visitor_players.push(player_index);
           this.selected_visitor_players++
         }
         else{
           event.target.checked = false;
         }
       }
-      else if(this.selected_visitor_players>0){
-        //Borro al jugador de la convocatoria
-        this.selected_visitor_players--;
+      else{ //User is trying to deselect the option
+
+        if(this.visitor_starters.indexOf(player_index) != -1){ //If we find the player in the starters list
+          event.target.checked = true; //Cancel the uncheck
+        }
+        else{ //We don't find the player in starters list
+          if(this.selected_visitor_players>0){
+            //Borro al jugador de la convocatoria
+            this.selected_visitor_players--;
+          }
+          this.visitor_players.splice(this.visitor_players.indexOf(player_index));
+        }
+        
       }
+
     }
+
+    //console.log("VISITOR PLAYERS INDEX: "+this.visitor_players);
+    //console.log("VISITOR STARTERS INDEX: "+this.visitor_starters);
+    //console.log("");
 
   }
 
