@@ -1,4 +1,5 @@
-<div class="row no-gutters vh-100 align-items-center">
+<!--
+    <div class="row no-gutters vh-100 align-items-center">
 
     <div class="col"></div>
 
@@ -18,7 +19,7 @@
 
     <div class="card col-4 h-40" >
 
-        <a class="h-100" >
+        <a class="h-100" [routerLink]="['/games-list']">
             <img class="card-img-top" src="../../../assets/img/game/menu/pencil.svg" alt="Pencil">
         
             <div class="card-body">
@@ -32,4 +33,17 @@
     <div class="col"></div>
 
 
+</div>
+
+-->
+
+<div class="vh-100">
+
+    <nav class="nav nav-pills nav-justified p-1">
+        <a class="nav-item nav-link" data-toggle="pill" routerLinkActive="active" [routerLink]="['games-list']">Consultar Partidos</a>
+        <a class="nav-item nav-link " data-toggle="pill" routerLinkActive="active" [routerLink]="['new-game']" >Crear Partido</a>
+    </nav>
+
+    <router-outlet></router-outlet>
+    
 </div>

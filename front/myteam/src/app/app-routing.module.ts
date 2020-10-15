@@ -10,6 +10,7 @@ import { NewclubFormComponent } from './components/body/clubs/newclub-form/newcl
 import { LiveGameComponent } from './components/body/game/live-game/live-game.component';
 import { GameMenuComponent } from './components/body/game/game-menu/game-menu.component';
 import { NewgameFormComponent } from './components/body/game/newgame-form/newgame-form.component';
+import { GamesViewComponent } from './components/body/game/games-view/games-view.component';
 
 //Players components
 import { NewplayerFormComponent } from './components/body/players/newplayer-form/newplayer-form.component';
@@ -40,15 +41,20 @@ const routes: Routes = [
   },
   //Game routes
     {path: 'live-game/:id', component: LiveGameComponent},
-    {path: 'game-menu', component: GameMenuComponent},
-    {path: 'new-game', component: NewgameFormComponent},
+    {path: 'game-menu', component: GameMenuComponent,
+    children: [
+      {path: 'new-game', component: NewgameFormComponent},
+      {path: 'games-list', component: GamesViewComponent},
+      {path: '**', pathMatch: 'full', redirectTo: 'games-list'}
+    ]
+    },
   //Player routes
     {path: 'players', component: PlayersMenuComponent,
     children: [
         {path: 'new-player', component: NewplayerFormComponent},
-        {path: 'players-view', component: PlayersViewComponent},
+        {path: 'players-list', component: PlayersViewComponent},
         {path: 'edit-player/:id', component: UpdateplayerFormComponent},
-        {path: '**', pathMatch: 'full', redirectTo: 'players-view'}
+        {path: '**', pathMatch: 'full', redirectTo: 'players-list'}
       ]
     },
     //Teams routes
@@ -64,9 +70,9 @@ const routes: Routes = [
     {path: 'leagues', component: LeaguesMenuComponent,
       children: [
         {path: 'new-league', component: NewleagueFormComponent},
-        {path: 'leagues-view', component: LeaguesViewComponent},
+        {path: 'leagues-list', component: LeaguesViewComponent},
         {path: 'edit-league/:id', component: NewleagueFormComponent},
-        {path: '**', pathMatch: 'full', redirectTo: 'leagues-view'}
+        {path: '**', pathMatch: 'full', redirectTo: 'leagues-list'}
       ]
     },
     

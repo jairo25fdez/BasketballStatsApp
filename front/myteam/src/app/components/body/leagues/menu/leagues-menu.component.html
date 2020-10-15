@@ -1,18 +1,10 @@
 <div class="vh-100">
 
     <nav class="nav nav-pills nav-justified p-1">
-        <a class="nav-item nav-link" data-toggle="pill" routerLinkActive="active" [routerLink]="['leagues-view']">Consultar Ligas</a>
+        <a class="nav-item nav-link" data-toggle="pill" routerLinkActive="active" [routerLink]="['leagues-list']">Consultar Ligas</a>
         <a class="nav-item nav-link " data-toggle="pill" routerLinkActive="active" [routerLink]="['new-league']" >Crear Liga</a>
     </nav>
-<!--
-    <div class="tab-content">
-        <div class="tab-pane fade show active " id="view-leagues" role="tabpanel" >
-            <app-leagues-view ></app-leagues-view>
-        </div>
-        <div class="tab-pane fade" id="create-league" role="tabpanel">
-            <app-newleague-form></app-newleague-form>
-        </div>
-    </div>
--->
-<router-outlet></router-outlet>
+
+    <router-outlet></router-outlet>
+    
 </div>

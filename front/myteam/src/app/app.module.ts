@@ -46,6 +46,7 @@ import { NewteamFormComponent } from './components/body/teams/newteam-form/newte
 import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
 import { UpdateplayerFormComponent } from './components/body/players/updateplayer-form/updateplayer-form.component';
 import { NewgameFormComponent } from './components/body/game/newgame-form/newgame-form.component';
+import { GamesViewComponent } from './components/body/game/games-view/games-view.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { NewgameFormComponent } from './components/body/game/newgame-form/newgam
     NewteamFormComponent,
     UpdateteamFormComponent,
     UpdateplayerFormComponent,
-    NewgameFormComponent
+    NewgameFormComponent,
+    GamesViewComponent
   ],
   imports: [
     BrowserModule,
