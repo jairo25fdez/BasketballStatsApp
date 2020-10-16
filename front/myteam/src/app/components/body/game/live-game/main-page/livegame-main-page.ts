@@ -1,4 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+//Models
+import { LeagueModel } from 'src/app/models/league.model';
+import { ClubModel } from 'src/app/models/club.model';
+import { PlayerModel } from 'src/app/models/player.model';
+import { TeamModel } from 'src/app/models/team.model';
+import { GameModel } from '../../../../../models/game.model';
+
+//Services
+import { LeaguesService } from 'src/app/services/leagues.service';
+import { ClubsService } from 'src/app/services/clubs.service';
+import { PlayersService } from 'src/app/services/players.service';
+import { TeamsService } from 'src/app/services/teams.service';
+import { GamesService } from 'src/app/services/games.service';
+
+
 
 @Component({
   selector: 'app-livegame-main-page',
@@ -7,7 +24,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainPageComponent implements OnInit {
 
-  constructor() { }
+  game:GameModel;
+
+
+  constructor(private gamesService:GamesService, private route:ActivatedRoute) { 
+
+    const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
+
+    //Cargar escudos
+    this.gamesService.getGame(game_id).then((res:GameModel) => {
+      this.game = res;
+      console.log("GAME: "+JSON.stringify(this.game));
+    });
+    //Cargar jugadores
+    //Cargar titulares
+    //Cargar faltas
+  }
 
   ngOnInit(): void {
   }

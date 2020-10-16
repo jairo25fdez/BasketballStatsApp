@@ -7,8 +7,8 @@
             <div class="d-flex flex-row">
 
                 <div class="home-team-info d-flex flex-column">
-                    <p class="home-team-name h2">DAL</p>
-                    <img class="home-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
+                    <p class="home-team-name h2">{{game.home_team.club_acronym}}</p>
+                    <img class="home-team-logo" src={{game.home_team.club_img}}>
                     
                     <p class="home-team-score pl-5 pr-5 h1">30</p>
                     <div style="text-align:center">
@@ -59,7 +59,7 @@
 
                 <div class="visitor-team-info d-flex flex-column">
                     <p class="visitor-team-name h2">LAC</p>
-                    <img class="visitor-team-logo" src="https://www.comuniate.com/intranet/equipos/fotos/9.jpg">
+                    <img class="visitor-team-logo" src="{{game.visitor_team.club_img}}">
                     <p class="visitor-team-score pl-5 pr-5 h1">35</p>
                     <div style="text-align:center">
                         <span class="dot vt-dot-1"></span>

@@ -10,12 +10,14 @@ export class GameModel{
         club_id: string;
         club_name: string;
         club_img: string;
+        club_acronym: string;
         team_id: string;
     };
     visitor_team: {
         club_id: string;
         club_name: string;
         club_img: string;
+        club_acronym: string;
         team_id: string;
     };
     home_team_score?: number;

@@ -18,12 +18,14 @@ var gameSchema = new Schema({
         club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
         club_name: {type: String, required: true},
         club_img: {type: String, required: true},
+        club_acronym: {type: String, required: true},
         team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true}
     },
     visitor_team: {
         club_id: {type: Schema.Types.ObjectId, ref: 'Club', required: true},
         club_name: {type: String, required: true},
         club_img: {type: String, required: true},
+        club_acronym: {type: String, required: true},
         team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true}
     },
     home_team_score: Number,

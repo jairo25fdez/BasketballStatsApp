@@ -25,6 +25,7 @@ p, h1, h3, h4{
     border-color: white;
     border-width: 2px;
     background-color: #27293D;
+    height: 45%;
 }
 
 .card:hover{
@@ -39,8 +40,7 @@ p, h1, h3, h4{
 }
 
 .game_score{
-    font-size: 4rem;
+    font-size: 3rem;
 }
-
 
 

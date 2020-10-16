@@ -65,9 +65,10 @@ module.exports = function (app){
             visitor_team_score: game_data.visitor_team_score,
             winner_team: game_data.winner_team,
             loser_team: game_data.loser_team,
+            minutes_played: game_data.minutes_played,
             overtime: game_data.overtime,
             overtime_count: game_data.overtime_count,
-            boxscore: game_data.boxscore,
+            stats: game_data.stats,
             play_by_play: game_data.plays
         });
 
@@ -152,9 +153,10 @@ module.exports = function (app){
                 game.visitor_team_score = updatedData.visitor_team_score,
                 game.winner_team = updatedData.winner_team,
                 game.loser_team = updatedData.loser_team,
+                game.minutes_played = updatedData.minutes_played,
                 game.overtime = updatedData.overtime,
                 game.overtime_count = updatedData.overtime_count,
-                game.boxscore = updatedData.boxscore,
+                game.stats = updatedData.stats,
                 game.play_by_play = updatedData.plays
 
                 game.save();

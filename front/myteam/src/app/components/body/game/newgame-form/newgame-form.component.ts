@@ -38,6 +38,9 @@ export class NewgameFormComponent implements OnInit {
   teams:TeamModel[];
   leagues:LeagueModel[];
 
+  local_club:ClubModel;
+  visitor_club:ClubModel;
+
   local_club_teams:TeamModel[] = [];
   visitor_club_teams:TeamModel[] = [];
   
@@ -277,6 +280,8 @@ export class NewgameFormComponent implements OnInit {
       this.local_club_teams = res;
     });
 
+    this.local_club = this.clubs[club_index];
+
     this.home_team_players = [];
 
     this.form.get('home_team_league').setValue('');
@@ -290,6 +295,8 @@ export class NewgameFormComponent implements OnInit {
       this.visitor_club_teams = res;
     });
 
+    this.visitor_club = this.clubs[club_index];
+
     this.visitor_team_players = [];
 
     this.form.get('visitor_team_league').setValue('');
@@ -302,6 +309,7 @@ export class NewgameFormComponent implements OnInit {
       club_id: this.local_club_teams[team_index].club.club_id,
       club_name: this.local_club_teams[team_index].club.club_name,
       club_img: this.local_club_teams[team_index].club.club_img,
+      club_acronym: this.local_club.acronym,
       team_id: this.local_club_teams[team_index]._id
     } 
 
@@ -319,6 +327,7 @@ export class NewgameFormComponent implements OnInit {
       club_id: this.visitor_club_teams[team_index].club.club_id,
       club_name: this.visitor_club_teams[team_index].club.club_name,
       club_img: this.visitor_club_teams[team_index].club.club_img,
+      club_acronym: this.visitor_club.acronym,
       team_id: this.visitor_club_teams[team_index]._id
     }
 
@@ -331,7 +340,7 @@ export class NewgameFormComponent implements OnInit {
   }
 
   setTeams(league_id){
-    //Hago petición pidiendo los teams que tienen league_id = al que quiero
+
     this.teamsService.getTeams("?league.league_id="+league_id).then((res:TeamModel[]) => {
       this.teams = res;
     });
@@ -340,12 +349,19 @@ export class NewgameFormComponent implements OnInit {
 
   setLocalTeam(team_index:number){
 
-    this.game.home_team = {
-      club_id: this.teams[team_index].club.club_id,
-      club_name: this.teams[team_index].club.club_name,
-      club_img: this.teams[team_index].club.club_img,
-      team_id: this.teams[team_index]._id
-    } 
+    this.clubsService.getClubs("?_id="+this.teams[team_index].club.club_id).then( (res:ClubModel[]) => {
+
+      let team_acronym = res[0].acronym;
+
+      this.game.home_team = {
+        club_id: this.teams[team_index].club.club_id,
+        club_name: this.teams[team_index].club.club_name,
+        club_img: this.teams[team_index].club.club_img,
+        club_acronym: team_acronym,
+        team_id: this.teams[team_index]._id
+      };
+
+    });
 
     this.home_team_players = this.teams[team_index].roster;
 
@@ -357,12 +373,19 @@ export class NewgameFormComponent implements OnInit {
 
   setVisitorTeam(team_index:number){
 
-    this.game.visitor_team = {
-      club_id: this.teams[team_index].club.club_id,
-      club_name: this.teams[team_index].club.club_name,
-      club_img: this.teams[team_index].club.club_img,
-      team_id: this.teams[team_index]._id
-    }
+    this.clubsService.getClubs("?_id="+this.teams[team_index].club.club_id).then( (res:ClubModel[]) => {
+
+      let team_acronym = res[0].acronym;
+
+      this.game.visitor_team = {
+        club_id: this.teams[team_index].club.club_id,
+        club_name: this.teams[team_index].club.club_name,
+        club_img: this.teams[team_index].club.club_img,
+        club_acronym: team_acronym,
+        team_id: this.teams[team_index]._id
+      };
+
+    });
 
     this.visitor_team_players = this.teams[team_index].roster;
 
@@ -393,7 +416,7 @@ export class NewgameFormComponent implements OnInit {
         });
 
       }
-      else{ //The has te correct fields.
+      else{ //The game has the correct fields.
 
         //Formo un objeto igual al array de stats de jugadores
 
@@ -455,8 +478,15 @@ export class NewgameFormComponent implements OnInit {
           if(this.home_starters.indexOf(player_index) != -1){
             player_stats.starter = true;
           }
+
+          if( cont == 0 ){
+            this.game.stats.home_team_stats.player_stats[0] = player_stats;
+          }
+          else{
+            this.game.stats.home_team_stats.player_stats.push(player_stats);
+          }
           
-          this.game.stats.home_team_stats.player_stats.push(player_stats);
+          
           
           cont++;
         }
@@ -517,24 +547,29 @@ export class NewgameFormComponent implements OnInit {
             }
           };
 
-          if(this.visitor_starters.indexOf(this.visitor_players) != -1){
+          if(this.visitor_starters.indexOf(player_index) != -1){
             player_stats.starter = true;
           }
 
-          if(this.home_starters.indexOf(player_index) != -1){
-            player_stats.starter = true;
+          if( cont == 0){
+            this.game.stats.visitor_team_stats.player_stats[0] = player_stats;
+          }
+          else{
+            this.game.stats.visitor_team_stats.player_stats.push(player_stats);
           }
           
-          this.game.stats.visitor_team_stats.player_stats.push(player_stats);
+          
           
           cont++;
         }
 
-        console.log("GAME");
-        console.log("HOME TEAM: "+JSON.stringify(this.game.home_team));
-        console.log("VISITOR TEAM: "+JSON.stringify(this.game.visitor_team));
+        //console.log("GAME");
+        //console.log("HOME TEAM: "+JSON.stringify(this.game.home_team));
+        //console.log("VISITOR TEAM: "+JSON.stringify(this.game.visitor_team));
 
-        //Hago el POST del partido
+        console.log("HOME TEAM: "+JSON.stringify(this.game.stats.home_team_stats.player_stats));
+
+        //POST the game.
         this.gamesService.createGame(this.game).then( res => {
 
           this.gamesService.getGames("?date="+this.game.date+"&home_team.team_id="+this.game.home_team.team_id+"&visitor_team.team_id="+this.game.visitor_team.team_id).then( (games:GameModel[]) => {
@@ -560,8 +595,6 @@ export class NewgameFormComponent implements OnInit {
           });
 
         });
-        //Hago GET de partido para conseguir ID
-        //Paso el partido con el ID
 
       }
 
