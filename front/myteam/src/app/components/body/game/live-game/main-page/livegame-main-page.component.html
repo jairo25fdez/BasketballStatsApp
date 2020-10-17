@@ -1,4 +1,4 @@
-<div class="container-fluid no-gutters ">
+<div class="container-fluid no-gutters">
     <!-- 1st ROW: SCOREBOARD -->
     <div class="row no-gutters mt-3 mb-3">
 
@@ -58,7 +58,7 @@
                 
 
                 <div class="visitor-team-info d-flex flex-column">
-                    <p class="visitor-team-name h2">LAC</p>
+                    <p class="visitor-team-name h2">{{game.visitor_team.club_acronym}}</p>
                     <img class="visitor-team-logo" src="{{game.visitor_team.club_img}}">
                     <p class="visitor-team-score pl-5 pr-5 h1">35</p>
                     <div style="text-align:center">
@@ -86,23 +86,22 @@
     </div>
 
     <!-- 2nd ROW -->
-    <div class="row no-gutters mt-4">
+    <div class="row no-gutters mt-2">
 
             <!-- LINEUPS COLUMN -->
             <div class="d-flex flex-column col mr-2" id="lineups-column">
 
-                <div class="lineup row no-gutters mb-3">
+                <div class="lineup row no-gutters">
 
                     <div class="d-flex flex-column col-11">
                         <div class="frontcourt row no-gutters">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
-                            
+                            <img class="player img-fluid " src={{game.stats.home_team_stats.player_stats[oncourt_home_players[0]].player_img}}>
+                            <img class="player img-fluid " src={{game.stats.home_team_stats.player_stats[oncourt_home_players[1]].player_img}}>
                         </div>
                         <div class="backcourt row no-gutters">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            <img class="player img-fluid " src={{game.stats.home_team_stats.player_stats[oncourt_home_players[2]].player_img}}>
+                            <img class="player img-fluid " src={{game.stats.home_team_stats.player_stats[oncourt_home_players[3]].player_img}}>
+                            <img class="player img-fluid " src={{game.stats.home_team_stats.player_stats[oncourt_home_players[4]].player_img}}>
                         </div>
                     </div>
                         
@@ -115,18 +114,18 @@
                 </div>
         
 
-                <div class="lineup row no-gutters mt-3">
+                <div class="lineup row no-gutters mt-2">
 
                     <div class="d-flex flex-column col-11">
 
                         <div class="frontcourt row no-gutters">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[0]].player_img}}>
+                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[1]].player_img}}>
                         </div>
                         <div class="backcourt row no-gutters">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
-                            <img class="player img-fluid " src="https://s.yimg.com/it/api/res/1.2/yWeM3re8XnoBfOJiMg3LDw--~A/YXBwaWQ9eW5ld3M7dz0zMDA7aD0yMDA7cT0xMDA-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png">
+                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[2]].player_img}}>
+                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[3]].player_img}}>
+                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[4]].player_img}}>
                         </div>
 
                     </div>
@@ -164,6 +163,7 @@
                                         <button type="button" class="btn btn-success w-50">TL Anotado</button>
                                         <button type="button" class="btn btn-danger w-50">TL Fallado</button>
                                     </div>
+                                    <!--
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
                                         <button type="button" class="btn btn-success w-50">T2 Anotado</button>
                                         <button type="button" class="btn btn-danger w-50">T2 Fallado</button>
@@ -172,17 +172,25 @@
                                         <button type="button" class="btn btn-success w-50">T3 Anotado</button>
                                         <button type="button" class="btn btn-danger w-50">T3 Fallado</button>
                                     </div>
+                                    -->
                                     
                                 </div>
 
                                 <div class="rebound-actions  p-2 m-1">
-
                                     <p class="text-center h4">Rebotes</p>
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
                                         <button type="button" class="btn btn-success w-50">Rebote Defensivo</button>
                                         <button type="button" class="btn btn-danger w-50">Rebote Ofensivo</button>
                                     </div>
                                     
+                                </div>
+
+                                <div class="blocks-actions p-2 m-1">
+                                    <p class="text-center h4">Tapones</p>
+                                    <div class="row no-gutters justify-content-center pt-2 pb-2">
+                                        <button type="button" class="btn btn-success w-50">Tapón realizado</button>
+                                        <button type="button" class="btn btn-danger w-50">Tapón recibido</button>
+                                    </div>
                                 </div>
 
                             </div>

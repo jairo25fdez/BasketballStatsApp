@@ -430,6 +430,7 @@ export class NewgameFormComponent implements OnInit {
             starter: false,
             player_name: this.home_team_players[player_index].player_name,
             player_lastName: this.home_team_players[player_index].player_last_name,
+            player_img: this.home_team_players[player_index].player_img,
             time_played:{
               minutes: 0,
               seconds: 0,
@@ -502,6 +503,7 @@ export class NewgameFormComponent implements OnInit {
             starter: false,
             player_name: this.visitor_team_players[player_index].player_name,
             player_lastName: this.visitor_team_players[player_index].player_last_name,
+            player_img: this.visitor_team_players[player_index].player_img,
             time_played:{
               minutes: 0,
               seconds: 0,
@@ -562,12 +564,6 @@ export class NewgameFormComponent implements OnInit {
           
           cont++;
         }
-
-        //console.log("GAME");
-        //console.log("HOME TEAM: "+JSON.stringify(this.game.home_team));
-        //console.log("VISITOR TEAM: "+JSON.stringify(this.game.visitor_team));
-
-        console.log("HOME TEAM: "+JSON.stringify(this.game.stats.home_team_stats.player_stats));
 
         //POST the game.
         this.gamesService.createGame(this.game).then( res => {

@@ -26,19 +26,46 @@ export class MainPageComponent implements OnInit {
 
   game:GameModel;
 
+  home_team:TeamModel;
+  visitor_team:TeamModel;
 
-  constructor(private gamesService:GamesService, private route:ActivatedRoute) { 
+  oncourt_home_players:Number[] = [];
+  oncourt_visitor_players:Number[] = [];
+
+
+  constructor(private gamesService:GamesService, private teamsService:TeamsService, private playersService:PlayersService, private route:ActivatedRoute) { 
 
     const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
-    //Cargar escudos
     this.gamesService.getGame(game_id).then((res:GameModel) => {
       this.game = res;
-      console.log("GAME: "+JSON.stringify(this.game));
+
+      //Save home starters in an array.
+      let cont = 0;
+      for(let player of this.game.stats.home_team_stats.player_stats){
+        if(player.starter){
+          this.oncourt_home_players.push(cont);
+        }
+
+        cont++;
+      }
+
+      //Save visitor starters in an array.
+      cont = 0;
+      for(let player of this.game.stats.visitor_team_stats.player_stats){
+        if(player.starter){
+          this.oncourt_visitor_players.push(cont);
+        }
+
+        cont++;
+      }
+
+      
+
     });
-    //Cargar jugadores
-    //Cargar titulares
-    //Cargar faltas
+    
+    
+
   }
 
   ngOnInit(): void {

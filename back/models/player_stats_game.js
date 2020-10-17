@@ -28,6 +28,7 @@ var player_stats_gameSchema = new Schema({
     starter: {type: Boolean},
     player_name: String,
     player_lastName: String,
+    player_img: String,
     time_played: {
         minutes: Number,
         seconds: Number
