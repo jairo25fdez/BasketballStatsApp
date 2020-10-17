@@ -45,7 +45,7 @@ export class GameModel{
                 starter?: boolean;
                 player_name?: string;
                 player_lastName?: string;
-                player_img: string;
+                player_img?: string;
                 time_played?:{
                     minutes: number;
                     seconds: number;
@@ -97,7 +97,7 @@ export class GameModel{
                 starter?: boolean;
                 player_name?: string;
                 player_lastName?: string;
-                player_img: string;
+                player_img?: string;
                 time_played?:{
                     minutes: number;
                     seconds: number;
