@@ -34,6 +34,12 @@ export class MainPageComponent implements OnInit {
 
   player_active:number[] = [-1, -1];
 
+  //Scoreboard
+  quarter = 1;
+  minutes = 10;
+  seconds = 59;
+  interval;
+
 
   constructor(private gamesService:GamesService, private teamsService:TeamsService, private playersService:PlayersService, private route:ActivatedRoute) { 
 
@@ -70,11 +76,30 @@ export class MainPageComponent implements OnInit {
 
   }
 
+  ngOnInit(): void {
+  }
+
   setPlayer(team_index, player_index){
     this.player_active = [team_index, player_index];
   }
 
-  ngOnInit(): void {
+  resumeTimer() {
+    this.interval = setInterval(() => {
+
+      if(this.seconds > 0){
+        this.seconds--;
+      }
+      else{
+        this.minutes--;
+        this.seconds = 59;
+      }
+
+    },1000);
+
+  }
+
+  pauseTimer(){
+    clearInterval(this.interval);
   }
 
 }

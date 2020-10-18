@@ -23,7 +23,7 @@
                 
                 <div class=" d-flex flex-column">
 
-                    <div class="time-div d-flex flex-row">
+                    <div class="time-div d-flex flex-row no-gutters">
 
                         <div class="minutes-buttons d-flex flex-column">
                             <button type="button" class="btn btn-warning">+</button>
@@ -35,12 +35,12 @@
                         
                         <div class="time d-flex flex-column">
                             <div class="pt-2">
-                                <p class="h1">01:45</p>
+                                <p class="h1">{{minutes}}:{{seconds}}</p>
                             </div>
                             
                             <div class="mt-4">
                                 <p class="h5">QTR</p>
-                                <p class="h3 text-center">4</p>
+                                <p class="h3 text-center">{{quarter}}</p>
                             </div>
                             
                         </div>
@@ -75,10 +75,10 @@
         </div>
 
         <div class="time-commands p-2 d-flex flex-column">
-            <button type="button" class="btn btn-success w-100 h-50 m-1">
+            <button type="button" (click)="resumeTimer()" class="btn btn-success w-100 h-50 m-1">
                 <i class="fa fa-play" style="font-size:24px"></i>
             </button>
-            <button type="button" class="btn btn-primary w-100 h-50 m-1">
+            <button type="button" (click)="pauseTimer()" class="btn btn-primary w-100 h-50 m-1">
                 <i class="fa fa-pause" style="font-size:24px"></i>
             </button>
         </div>
