@@ -84,8 +84,16 @@ img{
     border: solid;
     border-color: transparent;
 }
-
+/*
 .player:active{
+    border-width: 2px;
+    border-color: #E69C1C;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+*/
+.player_active_class{
     border-width: 2px;
     border-color: #E69C1C;
     border-radius: 10px;

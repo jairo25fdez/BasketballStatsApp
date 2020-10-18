@@ -32,6 +32,8 @@ export class MainPageComponent implements OnInit {
   oncourt_home_players:number[] = [];
   oncourt_visitor_players:number[] = [];
 
+  player_active:number[] = [-1, -1];
+
 
   constructor(private gamesService:GamesService, private teamsService:TeamsService, private playersService:PlayersService, private route:ActivatedRoute) { 
 
@@ -68,8 +70,8 @@ export class MainPageComponent implements OnInit {
 
   }
 
-  setPlayer(player_index, team){
-    console.log(player_index);
+  setPlayer(team_index, player_index){
+    this.player_active = [team_index, player_index];
   }
 
   ngOnInit(): void {

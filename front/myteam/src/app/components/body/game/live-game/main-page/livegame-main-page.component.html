@@ -95,13 +95,13 @@
 
                     <div class="d-flex flex-column col-11">
                         <div class="frontcourt row no-gutters">
-                            <img class="player img-fluid " (click)="setPlayer(oncourt_home_players[0], 0)" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[0]].player_img}}>
-                            <img class="player img-fluid " (click)="setPlayer(oncourt_home_players[1], 0)" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[1]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 0 && player_active[1] == oncourt_home_players[0]}" (click)="setPlayer(0, oncourt_home_players[0]);" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[0]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 0 && player_active[1] == oncourt_home_players[1]}" (click)="setPlayer(0, oncourt_home_players[1])" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[1]].player_img}}>
                         </div>
                         <div class="backcourt row no-gutters">
-                            <img class="player img-fluid " (click)="setPlayer(oncourt_home_players[2], 0)" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[2]].player_img}}>
-                            <img class="player img-fluid " (click)="setPlayer(oncourt_home_players[3], 0)" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[3]].player_img}}>
-                            <img class="player img-fluid " (click)="setPlayer(oncourt_home_players[4], 0)" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[4]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 0 && player_active[1] == oncourt_home_players[2]}" (click)="setPlayer(0, oncourt_home_players[2])" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[2]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 0 && player_active[1] == oncourt_home_players[3]}" (click)="setPlayer(0, oncourt_home_players[3])" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[3]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 0 && player_active[1] == oncourt_home_players[4]}" (click)="setPlayer(0, oncourt_home_players[4])" src={{game.stats.home_team_stats.player_stats[oncourt_home_players[4]].player_img}}>
                         </div>
                     </div>
                         
@@ -119,13 +119,13 @@
                     <div class="d-flex flex-column col-11">
 
                         <div class="frontcourt row no-gutters">
-                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[0]].player_img}}>
-                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[1]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 1 && player_active[1] == oncourt_visitor_players[0]}" (click)="setPlayer(1, oncourt_visitor_players[0]);" src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[0]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 1 && player_active[1] == oncourt_visitor_players[1]}" (click)="setPlayer(1, oncourt_visitor_players[1]);" src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[1]].player_img}}>
                         </div>
                         <div class="backcourt row no-gutters">
-                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[2]].player_img}}>
-                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[3]].player_img}}>
-                            <img class="player img-fluid " src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[4]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 1 && player_active[1] == oncourt_visitor_players[2]}" (click)="setPlayer(1, oncourt_visitor_players[2]);" src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[2]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 1 && player_active[1] == oncourt_visitor_players[3]}" (click)="setPlayer(1, oncourt_visitor_players[3]);" src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[3]].player_img}}>
+                            <img class="player img-fluid " [ngClass]="{ 'player_active_class': player_active[0] == 1 && player_active[1] == oncourt_visitor_players[4]}" (click)="setPlayer(1, oncourt_visitor_players[4]);" src={{game.stats.visitor_team_stats.player_stats[oncourt_visitor_players[4]].player_img}}>
                         </div>
 
                     </div>
