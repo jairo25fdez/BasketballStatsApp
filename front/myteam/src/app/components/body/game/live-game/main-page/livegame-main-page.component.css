@@ -2,7 +2,7 @@
 .scoreboard{
     background-color: grey;
     height: 300px;
-    margin-left: auto;
+    /* margin-left: auto; */
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -12,6 +12,7 @@
     background-color: black;
     color: white;
 }
+
 
 p{
     margin: auto;
