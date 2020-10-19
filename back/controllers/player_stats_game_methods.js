@@ -57,6 +57,8 @@ module.exports = function (app){
 
         let player_stats = new Player_stats_game({
             player_id: player_stats_data.player_id,
+            game_id: player_stats_data.game_id,
+            team_id: player_stats_data.team_id,
             starter: player_stats_data.starter,
             player_name: player_stats_data.player_name,
             player_lastName: player_stats_data.player_lastName,
@@ -160,6 +162,8 @@ module.exports = function (app){
             }
             else{
                 player_stats_data.player_id = updatedData.player_id,
+                player_stats_data.game_id = updatedData.game_id,
+                player_stats_data.team_id = updatedData.team_id,
                 player_stats_data.starter = updatedData.starter,
                 player_stats_data.player_name = updatedData.player_name,
                 player_stats_data.player_lastName = updatedData.player_lastName,

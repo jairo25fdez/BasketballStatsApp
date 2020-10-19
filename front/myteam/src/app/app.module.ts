@@ -15,6 +15,7 @@ import { TeamsService } from './services/teams.service';
 import { PlayersService } from './services/players.service';
 import { GamesService } from './services/games.service';
 import { PlaysService } from './services/plays.service';
+import { Player_stats_gamesService } from './services/player_stats_game.service';
 
 
 //Components
@@ -97,7 +98,8 @@ import { GamesViewComponent } from './components/body/game/games-view/games-view
     TeamsService,
     PlayersService,
     GamesService,
-    PlaysService
+    PlaysService,
+    Player_stats_gamesService
   ],
   bootstrap: [AppComponent]
 })

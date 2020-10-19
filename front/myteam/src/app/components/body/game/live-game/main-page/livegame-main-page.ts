@@ -126,7 +126,7 @@ export class MainPageComponent implements OnInit {
       //Check if the FT was missed or not
 
       //Create the play
-      
+      /*
       let play = new PlayModel();
       play = {
         player: {
@@ -146,7 +146,7 @@ export class MainPageComponent implements OnInit {
         shot_made: shot_made
       }
       
-
+      
       this.playsService.createPlay(play).then( () => {
 
         //Update player stats
@@ -167,6 +167,7 @@ export class MainPageComponent implements OnInit {
           icon: 'error'
         });
       });
+      */
 
     }
 

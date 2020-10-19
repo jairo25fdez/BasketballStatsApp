@@ -8,15 +8,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LeagueModel } from '../../../../models/league.model';
 import { ClubModel } from 'src/app/models/club.model';
 import { GameModel } from '../../../../models/game.model';
-import { PlayerModel } from '../../../../models/player.model';
 import { TeamModel } from 'src/app/models/team.model';
+import { Player_stats_gameModel } from 'src/app/models/player_stats_game.model';
 
 //Services
 import { LeaguesService } from '../../../../services/leagues.service';
 import { ClubsService } from '../../../../services/clubs.service';
 import { TeamsService } from '../../../../services/teams.service';
-import { PlayersService } from '../../../../services/players.service';
 import { GamesService } from '../../../../services/games.service';
+import { Player_stats_gamesService } from '../../../../services/player_stats_game.service';
 
 
 
@@ -61,7 +61,7 @@ export class NewgameFormComponent implements OnInit {
   reset_local_select = true;
 
 
-  constructor(private fb:FormBuilder, private leaguesService:LeaguesService, private teamsService:TeamsService, private gamesService:GamesService, private clubsService:ClubsService, private router:Router) {
+  constructor(private fb:FormBuilder, private leaguesService:LeaguesService, private player_stats_gameService:Player_stats_gamesService, private teamsService:TeamsService, private gamesService:GamesService, private clubsService:ClubsService, private router:Router) {
 
     this.leaguesService.getLeagues().then((res:LeagueModel[]) => {
       this.leagues = res;
@@ -72,6 +72,8 @@ export class NewgameFormComponent implements OnInit {
     });
 
     this.createForm();
+
+    
 
    }
 
@@ -407,6 +409,8 @@ export class NewgameFormComponent implements OnInit {
     }
     else{
 
+      console.log("GAME: "+JSON.stringify(this.game));
+
       if( (this.home_players.length < 5) ||  (this.visitor_players.length < 5) || (this.home_starters.length < 5) || (this.visitor_starters.length < 5) ){ //Need to check if the fields are filled.
 
         Swal.fire({
@@ -418,182 +422,207 @@ export class NewgameFormComponent implements OnInit {
       }
       else{ //The game has the correct fields.
 
-        //Formo un objeto igual al array de stats de jugadores
+        //Initialize the fields of the game
 
-        let cont = 0;
-
-        console.log("ENTRO");
-
-        //Add home_team_stats player_stats
-        /*
-        for(let player_index of this.home_players){
-          
-          let player_stats = {
-            player_id: this.home_team_players[player_index].player_id,
-            starter: false,
-            player_name: this.home_team_players[player_index].player_name,
-            player_lastName: this.home_team_players[player_index].player_last_name,
-            player_img: this.home_team_players[player_index].player_img,
-            time_played:{
-              minutes: 0,
-              seconds: 0,
-            },
-            points: 0,
-            t2_made: 0,
-            t2_attempted: 0,
-            t3_made: 0,
-            t3_attempted: 0,
-            t1_made: 0,
-            t1_attempted: 0,
-            shots_list: {
-              lc3: {made: 0, attempted: 0},
-              le3: {made: 0, attempted: 0},
-              c3: {made: 0, attempted: 0},
-              re3: {made: 0, attempted: 0},
-              rc3: {made: 0, attempted: 0},
-              lmc2: {made: 0, attempted: 0},
-              lme2: {made: 0, attempted: 0},
-              cm2:  {made: 0, attempted: 0},
-              rme2: {made: 0, attempted: 0},
-              rmc2: {made: 0, attempted: 0},
-              lp2:  {made: 0, attempted: 0},
-              rp2:  {made: 0, attempted: 0},
-              lft2: {made: 0, attempted: 0},
-              rft2: {made: 0, attempted: 0}
-            },
-            total_rebounds: 0,
-            defensive_rebounds: 0,
-            offensive_rebounds:0,
-            assists: 0,
-            steals: 0,
-            turnovers: 0,
-            blocks_made: 0,
-            blocks_received: 0,
-            fouls_made: 0,
-            fouls_received: 0,
-            plus_minus: 0,
-            approximate_value: 0,
-            usage: {
-              personal: 0,
-              team: 0
-            }
-          };
-
-          if(this.home_starters.indexOf(player_index) != -1){
-            player_stats.starter = true;
-          }
-
-          if( cont == 0 ){
-            this.game.stats.home_team_stats.player_stats[0] = player_stats;
-          }
-          else{
-            this.game.stats.home_team_stats.player_stats.push(player_stats);
-          }
-          
-          
-          
-          cont++;
-        }
-
-        console.log("");
-        cont = 0;
-        */
-
-        /*
-        //POST the game.
+        this.game.home_team_score = 0;
+        this.game.visitor_team_score = 0;
+        this.game.winner_team = {
+          team_id: this.game.home_team.team_id,
+          club_name: "",
+          club_img: ""
+        },
+        this.game.loser_team = {
+          team_id: this.game.visitor_team.team_id,
+          club_name: "",
+          club_img: ""
+        },
+        this.game.minutes_played = 0;
+        this.game.overtime = false;
+        this.game.overtime_count = 0;
+        //this.game.play_by_play = [{}];
+        
+        //Create the game.
         this.gamesService.createGame(this.game).then( res => {
 
-          //Por cada jugador convocado creo la tabla de player_stats_game
-
+          //Get the game to check the ID.
           this.gamesService.getGames("?date="+this.game.date+"&home_team.team_id="+this.game.home_team.team_id+"&visitor_team.team_id="+this.game.visitor_team.team_id).then( (games:GameModel[]) => {
           
+            //For every home player create a stats document.
+            for(let player_index of this.home_players){
+
+              let player_starter:boolean = false;
+    
+              //Check if the player is a starter in the game.
+              if(this.home_starters.indexOf(player_index) != -1){
+                player_starter = true;
+              }
+    
+              let player_stats_game:Player_stats_gameModel = {
+                player_id: this.home_team_players[player_index].player_id,
+                game_id: games[0]._id,
+                team_id: this.game.home_team.team_id,
+                starter: player_starter,
+                player_name: this.home_team_players[player_index].player_name,
+                player_lastName: this.home_team_players[player_index].player_last_name,
+                player_img: this.home_team_players[player_index].player_img,
+                time_played: {
+                  minutes: 0,
+                  seconds: 0
+                },
+                points: 0,
+                t2_made: 0,
+                t2_attempted: 0,
+                t2_percentage: 0,
+                t3_made: 0,
+                t3_attempted: 0,
+                t3_percentage: 0,
+                t1_made: 0,
+                t1_attempted: 0,
+                t1_percentage: 0,
+                shots_list: {
+                  lc3: {made: 0, attempted: 0},
+                  le3: {made: 0, attempted: 0},
+                  c3: {made: 0, attempted: 0},
+                  re3: {made: 0, attempted: 0},
+                  rc3: {made: 0, attempted: 0},
+                  lmc2: {made: 0, attempted: 0},
+                  lme2: {made: 0, attempted: 0},
+                  cm2: {made: 0, attempted: 0},
+                  rme2: {made: 0, attempted: 0},
+                  rmc2: {made: 0, attempted: 0},
+                  lp2: {made: 0, attempted: 0},
+                  rp2: {made: 0, attempted: 0},
+                  lft2: {made: 0, attempted: 0},
+                  rft2: {made: 0, attempted: 0}
+                },
+                total_rebounds: 0,
+                defensive_rebounds: 0,
+                offensive_rebounds: 0,
+                assists: 0,
+                steals: 0,
+                turnovers: 0,
+                blocks_made: 0,
+                blocks_received: 0,
+                fouls_made: 0,
+                fouls_received: 0,
+                usage: {
+                    personal: 0,
+                    team: 0,
+                    percentage: 0
+                }
+              };
+    
+              //Post the player stats for the game.
+              this.player_stats_gameService.createPlayer_stats_game(player_stats_game).catch( (err:HttpErrorResponse) => {
+                Swal.fire({
+                  title: 'Error.',
+                  text: 'Error al tratar de crear las estadísticas del jugador para el partido.',
+                  icon: 'error'
+                });
+              });
+              
+            }
+            
+            //For every visitor player create a stats document.
+            for(let player_index of this.visitor_players){
+
+              let player_starter:boolean = false;
+    
+              //Check if the player is a starter in the game.
+              if(this.visitor_starters.indexOf(player_index) != -1){
+                player_starter = true;
+              }
+    
+              let player_stats_game:Player_stats_gameModel = {
+                player_id: this.home_team_players[player_index].player_id,
+                game_id: games[0]._id,
+                team_id: this.game.visitor_team.team_id,
+                starter: player_starter,
+                player_name: this.home_team_players[player_index].player_name,
+                player_lastName: this.home_team_players[player_index].player_last_name,
+                player_img: this.home_team_players[player_index].player_img,
+                time_played: {
+                  minutes: 0,
+                  seconds: 0
+                },
+                points: 0,
+                t2_made: 0,
+                t2_attempted: 0,
+                t2_percentage: 0,
+                t3_made: 0,
+                t3_attempted: 0,
+                t3_percentage: 0,
+                t1_made: 0,
+                t1_attempted: 0,
+                t1_percentage: 0,
+                shots_list: {
+                  lc3: {made: 0, attempted: 0},
+                  le3: {made: 0, attempted: 0},
+                  c3: {made: 0, attempted: 0},
+                  re3: {made: 0, attempted: 0},
+                  rc3: {made: 0, attempted: 0},
+                  lmc2: {made: 0, attempted: 0},
+                  lme2: {made: 0, attempted: 0},
+                  cm2: {made: 0, attempted: 0},
+                  rme2: {made: 0, attempted: 0},
+                  rmc2: {made: 0, attempted: 0},
+                  lp2: {made: 0, attempted: 0},
+                  rp2: {made: 0, attempted: 0},
+                  lft2: {made: 0, attempted: 0},
+                  rft2: {made: 0, attempted: 0}
+                },
+                total_rebounds: 0,
+                defensive_rebounds: 0,
+                offensive_rebounds: 0,
+                assists: 0,
+                steals: 0,
+                turnovers: 0,
+                blocks_made: 0,
+                blocks_received: 0,
+                fouls_made: 0,
+                fouls_received: 0,
+                usage: {
+                    personal: 0,
+                    team: 0,
+                    percentage: 0
+                }
+              };
+    
+              //Post the player stats for the game.
+              this.player_stats_gameService.createPlayer_stats_game(player_stats_game).catch( (err:HttpErrorResponse) => {
+                Swal.fire({
+                  title: 'Error.',
+                  text: 'Error al tratar de crear las estadísticas del jugador visitante para el partido.',
+                  icon: 'error'
+                });
+              });
+              
+            }
+
+            //Navigate to game component
             this.router.navigateByUrl('/live-game/'+games[0]._id);
           
           })
           .catch( (err:HttpErrorResponse) => {
+
             Swal.fire({
               title: 'Error.',
               text: 'Error al intentar traer el partido de la base de datos.',
               icon: 'error'
             });
+
           });
 
         })
         .catch( (err:HttpErrorResponse) => {
 
-          Swal.fire({
-            title: 'Error.',
-            text: 'Error al tratar de crear el partido en la base de datos.',
-            icon: 'error'
-          });
-
+        Swal.fire({
+          title: 'Error.',
+          text: 'Error al crear el partido en la base de datos.',
+          icon: 'error'
         });
-        */
-        for(let player_index of this.home_players){
 
-          let player_starter:boolean = false;
-
-          if(this.home_starters.indexOf(player_index) != -1){
-            player_starter = true;
-          }
-
-          //Por cada jugador creo la tabla de las stats
-          let player_stats_game = {
-            player_id: this.home_team_players[player_index].player_id,
-            starter: player_starter,
-            player_name: this.home_team_players[player_index].player_name,
-            player_lastName: this.home_team_players[player_index].player_last_name,
-            player_img: this.home_team_players[player_index].player_img,
-            time_played: {
-              minutes: 0,
-              seconds: 0
-            },
-            points: 0,
-            t2_made: 0,
-            t2_attempted: 0,
-            t2_percentage: 0,
-            t3_made: 0,
-            t3_attempted: 0,
-            t3_percentage: 0,
-            t1_made: 0,
-            t1_attempted: 0,
-            t1_percentage: 0,
-            shots_list: {
-              lc3: {made: 0, attempted: 0},
-              le3: {made: 0, attempted: 0},
-              c3: {made: 0, attempted: 0},
-              re3: {made: 0, attempted: 0},
-              rc3: {made: 0, attempted: 0},
-              lmc2: {made: 0, attempted: 0},
-              lme2: {made: 0, attempted: 0},
-              cm2: {made: 0, attempted: 0},
-              rme2: {made: 0, attempted: 0},
-              rmc2: {made: 0, attempted: 0},
-              lp2: {made: 0, attempted: 0},
-              rp2: {made: 0, attempted: 0},
-              lft2: {made: 0, attempted: 0},
-              rft2: {made: 0, attempted: 0}
-            },
-            total_rebounds: 0,
-            defensive_rebounds: 0,
-            offensive_rebounds: 0,
-            assists: 0,
-            steals: 0,
-            turnovers: 0,
-            blocks_made: 0,
-            blocks_received: 0,
-            fouls_made: 0,
-            fouls_received: 0,
-            usage: {
-                personal: 0,
-                team: 0,
-                percentage: 0
-            }
-          };
-
-          
-          
-        } 
+      });
 
       }
 

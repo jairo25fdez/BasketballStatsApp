@@ -25,6 +25,8 @@ var shots_listSchema = new Schema({
 
 var player_stats_gameSchema = new Schema({
     player_id: {type: Schema.Types.ObjectId, ref: 'Player', required: true},
+    game_id: {type: Schema.Types.ObjectId, ref: 'Game', required: true},
+    team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
     starter: {type: Boolean},
     player_name: String,
     player_lastName: String,
@@ -60,6 +62,8 @@ var player_stats_gameSchema = new Schema({
         percentage: Number
     }
 });
+
+player_stats_gameSchema.index( {player_id: 1, game_id: 1}, { unique: true } );
 
 player_stats_gameSchema = mongoose.Schema(player_stats_gameSchema);
 player_stats_gameModel = mongoose.model('Player Stats Game', player_stats_gameSchema);
