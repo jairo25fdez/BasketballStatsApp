@@ -158,6 +158,7 @@
 
                         <div class="row align-items-center no-gutters h-100">
 
+                            <!-- 1st column -->
                             <div class="d-flex  flex-column col p-2 ">
 
                                 <!-- Shot actions -->
@@ -184,8 +185,8 @@
                                 <div class="rebound-actions  p-2 m-1">
                                     <p class="text-center h4">Rebotes</p>
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
-                                        <button type="button" class="btn btn-success w-50">Rebote Defensivo</button>
-                                        <button type="button" class="btn btn-danger w-50">Rebote Ofensivo</button>
+                                        <button type="button" class="btn btn-success w-50" (click)="createReboundPlay('defensive')">Rebote Defensivo</button>
+                                        <button type="button" class="btn btn-danger w-50" (click)="createReboundPlay('offensive')">Rebote Ofensivo</button>
                                     </div>
                                     
                                 </div>
@@ -194,8 +195,8 @@
                                 <div class="blocks-actions p-2 m-1">
                                     <p class="text-center h4">Tapones</p>
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
-                                        <button type="button" class="btn btn-success w-50">Tapón realizado</button>
-                                        <button type="button" class="btn btn-danger w-50">Tapón recibido</button>
+                                        <button type="button" class="btn btn-success w-50" (click)="createBlockPlay('made')">Tapón realizado</button>
+                                        <button type="button" class="btn btn-danger w-50" (click)="createBlockPlay('received')">Tapón recibido</button>
                                     </div>
                                 </div>
 
@@ -203,22 +204,20 @@
 
                             <!-- 2nd Column-->
                             <div class="d-flex flex-column col p-2">
-
+                                <!-- Assist actions -->
                                 <div class="assist-actions p-2 m-1">
-                                    
                                     <p class="text-center h4">Asistencias</p>
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
-                                        <button type="button" class="btn btn-success w-50">Asistencia</button>
+                                        <button type="button" class="btn btn-success w-50" (click)="createAssistPlay()">Asistencia</button>
                                     </div>
                                     
                                 </div>
-                                
+                                <!-- Steal actions -->
                                 <div class="steal-actions p-2 m-1">
-                                    
                                     <p class="text-center h4">Pérdidas</p>
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
-                                        <button type="button" class="btn btn-success w-50">Robo</button>
-                                        <button type="button" class="btn btn-danger w-50">Pérdida</button>
+                                        <button type="button" class="btn btn-success w-50" (click)="createStealPlay()">Robo</button>
+                                        <button type="button" class="btn btn-danger w-50" (click)="createLostBallPlay()">Pérdida</button>
                                     </div>
                                     
                                 </div>
@@ -227,8 +226,8 @@
                                     
                                     <p class="text-center h4">Faltas personales</p>
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
-                                        <button type="button" class="btn btn-success w-50">Falta recibida</button>
-                                        <button type="button" class="btn btn-danger w-50">Falta realizada</button>
+                                        <button type="button" class="btn btn-success w-50" (click)="createPersonalFoulPlay('received')">Falta recibida</button>
+                                        <button type="button" class="btn btn-danger w-50" (click)="createPersonalFoulPlay('made')">Falta realizada</button>
                                     </div>
                                     
                                 </div>

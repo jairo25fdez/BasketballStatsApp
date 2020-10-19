@@ -19,4 +19,6 @@ export class PlayModel{
     shot_position?: string;
     shot_made?: Boolean; //true if the shot was made, false if the shot was missed
     rebound_type?: string;
+    block_type?: string;
+    foul_type?: string;
 }

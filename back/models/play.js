@@ -15,7 +15,7 @@ var playSchema = new Schema({
         second: Number
     },
     period: {type: Number, min: 1, required: true},
-    type: {type: String, enum: ['shot', 'rebound', 'assist', 'steal', 'lost ball', 'made block', 'received block', 'personal foul', 'sustitution'], required: true },
+    type: {type: String, enum: ['shot', 'rebound', 'assist', 'steal', 'lost ball', 'block', 'personal foul', 'sustitution'], required: true },
     //Shot data
     shot_type: {type: String, enum: ['ft', 'fg']},
     shot_position: {type: String, enum: ['lc3', 'le3', 'c3', 're3', 'rc3', 'lmc2', 'lme2', 'cm2', 'rme2', 'rmc2', 'lp2', 'rp2', 'lft2', 'rft2']}, //lb2 = left board 2, nearest zone to the rim.
@@ -23,6 +23,8 @@ var playSchema = new Schema({
     //assisted_shot: Boolean, //true if the shot was assisted, false if not.
     //Rebound data
     rebound_type: {type: String, enum:['offensive', 'defensive']},
+    block_type: {type: String, enum:['received', 'made']},
+    foul_type: {type: String, enum:['received', 'made']},
     //Sustitution data
     //player_in: {type: Schema.Types.ObjectId, ref: 'Player'},
     //player_out: {type: Schema.Types.ObjectId, ref: 'Player'},

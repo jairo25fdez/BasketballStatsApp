@@ -197,4 +197,325 @@ export class MainPageComponent implements OnInit {
 
   }
 
+  createReboundPlay(rebound_type){
+
+    //Check if the user selected a player.
+    if(this.player_active != [-1,-1]){
+      let play = new PlayModel();
+
+      //Get the team's info
+      if(this.player_active[0] == 0){
+
+        play.player = {
+          player_id: this.home_players[this.player_active[1]].player_id,
+          player_name: this.home_players[this.player_active[1]].player_name,
+          player_last_name: this.home_players[this.player_active[1]].player_lastName,
+          player_img: this.home_players[this.player_active[1]].player_img,
+        };
+        play.team = this.game.home_team.team_id;
+
+      }
+      else{
+        if(this.player_active[0] == 1){
+
+          play.player = {
+            player_id: this.visitor_players[this.player_active[1]].player_id,
+            player_name: this.visitor_players[this.player_active[1]].player_name,
+            player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
+            player_img: this.visitor_players[this.player_active[1]].player_img,
+          };
+          play.team = this.game.visitor_team.team_id;
+
+        }
+      }
+
+      //Check the rest of the fields
+      play.game_id = this.game._id;
+      play.time = {
+        minute: this.minutes,
+        second: this.seconds
+      };
+      play.period = this.quarter;
+      play.type = "rebound";
+      play.rebound_type = rebound_type;
+
+      //Post the play
+      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al crear la jugada.',
+          icon: 'error'
+        });
+      });
+      
+    }
+
+  }
+
+  createBlockPlay(block_type){
+
+    //Check if the user selected a player.
+    if(this.player_active != [-1,-1]){
+      let play = new PlayModel();
+
+      //Get the team's info
+      if(this.player_active[0] == 0){
+
+        play.player = {
+          player_id: this.home_players[this.player_active[1]].player_id,
+          player_name: this.home_players[this.player_active[1]].player_name,
+          player_last_name: this.home_players[this.player_active[1]].player_lastName,
+          player_img: this.home_players[this.player_active[1]].player_img,
+        };
+        play.team = this.game.home_team.team_id;
+
+      }
+      else{
+        if(this.player_active[0] == 1){
+
+          play.player = {
+            player_id: this.visitor_players[this.player_active[1]].player_id,
+            player_name: this.visitor_players[this.player_active[1]].player_name,
+            player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
+            player_img: this.visitor_players[this.player_active[1]].player_img,
+          };
+          play.team = this.game.visitor_team.team_id;
+
+        }
+      }
+
+      //Check the rest of the fields
+      play.game_id = this.game._id;
+      play.time = {
+        minute: this.minutes,
+        second: this.seconds
+      };
+      play.period = this.quarter;
+      play.type = "block";
+      play.block_type = block_type;
+
+      //Post the play
+      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al crear la jugada.',
+          icon: 'error'
+        });
+      });
+      
+    }
+
+  }
+
+  createAssistPlay(){
+
+    //Check if the user selected a player.
+    if(this.player_active != [-1,-1]){
+      let play = new PlayModel();
+
+      //Get the team's info
+      if(this.player_active[0] == 0){
+
+        play.player = {
+          player_id: this.home_players[this.player_active[1]].player_id,
+          player_name: this.home_players[this.player_active[1]].player_name,
+          player_last_name: this.home_players[this.player_active[1]].player_lastName,
+          player_img: this.home_players[this.player_active[1]].player_img,
+        };
+        play.team = this.game.home_team.team_id;
+
+      }
+      else{
+        if(this.player_active[0] == 1){
+
+          play.player = {
+            player_id: this.visitor_players[this.player_active[1]].player_id,
+            player_name: this.visitor_players[this.player_active[1]].player_name,
+            player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
+            player_img: this.visitor_players[this.player_active[1]].player_img,
+          };
+          play.team = this.game.visitor_team.team_id;
+
+        }
+      }
+
+      //Check the rest of the fields
+      play.game_id = this.game._id;
+      play.time = {
+        minute: this.minutes,
+        second: this.seconds
+      };
+      play.period = this.quarter;
+      play.type = "assist";
+
+      //Post the play
+      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al crear la jugada.',
+          icon: 'error'
+        });
+      });
+      
+    }
+
+  }
+
+  createStealPlay(){
+
+    //Check if the user selected a player.
+    if(this.player_active != [-1,-1]){
+      let play = new PlayModel();
+
+      //Get the team's info
+      if(this.player_active[0] == 0){
+
+        play.player = {
+          player_id: this.home_players[this.player_active[1]].player_id,
+          player_name: this.home_players[this.player_active[1]].player_name,
+          player_last_name: this.home_players[this.player_active[1]].player_lastName,
+          player_img: this.home_players[this.player_active[1]].player_img,
+        };
+        play.team = this.game.home_team.team_id;
+
+      }
+      else{
+        if(this.player_active[0] == 1){
+
+          play.player = {
+            player_id: this.visitor_players[this.player_active[1]].player_id,
+            player_name: this.visitor_players[this.player_active[1]].player_name,
+            player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
+            player_img: this.visitor_players[this.player_active[1]].player_img,
+          };
+          play.team = this.game.visitor_team.team_id;
+
+        }
+      }
+
+      //Check the rest of the fields
+      play.game_id = this.game._id;
+      play.time = {
+        minute: this.minutes,
+        second: this.seconds
+      };
+      play.period = this.quarter;
+      play.type = "steal";
+
+      //Post the play
+      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al crear la jugada.',
+          icon: 'error'
+        });
+      });
+      
+    }
+
+  }
+
+  createLostBallPlay(){
+    
+    //Check if the user selected a player.
+    if(this.player_active != [-1,-1]){
+      let play = new PlayModel();
+
+      //Get the team's info
+      if(this.player_active[0] == 0){
+
+        play.player = {
+          player_id: this.home_players[this.player_active[1]].player_id,
+          player_name: this.home_players[this.player_active[1]].player_name,
+          player_last_name: this.home_players[this.player_active[1]].player_lastName,
+          player_img: this.home_players[this.player_active[1]].player_img,
+        };
+        play.team = this.game.home_team.team_id;
+
+      }
+      else{
+        if(this.player_active[0] == 1){
+
+          play.player = {
+            player_id: this.visitor_players[this.player_active[1]].player_id,
+            player_name: this.visitor_players[this.player_active[1]].player_name,
+            player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
+            player_img: this.visitor_players[this.player_active[1]].player_img,
+          };
+          play.team = this.game.visitor_team.team_id;
+
+        }
+      }
+
+      //Check the rest of the fields
+      play.game_id = this.game._id;
+      play.time = {
+        minute: this.minutes,
+        second: this.seconds
+      };
+      play.period = this.quarter;
+      play.type = "lost ball";
+
+      //Post the play
+      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al crear la jugada.',
+          icon: 'error'
+        });
+      });
+      
+    }
+
+  }
+
+  createPersonalFoulPlay(foul_type){
+
+    //Check if the user selected a player.
+    if(this.player_active != [-1,-1]){
+      let play = new PlayModel();
+
+      //Get the team's info
+      if(this.player_active[0] == 0){
+
+        play.player = {
+          player_id: this.home_players[this.player_active[1]].player_id,
+          player_name: this.home_players[this.player_active[1]].player_name,
+          player_last_name: this.home_players[this.player_active[1]].player_lastName,
+          player_img: this.home_players[this.player_active[1]].player_img,
+        };
+        play.team = this.game.home_team.team_id;
+
+      }
+      else{
+        if(this.player_active[0] == 1){
+
+          play.player = {
+            player_id: this.visitor_players[this.player_active[1]].player_id,
+            player_name: this.visitor_players[this.player_active[1]].player_name,
+            player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
+            player_img: this.visitor_players[this.player_active[1]].player_img,
+          };
+          play.team = this.game.visitor_team.team_id;
+
+        }
+      }
+
+      //Check the rest of the fields
+      play.game_id = this.game._id;
+      play.time = {
+        minute: this.minutes,
+        second: this.seconds
+      };
+      play.period = this.quarter;
+      play.type = "personal foul";
+      play.foul_type = foul_type;
+
+      //Post the play
+      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al crear la jugada.',
+          icon: 'error'
+        });
+      });
+      
+    }
+
+  }
+
 }
