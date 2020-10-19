@@ -6,6 +6,7 @@ const league_methods = require('./controllers/league_methods.js');
 const user_methods = require('./controllers/user_methods.js');
 const play_methods = require('./controllers/play_methods.js');
 const player_stats_game_methods = require('./controllers/player_stats_game_methods.js');
+const player_stats_season_methods = require('./controllers/player_stats_season_methods.js');
 
 const image_methods = require('./controllers/image_methods.js');
 
@@ -26,6 +27,7 @@ module.exports = function(app){
     play_methods(app);
     image_methods(app);
     player_stats_game_methods(app);
+    player_stats_season_methods(app);
 
 
 }

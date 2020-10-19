@@ -28,6 +28,7 @@ var shots_listSchema = new Schema({
 var player_stats_seasonSchema = new Schema({
     player_id: {type: Schema.Types.ObjectId, ref: 'Player', required: true},
     team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
+    season: Number,
     player_name: String,
     player_lastName: String,
     player_img: String,
@@ -49,7 +50,7 @@ var player_stats_seasonSchema = new Schema({
         points_per_possesion: {type: Number, min: 0} // total_points / usage.player
     },
     //Shots stats
-    shot_stats: {
+    shots_stats: {
         _id: false,
         //Shots location stats
         total_shots: {type: Number, min: 0}, //Number of shots through the season (free throws not included)
@@ -142,7 +143,7 @@ var player_stats_seasonSchema = new Schema({
 player_stats_seasonSchema.index( {player_id: 1, season_id: 1, team_id: 1}, { unique: true } );
 
 player_stats_seasonSchema = mongoose.Schema(player_stats_seasonSchema);
-player_stats_seasonModel = mongoose.model('Player Stats Game', player_stats_seasonSchema);
+player_stats_seasonModel = mongoose.model('Player Stats Season', player_stats_seasonSchema);
 
 module.exports = {
     Player_stats_seasonSchema: player_stats_seasonSchema,
