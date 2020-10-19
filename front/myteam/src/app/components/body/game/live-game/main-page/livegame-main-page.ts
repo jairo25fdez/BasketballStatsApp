@@ -37,16 +37,20 @@ export class MainPageComponent implements OnInit {
   //Scoreboard
   quarter = 1;
   minutes = 10;
-  seconds = 59;
+  seconds = 0;
   interval;
 
 
-  constructor(private gamesService:GamesService, private teamsService:TeamsService, private playersService:PlayersService, private route:ActivatedRoute) { 
+  constructor(private gamesService:GamesService, private leaguesService:LeaguesService, private route:ActivatedRoute) { 
 
     const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
     this.gamesService.getGame(game_id).then((res:GameModel) => {
       this.game = res;
+
+      this.leaguesService.getLeague(this.game.league.league_id).then( (res:LeagueModel) => {
+        this.minutes = res.quarter_length;
+      });
 
       //Save home starters in an array.
       let cont = 0;

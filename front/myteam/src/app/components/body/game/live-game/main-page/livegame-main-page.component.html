@@ -36,7 +36,7 @@
                         
                         <div class="time d-flex flex-column col-8">
                             <div class="pt-2">
-                                <p class="h1">{{minutes}}:{{seconds}}</p>
+                                <p class="h1">{{ minutes | number : '2.0-0' }}:{{ seconds | number : '2.0-0' }}</p>
                             </div>
                             
                             <div class="mt-4">
