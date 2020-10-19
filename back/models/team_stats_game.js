@@ -23,12 +23,7 @@ var shots_listSchema = new Schema({
     rft2: zone_shotsSchema
 });
 
-var player_stats_gameSchema = new Schema({
-    player_id: {type: Schema.Types.ObjectId, ref: 'Player', required: true},
-    starter: {type: Boolean},
-    player_name: String,
-    player_lastName: String,
-    player_img: String,
+var team_stats_gameSchema = new Schema({
     time_played: {
         minutes: Number,
         seconds: Number
@@ -53,20 +48,13 @@ var player_stats_gameSchema = new Schema({
     blocks_made: {type: Number, min: 0},
     blocks_received: {type: Number, min: 0},
     fouls_made: {type: Number, min: 0},
-    fouls_received: {type: Number, min: 0},
-    plus_minus: Number,
-    approximate_value: Number,
-    //Advanced stats
-    usage: {
-        personal: Number,
-        team: Number
-    }, //Using %.
+    fouls_received: {type: Number, min: 0}
 });
 
-player_stats_gameSchema = mongoose.Schema(player_stats_gameSchema);
-player_stats_gameModel = mongoose.model('Player Stats Game', player_stats_gameSchema);
+team_stats_gameSchema = mongoose.Schema(team_stats_gameSchema);
+team_stats_gameModel = mongoose.model('Game Stats Game', team_stats_gameSchema);
 
 module.exports = {
-    Player_stats_gameSchema: player_stats_gameSchema,
-    Player_stats_gameModel: player_stats_gameModel
+    Team_stats_gameSchema: team_stats_gameSchema,
+    Team_stats_gameModel: team_stats_gameModel
 }

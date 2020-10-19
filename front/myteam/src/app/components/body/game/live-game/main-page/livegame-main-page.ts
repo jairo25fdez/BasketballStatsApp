@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 //Models
 import { LeagueModel } from 'src/app/models/league.model';
-import { ClubModel } from 'src/app/models/club.model';
-import { PlayerModel } from 'src/app/models/player.model';
 import { TeamModel } from 'src/app/models/team.model';
 import { GameModel } from '../../../../../models/game.model';
+import { PlayModel } from '../../../../../models/play.model';
 
 //Services
 import { LeaguesService } from 'src/app/services/leagues.service';
-import { ClubsService } from 'src/app/services/clubs.service';
-import { PlayersService } from 'src/app/services/players.service';
-import { TeamsService } from 'src/app/services/teams.service';
 import { GamesService } from 'src/app/services/games.service';
+import { PlaysService } from 'src/app/services/plays.service';
 
 
 
@@ -41,7 +40,7 @@ export class MainPageComponent implements OnInit {
   interval;
 
 
-  constructor(private gamesService:GamesService, private leaguesService:LeaguesService, private route:ActivatedRoute) { 
+  constructor(private gamesService:GamesService, private playsService:PlaysService, private leaguesService:LeaguesService, private route:ActivatedRoute) { 
 
     const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
@@ -104,6 +103,69 @@ export class MainPageComponent implements OnInit {
 
   pauseTimer(){
     clearInterval(this.interval);
+  }
+
+  createFTPlay(shot_made){
+
+    //Check if the user selected a player.
+    if(this.player_active != [-1,-1]){
+      let team_id;
+
+      //Get the team's info
+      if(this.player_active[0] == 0){
+        team_id = this.game.home_team.team_id;
+      }
+      else{
+        if(this.player_active[0] == 1){
+          team_id = this.game.visitor_team.team_id;
+        }
+      }
+
+      //Check if the FT was missed or not
+
+      //Create the play
+      let play = new PlayModel();
+      play = {
+        player: {
+          player_id: this.game.stats.home_team_stats.player_stats[this.player_active[1]].player_id,
+          player_name: this.game.stats.home_team_stats.player_stats[this.player_active[1]].player_name,
+          player_last_name: this.game.stats.home_team_stats.player_stats[this.player_active[1]].player_lastName,
+          player_img: this.game.stats.home_team_stats.player_stats[this.player_active[1]].player_img,
+        },
+        team: team_id,
+        time: {
+          minute: this.minutes,
+          second: this.seconds
+        },
+        period: this.quarter,
+        type: 'shot',
+        shot_type: 'ft',
+        shot_made: shot_made
+      }
+
+      this.playsService.createPlay(play).then( () => {
+
+        //Update player stats
+        if(this.player_active[0] == 0){
+          this.game.stats.home_team_stats
+        }
+        else{
+          
+        }
+
+        
+        
+
+      }) 
+      .catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al crear la jugada.',
+          icon: 'error'
+        });
+      });
+
+    }
+
   }
 
 }

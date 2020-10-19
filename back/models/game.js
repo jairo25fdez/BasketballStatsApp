@@ -7,6 +7,10 @@ const player_stats_gameSchema = player_stats_gameModule.Player_stats_gameSchema;
 const playModule = require('./play.js');
 const playSchema = playModule.PlaySchema;
 
+const team_stats_gameModule = require('./team_stats_game.js');
+const team_stats_gameSchema = team_stats_gameModule.Team_stats_gameSchema;
+
+
 var gameSchema = new Schema({
     date: Date,
     season : Number,
@@ -45,11 +49,11 @@ var gameSchema = new Schema({
     overtime_count: Number,
     stats: {
         home_team_stats:{
-            //team_stats: {team_stats_gameSchema},
+            team_stats: team_stats_gameSchema,
             player_stats: [player_stats_gameSchema]
         },
         visitor_team_stats:{
-            //team_stats: {team_stats_gameSchema},
+            team_stats: team_stats_gameSchema,
             player_stats: [player_stats_gameSchema]
         } 
     },
