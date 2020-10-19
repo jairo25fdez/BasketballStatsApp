@@ -35,112 +35,6 @@ export class GameModel{
     minutes_played?: number;
     overtime?: boolean;
     overtime_count?: number;
-    stats: {
-        home_team_stats?: {
-            team_stats?: {
-
-            };
-            player_stats?: [{
-                player_id?: string;
-                starter?: boolean;
-                player_name?: string;
-                player_lastName?: string;
-                player_img?: string;
-                time_played?:{
-                    minutes: number;
-                    seconds: number;
-                };
-                points?: number;
-                t2_made?: number;
-                t2_attempted?: number;
-                t3_made?: number;
-                t3_attempted?: number;
-                t1_made?: number;
-                t1_attempted?: number;
-                shots_list?: {
-                    lc3: {made: number; attempted: number};
-                    le3: {made: number; attempted: number};
-                    c3: {made: number; attempted: number};
-                    re3: {made: number; attempted: number};
-                    rc3: {made: number; attempted: number};
-                    lmc2: {made: number; attempted: number};
-                    lme2: {made: number; attempted: number};
-                    cm2:  {made: number; attempted: number};
-                    rme2: {made: number; attempted: number};
-                    rmc2: {made: number; attempted: number};
-                    lp2:  {made: number; attempted: number};
-                    rp2:  {made: number; attempted: number};
-                    lft2: {made: number; attempted: number};
-                    rft2: {made: number; attempted: number}
-                };
-                total_rebounds?: number;
-                defensive_rebounds?: number;
-                offensive_rebounds?: number;
-                assists?: number;
-                steals?: number;
-                turnovers?: number;
-                blocks_made?: number;
-                blocks_received?: number;
-                fouls_made?: number;
-                fouls_received?: number;
-                plus_minus?: number;
-                approximate_value?: number;
-                usage?: {personal: number; team: number}
-            }];
-        };
-        visitor_team_stats?: {
-            team_stats?: {
-
-            };
-            player_stats?: [{
-                player_id?: string;
-                starter?: boolean;
-                player_name?: string;
-                player_lastName?: string;
-                player_img?: string;
-                time_played?:{
-                    minutes: number;
-                    seconds: number;
-                };
-                points?: number;
-                t2_made?: number;
-                t2_attempted?: number;
-                t3_made?: number;
-                t3_attempted?: number;
-                t1_made?: number;
-                t1_attempted?: number;
-                shots_list?: {
-                    lc3: {made: number; attempted: number};
-                    le3: {made: number; attempted: number};
-                    c3: {made: number; attempted: number};
-                    re3: {made: number; attempted: number};
-                    rc3: {made: number; attempted: number};
-                    lmc2: {made: number; attempted: number};
-                    lme2: {made: number; attempted: number};
-                    cm2:  {made: number; attempted: number};
-                    rme2: {made: number; attempted: number};
-                    rmc2: {made: number; attempted: number};
-                    lp2:  {made: number; attempted: number};
-                    rp2:  {made: number; attempted: number};
-                    lft2: {made: number; attempted: number};
-                    rft2: {made: number; attempted: number}
-                };
-                total_rebounds?: number;
-                defensive_rebounds?: number;
-                offensive_rebounds?: number;
-                assists?: number;
-                steals?: number;
-                turnovers?: number;
-                blocks_made?: number;
-                blocks_received?: number;
-                fouls_made?: number;
-                fouls_received?: number;
-                plus_minus?: number;
-                approximate_value?: number;
-                usage?: {personal: number; team: number}
-            }];
-        };
-    };
     play_by_play?: [{
         player: {
             player_id: string;
@@ -165,19 +59,6 @@ export class GameModel{
     }];
 
     constructor(){
-        
-        this.stats = {
-            home_team_stats: {
-                team_stats: {},
-                player_stats: [{}]
-            },
-            visitor_team_stats: {
-                team_stats: {},
-                player_stats: [{}]
-            },
-
-        };
-
         
     }
 

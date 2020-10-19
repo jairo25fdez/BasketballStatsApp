@@ -9,6 +9,7 @@ var playSchema = new Schema({
         player_img: String,
     },
     team: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
+    game_id: {type: Schema.Types.ObjectId, ref: 'Game', required: true},
     time: {
         minute: Number,
         second: Number

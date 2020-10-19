@@ -51,6 +51,7 @@ export class MainPageComponent implements OnInit {
         this.minutes = res.quarter_length;
       });
 
+      /*
       //Save home starters in an array.
       let cont = 0;
       for(let player of this.game.stats.home_team_stats.player_stats){
@@ -70,8 +71,9 @@ export class MainPageComponent implements OnInit {
 
         cont++;
       }
+      */
 
-      
+      //Busco a los jugadores que en su tabla de stats tengan starter:true
 
     });
     
@@ -124,6 +126,7 @@ export class MainPageComponent implements OnInit {
       //Check if the FT was missed or not
 
       //Create the play
+      
       let play = new PlayModel();
       play = {
         player: {
@@ -142,6 +145,7 @@ export class MainPageComponent implements OnInit {
         shot_type: 'ft',
         shot_made: shot_made
       }
+      
 
       this.playsService.createPlay(play).then( () => {
 

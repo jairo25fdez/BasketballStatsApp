@@ -47,16 +47,6 @@ var gameSchema = new Schema({
     minutes_played: Number,
     overtime: Boolean,
     overtime_count: Number,
-    stats: {
-        home_team_stats:{
-            team_stats: team_stats_gameSchema,
-            player_stats: [player_stats_gameSchema]
-        },
-        visitor_team_stats:{
-            team_stats: team_stats_gameSchema,
-            player_stats: [player_stats_gameSchema]
-        } 
-    },
     play_by_play: [playSchema]
 });
 

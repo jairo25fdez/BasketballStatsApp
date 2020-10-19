@@ -54,13 +54,11 @@ var player_stats_gameSchema = new Schema({
     blocks_received: {type: Number, min: 0},
     fouls_made: {type: Number, min: 0},
     fouls_received: {type: Number, min: 0},
-    plus_minus: Number,
-    approximate_value: Number,
-    //Advanced stats
     usage: {
         personal: Number,
-        team: Number
-    }, //Using %.
+        team: Number,
+        percentage: Number
+    }
 });
 
 player_stats_gameSchema = mongoose.Schema(player_stats_gameSchema);

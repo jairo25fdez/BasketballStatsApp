@@ -7,6 +7,7 @@ export class PlayModel{
         player_img: string;
     };
     team: string;
+    game_id: string;
     time: {
         minute: Number;
         second: Number;
