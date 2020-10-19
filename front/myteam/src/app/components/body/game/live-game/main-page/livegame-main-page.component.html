@@ -92,7 +92,7 @@
             <!-- LINEUPS COLUMN -->
             <div class="d-flex flex-column col mr-2" id="lineups-column">
 
-                
+                <!-- Home Lineup -->
                 <div class="lineup row no-gutters">
 
                     <div class="d-flex flex-column col-11">
@@ -115,7 +115,7 @@
 
                 </div>
         
-                
+                <!-- Visitor Lineup -->
                 <div class="lineup row no-gutters mt-2">
 
                     <div class="d-flex flex-column col-11">
@@ -160,11 +160,12 @@
 
                             <div class="d-flex  flex-column col p-2 ">
 
+                                <!-- Shot actions -->
                                 <div class="shot-actions  p-2 m-1">
                                     <p class="text-center h4">Tiros</p>
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
-                                        <button type="button" class="btn btn-success w-50">TL Anotado</button>
-                                        <button type="button" class="btn btn-danger w-50">TL Fallado</button>
+                                        <button type="button" class="btn btn-success w-50" (click)="createFTPlay(true)">TL Anotado</button>
+                                        <button type="button" class="btn btn-danger w-50" (click)="createFTPlay(false)">TL Fallado</button>
                                     </div>
                                     <!--
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
@@ -179,6 +180,7 @@
                                     
                                 </div>
 
+                                <!-- Rebound actions -->
                                 <div class="rebound-actions  p-2 m-1">
                                     <p class="text-center h4">Rebotes</p>
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
@@ -188,6 +190,7 @@
                                     
                                 </div>
 
+                                <!-- Block actions -->
                                 <div class="blocks-actions p-2 m-1">
                                     <p class="text-center h4">Tapones</p>
                                     <div class="row no-gutters justify-content-center pt-2 pb-2">
@@ -198,6 +201,7 @@
 
                             </div>
 
+                            <!-- 2nd Column-->
                             <div class="d-flex flex-column col p-2">
 
                                 <div class="assist-actions p-2 m-1">

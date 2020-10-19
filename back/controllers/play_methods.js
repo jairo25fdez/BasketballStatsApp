@@ -58,19 +58,20 @@ module.exports = function (app){
 
         let play = new Play({
             player: play_data.player,
-            club: play_data.club,
+            team: play_data.team,
+            game_id: play_data.game_id,
             time: play_data.time,
             period: play_data.period,
             type: play_data.type,
-            shoot_type: play_data.shoot_type,
-            shoot_position: play_data.shoot_position,
-            shoot_made: play_data.shoot_made,
-            assisted_shoot: play_data.assisted_shoot,
+            shot_type: play_data.shoot_type,
+            shot_position: play_data.shoot_position,
+            shot_made: play_data.shoot_made,
+            //assisted_shoot: play_data.assisted_shoot,
             rebound_type: play_data.rebound_type,
-            player_in: play_data.player_in,
-            player_out: play_data.player_out,
-            from: play_data.from, 
-            to: play_data.to
+            //player_in: play_data.player_in,
+            //player_out: play_data.player_out,
+            //from: play_data.from, 
+            //to: play_data.to
         });
 
         play.save(function(err,doc){
@@ -147,19 +148,20 @@ module.exports = function (app){
             }
             else{
                 play.player = updatedData.player,
-                play.club = updatedData.club,
+                play.team = updatedData.team,
+                play.game_id = updatedData.game_id,
                 play.time = updatedData.time,
                 play.period = updatedData.period,
                 play.type = updatedData.type,
-                play.shoot_type = updatedData.shoot_type,
-                play.shoot_position = updatedData.shoot_position,
-                play.shoot_made = updatedData.shoot_made,
-                play.assisted_shoot = updatedData.assisted_shoot,
+                play.shot_type = updatedData.shoot_type,
+                play.shot_position = updatedData.shoot_position,
+                play.shot_made = updatedData.shoot_made,
+                //play.assisted_shoot = updatedData.assisted_shoot,
                 play.rebound_type = updatedData.rebound_type,
-                play.player_in = updatedData.player_in,
-                play.player_out = updatedData.player_out,
-                play.from = updatedData.from, 
-                play.to = updatedData.to
+                //play.player_in = updatedData.player_in,
+                //play.player_out = updatedData.player_out,
+                //play.from = updatedData.from, 
+                //play.to = updatedData.to
 
                 play.save();
 

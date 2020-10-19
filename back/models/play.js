@@ -6,7 +6,7 @@ var playSchema = new Schema({
         player_id: {type: Schema.Types.ObjectId, ref: 'Player', required: true},
         player_name: String,
         player_last_name: String,
-        player_img: String,
+        player_img: String
     },
     team: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
     game_id: {type: Schema.Types.ObjectId, ref: 'Game', required: true},

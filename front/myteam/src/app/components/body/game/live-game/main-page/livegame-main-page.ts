@@ -15,7 +15,6 @@ import { LeaguesService } from 'src/app/services/leagues.service';
 import { GamesService } from 'src/app/services/games.service';
 import { PlaysService } from 'src/app/services/plays.service';
 import { Player_stats_gamesService } from 'src/app/services/player_stats_game.service';
-import { PlayerModel } from '../../../../../models/player.model';
 
 
 
@@ -145,64 +144,55 @@ export class MainPageComponent implements OnInit {
 
     //Check if the user selected a player.
     if(this.player_active != [-1,-1]){
-      let team_id;
+      let play = new PlayModel();
 
       //Get the team's info
       if(this.player_active[0] == 0){
-        team_id = this.game.home_team.team_id;
+
+        play.player = {
+          player_id: this.home_players[this.player_active[1]].player_id,
+          player_name: this.home_players[this.player_active[1]].player_name,
+          player_last_name: this.home_players[this.player_active[1]].player_lastName,
+          player_img: this.home_players[this.player_active[1]].player_img,
+        };
+        play.team = this.game.home_team.team_id;
+
       }
       else{
         if(this.player_active[0] == 1){
-          team_id = this.game.visitor_team.team_id;
+
+          play.player = {
+            player_id: this.visitor_players[this.player_active[1]].player_id,
+            player_name: this.visitor_players[this.player_active[1]].player_name,
+            player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
+            player_img: this.visitor_players[this.player_active[1]].player_img,
+          };
+          play.team = this.game.visitor_team.team_id;
+
         }
       }
 
-      //Check if the FT was missed or not
+      //Check the rest of the fields
+      play.game_id = this.game._id;
+      play.time = {
+        minute: this.minutes,
+        second: this.seconds
+      };
+      play.period = this.quarter;
+      play.type = "shot";
+      play.shot_type = "ft";
+      play.shot_made = shot_made;
 
-      //Create the play
-      /*
-      let play = new PlayModel();
-      play = {
-        player: {
-          player_id: this.game.stats.home_team_stats.player_stats[this.player_active[1]].player_id,
-          player_name: this.game.stats.home_team_stats.player_stats[this.player_active[1]].player_name,
-          player_last_name: this.game.stats.home_team_stats.player_stats[this.player_active[1]].player_lastName,
-          player_img: this.game.stats.home_team_stats.player_stats[this.player_active[1]].player_img,
-        },
-        team: team_id,
-        time: {
-          minute: this.minutes,
-          second: this.seconds
-        },
-        period: this.quarter,
-        type: 'shot',
-        shot_type: 'ft',
-        shot_made: shot_made
-      }
-      
-      
-      this.playsService.createPlay(play).then( () => {
+      console.log("PLAY: "+JSON.stringify(play));
 
-        //Update player stats
-        if(this.player_active[0] == 0){
-          this.game.stats.home_team_stats
-        }
-        else{
-          
-        }
-
-        
-        
-
-      }) 
-      .catch( (err:HttpErrorResponse) => {
+      //Post the play
+      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
         Swal.fire({
           title: 'Error al crear la jugada.',
           icon: 'error'
         });
       });
-      */
-
+      
     }
 
   }
