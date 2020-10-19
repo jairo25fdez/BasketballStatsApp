@@ -11,6 +11,9 @@ import { LiveGameComponent } from './components/body/game/live-game/live-game.co
 import { GameMenuComponent } from './components/body/game/game-menu/game-menu.component';
 import { NewgameFormComponent } from './components/body/game/newgame-form/newgame-form.component';
 import { GamesViewComponent } from './components/body/game/games-view/games-view.component';
+import { MainPageComponent } from './components/body/game/live-game/main-page/livegame-main-page';
+import { BoxscoreComponent } from './components/body/game/live-game/boxscore/boxscore.component';
+import { PlayByPlayComponent } from './components/body/game/live-game/play-by-play/play-by-play.component';
 
 //Players components
 import { NewplayerFormComponent } from './components/body/players/newplayer-form/newplayer-form.component';
@@ -40,7 +43,14 @@ const routes: Routes = [
     ]
   },
   //Game routes
-    {path: 'live-game/:id', component: LiveGameComponent},
+    {path: 'live-game/:id', component: LiveGameComponent,
+    children: [
+      {path: 'main-page', component: MainPageComponent},
+      {path: 'boxscore', component: BoxscoreComponent},
+      {path: 'play-by-play', component: PlayByPlayComponent},
+      {path: '**', pathMatch: 'full', redirectTo: 'main-page'}
+    ]
+    },
     {path: 'game-menu', component: GameMenuComponent,
     children: [
       {path: 'new-game', component: NewgameFormComponent},

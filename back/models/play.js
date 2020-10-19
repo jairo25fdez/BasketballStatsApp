@@ -8,8 +8,13 @@ var playSchema = new Schema({
         player_last_name: String,
         player_img: String
     },
-    team: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
+    team:{
+        team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
+        team_img: String
+    },
     game_id: {type: Schema.Types.ObjectId, ref: 'Game', required: true},
+    home_team_score: Number,
+    visitor_team_score: Number,
     time: {
         minute: Number,
         second: Number

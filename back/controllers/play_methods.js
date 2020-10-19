@@ -60,6 +60,8 @@ module.exports = function (app){
             player: play_data.player,
             team: play_data.team,
             game_id: play_data.game_id,
+            home_team_score: play_data.home_team_score,
+            visitor_team_score: play_data.visitor_team_score,
             time: play_data.time,
             period: play_data.period,
             type: play_data.type,
@@ -98,7 +100,7 @@ module.exports = function (app){
 
     //Methods to work with a specific play.
 
-    //DELETE a specific Club by the ID.
+    //DELETE a specific play by the ID.
     app.delete(BASE_API_URL+"/plays/:play_id",(request,response) =>{
         var play_id = request.params.play_id;
 
@@ -115,7 +117,7 @@ module.exports = function (app){
         
     });
 
-    //GET a specific Club by the ID.
+    //GET a specific play by the ID.
     app.get(BASE_API_URL+"/plays/:play_id",(request,response) =>{
         var play_id = request.params.play_id;
 
@@ -137,7 +139,7 @@ module.exports = function (app){
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
     });
 
-    //PUT a specific Club in the database.
+    //PUT a specific play in the database.
     app.put(BASE_API_URL+"/plays/:play_id",(request,response) =>{
 
         var play_id = request.params.play_id;
@@ -152,6 +154,8 @@ module.exports = function (app){
                 play.player = updatedData.player,
                 play.team = updatedData.team,
                 play.game_id = updatedData.game_id,
+                play.home_team_score = updatedData.home_team_score,
+                play.visitor_team_score = updatedData.visitor_team_score,
                 play.time = updatedData.time,
                 play.period = updatedData.period,
                 play.type = updatedData.type,

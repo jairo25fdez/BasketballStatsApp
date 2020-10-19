@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
@@ -47,9 +47,11 @@ export class MainPageComponent implements OnInit {
   interval;
 
 
-  constructor(private gamesService:GamesService, private player_stats_gameService:Player_stats_gamesService, private playsService:PlaysService, private leaguesService:LeaguesService, private route:ActivatedRoute) { 
+  constructor(private gamesService:GamesService, private player_stats_gameService:Player_stats_gamesService, private playsService:PlaysService, private leaguesService:LeaguesService, private route:ActivatedRoute, private router:Router) { 
 
-    const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
+    //const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
+
+    const game_id = router.url.split('/')[2].toString();  //Game ID
 
     this.gamesService.getGame(game_id).then((res:GameModel) => {
       this.game = res;
@@ -108,10 +110,15 @@ export class MainPageComponent implements OnInit {
       });
       
 
+    })
+    .catch( (err:HttpErrorResponse) => {
+      Swal.fire({
+        title: 'Error al cargar el partido de la base de datos.',
+        icon: 'error'
+      });
     });
     
     
-
   }
 
   ngOnInit(): void {
@@ -149,17 +156,29 @@ export class MainPageComponent implements OnInit {
       //Get the team's info
       if(this.player_active[0] == 0){
 
+        //If the shot was made we add to the score
+        if(shot_made){
+          this.game.home_team_score += 1;
+        }
+
         play.player = {
           player_id: this.home_players[this.player_active[1]].player_id,
           player_name: this.home_players[this.player_active[1]].player_name,
           player_last_name: this.home_players[this.player_active[1]].player_lastName,
           player_img: this.home_players[this.player_active[1]].player_img,
         };
-        play.team = this.game.home_team.team_id;
-
+        play.team = {
+          team_id: this.game.home_team.team_id,
+          team_img: this.game.home_team.club_img
+        }
       }
       else{
         if(this.player_active[0] == 1){
+
+          //If the shot was made we add to the score
+          if(shot_made){
+            this.game.visitor_team_score += 1;
+          }
 
           play.player = {
             player_id: this.visitor_players[this.player_active[1]].player_id,
@@ -167,13 +186,18 @@ export class MainPageComponent implements OnInit {
             player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
             player_img: this.visitor_players[this.player_active[1]].player_img,
           };
-          play.team = this.game.visitor_team.team_id;
+          play.team = {
+            team_id: this.game.visitor_team.team_id,
+            team_img: this.game.visitor_team.club_img
+          }
 
         }
       }
 
       //Check the rest of the fields
       play.game_id = this.game._id;
+      play.home_team_score = this.game.home_team_score;
+      play.visitor_team_score = this.game.visitor_team_score;
       play.time = {
         minute: this.minutes,
         second: this.seconds
@@ -183,12 +207,18 @@ export class MainPageComponent implements OnInit {
       play.shot_type = "ft";
       play.shot_made = shot_made;
 
-      console.log("PLAY: "+JSON.stringify(play));
-
       //Post the play
       this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
         Swal.fire({
           title: 'Error al crear la jugada.',
+          icon: 'error'
+        });
+      });
+
+      //Update the game
+      this.gamesService.updateGame(this.game).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al actualizar el partido.',
           icon: 'error'
         });
       });
@@ -212,7 +242,10 @@ export class MainPageComponent implements OnInit {
           player_last_name: this.home_players[this.player_active[1]].player_lastName,
           player_img: this.home_players[this.player_active[1]].player_img,
         };
-        play.team = this.game.home_team.team_id;
+        play.team = {
+          team_id: this.game.home_team.team_id,
+          team_img: this.game.home_team.club_img
+        }
 
       }
       else{
@@ -224,13 +257,18 @@ export class MainPageComponent implements OnInit {
             player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
             player_img: this.visitor_players[this.player_active[1]].player_img,
           };
-          play.team = this.game.visitor_team.team_id;
+          play.team = {
+            team_id: this.game.visitor_team.team_id,
+            team_img: this.game.visitor_team.club_img
+          }
 
         }
       }
 
       //Check the rest of the fields
       play.game_id = this.game._id;
+      play.home_team_score = this.game.home_team_score;
+      play.visitor_team_score = this.game.visitor_team_score;
       play.time = {
         minute: this.minutes,
         second: this.seconds
@@ -266,7 +304,10 @@ export class MainPageComponent implements OnInit {
           player_last_name: this.home_players[this.player_active[1]].player_lastName,
           player_img: this.home_players[this.player_active[1]].player_img,
         };
-        play.team = this.game.home_team.team_id;
+        play.team = {
+          team_id: this.game.home_team.team_id,
+          team_img: this.game.home_team.club_img
+        }
 
       }
       else{
@@ -278,13 +319,18 @@ export class MainPageComponent implements OnInit {
             player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
             player_img: this.visitor_players[this.player_active[1]].player_img,
           };
-          play.team = this.game.visitor_team.team_id;
+          play.team = {
+            team_id: this.game.visitor_team.team_id,
+            team_img: this.game.visitor_team.club_img
+          }
 
         }
       }
 
       //Check the rest of the fields
       play.game_id = this.game._id;
+      play.home_team_score = this.game.home_team_score;
+      play.visitor_team_score = this.game.visitor_team_score;
       play.time = {
         minute: this.minutes,
         second: this.seconds
@@ -320,7 +366,10 @@ export class MainPageComponent implements OnInit {
           player_last_name: this.home_players[this.player_active[1]].player_lastName,
           player_img: this.home_players[this.player_active[1]].player_img,
         };
-        play.team = this.game.home_team.team_id;
+        play.team = {
+          team_id: this.game.home_team.team_id,
+          team_img: this.game.home_team.club_img
+        }
 
       }
       else{
@@ -332,13 +381,18 @@ export class MainPageComponent implements OnInit {
             player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
             player_img: this.visitor_players[this.player_active[1]].player_img,
           };
-          play.team = this.game.visitor_team.team_id;
+          play.team = {
+            team_id: this.game.visitor_team.team_id,
+            team_img: this.game.visitor_team.club_img
+          }
 
         }
       }
 
       //Check the rest of the fields
       play.game_id = this.game._id;
+      play.home_team_score = this.game.home_team_score;
+      play.visitor_team_score = this.game.visitor_team_score;
       play.time = {
         minute: this.minutes,
         second: this.seconds
@@ -373,7 +427,10 @@ export class MainPageComponent implements OnInit {
           player_last_name: this.home_players[this.player_active[1]].player_lastName,
           player_img: this.home_players[this.player_active[1]].player_img,
         };
-        play.team = this.game.home_team.team_id;
+        play.team = {
+          team_id: this.game.home_team.team_id,
+          team_img: this.game.home_team.club_img
+        }
 
       }
       else{
@@ -385,13 +442,18 @@ export class MainPageComponent implements OnInit {
             player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
             player_img: this.visitor_players[this.player_active[1]].player_img,
           };
-          play.team = this.game.visitor_team.team_id;
+          play.team = {
+            team_id: this.game.visitor_team.team_id,
+            team_img: this.game.visitor_team.club_img
+          }
 
         }
       }
 
       //Check the rest of the fields
       play.game_id = this.game._id;
+      play.home_team_score = this.game.home_team_score;
+      play.visitor_team_score = this.game.visitor_team_score;
       play.time = {
         minute: this.minutes,
         second: this.seconds
@@ -426,7 +488,10 @@ export class MainPageComponent implements OnInit {
           player_last_name: this.home_players[this.player_active[1]].player_lastName,
           player_img: this.home_players[this.player_active[1]].player_img,
         };
-        play.team = this.game.home_team.team_id;
+        play.team = {
+          team_id: this.game.home_team.team_id,
+          team_img: this.game.home_team.club_img
+        }
 
       }
       else{
@@ -438,13 +503,18 @@ export class MainPageComponent implements OnInit {
             player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
             player_img: this.visitor_players[this.player_active[1]].player_img,
           };
-          play.team = this.game.visitor_team.team_id;
+          play.team = {
+            team_id: this.game.visitor_team.team_id,
+            team_img: this.game.visitor_team.club_img
+          }
 
         }
       }
 
       //Check the rest of the fields
       play.game_id = this.game._id;
+      play.home_team_score = this.game.home_team_score;
+      play.visitor_team_score = this.game.visitor_team_score;
       play.time = {
         minute: this.minutes,
         second: this.seconds
@@ -479,7 +549,10 @@ export class MainPageComponent implements OnInit {
           player_last_name: this.home_players[this.player_active[1]].player_lastName,
           player_img: this.home_players[this.player_active[1]].player_img,
         };
-        play.team = this.game.home_team.team_id;
+        play.team = {
+          team_id: this.game.home_team.team_id,
+          team_img: this.game.home_team.club_img
+        }
 
       }
       else{
@@ -491,13 +564,18 @@ export class MainPageComponent implements OnInit {
             player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
             player_img: this.visitor_players[this.player_active[1]].player_img,
           };
-          play.team = this.game.visitor_team.team_id;
+          play.team = {
+            team_id: this.game.visitor_team.team_id,
+            team_img: this.game.visitor_team.club_img
+          }
 
         }
       }
 
       //Check the rest of the fields
       play.game_id = this.game._id;
+      play.home_team_score = this.game.home_team_score;
+      play.visitor_team_score = this.game.visitor_team_score;
       play.time = {
         minute: this.minutes,
         second: this.seconds

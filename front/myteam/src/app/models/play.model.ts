@@ -6,8 +6,13 @@ export class PlayModel{
         player_last_name: string;
         player_img: string;
     };
-    team: string;
+    team: {
+        team_id: string;
+        team_img: string;
+    };
     game_id: string;
+    home_team_score: number;
+    visitor_team_score: number;
     time: {
         minute: Number;
         second: Number;

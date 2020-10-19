@@ -5,25 +5,24 @@
         <div class="play m-2 " *ngFor="let play of plays">
 
             <div class="row col-12 p-0 pt-2 time no-gutters">
-                <div class="qrt col-1 h4 m-0 text-center align-self-center">{{ play.quarter }}C</div>
-                <div class="minutes col-1 h4 m-0 text-center align-self-center">{{ play.time }}</div>
+                <div class="qrt col-1 h4 m-0 text-center align-self-center">{{ play.period }}C</div>
+                <div class="minutes col-1 h4 m-0 text-center align-self-center">{{ play.time.minute | number : '2.0-0'}}:{{ play.time.second | number : '2.0-0'}} </div>
                 <div class="col-4"></div>
-                <div class="col-2 h6 m-0 text-center align-self-center">{{ play.player }}
+                <div class="col-2 h6 m-0 text-center align-self-center">{{ play.player.player_name }} {{ play.player.player_last_name }}
                 </div>
             </div>
             <div class="row col-12 p-0 main no-gutters">
-                <div class="home-score col-1 h3 m-0 text-center align-self-center">{{ play.home_score }}</div>
-                <div class="visitor-score col-1 h3 m-0 text-center align-self-center">{{ play.visitor_score }}</div>
-                <div class="play-type col-4 pl-3 h5 m-0  align-self-center">{{ play.play_type }}</div>
+                <div class="home-score col-1 h3 m-0 text-center align-self-center">{{ play.home_team_score }}</div>
+                <div class="visitor-score col-1 h3 m-0 text-center align-self-center">{{ play.visitor_team_score }}</div>
+                <div class="play-type col-4 pl-3 h5 m-0  align-self-center">{{ play.type }}</div>
                 <div class="player-picture col-2">
-                    <img src="{{ play.player_img }}" class="img-fluid player-img">
+                    <img src="{{ play.player.player_img }}" class="img-fluid player-img">
                 </div>
                 <div class="team-picture col-2">
-                    <img src="{{ play.team_img }}" class="img-fluid team-img">
+                    <img src="{{ play.team.team_img }}" class="img-fluid team-img">
                 </div>
                 <div class="play-buttons flex-column col-2">
-                    <button type="button" class="btn btn-warning w-100 h-50">Editar</button>
-                    <button type="button" class="btn btn-danger w-100 h-50">Eliminar</button>
+                    <button type="button" class="btn btn-danger w-100 h-100">Eliminar</button>
                 </div>
             </div>
 

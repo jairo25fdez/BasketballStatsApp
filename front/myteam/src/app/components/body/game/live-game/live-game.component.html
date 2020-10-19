@@ -1,11 +1,12 @@
 <div class="vh-100">
 
+    <!--
     <nav class="nav nav-pills nav-justified p-1">
-        <a class="nav-item nav-link active " data-toggle="pill" href="#live">En Vivo</a>
-        <a class="nav-item nav-link " data-toggle="pill" href="#boxscore">Boxscore</a>
-        <a class="nav-item nav-link " data-toggle="pill" href="#playbyplay">Play by Play</a>
+        <a class="nav-item nav-link active" data-toggle="pill" href="#live">En Vivo</a>
+        <a class="nav-item nav-link" data-toggle="pill" href="#boxscore">Boxscore</a>
+        <a class="nav-item nav-link" data-toggle="pill" href="#playbyplay">Play by Play</a>
     </nav>
-
+    
     <div class="tab-content">
         <div class="tab-pane fade show active" id="live" role="tabpanel" >
             <app-livegame-main-page></app-livegame-main-page>
@@ -17,5 +18,15 @@
             <app-play-by-play></app-play-by-play>
         </div>
     </div>
+
+    -->
+
+    <nav class="nav nav-pills nav-justified p-1">
+        <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['main-page']" >En Vivo</a>
+        <a class="nav-item nav-link" data-toggle="pill" routerLinkActive="active" [routerLink]="['boxscore']">Boxscore</a>
+        <a class="nav-item nav-link" data-toggle="pill" routerLinkActive="active" [routerLink]="['play-by-play']">Play by Play</a>
+    </nav>
+
+    <router-outlet></router-outlet>
 
 </div>
