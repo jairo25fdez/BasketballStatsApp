@@ -534,13 +534,13 @@ export class NewgameFormComponent implements OnInit {
               }
     
               let player_stats_game:Player_stats_gameModel = {
-                player_id: this.home_team_players[player_index].player_id,
+                player_id: this.visitor_team_players[player_index].player_id,
                 game_id: games[0]._id,
                 team_id: this.game.visitor_team.team_id,
                 starter: player_starter,
-                player_name: this.home_team_players[player_index].player_name,
-                player_lastName: this.home_team_players[player_index].player_last_name,
-                player_img: this.home_team_players[player_index].player_img,
+                player_name: this.visitor_team_players[player_index].player_name,
+                player_lastName: this.visitor_team_players[player_index].player_last_name,
+                player_img: this.visitor_team_players[player_index].player_img,
                 time_played: {
                   minutes: 0,
                   seconds: 0

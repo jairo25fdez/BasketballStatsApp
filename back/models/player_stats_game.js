@@ -2,11 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var zone_shotsSchema = new Schema({
+    _id: false,
     made: Number,
     attempted: Number
 });
 
 var shots_listSchema = new Schema({
+    _id: false,
     lc3: zone_shotsSchema,
     le3: zone_shotsSchema,
     c3: zone_shotsSchema,

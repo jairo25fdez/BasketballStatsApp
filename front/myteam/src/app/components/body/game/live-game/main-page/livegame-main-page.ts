@@ -8,11 +8,14 @@ import { LeagueModel } from 'src/app/models/league.model';
 import { TeamModel } from 'src/app/models/team.model';
 import { GameModel } from '../../../../../models/game.model';
 import { PlayModel } from '../../../../../models/play.model';
+import { Player_stats_gameModel } from '../../../../../models/player_stats_game.model';
 
 //Services
 import { LeaguesService } from 'src/app/services/leagues.service';
 import { GamesService } from 'src/app/services/games.service';
 import { PlaysService } from 'src/app/services/plays.service';
+import { Player_stats_gamesService } from 'src/app/services/player_stats_game.service';
+import { PlayerModel } from '../../../../../models/player.model';
 
 
 
@@ -28,8 +31,13 @@ export class MainPageComponent implements OnInit {
   home_team:TeamModel;
   visitor_team:TeamModel;
 
+  home_players:Player_stats_gameModel[] = [];
   oncourt_home_players:number[] = [];
+  bench_home_players:number[] = [];
+
+  visitor_players:Player_stats_gameModel[] = [];
   oncourt_visitor_players:number[] = [];
+  bench_visitor_players:number[] = [];
 
   player_active:number[] = [-1, -1];
 
@@ -40,7 +48,7 @@ export class MainPageComponent implements OnInit {
   interval;
 
 
-  constructor(private gamesService:GamesService, private playsService:PlaysService, private leaguesService:LeaguesService, private route:ActivatedRoute) { 
+  constructor(private gamesService:GamesService, private player_stats_gameService:Player_stats_gamesService, private playsService:PlaysService, private leaguesService:LeaguesService, private route:ActivatedRoute) { 
 
     const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
@@ -51,29 +59,55 @@ export class MainPageComponent implements OnInit {
         this.minutes = res.quarter_length;
       });
 
-      /*
-      //Save home starters in an array.
-      let cont = 0;
-      for(let player of this.game.stats.home_team_stats.player_stats){
-        if(player.starter){
-          this.oncourt_home_players.push(cont);
+      //Save players in the arrays.
+      this.player_stats_gameService.getPlayer_stats_games("?game_id="+game_id).then( (players_stats:Player_stats_gameModel[]) => {
+
+        let home_players_cont = 0;
+        let visitor_players_cont = 0;
+
+        for(let player of players_stats){
+
+          //If the player belongs to the home team
+          if(player.team_id == this.game.home_team.team_id){
+
+            this.home_players.push(player);
+            
+            if(player.starter){
+              this.oncourt_home_players.push(home_players_cont);
+            }
+            else{
+              this.bench_home_players.push(home_players_cont);
+            }
+
+            home_players_cont++;
+
+          }
+          //If the player belongs to the visitor team
+          else{
+            
+            this.visitor_players.push(player);
+
+            if(player.starter){
+              this.oncourt_visitor_players.push(visitor_players_cont);
+            }
+            else{
+              this.bench_visitor_players.push(visitor_players_cont);
+            }
+
+            visitor_players_cont++;
+
+          }
+
         }
 
-        cont++;
-      }
-
-      //Save visitor starters in an array.
-      cont = 0;
-      for(let player of this.game.stats.visitor_team_stats.player_stats){
-        if(player.starter){
-          this.oncourt_visitor_players.push(cont);
-        }
-
-        cont++;
-      }
-      */
-
-      //Busco a los jugadores que en su tabla de stats tengan starter:true
+      })
+      .catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al recibir los jugadores.',
+          icon: 'error'
+        });
+      });
+      
 
     });
     
