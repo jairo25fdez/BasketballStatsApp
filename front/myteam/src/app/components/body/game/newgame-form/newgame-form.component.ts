@@ -834,6 +834,7 @@ export class NewgameFormComponent implements OnInit {
                 player_name: this.home_team_players[player_index].player_name,
                 player_lastName: this.home_team_players[player_index].player_last_name,
                 player_img: this.home_team_players[player_index].player_img,
+                player_number: this.home_team_players[player_index].player_number,
                 time_played: {
                   minutes: 0,
                   seconds: 0
@@ -1039,6 +1040,7 @@ export class NewgameFormComponent implements OnInit {
                 player_name: this.visitor_team_players[player_index].player_name,
                 player_lastName: this.visitor_team_players[player_index].player_last_name,
                 player_img: this.visitor_team_players[player_index].player_img,
+                player_number: this.visitor_team_players[player_index].player_number,
                 time_played: {
                   minutes: 0,
                   seconds: 0

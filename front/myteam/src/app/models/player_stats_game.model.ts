@@ -7,6 +7,7 @@ export class Player_stats_gameModel{
     player_name: string;
     player_lastName: string;
     player_img: string;
+    player_number: number;
     time_played: {
         minutes: number;
         seconds: number;

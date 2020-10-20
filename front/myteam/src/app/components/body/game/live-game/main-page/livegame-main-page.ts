@@ -47,7 +47,7 @@ export class MainPageComponent implements OnInit {
   interval;
 
 
-  constructor(private gamesService:GamesService, private player_stats_gameService:Player_stats_gamesService, private playsService:PlaysService, private leaguesService:LeaguesService, private route:ActivatedRoute, private router:Router) { 
+  constructor(private gamesService:GamesService, private player_stats_gameService:Player_stats_gamesService, private playsService:PlaysService, private leaguesService:LeaguesService, private router:Router) { 
 
     //const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
@@ -585,7 +585,16 @@ export class MainPageComponent implements OnInit {
       play.foul_type = foul_type;
 
       //Post the play
-      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+      this.playsService.createPlay(play).then( res => {
+
+        //If the play is created we need to update the player and team stats for the game and season
+
+        //First of all we need to get the player and team stats to update them
+
+
+
+      })
+      .catch( (err:HttpErrorResponse) => {
         Swal.fire({
           title: 'Error al crear la jugada.',
           icon: 'error'

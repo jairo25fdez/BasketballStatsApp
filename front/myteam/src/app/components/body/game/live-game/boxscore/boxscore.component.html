@@ -1,4 +1,4 @@
-<div class="container-fluid no-gutters table-responsive">
+<div class="container-fluid no-gutters table-responsive addScroll overflow-auto">
 
     <h3>Equipo Local</h3>
     <table class="table table-bordered table-dark table-striped table-hover mt-2 local-team-table">
@@ -27,17 +27,19 @@
             <th scope="col">TC</th>
             <th scope="col">FP F</th>
             <th scope="col">FP C</th>
+            <th scope="col">%USO</th>
         </tr>
         </thead>
         <tbody>
 
-          <tr *ngFor="let jugador of boxscore_jugadores">
-            <th scope="row align-items-center">{{ jugador.number }}</th>
-            <td>{{ jugador.name }}</td>
-            <td>{{ jugador.minutes }}</td>
-            <td>{{ jugador.points }}</td>
-            <td>{{ jugador.t2m }}</td>
-            <td>{{ jugador.t2a }}</td>
+          <tr *ngFor="let player of home_team_stats">
+            <th scope="row align-items-center">{{ player.player_number }}</th>
+            <td>{{ player.player_name }} {{ player.player_lastName }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -87,17 +89,19 @@
             <th scope="col">TC</th>
             <th scope="col">FP F</th>
             <th scope="col">FP C</th>
+            <th scope="col">%USO</th>
         </tr>
         </thead>
         <tbody>
 
-          <tr *ngFor="let jugador of boxscore_jugadores">
-            <th scope="row align-items-center">{{ jugador.number }}</th>
-            <td>{{ jugador.name }}</td>
-            <td>{{ jugador.minutes }}</td>
-            <td>{{ jugador.points }}</td>
-            <td>{{ jugador.t2m }}</td>
-            <td>{{ jugador.t2a }}</td>
+          <tr *ngFor="let player of visitor_team_stats">
+            <th scope="row align-items-center">{{ player.player_number }}</th>
+            <td>{{ player.player_name }} {{ player.player_lastName }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
