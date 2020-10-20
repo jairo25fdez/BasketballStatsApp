@@ -25,6 +25,7 @@ var shots_listSchema = new Schema({
 
 var team_stats_gameSchema = new Schema({
     team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
+    team_name: String,
     game_id: {type: Schema.Types.ObjectId, ref: 'Game', required: true},
     season: Number,
     time_played: {

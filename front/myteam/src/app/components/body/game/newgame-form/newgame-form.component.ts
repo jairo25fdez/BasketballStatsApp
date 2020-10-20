@@ -457,6 +457,7 @@ export class NewgameFormComponent implements OnInit {
 
             home_team_stats_game = {
               team_id: this.game.home_team.team_id,
+              team_name: this.game.home_team.club_name,
               game_id: games[0]._id,
               season: this.game.season,
               time_played: {
@@ -516,7 +517,8 @@ export class NewgameFormComponent implements OnInit {
             let visitor_team_stats_game = new Team_stats_gameModel();
 
             visitor_team_stats_game = {
-              team_id: this.game.home_team.team_id,
+              team_id: this.game.visitor_team.team_id,
+              team_name: this.game.visitor_team.club_name,
               game_id: games[0]._id,
               season: this.game.season,
               time_played: {
