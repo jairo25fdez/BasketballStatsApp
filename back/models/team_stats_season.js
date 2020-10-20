@@ -2,13 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var zone_shotsSchema = new Schema({
-    _id: false,
     made: Number,
     attempted: Number
 });
 
 var shots_listSchema = new Schema({
-    _id: false,
     lc3: zone_shotsSchema,
     le3: zone_shotsSchema,
     c3: zone_shotsSchema,
@@ -25,17 +23,13 @@ var shots_listSchema = new Schema({
     rft2: zone_shotsSchema
 });
 
-var player_stats_seasonSchema = new Schema({
-    player_id: {type: Schema.Types.ObjectId, ref: 'Player', required: true},
+var team_stats_seasonSchema = new Schema({
     team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
-    season: Number,
-    player_name: String,
-    player_lastName: String,
-    player_img: String,
+    season: {type: Number, min: 0},
+    team_name: String,
     time_played: {
         minutes: Number,
-        seconds: Number,
-        average: Number,
+        seconds: Number
     },
     games_played: {type: Number, min: 0}, //Number of games played through the season.
     wins: {type: Number, min: 0},
@@ -127,10 +121,9 @@ var player_stats_seasonSchema = new Schema({
         blocks_made_per_minute: {type: Number, min: 0},
     },
     //Usage stats
-    usage: {
-        player: {type: Number, min: 0},
-        team: {type: Number, min: 0},
-        percentage: {type: Number, min: 0}
+    possessions: {
+        total_possessions: {type: Number, min: 0},
+        possessions_per_game: {type: Number, min: 0},
     },
     //Fouls stats
     fouls_stats: {
@@ -143,12 +136,10 @@ var player_stats_seasonSchema = new Schema({
 
 });
 
-player_stats_seasonSchema.index( {player_id: 1, season_id: 1, team_id: 1}, { unique: true } );
-
-player_stats_seasonSchema = mongoose.Schema(player_stats_seasonSchema);
-player_stats_seasonModel = mongoose.model('Player Stats Season', player_stats_seasonSchema);
+team_stats_seasonSchema = mongoose.Schema(team_stats_seasonSchema);
+team_stats_seasonModel = mongoose.model('Team Stats Season', team_stats_seasonSchema);
 
 module.exports = {
-    Player_stats_seasonSchema: player_stats_seasonSchema,
-    Player_stats_seasonModel: player_stats_seasonModel
+    Team_stats_seasonSchema: team_stats_seasonSchema,
+    Team_stats_seasonModel: team_stats_seasonModel
 }
