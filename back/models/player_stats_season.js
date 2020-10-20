@@ -59,6 +59,7 @@ var player_stats_seasonSchema = new Schema({
         total_shots: {type: Number, min: 0}, //Number of shots through the season (free throws not included)
         shots_list: shots_listSchema, //We will save the shot locations.
         eFG: {type: Number, min: 0}, //
+        fg_percentage: {type: Number, min: 0},
         t2_stats: {
             _id: false,
             //T2

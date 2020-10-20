@@ -22,8 +22,24 @@ export class Team_stats_seasonModel{
     };
     shots_stats: {
         total_shots: number;
-        shots_list: number;
+        shots_list: {
+            lc3: {made: 0, attempted: 0};
+            le3: {made: 0, attempted: 0};
+            c3: {made: 0, attempted: 0};
+            re3: {made: 0, attempted: 0};
+            rc3: {made: 0, attempted: 0};
+            lmc2: {made: 0, attempted: 0};
+            lme2: {made: 0, attempted: 0};
+            cm2: {made: 0, attempted: 0};
+            rme2: {made: 0, attempted: 0};
+            rmc2: {made: 0, attempted: 0};
+            lp2: {made: 0, attempted: 0};
+            rp2: {made: 0, attempted: 0};
+            lft2: {made: 0, attempted: 0};
+            rft2: {made: 0, attempted: 0};
+        };
         eFG: number;
+        fg_percentage: number;
         t2_stats: {
             t2_made: number;
             t2_attempted: number;

@@ -16,7 +16,9 @@ import { PlayersService } from './services/players.service';
 import { GamesService } from './services/games.service';
 import { PlaysService } from './services/plays.service';
 import { Player_stats_gamesService } from './services/player_stats_game.service';
-
+import { Player_stats_seasonService } from './services/player_stats_season.service';
+import { Team_stats_gameService } from './services/team_stats_game.service';
+import { Team_stats_seasonService } from './services/team_stats_season.service';
 
 //Components
 
@@ -99,7 +101,10 @@ import { GamesViewComponent } from './components/body/game/games-view/games-view
     PlayersService,
     GamesService,
     PlaysService,
-    Player_stats_gamesService
+    Player_stats_gamesService,
+    Player_stats_seasonService,
+    Team_stats_gameService,
+    Team_stats_seasonService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,11 +1,15 @@
 export class Player_stats_seasonModel{
     _id?: string;
+    player_id: string;
     team_id: string;
     season: number;
-    team_name: string;
+    player_name: string;
+    player_lastName: string;
+    player_img: string;
     time_played: {
         minutes: number;
         seconds: number;
+        average: number;
     };
     games_played: number;
     wins: number;
@@ -22,8 +26,24 @@ export class Player_stats_seasonModel{
     };
     shots_stats: {
         total_shots: number;
-        shots_list: number;
+        shots_list: {
+            lc3: {made: 0, attempted: 0},
+            le3: {made: 0, attempted: 0},
+            c3: {made: 0, attempted: 0},
+            re3: {made: 0, attempted: 0},
+            rc3: {made: 0, attempted: 0},
+            lmc2: {made: 0, attempted: 0},
+            lme2: {made: 0, attempted: 0},
+            cm2: {made: 0, attempted: 0},
+            rme2: {made: 0, attempted: 0},
+            rmc2: {made: 0, attempted: 0},
+            lp2: {made: 0, attempted: 0},
+            rp2: {made: 0, attempted: 0},
+            lft2: {made: 0, attempted: 0},
+            rft2: {made: 0, attempted: 0}
+        },
         eFG: number;
+        fg_percentage: number;
         t2_stats: {
             t2_made: number;
             t2_attempted: number;
@@ -76,9 +96,10 @@ export class Player_stats_seasonModel{
         blocks_received_per_minute: number;
         blocks_made_per_minute: number;
     };
-    possessions: {
-        total_possessions: number;
-        possessions_per_game: number;
+    usage: {
+        player: number;
+        team: number;
+        percentage: number;
     };
     fouls_stats: {
         total_fouls_made: number;

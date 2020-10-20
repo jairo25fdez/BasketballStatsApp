@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Player_stats_seasonModel } from '../models/player_stats_season.model';
 
 @Injectable()
-export class Player_stats_seasonsService{
+export class Player_stats_seasonService{
 
     private player_stats_seasonUrl = 'http://localhost:8000/api/v1/player_stats_season';
 

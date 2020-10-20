@@ -10,6 +10,9 @@ import { ClubModel } from 'src/app/models/club.model';
 import { GameModel } from '../../../../models/game.model';
 import { TeamModel } from 'src/app/models/team.model';
 import { Player_stats_gameModel } from 'src/app/models/player_stats_game.model';
+import { Player_stats_seasonModel } from 'src/app/models/player_stats_season.model';
+import { Team_stats_gameModel } from '../../../../models/team_stats_game.model';
+import { Team_stats_seasonModel } from '../../../../models/team_stats_season.model';
 
 //Services
 import { LeaguesService } from '../../../../services/leagues.service';
@@ -17,6 +20,10 @@ import { ClubsService } from '../../../../services/clubs.service';
 import { TeamsService } from '../../../../services/teams.service';
 import { GamesService } from '../../../../services/games.service';
 import { Player_stats_gamesService } from '../../../../services/player_stats_game.service';
+import { Player_stats_seasonService } from '../../../../services/player_stats_season.service';
+import { Team_stats_gameService } from '../../../../services/team_stats_game.service';
+import { Team_stats_seasonService } from '../../../../services/team_stats_season.service';
+
 
 
 
@@ -61,7 +68,7 @@ export class NewgameFormComponent implements OnInit {
   reset_local_select = true;
 
 
-  constructor(private fb:FormBuilder, private leaguesService:LeaguesService, private player_stats_gameService:Player_stats_gamesService, private teamsService:TeamsService, private gamesService:GamesService, private clubsService:ClubsService, private router:Router) {
+  constructor(private fb:FormBuilder, private leaguesService:LeaguesService, private team_stats_gameService:Team_stats_gameService, private team_stats_seasonService:Team_stats_seasonService, private player_stats_seasonService:Player_stats_seasonService, private player_stats_gameService:Player_stats_gamesService, private teamsService:TeamsService, private gamesService:GamesService, private clubsService:ClubsService, private router:Router) {
 
     this.leaguesService.getLeagues().then((res:LeagueModel[]) => {
       this.leagues = res;
@@ -409,8 +416,6 @@ export class NewgameFormComponent implements OnInit {
     }
     else{
 
-      console.log("GAME: "+JSON.stringify(this.game));
-
       if( (this.home_players.length < 5) ||  (this.visitor_players.length < 5) || (this.home_starters.length < 5) || (this.visitor_starters.length < 5) ){ //Need to check if the fields are filled.
 
         Swal.fire({
@@ -447,6 +452,370 @@ export class NewgameFormComponent implements OnInit {
           //Get the game to check the ID.
           this.gamesService.getGames("?date="+this.game.date+"&home_team.team_id="+this.game.home_team.team_id+"&visitor_team.team_id="+this.game.visitor_team.team_id).then( (games:GameModel[]) => {
           
+            //Create the home team stats for the game
+            let home_team_stats_game = new Team_stats_gameModel();
+
+            home_team_stats_game = {
+              team_id: this.game.home_team.team_id,
+              game_id: games[0]._id,
+              season: this.game.season,
+              time_played: {
+                  minutes: 0,
+                  seconds: 0,
+              },
+              points: 0,
+              t2_made: 0,
+              t2_attempted: 0,
+              t2_percentage: 0,
+              t3_made: 0,
+              t3_attempted: 0,
+              t3_percentage: 0,
+              t1_made: 0,
+              t1_attempted: 0,
+              t1_percentage: 0,
+              shots_list: {
+                lc3: {made: 0, attempted: 0},
+                le3: {made: 0, attempted: 0},
+                c3: {made: 0, attempted: 0},
+                re3: {made: 0, attempted: 0},
+                rc3: {made: 0, attempted: 0},
+                lmc2: {made: 0, attempted: 0},
+                lme2: {made: 0, attempted: 0},
+                cm2: {made: 0, attempted: 0},
+                rme2: {made: 0, attempted: 0},
+                rmc2: {made: 0, attempted: 0},
+                lp2: {made: 0, attempted: 0},
+                rp2: {made: 0, attempted: 0},
+                lft2: {made: 0, attempted: 0},
+                rft2: {made: 0, attempted: 0}
+              },
+              total_rebounds: 0,
+              defensive_rebounds: 0,
+              offensive_rebounds: 0,
+              assists: 0,
+              steals: 0,
+              turnovers: 0,
+              blocks_made: 0,
+              blocks_received: 0,
+              fouls_made: 0,
+              fouls_received: 0,
+              possessions: 0
+            };
+
+            this.team_stats_gameService.createTeam_stats_game(home_team_stats_game).catch( (err:HttpErrorResponse) => {
+
+              Swal.fire({
+                title: 'Error.',
+                text: 'Error al intentar crear las estadísticas para el equipo local.',
+                icon: 'error'
+              });
+  
+            });
+
+            //Create the visitor team stats for the game
+            let visitor_team_stats_game = new Team_stats_gameModel();
+
+            visitor_team_stats_game = {
+              team_id: this.game.home_team.team_id,
+              game_id: games[0]._id,
+              season: this.game.season,
+              time_played: {
+                  minutes: 0,
+                  seconds: 0,
+              },
+              points: 0,
+              t2_made: 0,
+              t2_attempted: 0,
+              t2_percentage: 0,
+              t3_made: 0,
+              t3_attempted: 0,
+              t3_percentage: 0,
+              t1_made: 0,
+              t1_attempted: 0,
+              t1_percentage: 0,
+              shots_list: {
+                lc3: {made: 0, attempted: 0},
+                le3: {made: 0, attempted: 0},
+                c3: {made: 0, attempted: 0},
+                re3: {made: 0, attempted: 0},
+                rc3: {made: 0, attempted: 0},
+                lmc2: {made: 0, attempted: 0},
+                lme2: {made: 0, attempted: 0},
+                cm2: {made: 0, attempted: 0},
+                rme2: {made: 0, attempted: 0},
+                rmc2: {made: 0, attempted: 0},
+                lp2: {made: 0, attempted: 0},
+                rp2: {made: 0, attempted: 0},
+                lft2: {made: 0, attempted: 0},
+                rft2: {made: 0, attempted: 0}
+              },
+              total_rebounds: 0,
+              defensive_rebounds: 0,
+              offensive_rebounds: 0,
+              assists: 0,
+              steals: 0,
+              turnovers: 0,
+              blocks_made: 0,
+              blocks_received: 0,
+              fouls_made: 0,
+              fouls_received: 0,
+              possessions: 0
+            };
+
+            this.team_stats_gameService.createTeam_stats_game(visitor_team_stats_game).catch( (err:HttpErrorResponse) => {
+              Swal.fire({
+                title: 'Error.',
+                text: 'Error al intentar crear las estadísticas para el equipo visitante.',
+                icon: 'error'
+              });
+            });
+
+            //Create the home team stats for the season if it does not exists
+            this.team_stats_seasonService.getTeams_stats_season("?team_id="+this.game.home_team.team_id+"&season="+this.game.season).then( (team_stats:Team_stats_seasonModel[]) => {
+              if(team_stats.length == 0){
+
+                let home_team_stats_season = new Team_stats_seasonModel();
+
+                home_team_stats_season = {
+                  team_id: this.game.home_team.team_id,
+                  season: this.game.season,
+                  team_name: this.game.home_team.club_name,
+                  time_played: {
+                      minutes: 0,
+                      seconds: 0,
+                  },
+                  games_played: 0,
+                  wins: 0,
+                  losses: 0,
+                  win_percentage: 0,
+                  points_stats: {
+                    total_points: 0,
+                    average_points: 0,
+                    points_per_minute: 0,
+                    points_per_field_shot: 0,
+                    points_per_shot_t2: 0,
+                    points_per_shot_t3: 0,
+                    points_per_possesion: 0,
+                  },
+                  shots_stats: {
+                      total_shots: 0,
+                      shots_list: {
+                        lc3: {made: 0, attempted: 0},
+                        le3: {made: 0, attempted: 0},
+                        c3: {made: 0, attempted: 0},
+                        re3: {made: 0, attempted: 0},
+                        rc3: {made: 0, attempted: 0},
+                        lmc2: {made: 0, attempted: 0},
+                        lme2: {made: 0, attempted: 0},
+                        cm2: {made: 0, attempted: 0},
+                        rme2: {made: 0, attempted: 0},
+                        rmc2: {made: 0, attempted: 0},
+                        lp2: {made: 0, attempted: 0},
+                        rp2: {made: 0, attempted: 0},
+                        lft2: {made: 0, attempted: 0},
+                        rft2: {made: 0, attempted: 0}
+                      },
+                      eFG: 0,
+                      fg_percentage: 0,
+                      t2_stats: {
+                          t2_made: 0,
+                          t2_attempted: 0,
+                          t2_total: 0,
+                          t2_percentage: 0,
+                          t2_volume_percentage: 0,
+                      },
+                      t3_stats: {
+                          t3_made: 0,
+                          t3_attempted: 0,
+                          t3_total: 0,
+                          t3_percentage: 0,
+                          t3_volume_percentage: 0,
+                      },
+                      t1_stats: {
+                          t1_made: 0,
+                          t1_attempted: 0,
+                          t1_percentage: 0,
+                          t1_volume_percentage: 0,
+                      }
+                  },
+                  assists_stats: {
+                      total_assists: 0,
+                      assists_percentage: 0,
+                      assists_per_lost: 0,
+                  },
+                  steals_stats: {
+                      total_steals: 0,
+                      steals_per_minute: 0,
+                      steals_per_game: 0,
+                  },
+                  lost_balls_stats: {
+                      total_losts: 0,
+                  },
+                  rebounds_stats: {
+                      total_rebounds: 0,
+                      average_rebounds: 0,
+                      offensive_rebounds: 0,
+                      defensive_rebounds: 0,
+                      total_rebounds_per_minute: 0,
+                      off_rebounds_per_minute: 0,
+                      def_rebounds_per_minute: 0,
+                      rebounds_percentage: 0,
+                  },
+                  blocks_stats: {
+                      total_blocks_made: 0,
+                      total_blocks_received: 0,
+                      blocks_made_per_game: 0,
+                      blocks_received_per_game: 0,
+                      blocks_received_per_minute: 0,
+                      blocks_made_per_minute: 0,
+                  },
+                  possessions: {
+                      total_possessions: 0,
+                      possessions_per_game: 0,
+                  },
+                  fouls_stats: {
+                      total_fouls_made: 0,
+                      fouls_made_per_minute: 0,
+                      total_fouls_received: 0,
+                      fouls_received_per_minute: 0,
+                  }
+
+                };
+
+                this.team_stats_seasonService.createTeam_stats_season(home_team_stats_season).catch( (err:HttpErrorResponse) => {
+                  Swal.fire({
+                    title: 'Error.',
+                    text: 'Error al intentar crear las estadísticas de temporada del equipo local.',
+                    icon: 'error'
+                  });
+                });
+
+              }
+            });
+
+            //Create the visitor team stats for the season if it does not exists
+            this.team_stats_seasonService.getTeams_stats_season("?team_id="+this.game.visitor_team.team_id+"&season="+this.game.season).then( (team_stats:Team_stats_seasonModel[]) => {
+              if(team_stats.length == 0){
+
+                let visitor_team_stats_season = new Team_stats_seasonModel();
+
+                visitor_team_stats_season = {
+                  team_id: this.game.home_team.team_id,
+                  season: this.game.season,
+                  team_name: this.game.home_team.club_name,
+                  time_played: {
+                      minutes: 0,
+                      seconds: 0,
+                  },
+                  games_played: 0,
+                  wins: 0,
+                  losses: 0,
+                  win_percentage: 0,
+                  points_stats: {
+                    total_points: 0,
+                    average_points: 0,
+                    points_per_minute: 0,
+                    points_per_field_shot: 0,
+                    points_per_shot_t2: 0,
+                    points_per_shot_t3: 0,
+                    points_per_possesion: 0,
+                  },
+                  shots_stats: {
+                      total_shots: 0,
+                      shots_list: {
+                        lc3: {made: 0, attempted: 0},
+                        le3: {made: 0, attempted: 0},
+                        c3: {made: 0, attempted: 0},
+                        re3: {made: 0, attempted: 0},
+                        rc3: {made: 0, attempted: 0},
+                        lmc2: {made: 0, attempted: 0},
+                        lme2: {made: 0, attempted: 0},
+                        cm2: {made: 0, attempted: 0},
+                        rme2: {made: 0, attempted: 0},
+                        rmc2: {made: 0, attempted: 0},
+                        lp2: {made: 0, attempted: 0},
+                        rp2: {made: 0, attempted: 0},
+                        lft2: {made: 0, attempted: 0},
+                        rft2: {made: 0, attempted: 0}
+                      },
+                      eFG: 0,
+                      fg_percentage: 0,
+                      t2_stats: {
+                          t2_made: 0,
+                          t2_attempted: 0,
+                          t2_total: 0,
+                          t2_percentage: 0,
+                          t2_volume_percentage: 0,
+                      },
+                      t3_stats: {
+                          t3_made: 0,
+                          t3_attempted: 0,
+                          t3_total: 0,
+                          t3_percentage: 0,
+                          t3_volume_percentage: 0,
+                      },
+                      t1_stats: {
+                          t1_made: 0,
+                          t1_attempted: 0,
+                          t1_percentage: 0,
+                          t1_volume_percentage: 0,
+                      }
+                  },
+                  assists_stats: {
+                      total_assists: 0,
+                      assists_percentage: 0,
+                      assists_per_lost: 0,
+                  },
+                  steals_stats: {
+                      total_steals: 0,
+                      steals_per_minute: 0,
+                      steals_per_game: 0,
+                  },
+                  lost_balls_stats: {
+                      total_losts: 0,
+                  },
+                  rebounds_stats: {
+                      total_rebounds: 0,
+                      average_rebounds: 0,
+                      offensive_rebounds: 0,
+                      defensive_rebounds: 0,
+                      total_rebounds_per_minute: 0,
+                      off_rebounds_per_minute: 0,
+                      def_rebounds_per_minute: 0,
+                      rebounds_percentage: 0,
+                  },
+                  blocks_stats: {
+                      total_blocks_made: 0,
+                      total_blocks_received: 0,
+                      blocks_made_per_game: 0,
+                      blocks_received_per_game: 0,
+                      blocks_received_per_minute: 0,
+                      blocks_made_per_minute: 0,
+                  },
+                  possessions: {
+                      total_possessions: 0,
+                      possessions_per_game: 0,
+                  },
+                  fouls_stats: {
+                      total_fouls_made: 0,
+                      fouls_made_per_minute: 0,
+                      total_fouls_received: 0,
+                      fouls_received_per_minute: 0,
+                  }
+
+                };
+
+                this.team_stats_seasonService.createTeam_stats_season(visitor_team_stats_season).catch( (err:HttpErrorResponse) => {
+                  Swal.fire({
+                    title: 'Error.',
+                    text: 'Error al intentar crear las estadísticas de temporada del equipo visitante.',
+                    icon: 'error'
+                  });
+                });
+
+              }
+            });
+
             //For every home player create a stats document.
             for(let player_index of this.home_players){
 
@@ -519,6 +888,135 @@ export class NewgameFormComponent implements OnInit {
                   text: 'Error al tratar de crear las estadísticas del jugador para el partido.',
                   icon: 'error'
                 });
+              });
+
+              //If the player has not season stats document we create it.
+              this.player_stats_seasonService.getPlayer_stats_seasons("?player_id="+this.home_team_players[player_index].player_id+"&season="+this.game.season).then( (players_stats_season:Player_stats_seasonModel[]) => {
+
+                if(players_stats_season.length == 0){
+                  let player_stats_season = new Player_stats_seasonModel();
+
+                  player_stats_season = {
+                    player_id: player_stats_game.player_id,
+                    team_id: player_stats_game.team_id,
+                    season: this.game.season,
+                    player_name: player_stats_game.player_name,
+                    player_lastName: player_stats_game.player_lastName,
+                    player_img: player_stats_game.player_img,
+                    time_played: {
+                      minutes: 0,
+                      seconds: 0,
+                      average: 0
+                    },
+                    games_played: 0,
+                    wins: 0,
+                    losses: 0,
+                    win_percentage: 0,
+                    points_stats: {
+                      total_points: 0,
+                      average_points: 0,
+                      points_per_minute: 0,
+                      points_per_field_shot: 0,
+                      points_per_shot_t2: 0,
+                      points_per_shot_t3: 0,
+                      points_per_possesion: 0
+                    },
+                    shots_stats: {
+                      total_shots: 0, 
+                      shots_list: {
+                        lc3: {made: 0, attempted: 0},
+                        le3: {made: 0, attempted: 0},
+                        c3: {made: 0, attempted: 0},
+                        re3: {made: 0, attempted: 0},
+                        rc3: {made: 0, attempted: 0},
+                        lmc2: {made: 0, attempted: 0},
+                        lme2: {made: 0, attempted: 0},
+                        cm2: {made: 0, attempted: 0},
+                        rme2: {made: 0, attempted: 0},
+                        rmc2: {made: 0, attempted: 0},
+                        lp2: {made: 0, attempted: 0},
+                        rp2: {made: 0, attempted: 0},
+                        lft2: {made: 0, attempted: 0},
+                        rft2: {made: 0, attempted: 0}
+                      },
+                      fg_percentage: 0,
+                      eFG: 0, 
+                      t2_stats: {
+                          t2_made: 0,
+                          t2_attempted: 0,
+                          t2_total: 0,
+                          t2_percentage: 0,
+                          t2_volume_percentage: 0,
+                      },
+                      t3_stats: {
+                          t3_made: 0,
+                          t3_attempted:0,
+                          t3_total: 0, // = t3_made + t3_attempted
+                          t3_percentage: 0, // %t3
+                          t3_volume_percentage: 0, // %t3 compared to total shots, = total shots / t3_total
+                      },
+                      t1_stats: {
+                          t1_made: 0,
+                          t1_attempted: 0,
+                          t1_percentage: 0,
+                          t1_volume_percentage: 0,
+                      }
+                    },
+                    assists_stats: {
+                      total_assists: 0,
+                      assists_percentage: 0,
+                      assists_per_lost: 0
+                    },
+                    steals_stats: {
+                      total_steals: 0,
+                      steals_per_minute: 0,
+                      steals_per_game: 0
+                    },
+                    lost_balls_stats: {
+                      total_losts: 0
+                    },
+                    rebounds_stats: {
+                      total_rebounds: 0,
+                      average_rebounds: 0,
+                      offensive_rebounds: 0,
+                      defensive_rebounds: 0,
+                      total_rebounds_per_minute: 0,
+                      off_rebounds_per_minute: 0,
+                      def_rebounds_per_minute: 0,
+                      rebounds_percentage: 0
+                    },
+                    blocks_stats: {
+                      total_blocks_made: 0,
+                      total_blocks_received: 0,
+                      blocks_made_per_game: 0,
+                      blocks_received_per_game: 0,
+                      blocks_received_per_minute: 0,
+                      blocks_made_per_minute: 0,
+                    },
+                    usage: {
+                      player: 0,
+                      team: 0,
+                      percentage: 0
+                    },
+                    fouls_stats: {
+                      total_fouls_made: 0,
+                      fouls_made_per_minute: 0,
+                      total_fouls_received: 0,
+                      fouls_received_per_minute: 0
+                    }
+
+                  };
+
+                  this.player_stats_seasonService.createPlayer_stats_season(player_stats_season).catch( (err:HttpErrorResponse) => {
+                    Swal.fire({
+                      title: 'Error.',
+                      text: 'Error al crear las estadísticas de la temporada del jugador.',
+                      icon: 'error'
+                    });
+                  });
+
+                }
+
               });
               
             }
@@ -597,6 +1095,136 @@ export class NewgameFormComponent implements OnInit {
                 });
               });
               
+              //If the player has not season stats document we create it.
+              this.player_stats_seasonService.getPlayer_stats_seasons("?player_id="+this.home_team_players[player_index].player_id+"&season="+this.game.season).then( (players_stats_season:Player_stats_seasonModel[]) => {
+
+                if(players_stats_season.length == 0){
+                  let player_stats_season = new Player_stats_seasonModel();
+
+                  player_stats_season = {
+                    player_id: player_stats_game.player_id,
+                    team_id: player_stats_game.team_id,
+                    season: this.game.season,
+                    player_name: player_stats_game.player_name,
+                    player_lastName: player_stats_game.player_lastName,
+                    player_img: player_stats_game.player_img,
+                    time_played: {
+                      minutes: 0,
+                      seconds: 0,
+                      average: 0
+                    },
+                    games_played: 0,
+                    wins: 0,
+                    losses: 0,
+                    win_percentage: 0,
+                    points_stats: {
+                      total_points: 0,
+                      average_points: 0,
+                      points_per_minute: 0,
+                      points_per_field_shot: 0,
+                      points_per_shot_t2: 0,
+                      points_per_shot_t3: 0,
+                      points_per_possesion: 0
+                    },
+                    shots_stats: {
+                      total_shots: 0, 
+                      shots_list: {
+                        lc3: {made: 0, attempted: 0},
+                        le3: {made: 0, attempted: 0},
+                        c3: {made: 0, attempted: 0},
+                        re3: {made: 0, attempted: 0},
+                        rc3: {made: 0, attempted: 0},
+                        lmc2: {made: 0, attempted: 0},
+                        lme2: {made: 0, attempted: 0},
+                        cm2: {made: 0, attempted: 0},
+                        rme2: {made: 0, attempted: 0},
+                        rmc2: {made: 0, attempted: 0},
+                        lp2: {made: 0, attempted: 0},
+                        rp2: {made: 0, attempted: 0},
+                        lft2: {made: 0, attempted: 0},
+                        rft2: {made: 0, attempted: 0}
+                      },
+                      fg_percentage: 0,
+                      eFG: 0, 
+                      t2_stats: {
+                          t2_made: 0,
+                          t2_attempted: 0,
+                          t2_total: 0,
+                          t2_percentage: 0,
+                          t2_volume_percentage: 0,
+                      },
+                      t3_stats: {
+                          t3_made: 0,
+                          t3_attempted:0,
+                          t3_total: 0, // = t3_made + t3_attempted
+                          t3_percentage: 0, // %t3
+                          t3_volume_percentage: 0, // %t3 compared to total shots, = total shots / t3_total
+                      },
+                      t1_stats: {
+                          t1_made: 0,
+                          t1_attempted: 0,
+                          t1_percentage: 0,
+                          t1_volume_percentage: 0,
+                      }
+                    },
+                    assists_stats: {
+                      total_assists: 0,
+                      assists_percentage: 0,
+                      assists_per_lost: 0
+                    },
+                    steals_stats: {
+                      total_steals: 0,
+                      steals_per_minute: 0,
+                      steals_per_game: 0
+                    },
+                    lost_balls_stats: {
+                      total_losts: 0
+                    },
+                    rebounds_stats: {
+                      total_rebounds: 0,
+                      average_rebounds: 0,
+                      offensive_rebounds: 0,
+                      defensive_rebounds: 0,
+                      total_rebounds_per_minute: 0,
+                      off_rebounds_per_minute: 0,
+                      def_rebounds_per_minute: 0,
+                      rebounds_percentage: 0
+                    },
+                    blocks_stats: {
+                      total_blocks_made: 0,
+                      total_blocks_received: 0,
+                      blocks_made_per_game: 0,
+                      blocks_received_per_game: 0,
+                      blocks_received_per_minute: 0,
+                      blocks_made_per_minute: 0,
+                    },
+                    usage: {
+                      player: 0,
+                      team: 0,
+                      percentage: 0
+                    },
+                    fouls_stats: {
+                      total_fouls_made: 0,
+                      fouls_made_per_minute: 0,
+                      total_fouls_received: 0,
+                      fouls_received_per_minute: 0
+                    }
+
+                  };
+
+                  this.player_stats_seasonService.createPlayer_stats_season(player_stats_season).catch( (err:HttpErrorResponse) => {
+                    Swal.fire({
+                      title: 'Error.',
+                      text: 'Error al crear las estadísticas de la temporada del jugador.',
+                      icon: 'error'
+                    });
+                  });
+
+                }
+
+              });
+              
+
             }
 
             //Navigate to game component
