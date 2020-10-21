@@ -49,6 +49,9 @@ export class MainPageComponent implements OnInit {
 
   player_active:number[] = [-1, -1];
 
+  //Plays
+  plays:PlayModel[] = [];
+
   //Scoreboard
   minutes_per_quarter = 0;
   quarter = 1;
@@ -162,7 +165,26 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnDestroy(): void{
-    //Update the stats before leave the main page.
+    //Update the stats before the user leaves the main page.
+    for(let player_index of this.oncourt_home_players){
+      this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player_index]);
+    }
+    for(let player_index of this.oncourt_visitor_players){
+      this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player_index]);
+    }
+
+    this.updateUSG(0);
+    this.updateUSG(1);
+
+    this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+    this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
+
+    for(let play of this.plays){
+      this.playsService.createPlay(play);
+    }
+
+    this.gamesService.updateGame(this.game);
+
   }
 
   setPlayer(team_index, player_index){
@@ -194,7 +216,7 @@ export class MainPageComponent implements OnInit {
           }
           
           //Update the stat in the database.
-          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player]);
+          //this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player]);
         }
 
         for(let player of this.oncourt_visitor_players){
@@ -206,7 +228,7 @@ export class MainPageComponent implements OnInit {
             this.visitor_players[player].time_played.seconds = 0;
           }
           //Update the stat in the database.
-          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player]);
+          //this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player]);
         }
 
         //Update the time played for every team
@@ -218,7 +240,7 @@ export class MainPageComponent implements OnInit {
           this.home_team_stats.time_played.seconds = 0;
         }
 
-        this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+        //this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
 
         if(this.visitor_team_stats.time_played.seconds < 59){
           this.visitor_team_stats.time_played.seconds++;
@@ -228,7 +250,7 @@ export class MainPageComponent implements OnInit {
           this.visitor_team_stats.time_played.seconds = 0;
         }
 
-        this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
+        //this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
   
         //Update the game timer
         this.game.time_played = {
@@ -237,12 +259,14 @@ export class MainPageComponent implements OnInit {
           quarter: this.quarter
         };
   
+        /*
         this.gamesService.updateGame(this.game).catch( (err:HttpErrorResponse) => {
           Swal.fire({
             title: 'Error al actualizar el timer del partido en la base de datos.',
             icon: 'error'
           });
         });
+        */
 
       }
       //If the quarter ends
@@ -331,86 +355,58 @@ export class MainPageComponent implements OnInit {
       play.shot_type = "ft";
       play.shot_made = shot_made;
 
-      //Post the play
-      this.playsService.createPlay(play).then( res => {
-        
-        //If the player belongs to the home team
-        if(this.player_active[0] == 0){
-
-          if(shot_made){
-            this.home_players[this.player_active[1]].points++;
-            this.home_players[this.player_active[1]].t1_made++;
-
-            this.home_team_stats.t1_made++;
-          }
-
-          this.home_team_stats.t1_attempted++;
-
-          //Update team FT%
-          this.home_team_stats.t1_percentage = (this.home_team_stats.t1_made / this.home_team_stats.t1_attempted)*100;
-
-          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
-
-          this.home_players[this.player_active[1]].t1_attempted++;
-
-          //Update player FT%
-          this.home_players[this.player_active[1]].t1_percentage = (this.home_players[this.player_active[1]].t1_made / this.home_players[this.player_active[1]].t1_attempted)*100;
-
-          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
-
-          //Update USG
-          this.updateUSG(0);
-          
-        }
-        //If the player belongs to the visitor team
-        else{
-          if(shot_made){
-            this.visitor_players[this.player_active[1]].points++;
-            this.visitor_players[this.player_active[1]].t1_made++;
-
-            this.visitor_team_stats.t1_made++;
-          }
-
-          this.visitor_players[this.player_active[1]].t1_attempted++;
-
-          //Update player FT%
-          this.visitor_players[this.player_active[1]].t1_percentage = (this.visitor_players[this.player_active[1]].t1_made / this.visitor_players[this.player_active[1]].t1_attempted)*100;
-
-          //Update player USG%
-          this.visitor_players[this.player_active[1]].usage = 100*( (this.visitor_players[this.player_active[1]].t2_attempted + this.visitor_players[this.player_active[1]].t3_attempted) + 0.44*(this.visitor_players[this.player_active[1]].t1_attempted) + this.visitor_players[this.player_active[1]].turnovers)*this.visitor_team_stats.time_played.minutes;
-
-          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
-          
-          this.visitor_team_stats.t1_attempted++;
-
-          //Update team FT%
-          this.visitor_team_stats.t1_percentage = (this.visitor_team_stats.t1_made / this.visitor_team_stats.t1_attempted)*100;
-
-          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
-
-          //Update USG
-          this.updateUSG(1);
-
-        }
-
-        
-
-      })
-      .catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al crear la jugada.',
-          icon: 'error'
-        });
-      });
-
-      //Update the game
-      this.gamesService.updateGame(this.game).catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al actualizar el partido.',
-          icon: 'error'
-        });
-      });
+      //Save the play in the array
+      if(this.plays.length == 0){
+        this.plays[0] = play;
+      }
+      else{
+        this.plays.push(play);
+      }
       
+
+      //If the player belongs to the home team
+      if(this.player_active[0] == 0){
+
+        if(shot_made){
+          this.home_players[this.player_active[1]].points++;
+          this.home_players[this.player_active[1]].t1_made++;
+
+          this.home_team_stats.t1_made++;
+        }
+
+        this.home_team_stats.t1_attempted++;
+
+        //Update team FT%
+        this.home_team_stats.t1_percentage = (this.home_team_stats.t1_made / this.home_team_stats.t1_attempted)*100;
+
+        this.home_players[this.player_active[1]].t1_attempted++;
+
+        //Update player FT%
+        this.home_players[this.player_active[1]].t1_percentage = (this.home_players[this.player_active[1]].t1_made / this.home_players[this.player_active[1]].t1_attempted)*100;
+
+        
+      }
+      //If the player belongs to the visitor team
+      else{
+        if(shot_made){
+          this.visitor_players[this.player_active[1]].points++;
+          this.visitor_players[this.player_active[1]].t1_made++;
+
+          this.visitor_team_stats.t1_made++;
+        }
+
+        this.visitor_players[this.player_active[1]].t1_attempted++;
+
+        //Update player FT%
+        this.visitor_players[this.player_active[1]].t1_percentage = (this.visitor_players[this.player_active[1]].t1_made / this.visitor_players[this.player_active[1]].t1_attempted)*100;
+
+        this.visitor_team_stats.t1_attempted++;
+
+        //Update team FT%
+        this.visitor_team_stats.t1_percentage = (this.visitor_team_stats.t1_made / this.visitor_team_stats.t1_attempted)*100;
+
+      }
+
     }
 
   }
@@ -426,8 +422,6 @@ export class MainPageComponent implements OnInit {
 
         this.home_players[player_index].usage = (usg_1 / usg_2);
 
-        this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player_index]);
-
       }
     }
     else{
@@ -437,8 +431,6 @@ export class MainPageComponent implements OnInit {
         let usg_2 = ( (this.visitor_team_stats.t2_attempted + this.visitor_team_stats.t3_attempted) + 0.44*(this.visitor_team_stats.t1_attempted) + this.visitor_team_stats.turnovers)*(this.visitor_players[player_index].time_played.minutes);
       
         this.visitor_players[player_index].usage = usg_1 / usg_2;
-
-        this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player_index]);
 
       }
     }
@@ -496,58 +488,49 @@ export class MainPageComponent implements OnInit {
       play.type = "rebound";
       play.rebound_type = rebound_type;
 
-      //Post the play
-      this.playsService.createPlay(play).then( () => {
+      //Save the play in the array
+      if(this.plays.length == 0){
+        this.plays[0] = play;
+      }
+      else{
+        this.plays.push(play);
+      }
 
-        //If the player belongs to the home team
-        if(this.player_active[0] == 0){
+      //If the player belongs to the home team
+      if(this.player_active[0] == 0){
 
-          if(rebound_type == "offensive"){
-            this.home_players[this.player_active[1]].offensive_rebounds++;
-            this.home_team_stats.offensive_rebounds++;
-          }
-          else{
-            this.home_players[this.player_active[1]].defensive_rebounds++;
-            this.home_team_stats.defensive_rebounds++;
-          }
-
-          this.home_players[this.player_active[1]].total_rebounds++;
-
-          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
-
-          this.home_team_stats.total_rebounds++;
-
-          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
-          
+        if(rebound_type == "offensive"){
+          this.home_players[this.player_active[1]].offensive_rebounds++;
+          this.home_team_stats.offensive_rebounds++;
         }
-        //If the player belongs to the visitor team
         else{
-          if(rebound_type == "offensive"){
-            this.visitor_players[this.player_active[1]].offensive_rebounds++;
-            this.visitor_team_stats.offensive_rebounds++;
-          }
-          else{
-            this.visitor_players[this.player_active[1]].defensive_rebounds++;
-            this.visitor_team_stats.defensive_rebounds++;
-          }
-
-          this.visitor_players[this.player_active[1]].total_rebounds++;
-
-          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
-
-          this.visitor_team_stats.total_rebounds++;
-
-          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
-
+          this.home_players[this.player_active[1]].defensive_rebounds++;
+          this.home_team_stats.defensive_rebounds++;
         }
 
-      })
-      .catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al crear la jugada.',
-          icon: 'error'
-        });
-      });
+        this.home_players[this.player_active[1]].total_rebounds++;
+
+        this.home_team_stats.total_rebounds++;
+        
+      }
+      //If the player belongs to the visitor team
+      else{
+        if(rebound_type == "offensive"){
+          this.visitor_players[this.player_active[1]].offensive_rebounds++;
+          this.visitor_team_stats.offensive_rebounds++;
+        }
+        else{
+          this.visitor_players[this.player_active[1]].defensive_rebounds++;
+          this.visitor_team_stats.defensive_rebounds++;
+        }
+
+        this.visitor_players[this.player_active[1]].total_rebounds++;
+
+        this.visitor_team_stats.total_rebounds++;
+
+      }
+
+
       
     }
 
@@ -603,49 +586,41 @@ export class MainPageComponent implements OnInit {
       play.type = "block";
       play.block_type = block_type;
 
-      //Post the play
-      this.playsService.createPlay(play).then( () => {
-        //If the player belongs to the home team
-        if(this.player_active[0] == 0){
+      //Save the play in the array
+      if(this.plays.length == 0){
+        this.plays[0] = play;
+      }
+      else{
+        this.plays.push(play);
+      }
 
-          if(block_type == "received"){
-            this.home_players[this.player_active[1]].blocks_received++;
-            this.home_team_stats.blocks_received++;
-          }
-          else{
-            this.home_players[this.player_active[1]].blocks_made++;
-            this.home_team_stats.blocks_made++;
-          }
+      //If the player belongs to the home team
+      if(this.player_active[0] == 0){
 
-          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
-
-          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
-          
+        if(block_type == "received"){
+          this.home_players[this.player_active[1]].blocks_received++;
+          this.home_team_stats.blocks_received++;
         }
-        //If the player belongs to the visitor team
         else{
-          if(block_type == "received"){
-            this.visitor_players[this.player_active[1]].blocks_received++;
-            this.visitor_team_stats.blocks_received++;
-          }
-          else{
-            this.visitor_players[this.player_active[1]].blocks_made++;
-            this.visitor_team_stats.blocks_made++;
-          }
-
-          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
-
-          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
-
+          this.home_players[this.player_active[1]].blocks_made++;
+          this.home_team_stats.blocks_made++;
         }
-      })
-      .catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al crear la jugada.',
-          icon: 'error'
-        });
-      });
-      
+
+        
+      }
+      //If the player belongs to the visitor team
+      else{
+        if(block_type == "received"){
+          this.visitor_players[this.player_active[1]].blocks_received++;
+          this.visitor_team_stats.blocks_received++;
+        }
+        else{
+          this.visitor_players[this.player_active[1]].blocks_made++;
+          this.visitor_team_stats.blocks_made++;
+        }
+
+
+      }
     }
 
   }
@@ -699,40 +674,29 @@ export class MainPageComponent implements OnInit {
       play.period = this.quarter;
       play.type = "assist";
 
-      //Post the play
-      this.playsService.createPlay(play).then( () => {
+      //Save the play in the array
+      if(this.plays.length == 0){
+        this.plays[0] = play;
+      }
+      else{
+        this.plays.push(play);
+      }
 
-        //If the player belongs to the home team
-        if(this.player_active[0] == 0){
+      //If the player belongs to the home team
+      if(this.player_active[0] == 0){
 
-          this.home_players[this.player_active[1]].assists++;
-          this.home_team_stats.assists++;
-          
-          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
+        this.home_players[this.player_active[1]].assists++;
+        this.home_team_stats.assists++;
+        
+      }
+      //If the player belongs to the visitor team
+      else{
 
-          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
-          
-        }
-        //If the player belongs to the visitor team
-        else{
+        this.visitor_players[this.player_active[1]].assists++;
+        this.visitor_team_stats.assists++;
 
-          this.visitor_players[this.player_active[1]].assists++;
-          this.visitor_team_stats.assists++;
+      }
 
-          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
-
-          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
-
-        }
-
-      })
-      .catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al crear la jugada.',
-          icon: 'error'
-        });
-      });
-      
     }
 
   }
@@ -786,40 +750,29 @@ export class MainPageComponent implements OnInit {
       play.period = this.quarter;
       play.type = "steal";
 
-      //Post the play
-      this.playsService.createPlay(play).then( () => {
+      //Save the play in the array
+      if(this.plays.length == 0){
+        this.plays[0] = play;
+      }
+      else{
+        this.plays.push(play);
+      }
 
-        //If the player belongs to the home team
-        if(this.player_active[0] == 0){
+      //If the player belongs to the home team
+      if(this.player_active[0] == 0){
 
-          this.home_players[this.player_active[1]].steals++;
-          this.home_team_stats.steals++;
-          
-          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
+        this.home_players[this.player_active[1]].steals++;
+        this.home_team_stats.steals++;
+        
+      }
+      //If the player belongs to the visitor team
+      else{
 
-          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
-          
-        }
-        //If the player belongs to the visitor team
-        else{
+        this.visitor_players[this.player_active[1]].steals++;
+        this.visitor_team_stats.steals++;
 
-          this.visitor_players[this.player_active[1]].steals++;
-          this.visitor_team_stats.steals++;
+      }
 
-          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
-
-          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
-
-        }
-
-      })
-      .catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al crear la jugada.',
-          icon: 'error'
-        });
-      });
-      
     }
 
   }
@@ -873,45 +826,30 @@ export class MainPageComponent implements OnInit {
       play.period = this.quarter;
       play.type = "lost ball";
 
-      //Post the play
-      this.playsService.createPlay(play).then( () => {
+      //Save the play in the array
+      if(this.plays.length == 0){
+        this.plays[0] = play;
+      }
+      else{
+        this.plays.push(play);
+      }
 
-        //If the player belongs to the home team
-        if(this.player_active[0] == 0){
 
-          this.home_players[this.player_active[1]].turnovers++;
-          this.home_team_stats.turnovers++;
-          
-          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
+      //If the player belongs to the home team
+      if(this.player_active[0] == 0){
 
-          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+        this.home_players[this.player_active[1]].turnovers++;
+        this.home_team_stats.turnovers++;
+        
+      }
+      //If the player belongs to the visitor team
+      else{
 
-          //Update usage stat
-          this.updateUSG(0);
-          
-        }
-        //If the player belongs to the visitor team
-        else{
+        this.visitor_players[this.player_active[1]].turnovers++;
+        this.visitor_team_stats.turnovers++;
 
-          this.visitor_players[this.player_active[1]].turnovers++;
-          this.visitor_team_stats.turnovers++;
+      }
 
-          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
-
-          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
-
-          //Update usage stat
-          this.updateUSG(1);
-
-        }
-
-      })
-      .catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al crear la jugada.',
-          icon: 'error'
-        });
-      });
       
     }
 
@@ -967,53 +905,39 @@ export class MainPageComponent implements OnInit {
       play.type = "personal foul";
       play.foul_type = foul_type;
 
-      //Post the play
-      this.playsService.createPlay(play).then( res => {
+      //Save the play in the array
+      if(this.plays.length == 0){
+        this.plays[0] = play;
+      }
+      else{
+        this.plays.push(play);
+      }
 
-        //If the play is created we need to update the player and team stats for the game
-
-        //If the player belongs to the home team
-        if(this.player_active[0] == 0){
-          if(foul_type == "made"){
-            this.home_players[this.player_active[1]].fouls_made++;
-            this.home_team_stats.fouls_made++;
-          }
-          else{
-            this.home_team_stats.fouls_received++;
-            this.home_players[this.player_active[1]].fouls_received++;
-          }
-
-          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
-          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
-          
+      //If the player belongs to the home team
+      if(this.player_active[0] == 0){
+        if(foul_type == "made"){
+          this.home_players[this.player_active[1]].fouls_made++;
+          this.home_team_stats.fouls_made++;
         }
-        //If the player belongs to the visitor team
         else{
-          if(foul_type == "made"){
-            this.visitor_players[this.player_active[1]].fouls_made++;
-            this.visitor_team_stats.fouls_made++;
-          }
-          else{
-            this.visitor_players[this.player_active[1]].fouls_received++;
-            this.visitor_team_stats.fouls_received++;
-          }
-
-          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
-          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
-
+          this.home_team_stats.fouls_received++;
+          this.home_players[this.player_active[1]].fouls_received++;
+        }
+        
+      }
+      //If the player belongs to the visitor team
+      else{
+        if(foul_type == "made"){
+          this.visitor_players[this.player_active[1]].fouls_made++;
+          this.visitor_team_stats.fouls_made++;
+        }
+        else{
+          this.visitor_players[this.player_active[1]].fouls_received++;
+          this.visitor_team_stats.fouls_received++;
         }
 
-        
+      }
 
-
-      })
-      .catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al crear la jugada.',
-          icon: 'error'
-        });
-      });
-      
     }
 
   }
