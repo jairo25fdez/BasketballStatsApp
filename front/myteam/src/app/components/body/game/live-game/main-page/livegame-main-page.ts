@@ -905,26 +905,30 @@ export class MainPageComponent implements OnInit {
         if(this.player_active[0] == 0){
           if(foul_type == "made"){
             this.home_players[this.player_active[1]].fouls_made++;
+            this.home_team_stats.fouls_made++;
           }
           else{
+            this.home_team_stats.fouls_received++;
             this.home_players[this.player_active[1]].fouls_received++;
           }
 
-          //Update the player stats
           this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
+          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
           
         }
         //If the player belongs to the visitor team
         else{
           if(foul_type == "made"){
             this.visitor_players[this.player_active[1]].fouls_made++;
+            this.visitor_team_stats.fouls_made++;
           }
           else{
             this.visitor_players[this.player_active[1]].fouls_received++;
+            this.visitor_team_stats.fouls_received++;
           }
 
-          //Update the player stats
           this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
+          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
 
         }
 
