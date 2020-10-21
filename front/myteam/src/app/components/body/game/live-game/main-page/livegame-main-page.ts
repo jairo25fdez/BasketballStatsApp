@@ -432,7 +432,52 @@ export class MainPageComponent implements OnInit {
       play.rebound_type = rebound_type;
 
       //Post the play
-      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+      this.playsService.createPlay(play).then( () => {
+
+        //If the player belongs to the home team
+        if(this.player_active[0] == 0){
+
+          if(rebound_type == "offensive"){
+            this.home_players[this.player_active[1]].offensive_rebounds++;
+            this.home_team_stats.offensive_rebounds++;
+          }
+          else{
+            this.home_players[this.player_active[1]].defensive_rebounds++;
+            this.home_team_stats.defensive_rebounds++;
+          }
+
+          this.home_players[this.player_active[1]].total_rebounds++;
+
+          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
+
+          this.home_team_stats.total_rebounds++;
+
+          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+          
+        }
+        //If the player belongs to the visitor team
+        else{
+          if(rebound_type == "offensive"){
+            this.visitor_players[this.player_active[1]].offensive_rebounds++;
+            this.visitor_team_stats.offensive_rebounds++;
+          }
+          else{
+            this.visitor_players[this.player_active[1]].defensive_rebounds++;
+            this.visitor_team_stats.defensive_rebounds++;
+          }
+
+          this.visitor_players[this.player_active[1]].total_rebounds++;
+
+          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
+
+          this.visitor_team_stats.total_rebounds++;
+
+          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
+
+        }
+
+      })
+      .catch( (err:HttpErrorResponse) => {
         Swal.fire({
           title: 'Error al crear la jugada.',
           icon: 'error'
