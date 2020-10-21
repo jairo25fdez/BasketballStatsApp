@@ -333,9 +333,15 @@ export class MainPageComponent implements OnInit {
 
           this.home_players[this.player_active[1]].t1_attempted++;
 
+          //Update player FT%
+          this.home_players[this.player_active[1]].t1_percentage = (this.home_players[this.player_active[1]].t1_made / this.home_players[this.player_active[1]].t1_attempted)*100;
+
           this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
 
           this.home_team_stats.t1_attempted++;
+
+          //Update team FT%
+          this.home_team_stats.t1_percentage = (this.home_team_stats.t1_made / this.home_team_stats.t1_attempted)*100;
 
           this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
           
@@ -351,9 +357,15 @@ export class MainPageComponent implements OnInit {
 
           this.visitor_players[this.player_active[1]].t1_attempted++;
 
+          //Update player FT%
+          this.visitor_players[this.player_active[1]].t1_percentage = (this.visitor_players[this.player_active[1]].t1_made / this.visitor_players[this.player_active[1]].t1_attempted)*100;
+
           this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
           
           this.visitor_team_stats.t1_attempted++;
+
+          //Update team FT%
+          this.visitor_team_stats.t1_percentage = (this.visitor_team_stats.t1_made / this.visitor_team_stats.t1_attempted)*100;
 
           this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
 

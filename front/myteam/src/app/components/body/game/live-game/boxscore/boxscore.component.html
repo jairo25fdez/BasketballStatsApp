@@ -39,13 +39,13 @@
             <td>{{ player.points }}</td>
             <td>{{ player.t1_made }}</td>
             <td>{{ player.t1_attempted }}</td>
-            <td>{{ player.t1_percentage }}%</td>
+            <td>{{ player.t1_percentage | number : '1.0-2' }}%</td>
             <td>{{ player.t2_made }}</td>
             <td>{{ player.t2_attempted }}</td>
-            <td>{{ player.t2_percentage }}%</td>
+            <td>{{ player.t2_percentage | number : '1.0-2'}}%</td>
             <td>{{ player.t3_made }}</td>
             <td>{{ player.t3_attempted }}</td>
-            <td>{{ player.t3_percentage }}%</td>
+            <td>{{ player.t3_percentage | number : '1.0-2'}}%</td>
             <td>{{ player.defensive_rebounds }}</td>
             <td>{{ player.offensive_rebounds }}</td>
             <td>{{ player.total_rebounds }}</td>
@@ -56,7 +56,7 @@
             <td>{{ player.blocks_received }}</td>
             <td>{{ player.fouls_received }}</td>
             <td>{{ player.fouls_made }}</td>
-            <td>{{ player.usage.percentage }}%</td>
+            <td>{{ player.usage.percentage | number : '1.0-2'}}%</td>
           </tr>
 
           <tr class="text-center">
@@ -66,13 +66,13 @@
             <td>{{ home_team_stats[0].points }}</td>
             <td>{{ home_team_stats[0].t1_made }}</td>
             <td>{{ home_team_stats[0].t1_attempted }}</td>
-            <td>{{ home_team_stats[0].t1_percentage }}%</td>
+            <td>{{ home_team_stats[0].t1_percentage | number : '1.0-2' }}%</td>
             <td>{{ home_team_stats[0].t2_made }}</td>
             <td>{{ home_team_stats[0].t2_attempted }}</td>
-            <td>{{ home_team_stats[0].t2_percentage }}%</td>
+            <td>{{ home_team_stats[0].t2_percentage | number : '1.0-2' }}%</td>
             <td>{{ home_team_stats[0].t3_made }}</td>
             <td>{{ home_team_stats[0].t3_attempted }}</td>
-            <td>{{ home_team_stats[0].t3_percentage }}%</td>
+            <td>{{ home_team_stats[0].t3_percentage | number : '1.0-2' }}%</td>
             <td>{{ home_team_stats[0].defensive_rebounds }}</td>
             <td>{{ home_team_stats[0].offensive_rebounds }}</td>
             <td>{{ home_team_stats[0].total_rebounds }}</td>
@@ -128,13 +128,13 @@
             <td>{{ player.points }}</td>
             <td>{{ player.t1_made }}</td>
             <td>{{ player.t1_attempted }}</td>
-            <td>{{ player.t1_percentage }}%</td>
+            <td>{{ player.t1_percentage | number : '1.0-2'}}%</td>
             <td>{{ player.t2_made }}</td>
             <td>{{ player.t2_attempted }}</td>
-            <td>{{ player.t2_percentage }}%</td>
+            <td>{{ player.t2_percentage | number : '1.0-2' }}%</td>
             <td>{{ player.t3_made }}</td>
             <td>{{ player.t3_attempted }}</td>
-            <td>{{ player.t3_percentage }}%</td>
+            <td>{{ player.t3_percentage | number : '1.0-2' }}%</td>
             <td>{{ player.defensive_rebounds }}</td>
             <td>{{ player.offensive_rebounds }}</td>
             <td>{{ player.total_rebounds }}</td>
@@ -145,7 +145,7 @@
             <td>{{ player.blocks_received }}</td>
             <td>{{ player.fouls_received }}</td>
             <td>{{ player.fouls_made }}</td>
-            <td>{{ player.usage.percentage }}%</td>
+            <td>{{ player.usage.percentage | number : '1.0-2' }}%</td>
           </tr>
 
           <tr class="text-center">
@@ -155,13 +155,13 @@
             <td>{{ visitor_team_stats[0].points }}</td>
             <td>{{ visitor_team_stats[0].t1_made }}</td>
             <td>{{ visitor_team_stats[0].t1_attempted }}</td>
-            <td>{{ visitor_team_stats[0].t1_percentage }}%</td>
+            <td>{{ visitor_team_stats[0].t1_percentage | number : '1.0-2' }}%</td>
             <td>{{ visitor_team_stats[0].t2_made }}</td>
             <td>{{ visitor_team_stats[0].t2_attempted }}</td>
-            <td>{{ visitor_team_stats[0].t2_percentage }}%</td>
+            <td>{{ visitor_team_stats[0].t2_percentage | number : '1.0-2' }}%</td>
             <td>{{ visitor_team_stats[0].t3_made }}</td>
             <td>{{ visitor_team_stats[0].t3_attempted }}</td>
-            <td>{{ visitor_team_stats[0].t3_percentage }}%</td>
+            <td>{{ visitor_team_stats[0].t3_percentage | number : '1.0-2' }}%</td>
             <td>{{ visitor_team_stats[0].defensive_rebounds }}</td>
             <td>{{ visitor_team_stats[0].offensive_rebounds }}</td>
             <td>{{ visitor_team_stats[0].total_rebounds }}</td>
