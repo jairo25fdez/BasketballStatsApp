@@ -38,12 +38,14 @@ export class MainPageComponent implements OnInit {
   home_players:Player_stats_gameModel[] = []; //Home players stats game
   oncourt_home_players:number[] = []; // Index of on court home players
   bench_home_players:number[] = [];
+  home_oncourt_timers = []; //We use it to calculate the time that players played before we leave the page.
 
   home_team_stats:Team_stats_gameModel;
 
   visitor_players:Player_stats_gameModel[] = []; //Visitor players stats game
   oncourt_visitor_players:number[] = []; // Index of on court visitor players
   bench_visitor_players:number[] = [];
+  visitor_oncourt_timers = []; //We use it to calculate the time that players played before we leave the page.
 
   visitor_team_stats:Team_stats_gameModel;
 
@@ -162,14 +164,28 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+
   }
 
   ngOnDestroy(): void{
+
     //Update the stats before the user leaves the main page.
+    let timer_cont = 0;
     for(let player_index of this.oncourt_home_players){
+
+      //Update the time played for every player
+      this.calculateTime(0, player_index, this.home_oncourt_timers[timer_cont]);
+
       this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player_index]);
     }
+
+    timer_cont = 0;
     for(let player_index of this.oncourt_visitor_players){
+
+      //Update the time played for every player
+      this.calculateTime(1, player_index, this.visitor_oncourt_timers[timer_cont]);
+
       this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player_index]);
     }
 
@@ -187,11 +203,60 @@ export class MainPageComponent implements OnInit {
 
   }
 
+  calculateTime(team, player_index, player_in){
+
+    let player_out = [this.quarter, this.minutes, this.seconds];
+
+    let date1 = new Date();
+    date1.setHours(0, player_in[1], player_in[2]);
+    let date2 = new Date();
+    date2.setHours(0, player_out[1], player_out[2]);
+
+
+    // get total seconds between the times
+    var delta = Math.abs(date2.getTime() - date1.getTime()) / 1000;
+
+    // calculate (and subtract) whole minutes
+    var minutes = Math.floor(delta / 60) % 60;
+    delta -= minutes * 60;
+
+    // what's left is seconds
+    var seconds = delta % 60;
+
+    //console.log("MINUTES: "+minutes);
+    //console.log("SECONDS: "+seconds);
+
+    if(team == 0){
+      this.home_players[player_index].time_played.minutes += minutes;
+      this.home_players[player_index].time_played.seconds += seconds;
+    }
+    else{
+      this.visitor_players[player_index].time_played.minutes += minutes;
+      this.visitor_players[player_index].time_played.seconds += seconds;
+    }
+    
+
+  }
+
   setPlayer(team_index, player_index){
     this.player_active = [team_index, player_index];
   }
 
   resumeTimer() {
+
+    //Initialize on court players timers
+    let player_cont = 0;
+    for(let player of this.oncourt_home_players){
+      this.home_oncourt_timers[player_cont] = [this.quarter, this.minutes, this.seconds];
+      player_cont++;
+    }
+
+    player_cont = 0;
+    for(let player of this.oncourt_visitor_players){
+      this.visitor_oncourt_timers[player_cont] = [this.quarter, this.minutes, this.seconds];
+      player_cont++;
+    }
+
     this.interval = setInterval(() => {
 
       //If the quarter doesnt end
@@ -203,32 +268,6 @@ export class MainPageComponent implements OnInit {
         else{
           this.minutes--;
           this.seconds = 59;
-        }
-  
-        //Update time played for every player in the court
-        for(let player of this.oncourt_home_players){
-          if(this.home_players[player].time_played.seconds < 59){
-            this.home_players[player].time_played.seconds++;
-          }
-          else{
-            this.home_players[player].time_played.minutes++;
-            this.home_players[player].time_played.seconds = 0;
-          }
-          
-          //Update the stat in the database.
-          //this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player]);
-        }
-
-        for(let player of this.oncourt_visitor_players){
-          if(this.visitor_players[player].time_played.seconds < 59){
-            this.visitor_players[player].time_played.seconds++;
-          }
-          else{
-            this.visitor_players[player].time_played.minutes++;
-            this.visitor_players[player].time_played.seconds = 0;
-          }
-          //Update the stat in the database.
-          //this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player]);
         }
 
         //Update the time played for every team
@@ -258,15 +297,6 @@ export class MainPageComponent implements OnInit {
           second: this.seconds,
           quarter: this.quarter
         };
-  
-        /*
-        this.gamesService.updateGame(this.game).catch( (err:HttpErrorResponse) => {
-          Swal.fire({
-            title: 'Error al actualizar el timer del partido en la base de datos.',
-            icon: 'error'
-          });
-        });
-        */
 
       }
       //If the quarter ends
@@ -281,11 +311,6 @@ export class MainPageComponent implements OnInit {
 
       }
 
-      //If a minute is played we update the usg percentages of the players
-      if(this.seconds == 59 && this.minutes < (this.minutes_per_quarter-1) ){
-        this.updateUSG(0);
-        this.updateUSG(1);
-      }
 
     },1000);
 
