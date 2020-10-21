@@ -159,7 +159,10 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("PLAYERS ON COURT: "+JSON.stringify(this.oncourt_home_players));
+  }
+
+  ngOnDestroy(): void{
+    //Update the stats before leave the main page.
   }
 
   setPlayer(team_index, player_index){
@@ -415,12 +418,8 @@ export class MainPageComponent implements OnInit {
   //Update the USG for every player in the team
   updateUSG(team_index){
 
-    console.log("UPDATE ONCOURT PLAYERS: "+JSON.stringify(this.oncourt_home_players));
-
     if(team_index == 0){
       for(let player_index of this.oncourt_home_players){
-
-        console.log("PLAYER INDEX: "+player_index);
         
         let usg_1 = 100*( (this.home_players[player_index].t2_attempted + this.home_players[player_index].t3_attempted) + 0.44*(this.home_players[player_index].t1_attempted) + (this.home_players[player_index].turnovers))*this.home_team_stats.time_played.minutes;
         let usg_2 = ( (this.home_team_stats.t2_attempted + this.home_team_stats.t3_attempted) + 0.44*(this.home_team_stats.t1_attempted) + this.home_team_stats.turnovers)*(this.home_players[player_index].time_played.minutes);
