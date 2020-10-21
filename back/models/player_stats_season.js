@@ -128,11 +128,7 @@ var player_stats_seasonSchema = new Schema({
         blocks_made_per_minute: {type: Number, min: 0},
     },
     //Usage stats
-    usage: {
-        player: {type: Number, min: 0},
-        team: {type: Number, min: 0},
-        percentage: {type: Number, min: 0}
-    },
+    usage: Number,
     //Fouls stats
     fouls_stats: {
         _id: false,

@@ -881,11 +881,7 @@ export class NewgameFormComponent implements OnInit {
                 blocks_received: 0,
                 fouls_made: 0,
                 fouls_received: 0,
-                usage: {
-                    personal: 0,
-                    team: 0,
-                    percentage: 0
-                }
+                usage: 0
               };
     
               //Post the player stats for the game.
@@ -1000,11 +996,7 @@ export class NewgameFormComponent implements OnInit {
                       blocks_received_per_minute: 0,
                       blocks_made_per_minute: 0,
                     },
-                    usage: {
-                      player: 0,
-                      team: 0,
-                      percentage: 0
-                    },
+                    usage: 0,
                     fouls_stats: {
                       total_fouls_made: 0,
                       fouls_made_per_minute: 0,
@@ -1087,11 +1079,7 @@ export class NewgameFormComponent implements OnInit {
                 blocks_received: 0,
                 fouls_made: 0,
                 fouls_received: 0,
-                usage: {
-                    personal: 0,
-                    team: 0,
-                    percentage: 0
-                }
+                usage: 0,
               };
     
               //Post the player stats for the game.
@@ -1206,11 +1194,7 @@ export class NewgameFormComponent implements OnInit {
                       blocks_received_per_minute: 0,
                       blocks_made_per_minute: 0,
                     },
-                    usage: {
-                      player: 0,
-                      team: 0,
-                      percentage: 0
-                    },
+                    usage: 0,
                     fouls_stats: {
                       total_fouls_made: 0,
                       fouls_made_per_minute: 0,

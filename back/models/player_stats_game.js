@@ -59,11 +59,7 @@ var player_stats_gameSchema = new Schema({
     blocks_received: {type: Number, min: 0},
     fouls_made: {type: Number, min: 0},
     fouls_received: {type: Number, min: 0},
-    usage: {
-        personal: Number,
-        team: Number,
-        percentage: Number
-    }
+    usage: Number
 });
 
 player_stats_gameSchema.index( {player_id: 1, game_id: 1}, { unique: true } );

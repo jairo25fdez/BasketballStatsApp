@@ -96,11 +96,7 @@ export class Player_stats_seasonModel{
         blocks_received_per_minute: number;
         blocks_made_per_minute: number;
     };
-    usage: {
-        player: number;
-        team: number;
-        percentage: number;
-    };
+    usage: number;
     fouls_stats: {
         total_fouls_made: number;
         fouls_made_per_minute: number;

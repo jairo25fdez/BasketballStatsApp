@@ -50,6 +50,7 @@ export class MainPageComponent implements OnInit {
   player_active:number[] = [-1, -1];
 
   //Scoreboard
+  minutes_per_quarter = 0;
   quarter = 1;
   minutes = -1;
   seconds = -1;
@@ -73,12 +74,13 @@ export class MainPageComponent implements OnInit {
         });
       }
       else{
+        this.leaguesService.getLeague(this.game.league.league_id).then( (res:LeagueModel) => {
+          this.minutes_per_quarter = res.quarter_length;
+        });
         this.minutes = this.game.time_played.minute;
         this.seconds = this.game.time_played.second;
         this.quarter = this.game.time_played.quarter;
       }
-
-      //console.log("GAME ID: "+JSON.stringify(game_id));
 
       //Save the teams stats.
       this.team_stats_gameService.getTeams_stats_game("?game_id="+game_id).then( (teams_stats:Team_stats_gameModel[]) => {
@@ -246,8 +248,15 @@ export class MainPageComponent implements OnInit {
 
         if(this.quarter < 4){
           this.quarter++;
+          this.minutes = this.minutes_per_quarter;
         }
 
+      }
+
+      //If a minute is played we update the usg percentages of the players
+      if(this.seconds == 59 && this.minutes < (this.minutes_per_quarter-1) ){
+        this.updateUSG(0);
+        this.updateUSG(1);
       }
 
     },1000);
@@ -331,6 +340,13 @@ export class MainPageComponent implements OnInit {
             this.home_team_stats.t1_made++;
           }
 
+          this.home_team_stats.t1_attempted++;
+
+          //Update team FT%
+          this.home_team_stats.t1_percentage = (this.home_team_stats.t1_made / this.home_team_stats.t1_attempted)*100;
+
+          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+
           this.home_players[this.player_active[1]].t1_attempted++;
 
           //Update player FT%
@@ -338,12 +354,8 @@ export class MainPageComponent implements OnInit {
 
           this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
 
-          this.home_team_stats.t1_attempted++;
-
-          //Update team FT%
-          this.home_team_stats.t1_percentage = (this.home_team_stats.t1_made / this.home_team_stats.t1_attempted)*100;
-
-          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+          //Update USG
+          this.updateUSG(0);
           
         }
         //If the player belongs to the visitor team
@@ -360,6 +372,9 @@ export class MainPageComponent implements OnInit {
           //Update player FT%
           this.visitor_players[this.player_active[1]].t1_percentage = (this.visitor_players[this.player_active[1]].t1_made / this.visitor_players[this.player_active[1]].t1_attempted)*100;
 
+          //Update player USG%
+          this.visitor_players[this.player_active[1]].usage = 100*( (this.visitor_players[this.player_active[1]].t2_attempted + this.visitor_players[this.player_active[1]].t3_attempted) + 0.44*(this.visitor_players[this.player_active[1]].t1_attempted) + this.visitor_players[this.player_active[1]].turnovers)*this.visitor_team_stats.time_played.minutes;
+
           this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
           
           this.visitor_team_stats.t1_attempted++;
@@ -368,6 +383,9 @@ export class MainPageComponent implements OnInit {
           this.visitor_team_stats.t1_percentage = (this.visitor_team_stats.t1_made / this.visitor_team_stats.t1_attempted)*100;
 
           this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
+
+          //Update USG
+          this.updateUSG(1);
 
         }
 
@@ -390,6 +408,36 @@ export class MainPageComponent implements OnInit {
       });
       
     }
+
+  }
+
+  //Update the USG for every player in the team
+  updateUSG(team_index){
+
+    if(team_index == 0){
+      for(let player_index of this.oncourt_home_players){
+        
+        let usg_1 = 100*( (this.home_players[player_index].t2_attempted + this.home_players[player_index].t3_attempted) + 0.44*(this.home_players[player_index].t1_attempted) + (this.home_players[player_index].turnovers))*this.home_team_stats.time_played.minutes;
+        let usg_2 = ( (this.home_team_stats.t2_attempted + this.home_team_stats.t3_attempted) + 0.44*(this.home_team_stats.t1_attempted) + this.home_team_stats.turnovers)*(this.home_players[player_index].time_played.minutes);
+
+        this.home_players[player_index].usage = (usg_1 / usg_2);
+
+        this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player_index]);
+
+      }
+    }
+    else{
+      for(let player_index of this.oncourt_visitor_players){
+        let usg_1 = 100*( (this.visitor_players[player_index].t2_attempted + this.visitor_players[player_index].t3_attempted) + 0.44*(this.visitor_players[player_index].t1_attempted) + (this.visitor_players[player_index].turnovers))*this.visitor_team_stats.time_played.minutes;
+        let usg_2 = ( (this.visitor_team_stats.t2_attempted + this.visitor_team_stats.t3_attempted) + 0.44*(this.visitor_team_stats.t1_attempted) + this.visitor_team_stats.turnovers)*(this.visitor_players[player_index].time_played.minutes);
+      
+        this.home_players[player_index].usage = usg_1 / usg_2;
+
+        this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player_index]);
+
+      }
+    }
+
 
   }
 

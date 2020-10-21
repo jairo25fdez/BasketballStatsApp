@@ -48,10 +48,6 @@ export class Player_stats_gameModel{
     blocks_received: number;
     fouls_made: number;
     fouls_received: number;
-    usage: {
-        personal: number;
-        team: number;
-        percentage: number;
-    };
+    usage: number;
 
 }
