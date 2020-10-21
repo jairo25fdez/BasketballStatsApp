@@ -1,6 +1,7 @@
 module.exports = function (app){
 
     const path = require('path');
+    const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
     //URL to Mongoose package.
@@ -143,32 +144,32 @@ module.exports = function (app){
         var team_stats_id = request.params.team_stats_id;
         var updatedData = request.body;
 
-        Team_stats_season.findOne({_id: team_Stats_id}, function (err, play){
-            if(isNull(play)){
+        Team_stats_season.findOne({_id: team_stats_id}, function (err, team_stats_data){
+            if(isNull(team_stats_data)){
                 console.log("Team_stats_season with id: "+team_stats_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
             else{
-                team_id = updatedData.team_id,
-                season = updatedData.season,
-                team_name = updatedData.team_name,
-                time_played = updatedData.time_played,
-                games_played = updatedData.games_played,
-                wins = updatedData.wins,
-                losses = updatedData.losses,
-                points_stats = updatedData.points_stats,
-                shots_stats = updatedData.shots_stats,
-                assists_stats = updatedData.assists_stats,
-                steals_stats = updatedData.steals_stats,
-                lost_balls_stats = updatedData.lost_balls_stats,
-                rebounds_stats = updatedData.rebounds_stats,
-                blocks_stats = updatedData.blocks_stats,
-                possessions = updatedData.possessions,
-                fouls_stats = updatedData.fouls_stats
+                team_stats_data.team_id = updatedData.team_id,
+                team_stats_data.season = updatedData.season,
+                team_stats_data.team_name = updatedData.team_name,
+                team_stats_data.time_played = updatedData.time_played,
+                team_stats_data.games_played = updatedData.games_played,
+                team_stats_data.wins = updatedData.wins,
+                team_stats_data.losses = updatedData.losses,
+                team_stats_data.points_stats = updatedData.points_stats,
+                team_stats_data.shots_stats = updatedData.shots_stats,
+                team_stats_data.assists_stats = updatedData.assists_stats,
+                team_stats_data.steals_stats = updatedData.steals_stats,
+                team_stats_data.lost_balls_stats = updatedData.lost_balls_stats,
+                team_stats_data.rebounds_stats = updatedData.rebounds_stats,
+                team_stats_data.blocks_stats = updatedData.blocks_stats,
+                team_stats_data.possessions = updatedData.possessions,
+                team_stats_data.fouls_stats = updatedData.fouls_stats
 
                 team_stats_data.save();
 
-                response.sendStatus(200, "Updated stats "+team_Stats_id);
+                response.sendStatus(200, "Updated stats "+team_stats_id);
             }
         });
 

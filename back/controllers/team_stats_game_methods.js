@@ -1,6 +1,7 @@
 module.exports = function (app){
 
     const path = require('path');
+    const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
     //URL to Mongoose package.
@@ -154,43 +155,43 @@ module.exports = function (app){
         var team_stats_id = request.params.team_stats_id;
         var updatedData = request.body;
 
-        Team_stats_game.findOne({_id: team_Stats_id}, function (err, play){
-            if(isNull(play)){
+        Team_stats_game.findOne({_id: team_stats_id}, function (err, team_stats_data){
+            if(isNull(team_stats_data)){
                 console.log("Team_stats_game with id: "+team_stats_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
             else{
-                team_id = updatedData.team_id,
-                team_name = updatedData.team_name,
-                game_id = updatedData.game_id,
-                season = updatedData.season,
-                time_played = updatedData.time_played,
-                points = updatedData.points,
-                t2_made = updatedData.t2_made,
-                t2_attempted = updatedData.t2_attempted,
-                t2_percentage = updatedData.t2_percentage,
-                t3_made = updatedData.t3_made,
-                t3_attempted = updatedData.t3_attempted,
-                t3_percentage = updatedData.t3_percentage,
-                t1_made = updatedData.t1_made,
-                t1_attempted = updatedData.t1_attempted,
-                t1_percentage = updatedData.t1_percentage,
-                shots_list = updatedData.shots_listSchema,
-                total_rebounds = updatedData.total_rebounds,
-                defensive_rebounds = updatedData.defensive_rebounds,
-                offensive_rebounds = updatedData.offensive_rebounds,
-                assists = updatedData.assists,
-                steals = updatedData.steals,
-                turnovers = updatedData.turnovers,
-                blocks_made = updatedData.blocks_made,
-                blocks_received = updatedData.blocks_received,
-                fouls_made = updatedData.fouls_made,
-                fouls_received = updatedData.fouls_received,
-                possessions = updatedData.possessions
+                team_stats_data.team_id = updatedData.team_id,
+                team_stats_data.team_name = updatedData.team_name,
+                team_stats_data.game_id = updatedData.game_id,
+                team_stats_data.season = updatedData.season,
+                team_stats_data.time_played = updatedData.time_played,
+                team_stats_data.points = updatedData.points,
+                team_stats_data.t2_made = updatedData.t2_made,
+                team_stats_data.t2_attempted = updatedData.t2_attempted,
+                team_stats_data.t2_percentage = updatedData.t2_percentage,
+                team_stats_data.t3_made = updatedData.t3_made,
+                team_stats_data.t3_attempted = updatedData.t3_attempted,
+                team_stats_data.t3_percentage = updatedData.t3_percentage,
+                team_stats_data.t1_made = updatedData.t1_made,
+                team_stats_data.t1_attempted = updatedData.t1_attempted,
+                team_stats_data.t1_percentage = updatedData.t1_percentage,
+                team_stats_data.shots_list = updatedData.shots_listSchema,
+                team_stats_data.total_rebounds = updatedData.total_rebounds,
+                team_stats_data.defensive_rebounds = updatedData.defensive_rebounds,
+                team_stats_data.offensive_rebounds = updatedData.offensive_rebounds,
+                team_stats_data.assists = updatedData.assists,
+                team_stats_data.steals = updatedData.steals,
+                team_stats_data.turnovers = updatedData.turnovers,
+                team_stats_data.blocks_made = updatedData.blocks_made,
+                team_stats_data.blocks_received = updatedData.blocks_received,
+                team_stats_data.fouls_made = updatedData.fouls_made,
+                team_stats_data.fouls_received = updatedData.fouls_received,
+                team_stats_data.possessions = updatedData.possessions
 
                 team_stats_data.save();
 
-                response.sendStatus(200, "Updated stats "+team_Stats_id);
+                response.sendStatus(200, "Updated stats "+team_stats_id);
             }
         });
 
