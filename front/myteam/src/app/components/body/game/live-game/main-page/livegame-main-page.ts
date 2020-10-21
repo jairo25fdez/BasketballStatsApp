@@ -9,12 +9,15 @@ import { TeamModel } from 'src/app/models/team.model';
 import { GameModel } from '../../../../../models/game.model';
 import { PlayModel } from '../../../../../models/play.model';
 import { Player_stats_gameModel } from '../../../../../models/player_stats_game.model';
+import { Team_stats_gameModel } from '../../../../../models/team_stats_game.model';
 
 //Services
 import { LeaguesService } from 'src/app/services/leagues.service';
 import { GamesService } from 'src/app/services/games.service';
 import { PlaysService } from 'src/app/services/plays.service';
 import { Player_stats_gamesService } from 'src/app/services/player_stats_game.service';
+import { Player_stats_seasonService } from 'src/app/services/player_stats_season.service';
+import { Team_stats_gameService } from 'src/app/services/team_stats_game.service';
 
 
 
@@ -27,27 +30,33 @@ export class MainPageComponent implements OnInit {
 
   game:GameModel;
 
+  /*
   home_team:TeamModel;
   visitor_team:TeamModel;
+  */
 
-  home_players:Player_stats_gameModel[] = [];
-  oncourt_home_players:number[] = [];
+  home_players:Player_stats_gameModel[] = []; //Home players stats game
+  oncourt_home_players:number[] = []; // Index of on court home players
   bench_home_players:number[] = [];
 
-  visitor_players:Player_stats_gameModel[] = [];
-  oncourt_visitor_players:number[] = [];
+  home_team_stats:Team_stats_gameModel;
+
+  visitor_players:Player_stats_gameModel[] = []; //Visitor players stats game
+  oncourt_visitor_players:number[] = []; // Index of on court visitor players
   bench_visitor_players:number[] = [];
+
+  visitor_team_stats:Team_stats_gameModel;
 
   player_active:number[] = [-1, -1];
 
   //Scoreboard
   quarter = 1;
-  minutes = 10;
-  seconds = 0;
+  minutes = -1;
+  seconds = -1;
   interval;
 
 
-  constructor(private gamesService:GamesService, private player_stats_gameService:Player_stats_gamesService, private playsService:PlaysService, private leaguesService:LeaguesService, private router:Router) { 
+  constructor(private gamesService:GamesService, private player_stats_gameService:Player_stats_gamesService, private team_stats_gameService:Team_stats_gameService, private player_stats_seasonService:Player_stats_seasonService, private playsService:PlaysService, private leaguesService:LeaguesService, private router:Router) { 
 
     //const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
@@ -56,11 +65,36 @@ export class MainPageComponent implements OnInit {
     this.gamesService.getGame(game_id).then((res:GameModel) => {
       this.game = res;
 
-      this.leaguesService.getLeague(this.game.league.league_id).then( (res:LeagueModel) => {
-        this.minutes = res.quarter_length;
+      //If the game didnt start we initialize the timer
+      if( (this.game.time_played.minute == 0) && (this.game.time_played.second == 0) && (this.game.time_played.quarter == 0)){
+        this.leaguesService.getLeague(this.game.league.league_id).then( (res:LeagueModel) => {
+          this.minutes = res.quarter_length;
+          this.seconds = 0;
+        });
+      }
+      else{
+        this.minutes = this.game.time_played.minute;
+        this.seconds = this.game.time_played.second;
+        this.quarter = this.game.time_played.quarter;
+      }
+
+      //console.log("GAME ID: "+JSON.stringify(game_id));
+
+      //Save the teams stats.
+      this.team_stats_gameService.getTeams_stats_game("?game_id="+game_id).then( (teams_stats:Team_stats_gameModel[]) => {
+
+        for(let team_stats of teams_stats){
+          if(team_stats.team_id == this.game.home_team.team_id){
+            this.home_team_stats = team_stats;
+          }
+          else{
+            this.visitor_team_stats = team_stats;
+          }
+        }
+        
       });
 
-      //Save players in the arrays.
+      //Save players stats in the arrays.
       this.player_stats_gameService.getPlayer_stats_games("?game_id="+game_id).then( (players_stats:Player_stats_gameModel[]) => {
 
         let home_players_cont = 0;
@@ -101,6 +135,7 @@ export class MainPageComponent implements OnInit {
 
         }
 
+
       })
       .catch( (err:HttpErrorResponse) => {
         Swal.fire({
@@ -131,12 +166,88 @@ export class MainPageComponent implements OnInit {
   resumeTimer() {
     this.interval = setInterval(() => {
 
-      if(this.seconds > 0){
-        this.seconds--;
+      //If the quarter doesnt end
+      if( (this.seconds) > 0 || (this.minutes > 0) ){
+
+        if(this.seconds > 0){
+          this.seconds--;
+        }
+        else{
+          this.minutes--;
+          this.seconds = 59;
+        }
+  
+        //Update time played for every player in the court
+        for(let player of this.oncourt_home_players){
+          if(this.home_players[player].time_played.seconds < 59){
+            this.home_players[player].time_played.seconds++;
+          }
+          else{
+            this.home_players[player].time_played.minutes++;
+            this.home_players[player].time_played.seconds = 0;
+          }
+          
+          //Update the stat in the database.
+          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player]);
+        }
+
+        for(let player of this.oncourt_visitor_players){
+          if(this.visitor_players[player].time_played.seconds < 59){
+            this.visitor_players[player].time_played.seconds++;
+          }
+          else{
+            this.visitor_players[player].time_played.minutes++;
+            this.visitor_players[player].time_played.seconds = 0;
+          }
+          //Update the stat in the database.
+          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player]);
+        }
+
+        //Update the time played for every team
+        if(this.home_team_stats.time_played.seconds < 59){
+          this.home_team_stats.time_played.seconds++;
+        }
+        else{
+          this.home_team_stats.time_played.minutes++;
+          this.home_team_stats.time_played.seconds = 0;
+        }
+
+        this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+
+        if(this.visitor_team_stats.time_played.seconds < 59){
+          this.visitor_team_stats.time_played.seconds++;
+        }
+        else{
+          this.visitor_team_stats.time_played.minutes++;
+          this.visitor_team_stats.time_played.seconds = 0;
+        }
+
+        this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
+  
+        //Update the game timer
+        this.game.time_played = {
+          minute: this.minutes,
+          second: this.seconds,
+          quarter: this.quarter
+        };
+  
+        this.gamesService.updateGame(this.game).catch( (err:HttpErrorResponse) => {
+          Swal.fire({
+            title: 'Error al actualizar el timer del partido en la base de datos.',
+            icon: 'error'
+          });
+        });
+
       }
+      //If the quarter ends
       else{
-        this.minutes--;
-        this.seconds = 59;
+
+        clearInterval(this.interval);
+
+        if(this.quarter < 4){
+          this.quarter++;
+        }
+
       }
 
     },1000);
@@ -587,10 +698,30 @@ export class MainPageComponent implements OnInit {
       //Post the play
       this.playsService.createPlay(play).then( res => {
 
-        //If the play is created we need to update the player and team stats for the game and season
+        //If the play is created we need to update the player and team stats for the game
 
-        //First of all we need to get the player and team stats to update them
+        //If the player belongs to the home team
+        if(this.player_active[0] == 0){
+          if(foul_type == "made"){
+            this.home_players[this.player_active[1]].fouls_made++;
+          }
+          else{
+            this.home_players[this.player_active[1]].fouls_received++;
+          }
+          
+        }
+        //If the player belongs to the visitor team
+        else{
+          if(foul_type == "made"){
+            this.visitor_players[this.player_active[1]].fouls_made++;
+          }
+          else{
+            this.visitor_players[this.player_active[1]].fouls_received++;
+          }
+        }
 
+        //Update the player stats
+        this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
 
 
       })

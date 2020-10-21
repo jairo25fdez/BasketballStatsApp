@@ -441,7 +441,11 @@ export class NewgameFormComponent implements OnInit {
           club_name: "",
           club_img: ""
         },
-        this.game.minutes_played = 0;
+        this.game.time_played = {
+          minute: 0,
+          second: 0,
+          quarter: 0
+        };
         this.game.overtime = false;
         this.game.overtime_count = 0;
         //this.game.play_by_play = [{}];

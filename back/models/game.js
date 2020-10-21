@@ -44,7 +44,11 @@ var gameSchema = new Schema({
         club_name: {type: String},
         club_img: {type: String}
     },
-    minutes_played: Number,
+    time_played: {
+        minute: Number,
+        second: Number,
+        quarter: Number
+    },
     overtime: Boolean,
     overtime_count: Number,
     play_by_play: [playSchema]

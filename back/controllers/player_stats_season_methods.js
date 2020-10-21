@@ -1,6 +1,7 @@
 module.exports = function (app){
 
     const path = require('path');
+    const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
     //URL to Mongoose package.
@@ -144,35 +145,33 @@ module.exports = function (app){
         var player_stats_id = request.params.player_stats_id;
         var updatedData = request.body;
 
-        Player_stats_season.findOne({_id: player_Stats_id}, function (err, play){
-            if(isNull(play)){
+        Player_stats_season.findOne({_id: player_stats_id}, function (err, player_stats_data){
+            if(isNull(player_stats_data)){
                 console.log("Player_stats_season with id: "+player_stats_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
             else{
                 player_stats_data.player_id = updatedData.player_id,
-                
-                player_id = updatedData.player_id,
-                team_id = updatedData.team_id,
-                season = updatedData.season,
-                player_name = updatedData.player_name,
-                player_lastName = updatedData.player_lastName,
-                player_img = updatedData.player_img,
-                time_played = updatedData.time_played,
-                games_played = updatedData.games_played,
-                points_stats = updatedData.points_stats,
-                shots_stats = updatedData.shots_stats,
-                assists_stats = updatedData.assists_stats,
-                steals_stats = updatedData.steals_stats,
-                lost_balls_stats = updatedData.lost_balls_stats,
-                rebounds_stats = updatedData.rebounds_stats,
-                blocks_stats = updatedData.blocks_stats,
-                usage = updatedData.usage,
-                fouls_stats = updatedData.fouls_stats
+                player_stats_data.team_id = updatedData.team_id,
+                player_stats_data.season = updatedData.season,
+                player_stats_data.player_name = updatedData.player_name,
+                player_stats_data.player_lastName = updatedData.player_lastName,
+                player_stats_data.player_img = updatedData.player_img,
+                player_stats_data.time_played = updatedData.time_played,
+                player_stats_data.games_played = updatedData.games_played,
+                player_stats_data.points_stats = updatedData.points_stats,
+                player_stats_data.shots_stats = updatedData.shots_stats,
+                player_stats_data.assists_stats = updatedData.assists_stats,
+                player_stats_data.steals_stats = updatedData.steals_stats,
+                player_stats_data.lost_balls_stats = updatedData.lost_balls_stats,
+                player_stats_data.rebounds_stats = updatedData.rebounds_stats,
+                player_stats_data.blocks_stats = updatedData.blocks_stats,
+                player_stats_data.usage = updatedData.usage,
+                player_stats_data.fouls_stats = updatedData.fouls_stats
 
                 player_stats_data.save();
 
-                response.sendStatus(200, "Updated stats "+player_Stats_id);
+                response.sendStatus(200, "Updated stats "+player_stats_data._id);
             }
         });
 

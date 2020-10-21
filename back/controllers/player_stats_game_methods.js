@@ -1,6 +1,7 @@
 module.exports = function (app){
 
     const path = require('path');
+    const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
     //URL to Mongoose package.
@@ -156,8 +157,8 @@ module.exports = function (app){
         var player_stats_id = request.params.player_stats_id;
         var updatedData = request.body;
 
-        Player_stats_game.findOne({_id: player_Stats_id}, function (err, play){
-            if(isNull(play)){
+        Player_stats_game.findOne({_id: player_stats_id}, function (err, player_stats_data){
+            if(isNull(player_stats_data)){
                 console.log("Player_stats_game with id: "+player_stats_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
@@ -196,7 +197,7 @@ module.exports = function (app){
 
                 player_stats_data.save();
 
-                response.sendStatus(200, "Updated play "+play_id);
+                response.sendStatus(200, "Updated player_stats_game "+player_stats_data._id);
             }
         });
 

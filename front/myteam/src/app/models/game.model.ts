@@ -32,7 +32,11 @@ export class GameModel{
         club_name: string;
         club_img: string;
     };
-    minutes_played: number;
+    time_played: {
+        minute: number;
+        second: number;
+        quarter: number;
+    }
     overtime: boolean;
     overtime_count: number;
     play_by_play: [{

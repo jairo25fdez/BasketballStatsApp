@@ -33,6 +33,8 @@ export class Player_stats_gamesService{
 
     updatePlayer_stats_game(player_stats_game:Player_stats_gameModel){
 
+        console.log("PLAYER_STAT RECIBIDO: "+JSON.stringify(player_stats_game._id));
+
         const player_stats_gameTemp = {
             ...player_stats_game
         };
