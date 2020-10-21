@@ -319,7 +319,50 @@ export class MainPageComponent implements OnInit {
       play.shot_made = shot_made;
 
       //Post the play
-      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+      this.playsService.createPlay(play).then( res => {
+        
+        //If the player belongs to the home team
+        if(this.player_active[0] == 0){
+
+          if(shot_made){
+            this.home_players[this.player_active[1]].points++;
+            this.home_players[this.player_active[1]].t1_made++;
+
+            this.home_team_stats.t1_made++;
+          }
+
+          this.home_players[this.player_active[1]].t1_attempted++;
+
+          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
+
+          this.home_team_stats.t1_attempted++;
+
+          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+          
+        }
+        //If the player belongs to the visitor team
+        else{
+          if(shot_made){
+            this.visitor_players[this.player_active[1]].points++;
+            this.visitor_players[this.player_active[1]].t1_made++;
+
+            this.visitor_team_stats.t1_made++;
+          }
+
+          this.visitor_players[this.player_active[1]].t1_attempted++;
+
+          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
+          
+          this.visitor_team_stats.t1_attempted++;
+
+          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
+
+        }
+
+        
+
+      })
+      .catch( (err:HttpErrorResponse) => {
         Swal.fire({
           title: 'Error al crear la jugada.',
           icon: 'error'
@@ -708,6 +751,9 @@ export class MainPageComponent implements OnInit {
           else{
             this.home_players[this.player_active[1]].fouls_received++;
           }
+
+          //Update the player stats
+          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
           
         }
         //If the player belongs to the visitor team
@@ -718,10 +764,13 @@ export class MainPageComponent implements OnInit {
           else{
             this.visitor_players[this.player_active[1]].fouls_received++;
           }
+
+          //Update the player stats
+          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
+
         }
 
-        //Update the player stats
-        this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
+        
 
 
       })
