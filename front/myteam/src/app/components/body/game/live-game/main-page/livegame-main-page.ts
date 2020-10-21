@@ -759,7 +759,7 @@ export class MainPageComponent implements OnInit {
 
   }
 
-  createLostBallPlay(){
+  createTurnoverPlay(){
     
     //Check if the user selected a player.
     if(this.player_active != [-1,-1]){
@@ -809,7 +809,33 @@ export class MainPageComponent implements OnInit {
       play.type = "lost ball";
 
       //Post the play
-      this.playsService.createPlay(play).catch( (err:HttpErrorResponse) => {
+      this.playsService.createPlay(play).then( () => {
+
+        //If the player belongs to the home team
+        if(this.player_active[0] == 0){
+
+          this.home_players[this.player_active[1]].turnovers++;
+          this.home_team_stats.turnovers++;
+          
+          this.player_stats_gameService.updatePlayer_stats_game(this.home_players[this.player_active[1]]);
+
+          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+          
+        }
+        //If the player belongs to the visitor team
+        else{
+
+          this.visitor_players[this.player_active[1]].turnovers++;
+          this.visitor_team_stats.turnovers++;
+
+          this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[this.player_active[1]]);
+
+          this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
+
+        }
+
+      })
+      .catch( (err:HttpErrorResponse) => {
         Swal.fire({
           title: 'Error al crear la jugada.',
           icon: 'error'
