@@ -239,49 +239,65 @@
                     </div>
                     <!-- Shotchart -->
                     <div class="tab-pane fade" id="shotchart" role="tabpanel">
-                        <svg id="court" class="p-0 h-75 col-10" viewBox="0 0 1280 1024">
 
-                            <image  width="1228" height="1024" xlink:href="../../../../../../assets/img/game/halfcourt.jpg"  />
-        
-                            <!--Left Corner 3P -->
-                            <rect class="zone" x="4" y="65" width="115" height="450"/>
-                            <!-- Right Corner 3P -->
-                            <rect class="zone" x="1112" y="65"  width="110" height="460"/>
-                            <!-- Left Corner -->
-                            <rect class="zone" x="128" y="65"   width="288" height="275"/>
-                            <!-- Right Corner -->
-                            <rect class="zone" x="813" y="65"  width="288" height="275"/>
-                            <!-- Left Paint -->
-                            <rect class="zone" x="425" y="65"  width="190" height="250"/>
-                            <!-- Right Paint -->
-                            <rect class="zone" x="614" y="65"  width="190" height="250"/>
-                            <!-- Left Paint FT -->
-                            <rect class="zone" x="425" y="314"  width="190" height="209"/>
-                            <!-- Right Paint FT -->
-                            <rect class="zone" x="614" y="314"  width="190" height="209"/>
-        
-                            <!-- Central 3P -->
-                            <path class="zone"  d="M420,745 L 420 961 L 822 961 L 822 740 Q 620 800 420 745"/>
-        
-                            <!-- Central 2P -->
-                            <path class="zone"  d="M419,530 L 419 733 Q 620 793 813 730 L 813 530 L 419 530"/>
-         
-                            <!-- Right Elbow 2P -->
-                            <path class="zone" d="M812,340 L 812 731 Q 1000 675 1103 517 L 1103 340 L 812 340"/>
+                        <div class="row align-items-center no-gutters ">
+
+                            <!-- Shotchart column -->
+                            <div class="d-flex flex-column col-10">
+                                <svg id="court" class="p-0 h-75 " viewBox="0 0 1280 1024">
+
+                                    <image  width="1228" height="1024" xlink:href="../../../../../../assets/img/game/halfcourt.jpg"  />
+                
+                                    <!--Left Corner 3P -->
+                                    <rect [ngClass]="{ 'shot_zone_active': shot_zone == 'lc3'}" class="zone" x="4" y="65" width="115" height="450" (click)="setShotZone('lc3')"/>
+                                    <!-- Right Corner 3P -->
+                                    <rect [ngClass]="{ 'shot_zone_active': shot_zone == 'rc3'}" class="zone" x="1112" y="65"  width="110" height="460" (click)="setShotZone('rc3')"/>
+                                    <!-- Left Corner -->
+                                    <rect [ngClass]="{ 'shot_zone_active': shot_zone == 'lmc2'}" class="zone" x="128" y="65"   width="288" height="275" (click)="setShotZone('lmc2')"/>
+                                    <!-- Right Corner -->
+                                    <rect [ngClass]="{ 'shot_zone_active': shot_zone == 'rmc2'}" class="zone" x="813" y="65"  width="288" height="275" (click)="setShotZone('rmc2')"/>
+                                    <!-- Left Paint -->
+                                    <rect [ngClass]="{ 'shot_zone_active': shot_zone == 'lp2'}" class="zone" x="425" y="65"  width="190" height="250" (click)="setShotZone('lp2')"/>
+                                    <!-- Right Paint -->
+                                    <rect [ngClass]="{ 'shot_zone_active': shot_zone == 'rp2'}" class="zone" x="614" y="65"  width="190" height="250" (click)="setShotZone('rp2')"/>
+                                    <!-- Left Paint FT -->
+                                    <rect [ngClass]="{ 'shot_zone_active': shot_zone == 'lft2'}" class="zone" x="425" y="314"  width="190" height="209" (click)="setShotZone('lft2')"/>
+                                    <!-- Right Paint FT -->
+                                    <rect [ngClass]="{ 'shot_zone_active': shot_zone == 'rft2'}" class="zone" x="614" y="314"  width="190" height="209" (click)="setShotZone('rft2')"/>
+                
+                                    <!-- Central 3P -->
+                                    <path [ngClass]="{ 'shot_zone_active': shot_zone == 'c3'}" class="zone"  d="M420,745 L 420 961 L 822 961 L 822 740 Q 620 800 420 745" (click)="setShotZone('c3')"/>
+                
+                                    <!-- Central 2P -->
+                                    <path [ngClass]="{ 'shot_zone_active': shot_zone == 'cm2'}" class="zone"  d="M419,530 L 419 733 Q 620 793 813 730 L 813 530 L 419 530" (click)="setShotZone('cm2')"/>
+                 
+                                    <!-- Right Elbow 2P -->
+                                    <path [ngClass]="{ 'shot_zone_active': shot_zone == 'rme2'}" class="zone" d="M812,340 L 812 731 Q 1000 675 1103 517 L 1103 340 L 812 340" (click)="setShotZone('rme2')"/>
+                                    
+                                    <!-- Right 3P -->
+                                    <path [ngClass]="{ 'shot_zone_active': shot_zone == 're3'}" class="zone" d="M822,738 L 822 965 L 1223 965 L 1223 525 L 1110 528 Q 1000 690 822 738" (click)="setShotZone('re3')"/>
+                
+                                    <!-- Left 3P -->
+                                    <path [ngClass]="{ 'shot_zone_active': shot_zone == 'le3'}" class="zone" d="M5,515 L 5 965 L 419 965 L 419 745 Q 190 655 119 515 L 5 515" (click)="setShotZone('le3')"/>
+                
+                                    <!-- Left Elbow 2P -->
+                                    <path [ngClass]="{ 'shot_zone_active': shot_zone == 'lme2'}" class="zone" d="M128,340 L 128 517 Q 225 665 416 733 L 416 340 L 126 340" (click)="setShotZone('lme2')"/>
+                
+                                    
+                                </svg>
+                            </div>
+
+                            <!-- Buttons column -->
+                            <div class="d-flex flex-column col-2 h-50">
+                                <button type="button" class="btn btn-success text-center pt-5 pb-5" (click)="createShotPlay(true)">Acierto</button>
+                                <button type="button" class="btn btn-danger text-cennter pt-5 pb-5" (click)="createShotPlay(false)">Fallo</button>
+                            </div>
                             
-                            <!-- Right 3P -->
-                            <path class="zone" d="M822,738 L 822 965 L 1223 965 L 1223 525 L 1110 528 Q 1000 690 822 738" />
+                        </div>
+
+                        
         
-                            <!-- Left 3P -->
-                            <path class="zone" d="M5,515 L 5 965 L 419 965 L 419 745 Q 190 655 119 515 L 5 515"/>
-        
-                            <!-- Left Elbow 2P -->
-                            <path class="zone" d="M128,340 L 128 517 Q 225 665 416 733 L 416 340 L 126 340"/>
-        
-                            
-                        </svg>
-        
-                        <button type="button" class="btn btn-primary">Primary</button>
+                        
 
                     </div>
                 </div>

@@ -124,6 +124,10 @@ img{
     cursor: pointer;
 }
 
+.shot_zone_active{
+    fill: red;
+}
+
 #actions-column{
     border: solid;
     background-color: #27293D;
@@ -166,5 +170,3 @@ img{
 #actions-column p{
     color: white;
 }
-
-

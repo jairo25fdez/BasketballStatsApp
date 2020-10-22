@@ -22,122 +22,37 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PlayByPlayComponent implements OnInit {
 
-  /*
-  plays:any[]= [
-    {
-      quarter: 4,
-      time: "01:22",
-      player: "J. Fernández",
-      home_score: 40,
-      visitor_score: 42,
-      play_type: "Asistencia",
-      player_img: "https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png",
-      team_img: "https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png"
-    },
-    {
-      quarter: 4,
-      time: "01:22",
-      player: "J. Fernández",
-      home_score: 40,
-      visitor_score: 42,
-      play_type: "Asistencia",
-      player_img: "https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png",
-      team_img: "https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png"
-    },
-    {
-      quarter: 4,
-      time: "01:22",
-      player: "J. Fernández",
-      home_score: 40,
-      visitor_score: 42,
-      play_type: "Asistencia",
-      player_img: "https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png",
-      team_img: "https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png"
-    },
-    {
-      quarter: 4,
-      time: "01:22",
-      player: "J. Fernández",
-      home_score: 40,
-      visitor_score: 42,
-      play_type: "Asistencia",
-      player_img: "https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png",
-      team_img: "https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png"
-    },
-    {
-      quarter: 4,
-      time: "01:22",
-      player: "J. Fernández",
-      home_score: 40,
-      visitor_score: 42,
-      play_type: "Asistencia",
-      player_img: "https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png",
-      team_img: "https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png"
-    },
-    {
-      quarter: 4,
-      time: "01:22",
-      player: "J. Fernández",
-      home_score: 40,
-      visitor_score: 42,
-      play_type: "Asistencia",
-      player_img: "https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png",
-      team_img: "https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png"
-    },
-    {
-      quarter: 4,
-      time: "01:22",
-      player: "J. Fernández",
-      home_score: 40,
-      visitor_score: 42,
-      play_type: "Asistencia",
-      player_img: "https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png",
-      team_img: "https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png"
-    },
-    {
-      quarter: 4,
-      time: "01:22",
-      player: "J. Fernández",
-      home_score: 40,
-      visitor_score: 42,
-      play_type: "Asistencia",
-      player_img: "https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png",
-      team_img: "https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png"
-    },
-    {
-      quarter: 4,
-      time: "01:22",
-      player: "J. Fernández",
-      home_score: 40,
-      visitor_score: 42,
-      play_type: "Asistencia",
-      player_img: "https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/10112019/3704.png",
-      team_img: "https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png"
-    }
-  ]
-  */
-
  plays:PlayModel[] = [];
+ game_id = "";
 
   constructor(private playsService:PlaysService, private router:Router) { 
 
-
-    const game_id = router.url.split('/')[2].toString();  //Game ID
-
-    //Load the plays
-    this.playsService.getPlays("?game_id="+game_id).then( (plays:PlayModel[]) => {
-      this.plays = plays;
-
-      console.log("PLAYS: "+JSON.stringify(this.plays));
-
-    })
-    .catch( (err:HttpErrorResponse) => {
-
-    });
+    this.game_id = router.url.split('/')[2].toString();  //Game ID
+    
 
   }
 
   ngOnInit(): void {
+
+    //Load the plays
+    this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+      this.plays = plays;
+      console.log("1");
+    });
+    //Load the plays
+    this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+      this.plays = plays;
+      console.log("3");
+    });
+    //Load the plays
+    this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+      this.plays = plays;
+      console.log("3");
+    });
+
+    
+
   }
+
 
 }

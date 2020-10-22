@@ -51,6 +51,8 @@ export class MainPageComponent implements OnInit {
 
   player_active:number[] = [-1, -1];
 
+  shot_zone = "";
+
   //Plays
   plays:PlayModel[] = [];
 
@@ -142,6 +144,19 @@ export class MainPageComponent implements OnInit {
 
         }
 
+        //Initialize on court players timers
+        let player_cont = 0;
+        for(let player of this.oncourt_home_players){
+          this.home_oncourt_timers[player_cont] = [this.quarter, this.minutes, this.seconds];
+          player_cont++;
+        }
+
+        player_cont = 0;
+        for(let player of this.oncourt_visitor_players){
+          this.visitor_oncourt_timers[player_cont] = [this.quarter, this.minutes, this.seconds];
+          player_cont++;
+        }
+
 
       })
       .catch( (err:HttpErrorResponse) => {
@@ -164,7 +179,6 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
 
   }
 
@@ -964,6 +978,185 @@ export class MainPageComponent implements OnInit {
       }
 
     }
+
+  }
+
+  setShotZone(shot_zone){
+    this.shot_zone = shot_zone;
+  }
+
+  createShotPlay(shot_made){
+    
+    if( (this.player_active != [-1,-1]) && (this.shot_zone != "") ){
+      let play = new PlayModel();
+
+      //Get the team's info
+      if(this.player_active[0] == 0){
+
+        play.player = {
+          player_id: this.home_players[this.player_active[1]].player_id,
+          player_name: this.home_players[this.player_active[1]].player_name,
+          player_last_name: this.home_players[this.player_active[1]].player_lastName,
+          player_img: this.home_players[this.player_active[1]].player_img,
+        };
+        play.team = {
+          team_id: this.game.home_team.team_id,
+          team_img: this.game.home_team.club_img
+        }
+
+      }
+      else{
+        if(this.player_active[0] == 1){
+
+          play.player = {
+            player_id: this.visitor_players[this.player_active[1]].player_id,
+            player_name: this.visitor_players[this.player_active[1]].player_name,
+            player_last_name: this.visitor_players[this.player_active[1]].player_lastName,
+            player_img: this.visitor_players[this.player_active[1]].player_img,
+          };
+          play.team = {
+            team_id: this.game.visitor_team.team_id,
+            team_img: this.game.visitor_team.club_img
+          }
+
+        }
+      }
+
+      //Check the rest of the fields
+      play.game_id = this.game._id;
+      play.home_team_score = this.game.home_team_score;
+      play.visitor_team_score = this.game.visitor_team_score;
+      play.time = {
+        minute: this.minutes,
+        second: this.seconds
+      };
+      play.period = this.quarter;
+      play.type = "shot";
+      play.shot_type = "fg";
+      play.shot_position = this.shot_zone;
+
+      //Save the play in the array
+      if(this.plays.length == 0){
+        this.plays[0] = play;
+      }
+      else{
+        this.plays.push(play);
+      }
+
+
+      //If the player belongs to the home team
+      if(this.player_active[0] == 0){
+
+        //If the shot was a 3 points shot
+        if( this.shot_zone == "lc3" || this.shot_zone == "le3" || this.shot_zone == "c3" || this.shot_zone == "re3" || this.shot_zone == "rc3" ){
+          if(shot_made){
+            //Player stats
+            this.home_players[this.player_active[1]].shots_list[this.shot_zone].made++;
+            this.home_players[this.player_active[1]].t3_made++;
+            this.home_players[this.player_active[1]].points += 3;
+            //Team stats
+            this.home_team_stats.shots_list[this.shot_zone].made++;
+            this.home_team_stats.t3_made++;
+            this.home_team_stats.points += 3;
+
+            this.game.home_team_score += 3;
+          }
+          //Player stats
+          this.home_players[this.player_active[1]].shots_list[this.shot_zone].attempted++;
+          this.home_players[this.player_active[1]].t3_attempted++;
+          this.home_players[this.player_active[1]].t3_percentage = 100*(this.home_players[this.player_active[1]].t3_made / this.home_players[this.player_active[1]].t3_attempted);
+        
+          //Team stats
+          this.home_team_stats.shots_list[this.shot_zone].attempted++;
+          this.home_team_stats.t3_attempted++;
+          this.home_team_stats.t3_percentage = 100*(this.home_team_stats.t3_made / this.home_team_stats.t3_attempted);
+
+        }
+        //If the shot was a 2 points shot
+        else{
+          if(shot_made){
+            //Player stats
+            this.home_players[this.player_active[1]].shots_list[this.shot_zone].made++;
+            this.home_players[this.player_active[1]].t2_made++;
+            this.home_players[this.player_active[1]].points += 2;
+            //Team stats
+            this.home_team_stats.shots_list[this.shot_zone].made++;
+            this.home_team_stats.t2_made++;
+            this.home_team_stats.points += 2;
+
+            this.game.home_team_score += 2;
+          }
+          //Player stats
+          this.home_players[this.player_active[1]].shots_list[this.shot_zone].attempted++;
+          this.home_players[this.player_active[1]].t2_attempted++;
+          this.home_players[this.player_active[1]].t2_percentage = 100*(this.home_players[this.player_active[1]].t2_made / this.home_players[this.player_active[1]].t2_attempted);
+        
+          //Team stats
+          this.home_team_stats.shots_list[this.shot_zone].attempted++;
+          this.home_team_stats.t2_attempted++;
+          this.home_team_stats.t2_percentage = 100*(this.home_team_stats.t2_made / this.home_team_stats.t2_attempted);
+        }
+
+
+      }
+      //If the player belongs to the visitor team
+      else{
+
+        //If the shot was a 3 points shot
+        if( this.shot_zone == "lc3" || this.shot_zone == "le3" || this.shot_zone == "c3" || this.shot_zone == "re3" || this.shot_zone == "rc3" ){
+          if(shot_made){
+            //Player stats
+            this.visitor_players[this.player_active[1]].shots_list[this.shot_zone].made++;
+            this.visitor_players[this.player_active[1]].t3_made++;
+            this.visitor_players[this.player_active[1]].points += 3;
+            //Team stats
+            this.visitor_team_stats.shots_list[this.shot_zone].made++;
+            this.visitor_team_stats.t3_made++;
+            this.visitor_team_stats.points += 3;
+
+            this.game.visitor_team_score += 3;
+          }
+          //Player stats
+          this.visitor_players[this.player_active[1]].shots_list[this.shot_zone].attempted++;
+          this.visitor_players[this.player_active[1]].t3_attempted++;
+          this.visitor_players[this.player_active[1]].t3_percentage = 100*(this.visitor_players[this.player_active[1]].t3_made / this.visitor_players[this.player_active[1]].t3_attempted);
+          //Team stats
+          this.visitor_team_stats.shots_list[this.shot_zone].attempted++;
+          this.visitor_team_stats.t3_attempted++;
+          this.visitor_team_stats.t3_percentage = 100*(this.visitor_team_stats.t3_made / this.visitor_team_stats.t3_attempted);
+        
+        }
+        //If the shot was a 2 points shot
+        else{
+          if(shot_made){
+            //Player stats
+            this.visitor_players[this.player_active[1]].shots_list[this.shot_zone].made++;
+            this.visitor_players[this.player_active[1]].t2_made++;
+            this.visitor_players[this.player_active[1]].points += 2;
+            //Team stats
+            this.visitor_team_stats.shots_list[this.shot_zone].made++;
+            this.visitor_team_stats.t2_made++;
+            this.visitor_team_stats.points += 2;
+
+            this.game.visitor_team_score += 2;
+          }
+          //Player stats
+          this.visitor_players[this.player_active[1]].shots_list[this.shot_zone].attempted++;
+          this.visitor_players[this.player_active[1]].t2_attempted++;
+          this.visitor_players[this.player_active[1]].t2_percentage = 100*(this.visitor_players[this.player_active[1]].t2_made / this.visitor_players[this.player_active[1]].t2_attempted);
+          //Team stats
+          this.visitor_team_stats.shots_list[this.shot_zone].attempted++;
+          this.visitor_team_stats.t2_attempted++;
+          this.visitor_team_stats.t2_percentage = 100*(this.visitor_team_stats.t2_made / this.visitor_team_stats.t2_attempted);
+        }
+        
+
+
+      }
+
+    }
+
+    this.shot_zone = "";
 
   }
 
