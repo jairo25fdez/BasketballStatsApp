@@ -82,86 +82,400 @@ export class PlayByPlayComponent implements OnInit {
     this.player_stats_gameService.getPlayer_stats_games("?player_id="+this.plays[play_index].player.player_id+"&game_id="+this.game_id).then( (players_stats:Player_stats_gameModel[]) => {
       player_stats = players_stats[0];
 
-      //Todas las jugadas posteriores a esta deben ser actualizadas, así como el marcador actual, en caso de ser una canasta
-    if( this.plays[play_index].type == "shot" ){
-      //If they play that we want to delete if a made shot we need to update the plays that were created after it
-      if( (this.plays[play_index].shot_made == true) ){
+      if( this.plays[play_index].type == "shot" ){
+        //If they play that we want to delete if a made shot we need to update the plays that were created after it
+        if( (this.plays[play_index].shot_made == true) ){
 
-        //Check if the shot was a ft or fg and if it was a 2 points shot or 3 points shot
-        if( this.plays[play_index].shot_type == "ft" ){
-          shot_points = 1;
-        }
-        else{
-          if( this.plays[play_index].shot_position == "lc3" || this.plays[play_index].shot_position == "le3" || this.plays[play_index].shot_position == "c3" || this.plays[play_index].shot_position == "re3" || this.plays[play_index].shot_position == "rc3"){
-            shot_points = 3;
+          //Check if the shot was a ft or fg and if it was a 2 points shot or 3 points shot
+          if( this.plays[play_index].shot_type == "ft" ){
+            shot_points = 1;
           }
-
           else{
-            shot_points = 2;
+            if( this.plays[play_index].shot_position == "lc3" || this.plays[play_index].shot_position == "le3" || this.plays[play_index].shot_position == "c3" || this.plays[play_index].shot_position == "re3" || this.plays[play_index].shot_position == "rc3"){
+              shot_points = 3;
+            }
+
+            else{
+              shot_points = 2;
+            }
           }
-        }
 
-        if(this.plays[play_index].team.team_id == this.home_team_id){
-          team = 0;
+          if(this.plays[play_index].team.team_id == this.home_team_id){
+            team = 0;
 
-          this.game.home_team_score -= shot_points;
-          this.home_team_stats.points -= shot_points;
-          this.home_team_stats.shots_list[shot_position].made--;
-          this.home_team_stats.shots_list[shot_position].attempted--;
-        }
-        else{
-          team = 1;
+            //Game home team score
+            this.game.home_team_score -= shot_points;
+            //Home team stats
+            this.home_team_stats.points -= shot_points;
+            this.home_team_stats.shots_list[shot_position].made--;
+            this.home_team_stats.shots_list[shot_position].attempted--;
+            //Player stats
+            player_stats.points -= shot_points;
+            player_stats.shots_list[shot_position].made--;
+            player_stats.shots_list[shot_position].attempted--;
 
-          this.game.visitor_team_score -= shot_points;
-          this.visitor_team_stats.points -= shot_points;
-          this.visitor_team_stats.shots_list[shot_position].made--;
-          this.visitor_team_stats.shots_list[shot_position].attempted--;
-        }
+            if(shot_points == 1){
+              this.home_team_stats.t1_made--;
+              this.home_team_stats.t1_attempted--;
+              this.home_team_stats.t1_percentage = this.home_team_stats.t1_made / this.home_team_stats.t1_attempted;
 
-        //If the player's team is the home team
-        if(team == 0){
-          for(let cont = play_index-1; cont >= 0; cont--){
-            this.plays[cont].home_team_score -= shot_points;
-            this.playsService.updatePlay(this.plays[cont]).catch( (err:HttpErrorResponse) => {
-              Swal.fire({
-                title: 'Error al actualizar la jugada.',
-                icon: 'error'
+              player_stats.t1_made--;
+              player_stats.t1_attempted--;
+              player_stats.t1_percentage = player_stats.t1_made / player_stats.t1_attempted;
+            }
+            else{
+              if(shot_points == 2){
+                this.home_team_stats.t2_made--;
+                this.home_team_stats.t2_attempted--;
+                this.home_team_stats.t2_percentage = this.home_team_stats.t2_made / this.home_team_stats.t2_attempted;
+
+                player_stats.t2_made--;
+                player_stats.t2_attempted--;
+                player_stats.t2_percentage = player_stats.t2_made / player_stats.t2_attempted;
+              }
+              else{
+                this.home_team_stats.t3_made--;
+                this.home_team_stats.t3_attempted--;
+                this.home_team_stats.t3_percentage = this.home_team_stats.t3_made / this.home_team_stats.t3_attempted;
+
+                player_stats.t3_made--;
+                player_stats.t3_attempted--;
+                player_stats.t3_percentage = player_stats.t3_made / player_stats.t3_attempted;
+              }
+            }
+
+          }
+          else{
+            team = 1;
+
+            //Game visitor team score
+            this.game.visitor_team_score -= shot_points;
+            //visitor team stats
+            this.visitor_team_stats.points -= shot_points;
+            this.visitor_team_stats.shots_list[shot_position].made--;
+            this.visitor_team_stats.shots_list[shot_position].attempted--;
+            //Player stats
+            player_stats.points -= shot_points;
+            player_stats.shots_list[shot_position].made--;
+            player_stats.shots_list[shot_position].attempted--;
+
+            if(shot_points == 1){
+              this.visitor_team_stats.t1_made--;
+              this.visitor_team_stats.t1_attempted--;
+              this.visitor_team_stats.t1_percentage = this.visitor_team_stats.t1_made / this.visitor_team_stats.t1_attempted;
+
+              player_stats.t1_made--;
+              player_stats.t1_attempted--;
+              player_stats.t1_percentage = player_stats.t1_made / player_stats.t1_attempted;
+            }
+            else{
+              if(shot_points == 2){
+                this.visitor_team_stats.t2_made--;
+                this.visitor_team_stats.t2_attempted--;
+                this.visitor_team_stats.t2_percentage = this.visitor_team_stats.t2_made / this.visitor_team_stats.t2_attempted;
+
+                player_stats.t2_made--;
+                player_stats.t2_attempted--;
+                player_stats.t2_percentage = player_stats.t2_made / player_stats.t2_attempted;
+              }
+              else{
+                this.visitor_team_stats.t3_made--;
+                this.visitor_team_stats.t3_attempted--;
+                this.visitor_team_stats.t3_percentage = this.visitor_team_stats.t3_made / this.visitor_team_stats.t3_attempted;
+
+                player_stats.t3_made--;
+                player_stats.t3_attempted--;
+                player_stats.t3_percentage = player_stats.t3_made / player_stats.t3_attempted;
+              }
+            }
+
+          }
+
+          //If the player's team is the home team
+          if(team == 0){
+            for(let cont = play_index-1; cont >= 0; cont--){
+              this.plays[cont].home_team_score -= shot_points;
+              this.playsService.updatePlay(this.plays[cont]).catch( (err:HttpErrorResponse) => {
+                Swal.fire({
+                  title: 'Error al actualizar la jugada.',
+                  icon: 'error'
+                });
               });
-            });
+            }
           }
-        }
-        //If the player's team is the visitor team
-        else{
-          for(let cont = play_index-1; cont >= 0; cont--){
-            this.plays[cont].visitor_team_score -= shot_points;
-            this.playsService.updatePlay(this.plays[cont]).catch( (err:HttpErrorResponse) => {
-              Swal.fire({
-                title: 'Error al actualizar la jugada.',
-                icon: 'error'
+          //If the player's team is the visitor team
+          else{
+            for(let cont = play_index-1; cont >= 0; cont--){
+              this.plays[cont].visitor_team_score -= shot_points;
+              this.playsService.updatePlay(this.plays[cont]).catch( (err:HttpErrorResponse) => {
+                Swal.fire({
+                  title: 'Error al actualizar la jugada.',
+                  icon: 'error'
+                });
               });
-            });
+            }
           }
-        }
 
-        
+          
+
+        }
+        //If the shot was missed
+        else{
+
+          if(this.plays[play_index].team.team_id == this.home_team_id){
+            team = 0;
+
+            //Home team stats
+            this.home_team_stats.shots_list[shot_position].made--;
+            this.home_team_stats.shots_list[shot_position].attempted--;
+            //Player stats
+            player_stats.shots_list[shot_position].made--;
+            player_stats.shots_list[shot_position].attempted--;
+
+            if(shot_points == 1){
+              this.home_team_stats.t1_attempted--;
+              this.home_team_stats.t1_percentage = this.home_team_stats.t1_made / this.home_team_stats.t1_attempted;
+
+              player_stats.t1_attempted--;
+              player_stats.t1_percentage = player_stats.t1_made / player_stats.t1_attempted;
+            }
+            else{
+              if(shot_points == 2){
+                this.home_team_stats.t2_attempted--;
+                this.home_team_stats.t2_percentage = this.home_team_stats.t2_made / this.home_team_stats.t2_attempted;
+
+                player_stats.t2_attempted--;
+                player_stats.t2_percentage = player_stats.t2_made / player_stats.t2_attempted;
+              }
+              else{
+                this.home_team_stats.t3_attempted--;
+                this.home_team_stats.t3_percentage = this.home_team_stats.t3_made / this.home_team_stats.t3_attempted;
+
+                player_stats.t3_attempted--;
+                player_stats.t3_percentage = player_stats.t3_made / player_stats.t3_attempted;
+              }
+            }
+
+          }
+          else{
+            team = 1;
+
+            //visitor team stats
+            this.visitor_team_stats.shots_list[shot_position].attempted--;
+            //Player stats
+            player_stats.shots_list[shot_position].attempted--;
+
+            if(shot_points == 1){
+              this.visitor_team_stats.t1_attempted--;
+              this.visitor_team_stats.t1_percentage = this.visitor_team_stats.t1_made / this.visitor_team_stats.t1_attempted;
+
+              player_stats.t1_attempted--;
+              player_stats.t1_percentage = player_stats.t1_made / player_stats.t1_attempted;
+            }
+            else{
+              if(shot_points == 2){
+                this.visitor_team_stats.t2_attempted--;
+                this.visitor_team_stats.t2_percentage = this.visitor_team_stats.t2_made / this.visitor_team_stats.t2_attempted;
+
+                player_stats.t2_attempted--;
+                player_stats.t2_percentage = player_stats.t2_made / player_stats.t2_attempted;
+              }
+              else{
+                this.visitor_team_stats.t3_attempted--;
+                this.visitor_team_stats.t3_percentage = this.visitor_team_stats.t3_made / this.visitor_team_stats.t3_attempted;
+
+                player_stats.t3_attempted--;
+                player_stats.t3_percentage = player_stats.t3_made / player_stats.t3_attempted;
+              }
+            }
+
+          }
+
+        }
 
       }
+      else{
+        //If the play was a rebound
+        if(this.plays[play_index].type == "rebound"){
 
-    }
+          player_stats.total_rebounds--;
 
-    //Delete the play in the server and update the actual plays
-    this.playsService.deletePlay(play._id).then( () => {
-      this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
-        this.plays = plays;
-      });
-    })
-    .catch( (err:HttpErrorResponse) => {
+          //If home team
+          if(this.plays[play_index].team.team_id == this.home_team_id){
+
+            this.home_team_stats.total_rebounds--;
+
+            if(this.plays[play_index].rebound_type == "offensive"){
+              this.home_team_stats.offensive_rebounds--;
+              player_stats.offensive_rebounds--;
+            }
+            else{
+              this.home_team_stats.defensive_rebounds--;
+              player_stats.defensive_rebounds--;
+            }
+
+          }
+          //If visitor team
+          else{
+            this.visitor_team_stats.total_rebounds--;
+
+            if(this.plays[play_index].rebound_type == "offensive"){
+              this.visitor_team_stats.offensive_rebounds--;
+              player_stats.offensive_rebounds--;
+            }
+            else{
+              this.visitor_team_stats.defensive_rebounds--;
+              player_stats.defensive_rebounds--;
+            }
+
+          }
+
+        }
+        else{
+          //If the play was an assist
+          if(this.plays[play_index].type == "assist"){
+            player_stats.assists--;
+
+            if(this.plays[play_index].team.team_id == this.home_team_id){
+              this.home_team_stats.assists--;
+            }
+            else{
+              this.visitor_team_stats.assists--;
+            }
+
+          }
+          else{
+            //If the play was a steal
+            if(this.plays[play_index].type == "steal"){
+              player_stats.steals--;
+
+              if(this.plays[play_index].team.team_id == this.home_team_id){
+                this.home_team_stats.steals--;
+              }
+              else{
+                this.visitor_team_stats.steals--;
+              }
+
+            }
+            else{
+              if(this.plays[play_index].type == "lost ball"){
+                player_stats.turnovers--;
+  
+                if(this.plays[play_index].team.team_id == this.home_team_id){
+                  this.home_team_stats.turnovers--;
+                }
+                else{
+                  this.visitor_team_stats.turnovers--;
+                }
+  
+              }
+              else{
+                //If the play was a block
+                if(this.plays[play_index].type == "block"){
+                  
+                  if(this.plays[play_index].block_type == "made"){
+                    player_stats.blocks_made--;
+
+                    if(this.plays[play_index].team.team_id == this.home_team_id){
+                      this.home_team_stats.blocks_made--;
+                    }
+                    else{
+                      this.visitor_team_stats.blocks_made--;
+                    }
+
+                  }
+                  else{
+                    player_stats.blocks_received--;
+
+                    if(this.plays[play_index].team.team_id == this.home_team_id){
+                      this.home_team_stats.blocks_received--;
+                    }
+                    else{
+                      this.visitor_team_stats.blocks_received--;
+                    }
+                    
+                  }
+    
+                  
+    
+                }
+                else{
+                  //If the play was a personal foul
+                  if(this.plays[play_index].type == "personal foul"){
+                    
+                    if(this.plays[play_index].block_type == "made"){
+                      player_stats.fouls_made--;
+
+                      if(this.plays[play_index].team.team_id == this.home_team_id){
+                        this.home_team_stats.fouls_made--;
+                      }
+                      else{
+                        this.visitor_team_stats.fouls_made--;
+                      }
+
+                    }
+                    else{
+                      player_stats.fouls_received--;
+
+                      if(this.plays[play_index].team.team_id == this.home_team_id){
+                        this.home_team_stats.fouls_received--;
+                      }
+                      else{
+                        this.visitor_team_stats.fouls_received--;
+                      }
+                      
+                    }
+      
+                    
+      
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      //Delete the play in the server and update the actual plays
+      this.playsService.deletePlay(play._id).then( () => {
+        this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+          this.plays = plays;
+        });
+      })
+      .catch( (err:HttpErrorResponse) => {
       Swal.fire({
         title: 'Error al borrar la jugada.',
         icon: 'error'
       });
     });
 
+      this.player_stats_gameService.updatePlayer_stats_game(player_stats).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al actualizar las estadísticas del jugador.',
+          icon: 'error'
+        });
+      });
+
+      this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al actualizar las estadísticas del equipo local.',
+          icon: 'error'
+        });
+      });
+
+      this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al actualizar las estadísticas del equipo visitante.',
+          icon: 'error'
+        });
+      });
+
+      this.gameService.updateGame(this.game).catch( (err:HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error al actualizar el partido.',
+          icon: 'error'
+        });
+      });
 
     });
 
