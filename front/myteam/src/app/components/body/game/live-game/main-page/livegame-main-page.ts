@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 
 //Models
 import { LeagueModel } from 'src/app/models/league.model';
-import { TeamModel } from 'src/app/models/team.model';
 import { GameModel } from '../../../../../models/game.model';
 import { PlayModel } from '../../../../../models/play.model';
 import { Player_stats_gameModel } from '../../../../../models/player_stats_game.model';
@@ -58,6 +57,7 @@ export class MainPageComponent implements OnInit {
 
   //Scoreboard
   minutes_per_quarter = 0;
+  number_of_quarters = 0;
   quarter = 1;
   minutes = -1;
   seconds = -1;
@@ -166,6 +166,10 @@ export class MainPageComponent implements OnInit {
         });
       });
       
+      this.leaguesService.getLeague(this.game.league.league_id).then( (league:LeagueModel) => {
+        this.number_of_quarters = league.quarters_num;
+      });
+
 
     })
     .catch( (err:HttpErrorResponse) => {
@@ -1173,6 +1177,62 @@ export class MainPageComponent implements OnInit {
     }
 
     this.shot_zone = "";
+
+  }
+
+  scoreboardMinutes(plus){
+
+    if(plus){
+
+      if( (this.minutes+1) <= this.minutes_per_quarter){
+        this.minutes++;
+      }
+
+    }
+    else{
+      if( (this.minutes-1) >= 0 ){
+        this.minutes--;
+      }
+    }
+
+    
+
+  }
+
+  scoreboardSeconds(plus){
+
+    if(plus){
+
+      if( (this.seconds+1) <= 59){
+        this.seconds++;
+      }
+
+    }
+    else{
+      if( (this.seconds-1) >= 0 ){
+        this.seconds--;
+      }
+    }
+
+    
+
+  }
+
+  scoreboardQuarter(plus){
+
+    if(plus){
+
+      //if( (this.quarter+1) <= this.number_of_quarters){
+      this.quarter++;
+
+    }
+    else{
+      if( (this.quarter-1) >= 1 ){
+        this.quarter--;
+      }
+    }
+
+    
 
   }
 

@@ -27,10 +27,10 @@
                     <div class="time-div d-flex flex-row no-gutters">
 
                         <div class="minutes-buttons d-flex flex-column col">
-                            <button type="button" class="btn btn-warning">+</button>
-                            <button type="button" class="btn btn-danger">-</button>
+                            <button type="button" class="btn btn-warning" (click)="scoreboardMinutes(true)">+</button>
+                            <button type="button" class="btn btn-danger" (click)="scoreboardMinutes(false)">-</button>
 
-                            <button type="button" class="btn btn-warning mt-4">+</button>
+                            <button type="button" class="btn btn-warning mt-4" (click)="scoreboardQuarter(true)">+</button>
                         </div>
 
                         
@@ -47,10 +47,10 @@
                         </div>
 
                         <div class="seconds-buttons d-flex flex-column col">
-                            <button type="button" class="btn btn-warning">+</button>
-                            <button type="button" class="btn btn-danger">-</button>
+                            <button type="button" class="btn btn-warning" (click)="scoreboardSeconds(true)">+</button>
+                            <button type="button" class="btn btn-danger" (click)="scoreboardSeconds(false)">-</button>
 
-                            <button type="button" class="btn btn-warning mt-4">-</button>
+                            <button type="button" class="btn btn-warning mt-4" (click)="scoreboardQuarter(false)">-</button>
                         </div>
 
                     </div>
