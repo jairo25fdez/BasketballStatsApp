@@ -43,6 +43,7 @@ export class PlaysService{
     }
 
     deletePlay(play_id:string){
+        console.log("LLEGA EL ID: "+play_id);
         return this.http.delete(this.playsUrl+"/"+play_id, {responseType: 'text'}).toPromise();
     }
 
