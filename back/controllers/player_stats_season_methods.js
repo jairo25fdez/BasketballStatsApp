@@ -60,6 +60,7 @@ module.exports = function (app){
 
             player_id: player_stats_data.player_id,
             team_id: player_stats_data.team_id,
+            league_id: player_stats_data.league_id,
             season: player_stats_data.season,
             player_name: player_stats_data.player_name,
             player_lastName: player_stats_data.player_lastName,
@@ -153,6 +154,7 @@ module.exports = function (app){
             else{
                 player_stats_data.player_id = updatedData.player_id,
                 player_stats_data.team_id = updatedData.team_id,
+                player_stats_data.league_id = updatedData.league_id,
                 player_stats_data.season = updatedData.season,
                 player_stats_data.player_name = updatedData.player_name,
                 player_stats_data.player_lastName = updatedData.player_lastName,

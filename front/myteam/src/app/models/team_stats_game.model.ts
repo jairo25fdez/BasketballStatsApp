@@ -3,6 +3,7 @@ export class Team_stats_gameModel{
     team_id: string;
     team_name: string;
     game_id: string;
+    league_id: string;
     season: number;
     time_played: {
         minutes: number;

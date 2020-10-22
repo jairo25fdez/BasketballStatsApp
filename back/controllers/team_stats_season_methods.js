@@ -59,6 +59,7 @@ module.exports = function (app){
         let team_stats = new Team_stats_season({
 
             team_id: team_stats_data.team_id,
+            league_id: team_stats_data.league_id,
             season: team_stats_data.season,
             team_name: team_stats_data.team_name,
             time_played: team_stats_data.time_played,
@@ -151,6 +152,7 @@ module.exports = function (app){
             }
             else{
                 team_stats_data.team_id = updatedData.team_id,
+                team_stats_data.league_id = updatedData.league_id,
                 team_stats_data.season = updatedData.season,
                 team_stats_data.team_name = updatedData.team_name,
                 team_stats_data.time_played = updatedData.time_played,

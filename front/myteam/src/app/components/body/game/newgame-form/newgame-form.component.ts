@@ -463,6 +463,7 @@ export class NewgameFormComponent implements OnInit {
               team_id: this.game.home_team.team_id,
               team_name: this.game.home_team.club_name,
               game_id: games[0]._id,
+              league_id: this.game.league.league_id,
               season: this.game.season,
               time_played: {
                   minutes: 0,
@@ -524,6 +525,7 @@ export class NewgameFormComponent implements OnInit {
               team_id: this.game.visitor_team.team_id,
               team_name: this.game.visitor_team.club_name,
               game_id: games[0]._id,
+              league_id: this.game.league.league_id,
               season: this.game.season,
               time_played: {
                   minutes: 0,
@@ -584,6 +586,7 @@ export class NewgameFormComponent implements OnInit {
 
                 home_team_stats_season = {
                   team_id: this.game.home_team.team_id,
+                  league_id: this.game.league.league_id,
                   season: this.game.season,
                   team_name: this.game.home_team.club_name,
                   time_played: {
@@ -707,6 +710,7 @@ export class NewgameFormComponent implements OnInit {
 
                 visitor_team_stats_season = {
                   team_id: this.game.home_team.team_id,
+                  league_id: this.game.league.league_id,
                   season: this.game.season,
                   team_name: this.game.home_team.club_name,
                   time_played: {
@@ -835,6 +839,8 @@ export class NewgameFormComponent implements OnInit {
               let player_stats_game:Player_stats_gameModel = {
                 player_id: this.home_team_players[player_index].player_id,
                 game_id: games[0]._id,
+                league_id: this.game.league.league_id,
+                season: this.game.season,
                 team_id: this.game.home_team.team_id,
                 starter: player_starter,
                 player_name: this.home_team_players[player_index].player_name,
@@ -902,6 +908,7 @@ export class NewgameFormComponent implements OnInit {
                   player_stats_season = {
                     player_id: player_stats_game.player_id,
                     team_id: player_stats_game.team_id,
+                    league_id: this.game.league.league_id,
                     season: this.game.season,
                     player_name: player_stats_game.player_name,
                     player_lastName: player_stats_game.player_lastName,
@@ -1033,6 +1040,8 @@ export class NewgameFormComponent implements OnInit {
               let player_stats_game:Player_stats_gameModel = {
                 player_id: this.visitor_team_players[player_index].player_id,
                 game_id: games[0]._id,
+                league_id: this.game.league.league_id,
+                season: this.game.season,
                 team_id: this.game.visitor_team.team_id,
                 starter: player_starter,
                 player_name: this.visitor_team_players[player_index].player_name,
@@ -1100,6 +1109,7 @@ export class NewgameFormComponent implements OnInit {
                   player_stats_season = {
                     player_id: player_stats_game.player_id,
                     team_id: player_stats_game.team_id,
+                    league_id: this.game.league.league_id,
                     season: this.game.season,
                     player_name: player_stats_game.player_name,
                     player_lastName: player_stats_game.player_lastName,

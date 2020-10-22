@@ -2,6 +2,7 @@ export class Player_stats_seasonModel{
     _id?: string;
     player_id: string;
     team_id: string;
+    league_id: string;
     season: number;
     player_name: string;
     player_lastName: string;

@@ -1,6 +1,7 @@
 export class Team_stats_seasonModel{
     _id?: string;
     team_id: string;
+    league_id: string;
     season: number;
     team_name: string;
     time_played: {

@@ -28,6 +28,8 @@ var shots_listSchema = new Schema({
 var player_stats_gameSchema = new Schema({
     player_id: {type: Schema.Types.ObjectId, ref: 'Player', required: true},
     game_id: {type: Schema.Types.ObjectId, ref: 'Game', required: true},
+    league_id: {type: Schema.Types.ObjectId, ref: 'League', required: true},
+    season: Number,
     team_id: {type: Schema.Types.ObjectId, ref: 'Team', required: true},
     starter: {type: Boolean},
     player_name: String,

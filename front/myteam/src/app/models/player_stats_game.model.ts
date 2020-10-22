@@ -2,6 +2,8 @@ export class Player_stats_gameModel{
     _id?: string;
     player_id: string;
     game_id: string;
+    league_id: string;
+    season: number;
     team_id: string;
     starter: boolean;
     player_name: string;
