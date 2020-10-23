@@ -87,7 +87,7 @@
     </div>
 
     <!-- 2nd ROW -->
-    <div class="row no-gutters mt-2">
+    <div class="row no-gutters mt-2 h-100">
 
             <!-- LINEUPS COLUMN -->
             <div class="d-flex flex-column col mr-2" id="lineups-column">
@@ -108,7 +108,7 @@
                     </div>
                         
                     <div class="d-flex flex-column col-1">
-                        <button type="button" class="h-100 p-0 btn btn-warning">
+                        <button type="button" class="h-100 p-0 btn btn-warning" (click)="substitution()">
                             <img class="img-fluid substitution-img" src="https://image.flaticon.com/icons/png/512/1666/1666005.png">
                         </button>
                     </div>
@@ -133,7 +133,7 @@
                     </div>
 
                     <div class="d-flex flex-column col-1">
-                        <button type="button" class="h-100 p-0 btn btn-warning">
+                        <button type="button" class="h-100 p-0 btn btn-warning" (click)="substitution()">
                             <img class="img-fluid substitution-img" src="https://image.flaticon.com/icons/png/512/1666/1666005.png">
                         </button>
                     </div>
@@ -145,46 +145,42 @@
 
 
             <!-- ACTIONS COLUMN-->
-            <div class="d-flex flex-column col ml-2" id="actions-column">
+            <div class="d-flex flex-column col ml-2 " id="actions-column">
 
                 <!-- PILLS -->
                 <nav class="nav nav-pills nav-justified ">
-                    <a class="nav-item nav-link active " data-toggle="pill" href="#actions">Registrar Jugada</a>
-                    <a class="nav-item nav-link " data-toggle="pill" href="#shotchart">Shotchart</a>
+                    <a class="nav-item nav-link active w-25" data-toggle="pill" href="#actions">Registrar Jugada</a>
+                    <a class="nav-item nav-link w-25" data-toggle="pill" href="#shotchart">Shotchart</a>
+                    <a class="nav-item nav-link w-25" data-toggle="pill" href="#local_bench">Banquillo Local</a>
+                    <a class="nav-item nav-link w-25" data-toggle="pill" href="#visitor_bench">Banquillo Visitante</a>
                 </nav>
 
                 <div class="tab-content h-100">
+                    <!-- Actions -->
                     <div class="tab-pane fade show active h-100" id="actions" role="tabpanel" >
 
                         <div class="row align-items-center no-gutters h-100">
 
                             <!-- 1st column -->
-                            <div class="d-flex  flex-column col p-2 ">
+                            <div class="d-flex h-100 flex-column col p-2 ">
 
                                 <!-- Shot actions -->
-                                <div class="shot-actions  p-2 m-1">
-                                    <p class="text-center h4">Tiros</p>
-                                    <div class="row no-gutters justify-content-center pt-2 pb-2">
+                                <div class="shot-actions row no-gutters h-100 p-2 m-1">
+                                    <div class="text-center row no-gutters w-100 mb-3">
+                                        <p class="text-center h4">Tiros</p>
+                                    </div>
+                                    <div class="row no-gutters w-100 h-50">                                      
                                         <button type="button" class="btn btn-success w-50" (click)="createFTPlay(true)">TL Anotado</button>
                                         <button type="button" class="btn btn-danger w-50" (click)="createFTPlay(false)">TL Fallado</button>
                                     </div>
-                                    <!--
-                                    <div class="row no-gutters justify-content-center pt-2 pb-2">
-                                        <button type="button" class="btn btn-success w-50">T2 Anotado</button>
-                                        <button type="button" class="btn btn-danger w-50">T2 Fallado</button>
-                                    </div>
-                                    <div class="row no-gutters justify-content-center pt-2 pb-2">
-                                        <button type="button" class="btn btn-success w-50">T3 Anotado</button>
-                                        <button type="button" class="btn btn-danger w-50">T3 Fallado</button>
-                                    </div>
-                                    -->
-                                    
                                 </div>
 
                                 <!-- Rebound actions -->
-                                <div class="rebound-actions  p-2 m-1">
-                                    <p class="text-center h4">Rebotes</p>
-                                    <div class="row no-gutters justify-content-center pt-2 pb-2">
+                                <div class="rebound-actions no-gutters h-100 p-2 m-1">
+                                    <div class="text-center row no-gutters w-100 mb-3">
+                                        <p class="text-center h4">Rebotes</p>
+                                    </div>
+                                    <div class="row no-gutters w-100 h-50"> 
                                         <button type="button" class="btn btn-success w-50" (click)="createReboundPlay('defensive')">Rebote Defensivo</button>
                                         <button type="button" class="btn btn-danger w-50" (click)="createReboundPlay('offensive')">Rebote Ofensivo</button>
                                     </div>
@@ -192,9 +188,12 @@
                                 </div>
 
                                 <!-- Block actions -->
-                                <div class="blocks-actions p-2 m-1">
-                                    <p class="text-center h4">Tapones</p>
-                                    <div class="row no-gutters justify-content-center pt-2 pb-2">
+                                <div class="blocks-actions h-100 p-2 m-1">
+                                    <div class="text-center row no-gutters w-100 mb-3">
+                                        <p class="text-center h4">Tapones</p>
+                                    </div>
+                                    
+                                    <div class="row no-gutters w-100 h-50">
                                         <button type="button" class="btn btn-success w-50" (click)="createBlockPlay('made')">Tapón realizado</button>
                                         <button type="button" class="btn btn-danger w-50" (click)="createBlockPlay('received')">Tapón recibido</button>
                                     </div>
@@ -203,29 +202,34 @@
                             </div>
 
                             <!-- 2nd Column-->
-                            <div class="d-flex flex-column col p-2">
+                            <div class="d-flex h-100 flex-column col p-2">
                                 <!-- Assist actions -->
-                                <div class="assist-actions p-2 m-1">
-                                    <p class="text-center h4">Asistencias</p>
-                                    <div class="row no-gutters justify-content-center pt-2 pb-2">
-                                        <button type="button" class="btn btn-success w-50" (click)="createAssistPlay()">Asistencia</button>
+                                <div class="assist-actions h-100 p-2 m-1">
+                                    <div class="text-center row no-gutters w-100 mb-3">
+                                        <p class="text-center h4">Asistencias</p>
+                                    </div>
+                                    <div class="row no-gutters w-100 h-50">
+                                        <button type="button" class="btn btn-success w-100" (click)="createAssistPlay()">Asistencia</button>
                                     </div>
                                     
                                 </div>
                                 <!-- Steal actions -->
-                                <div class="steal-actions p-2 m-1">
-                                    <p class="text-center h4">Pérdidas</p>
-                                    <div class="row no-gutters justify-content-center pt-2 pb-2">
+                                <div class="steal-actions h-100 p-2 m-1">
+                                    <div class="text-center row no-gutters w-100 mb-3">
+                                        <p class="text-center h4">Pérdidas</p>
+                                    </div>
+                                    <div class="row no-gutters w-100 h-50">
                                         <button type="button" class="btn btn-success w-50" (click)="createStealPlay()">Robo</button>
                                         <button type="button" class="btn btn-danger w-50" (click)="createTurnoverPlay()">Pérdida</button>
                                     </div>
                                     
                                 </div>
 
-                                <div class="fouls-actions p-2 m-1">
-                                    
-                                    <p class="text-center h4">Faltas personales</p>
-                                    <div class="row no-gutters justify-content-center pt-2 pb-2">
+                                <div class="fouls-actions h-100 p-2 m-1">
+                                    <div class="text-center row no-gutters w-100 mb-3">
+                                        <p class="text-center h4">Faltas personales</p>
+                                    </div>
+                                    <div class="row no-gutters w-100 h-50 pt-2 pb-2">
                                         <button type="button" class="btn btn-success w-50" (click)="createPersonalFoulPlay('received')">Falta recibida</button>
                                         <button type="button" class="btn btn-danger w-50" (click)="createPersonalFoulPlay('made')">Falta realizada</button>
                                     </div>
@@ -299,6 +303,26 @@
         
                         
 
+                    </div>
+                    <!-- Home bench -->
+                    <div class="tab-pane fade addScroll overflow-auto text-center pt-3" id="local_bench" role="tabpanel">     
+                        <div *ngFor="let player_index of bench_home_players; index as i;" class="bench_player_info w-50 d-inline-flex" [ngClass]="{ 'bench_player_info_active': player_bench[0] == 0 && player_bench[1] == bench_home_players[i]}" (click)="setBenchPlayer(0, bench_home_players[i]);">
+                            <img  class="img-fluid w-50" src={{home_players[player_index].player_img}}>
+                            <div class="w-50 my-auto">
+                                <p>{{home_players[player_index].player_number}}. {{home_players[player_index].player_name}}</p>
+                                <p>{{home_players[player_index].player_lastName}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Visitor bench -->
+                    <div class="tab-pane fade addScroll overflow-auto text-center pt-3" id="visitor_bench" role="tabpanel">     
+                        <div *ngFor="let player_index of bench_visitor_players; index as i;" class="bench_player_info w-50 d-inline-flex" [ngClass]="{ 'bench_player_info_active': player_bench[0] == 1 && player_bench[1] == bench_visitor_players[i]}" (click)="setBenchPlayer(1, bench_visitor_players[i]);">
+                            <img  class="img-fluid w-50" src={{visitor_players[player_index].player_img}}>
+                            <div class="w-50 my-auto">
+                                <p>{{visitor_players[player_index].player_number}}. {{visitor_players[player_index].player_name}}</p>
+                                <p>{{visitor_players[player_index].player_lastName}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

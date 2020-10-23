@@ -100,6 +100,8 @@ img{
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
+    /*New*/
+    background-color: #E69C1C;
 }
 
 /* SHOTCHART */
@@ -169,4 +171,28 @@ img{
 
 #actions-column p{
     color: white;
+}
+
+#local_bench, #visitor_bench{
+    height: 53vh;
+}
+
+.bench_player_info{
+    border: solid;
+    border-color: white;
+    border-width: 2px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: 0 0 10px black;
+    box-shadow: 0 0 15px black;
+}
+
+.bench_player_info:hover{
+    border-color: #E69C1C;
+}
+
+.bench_player_info_active{
+    background-color: #E69C1C;
+    border-color: #E69C1C;
 }

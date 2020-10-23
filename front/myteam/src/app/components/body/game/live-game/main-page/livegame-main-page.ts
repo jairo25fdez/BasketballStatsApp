@@ -49,6 +49,7 @@ export class MainPageComponent implements OnInit {
   visitor_team_stats:Team_stats_gameModel;
 
   player_active:number[] = [-1, -1];
+  player_bench:number[] = [-1, -1];
 
   shot_zone = "";
 
@@ -117,6 +118,7 @@ export class MainPageComponent implements OnInit {
             this.home_players.push(player);
             
             if(player.starter){
+              console.log("TITULAR: "+player.player_name);
               this.oncourt_home_players.push(home_players_cont);
             }
             else{
@@ -198,12 +200,20 @@ export class MainPageComponent implements OnInit {
       this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player_index]);
     }
 
+    for(let player_index of this.bench_home_players){
+      this.player_stats_gameService.updatePlayer_stats_game(this.home_players[player_index]);
+    }
+
     timer_cont = 0;
     for(let player_index of this.oncourt_visitor_players){
 
       //Update the time played for every player
       this.calculateTime(1, player_index, this.visitor_oncourt_timers[timer_cont]);
 
+      this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player_index]);
+    }
+
+    for(let player_index of this.bench_visitor_players){
       this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player_index]);
     }
 
@@ -1230,6 +1240,52 @@ export class MainPageComponent implements OnInit {
       if( (this.quarter-1) >= 1 ){
         this.quarter--;
       }
+    }
+
+    
+
+  }
+
+  setBenchPlayer(team_index, player_index){
+    this.player_bench = [team_index, player_index];
+  }
+
+  substitution(){
+
+    if( (this.player_active != [-1, -1] && this.bench_home_players != [-1,-1]) || (this.player_active != [-1, -1] && this.bench_visitor_players != [-1,-1]) ){
+
+      if(this.player_active[0] == this.player_bench[0]){
+        let active_player_index;
+        let bench_player_index;
+  
+        if(this.player_active[0] == 0){
+          
+          active_player_index = this.oncourt_home_players.indexOf(this.player_active[1]);
+          bench_player_index = this.bench_home_players.indexOf(this.player_bench[1]);
+  
+          this.oncourt_home_players[active_player_index] = this.player_bench[1];
+          this.bench_home_players[bench_player_index] = this.player_active[1];
+
+          this.home_players[this.bench_home_players[bench_player_index]].starter = false;
+          this.home_players[this.oncourt_home_players[active_player_index]].starter = true;
+
+        }
+        else{
+          active_player_index = this.oncourt_visitor_players.indexOf(this.player_active[1]);
+          bench_player_index = this.bench_visitor_players.indexOf(this.player_bench[1]);
+  
+          this.oncourt_visitor_players[active_player_index] = this.player_bench[1];
+          this.bench_visitor_players[bench_player_index] = this.player_active[1];
+
+          this.visitor_players[this.bench_visitor_players[bench_player_index]].starter = false;
+          this.visitor_players[this.oncourt_visitor_players[active_player_index]].starter = true;
+        }
+  
+        this.player_bench = [-1,-1];
+        this.player_active = [-1,-1];
+  
+      }
+
     }
 
     
