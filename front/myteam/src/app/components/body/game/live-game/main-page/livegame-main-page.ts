@@ -17,6 +17,7 @@ import { PlaysService } from 'src/app/services/plays.service';
 import { Player_stats_gamesService } from 'src/app/services/player_stats_game.service';
 import { Player_stats_seasonService } from 'src/app/services/player_stats_season.service';
 import { Team_stats_gameService } from 'src/app/services/team_stats_game.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -118,7 +119,6 @@ export class MainPageComponent implements OnInit {
             this.home_players.push(player);
             
             if(player.starter){
-              console.log("TITULAR: "+player.player_name);
               this.oncourt_home_players.push(home_players_cont);
             }
             else{
@@ -1262,6 +1262,9 @@ export class MainPageComponent implements OnInit {
           
           active_player_index = this.oncourt_home_players.indexOf(this.player_active[1]);
           bench_player_index = this.bench_home_players.indexOf(this.player_bench[1]);
+
+          this.calculateTime(0, this.player_active[1], this.home_oncourt_timers[active_player_index]);
+          this.home_oncourt_timers[active_player_index] = [this.quarter, this.minutes, this.seconds];
   
           this.oncourt_home_players[active_player_index] = this.player_bench[1];
           this.bench_home_players[bench_player_index] = this.player_active[1];
@@ -1273,6 +1276,9 @@ export class MainPageComponent implements OnInit {
         else{
           active_player_index = this.oncourt_visitor_players.indexOf(this.player_active[1]);
           bench_player_index = this.bench_visitor_players.indexOf(this.player_bench[1]);
+
+          this.calculateTime(1, this.player_active[1], this.visitor_oncourt_timers[active_player_index]);
+          this.visitor_oncourt_timers[active_player_index] = [this.quarter, this.minutes, this.seconds];
   
           this.oncourt_visitor_players[active_player_index] = this.player_bench[1];
           this.bench_visitor_players[bench_player_index] = this.player_active[1];
