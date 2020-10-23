@@ -191,8 +191,11 @@ export class MainPageComponent implements OnInit {
 
   ngOnDestroy(): void{
 
-    
-    
+    this.updateStats();
+
+  }
+
+  updateStats():void{
 
     //Update the stats before the user leaves the main page.
     let timer_cont = 0;
@@ -375,6 +378,8 @@ export class MainPageComponent implements OnInit {
               },
             });
 
+            this.updateStats();
+
             
             //Get the stats of the seasons for the player thats stored in the database
             for(let player of this.home_players){
@@ -382,8 +387,13 @@ export class MainPageComponent implements OnInit {
 
                 //Find for every game played for the selected player with the team this season
                 this.player_stats_gameService.getPlayer_stats_games("?player_id="+player.player_id+"&team_id="+player.team_id+"&season="+player.season).then( (stats_game:Player_stats_gameModel[]) => {
+
                   //Por cada partido devuelto actualizo las stats de season
                   for(let game_stats of stats_game){
+
+                    if(game_stats.player_name == "Jose Juan"){
+                      console.log("STATS DE PARTIDO: "+JSON.stringify(game_stats));
+                    }
 
                     //Update the time played through the season
                     if( (stats_season[0].time_played.seconds + game_stats.time_played.seconds) > 59){
@@ -516,7 +526,19 @@ export class MainPageComponent implements OnInit {
                     stats_season[0].usage = (stats_season[0].usage + game_stats.usage) / stats_season[0].games_played;
 
                   }
+
+                  this.player_stats_seasonService.updatePlayer_stats_season(stats_season[0]);
+
+                })
+                .catch( (err:HttpErrorResponse) => {
+                  Swal.close();
+
+                  Swal.fire({
+                    title: 'Error al recibir las estadísticas por partido del jugador.',
+                    icon: 'error'
+                  });
                 });
+ 
 
               })
               .catch( (err:HttpErrorResponse) => {
@@ -530,6 +552,8 @@ export class MainPageComponent implements OnInit {
               });
 
             }
+
+            Swal.close();
 
           }
         }
