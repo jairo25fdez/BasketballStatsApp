@@ -9,6 +9,7 @@ import { GameModel } from '../../../../../models/game.model';
 import { PlayModel } from '../../../../../models/play.model';
 import { Player_stats_gameModel } from '../../../../../models/player_stats_game.model';
 import { Team_stats_gameModel } from '../../../../../models/team_stats_game.model';
+import { Player_stats_seasonModel } from '../../../../../models/player_stats_season.model';
 
 //Services
 import { LeaguesService } from 'src/app/services/leagues.service';
@@ -17,7 +18,7 @@ import { PlaysService } from 'src/app/services/plays.service';
 import { Player_stats_gamesService } from 'src/app/services/player_stats_game.service';
 import { Player_stats_seasonService } from 'src/app/services/player_stats_season.service';
 import { Team_stats_gameService } from 'src/app/services/team_stats_game.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 
 
 
@@ -359,6 +360,178 @@ export class MainPageComponent implements OnInit {
         if(this.quarter < 4){
           this.quarter++;
           this.minutes = this.minutes_per_quarter;
+        }
+        //If we are in the final quarter and the score is not tied we end the game and update the stats
+        else{
+          if(this.game.home_team_score != this.game.visitor_team_score){
+
+            Swal.fire({
+              title: 'Por favor espere',
+              text: 'Actualizando estadísticas por temporada',
+              icon: 'info',
+              allowOutsideClick: false,
+              onBeforeOpen: () => {
+                  Swal.showLoading()
+              },
+            });
+
+            
+            //Get the stats of the seasons for the player thats stored in the database
+            for(let player of this.home_players){
+              this.player_stats_seasonService.getPlayer_stats_seasons("?player_id="+player.player_id+"&team_id="+player.team_id+"&season="+player.season).then( (stats_season:Player_stats_seasonModel[]) => {
+
+                //Find for every game played for the selected player with the team this season
+                this.player_stats_gameService.getPlayer_stats_games("?player_id="+player.player_id+"&team_id="+player.team_id+"&season="+player.season).then( (stats_game:Player_stats_gameModel[]) => {
+                  //Por cada partido devuelto actualizo las stats de season
+                  for(let game_stats of stats_game){
+
+                    //Update the time played through the season
+                    if( (stats_season[0].time_played.seconds + game_stats.time_played.seconds) > 59){
+                      stats_season[0].time_played.seconds = 0;
+                      
+                      game_stats.time_played.minutes += Math.ceil(game_stats.time_played.seconds / 60);
+                      game_stats.time_played.seconds = game_stats.time_played.seconds % 60;
+                    }
+              
+                    stats_season[0].time_played.minutes += game_stats.time_played.minutes;
+                    stats_season[0].time_played.seconds += game_stats.time_played.seconds;
+                    
+                    //Update games played
+                    stats_season[0].games_played++;
+
+                    //Update shots stats
+                      //Shots list
+                    stats_season[0].shots_stats.shots_list.lc3.made += game_stats.shots_list.lc3.made;
+                    stats_season[0].shots_stats.shots_list.lc3.attempted += game_stats.shots_list.lc3.attempted;
+
+                    stats_season[0].shots_stats.shots_list.le3.made += game_stats.shots_list.le3.made;
+                    stats_season[0].shots_stats.shots_list.le3.attempted += game_stats.shots_list.le3.attempted;
+
+                    stats_season[0].shots_stats.shots_list.c3.made += game_stats.shots_list.c3.made;
+                    stats_season[0].shots_stats.shots_list.c3.attempted += game_stats.shots_list.c3.attempted;
+
+                    stats_season[0].shots_stats.shots_list.re3.made += game_stats.shots_list.re3.made;
+                    stats_season[0].shots_stats.shots_list.re3.attempted += game_stats.shots_list.re3.attempted;
+
+                    stats_season[0].shots_stats.shots_list.rc3.made += game_stats.shots_list.rc3.made;
+                    stats_season[0].shots_stats.shots_list.rc3.attempted += game_stats.shots_list.rc3.attempted;
+
+                    stats_season[0].shots_stats.shots_list.lmc2.made += game_stats.shots_list.lmc2.made;
+                    stats_season[0].shots_stats.shots_list.lmc2.attempted += game_stats.shots_list.lmc2.attempted;
+
+                    stats_season[0].shots_stats.shots_list.lme2.made += game_stats.shots_list.lme2.made;
+                    stats_season[0].shots_stats.shots_list.lme2.attempted += game_stats.shots_list.lme2.attempted;
+
+                    stats_season[0].shots_stats.shots_list.cm2.made += game_stats.shots_list.cm2.made;
+                    stats_season[0].shots_stats.shots_list.cm2.attempted += game_stats.shots_list.cm2.attempted;
+
+                    stats_season[0].shots_stats.shots_list.rme2.made += game_stats.shots_list.rme2.made;
+                    stats_season[0].shots_stats.shots_list.rme2.attempted += game_stats.shots_list.rme2.attempted;
+
+                    stats_season[0].shots_stats.shots_list.rmc2.made += game_stats.shots_list.rmc2.made;
+                    stats_season[0].shots_stats.shots_list.rmc2.attempted += game_stats.shots_list.rmc2.attempted;
+
+                    stats_season[0].shots_stats.shots_list.lp2.made += game_stats.shots_list.lp2.made;
+                    stats_season[0].shots_stats.shots_list.lp2.attempted += game_stats.shots_list.lp2.attempted;
+
+                    stats_season[0].shots_stats.shots_list.rp2.made += game_stats.shots_list.rp2.made;
+                    stats_season[0].shots_stats.shots_list.rp2.attempted += game_stats.shots_list.rp2.attempted;
+
+                    stats_season[0].shots_stats.shots_list.lft2.made += game_stats.shots_list.lft2.made;
+                    stats_season[0].shots_stats.shots_list.lft2.attempted += game_stats.shots_list.lft2.attempted;
+
+                    stats_season[0].shots_stats.shots_list.rft2.made += game_stats.shots_list.rft2.made;
+                    stats_season[0].shots_stats.shots_list.rft2.attempted += game_stats.shots_list.rft2.attempted;
+
+                      //Total shots
+                    stats_season[0].shots_stats.total_shots += game_stats.t2_attempted + game_stats.t3_attempted + game_stats.t1_attempted;
+                      //Total FG shots
+                    stats_season[0].shots_stats.total_FG_shots += game_stats.t2_attempted + game_stats.t3_attempted;
+
+                      //t2_stats
+                    stats_season[0].shots_stats.t2_stats.t2_made += game_stats.t2_made;
+                    stats_season[0].shots_stats.t2_stats.t2_attempted += game_stats.t2_attempted;
+                    stats_season[0].shots_stats.t2_stats.t2_percentage = 100*(stats_season[0].shots_stats.t2_stats.t2_made / stats_season[0].shots_stats.t2_stats.t2_attempted);
+                    stats_season[0].shots_stats.t2_stats.t2_volume_percentage = (stats_season[0].shots_stats.t2_stats.t2_attempted*100) / stats_season[0].shots_stats.total_FG_shots;
+
+                      //t3_stats
+                    stats_season[0].shots_stats.t3_stats.t3_made += game_stats.t3_made;
+                    stats_season[0].shots_stats.t3_stats.t3_attempted += game_stats.t3_attempted;
+                    stats_season[0].shots_stats.t3_stats.t3_percentage = 100*(stats_season[0].shots_stats.t3_stats.t3_made / stats_season[0].shots_stats.t3_stats.t3_attempted);
+                    stats_season[0].shots_stats.t3_stats.t3_volume_percentage = (stats_season[0].shots_stats.t3_stats.t3_attempted*100) / stats_season[0].shots_stats.total_FG_shots;
+
+                      //t1_stats
+                    stats_season[0].shots_stats.t1_stats.t1_made += game_stats.t1_made;
+                    stats_season[0].shots_stats.t1_stats.t1_attempted += game_stats.t1_attempted;
+                    stats_season[0].shots_stats.t1_stats.t1_percentage = 100*(stats_season[0].shots_stats.t1_stats.t1_made / stats_season[0].shots_stats.t1_stats.t1_attempted);
+                    stats_season[0].shots_stats.t1_stats.t1_volume_percentage = (stats_season[0].shots_stats.t1_stats.t1_attempted*100) / stats_season[0].shots_stats.total_shots;
+
+                      //eFG
+                    stats_season[0].shots_stats.eFG = 100*(stats_season[0].shots_stats.total_FG_shots + (stats_season[0].shots_stats.t3_stats.t3_made)*0.5 ) / stats_season[0].shots_stats.total_FG_shots;
+
+                      //%FG
+                    stats_season[0].shots_stats.fg_percentage = 100*( (stats_season[0].shots_stats.t2_stats.t2_made + stats_season[0].shots_stats.t3_stats.t3_made) / (stats_season[0].shots_stats.t2_stats.t2_attempted + stats_season[0].shots_stats.t3_stats.t3_attempted) );
+
+                    //Update points stats
+                    stats_season[0].points_stats.total_points += game_stats.points;
+                    stats_season[0].points_stats.average_points = stats_season[0].points_stats.total_points / stats_season[0].games_played;
+                    stats_season[0].points_stats.points_per_minute = stats_season[0].points_stats.total_points / stats_season[0].time_played.minutes;
+                    stats_season[0].points_stats.points_per_field_shot = ( (stats_season[0].shots_stats.t2_stats.t2_made*2) + (stats_season[0].shots_stats.t3_stats.t3_made*3) ) / stats_season[0].shots_stats.total_FG_shots;
+                    stats_season[0].points_stats.points_per_shot_t2 = (stats_season[0].shots_stats.t2_stats.t2_made*2) / stats_season[0].shots_stats.t2_stats.t2_attempted;
+                    stats_season[0].points_stats.points_per_shot_t3 = (stats_season[0].shots_stats.t3_stats.t3_made*3) / stats_season[0].shots_stats.t3_stats.t3_attempted;
+
+                    //Steals stats
+                    stats_season[0].steals_stats.total_steals += game_stats.steals;
+                    stats_season[0].steals_stats.steals_per_minute += stats_season[0].steals_stats.total_steals / stats_season[0].time_played.minutes;
+                    stats_season[0].steals_stats.steals_per_game += stats_season[0].steals_stats.total_steals / stats_season[0].games_played;
+
+                    //Turnovers stats
+                    stats_season[0].lost_balls_stats.total_losts += game_stats.turnovers;
+                    stats_season[0].lost_balls_stats.turnovers_per_minute += stats_season[0].lost_balls_stats.total_losts / stats_season[0].time_played.minutes;
+
+                    //Rebounds stats
+                    stats_season[0].rebounds_stats.total_rebounds += game_stats.total_rebounds;
+                    stats_season[0].rebounds_stats.average_rebounds = stats_season[0].rebounds_stats.total_rebounds / stats_season[0].games_played;
+                    stats_season[0].rebounds_stats.offensive_rebounds += game_stats.offensive_rebounds;
+                    stats_season[0].rebounds_stats.defensive_rebounds += game_stats.defensive_rebounds;
+                    stats_season[0].rebounds_stats.total_rebounds_per_minute = stats_season[0].rebounds_stats.total_rebounds / stats_season[0].time_played.minutes;
+                    stats_season[0].rebounds_stats.off_rebounds_per_minute = stats_season[0].rebounds_stats.offensive_rebounds / stats_season[0].time_played.minutes;
+                    stats_season[0].rebounds_stats.def_rebounds_per_minute = stats_season[0].rebounds_stats.defensive_rebounds / stats_season[0].time_played.minutes;
+
+                    //Blocks stats
+                    stats_season[0].blocks_stats.total_blocks_made += game_stats.blocks_made;
+                    stats_season[0].blocks_stats.total_blocks_received += game_stats.blocks_received;
+                    stats_season[0].blocks_stats.blocks_made_per_game = stats_season[0].blocks_stats.total_blocks_made / stats_season[0].games_played;
+                    stats_season[0].blocks_stats.blocks_received_per_game = stats_season[0].blocks_stats.total_blocks_received / stats_season[0].games_played;
+                    stats_season[0].blocks_stats.blocks_made_per_minute = stats_season[0].blocks_stats.total_blocks_made / stats_season[0].time_played.minutes;
+                    stats_season[0].blocks_stats.blocks_received_per_minute = stats_season[0].blocks_stats.total_blocks_received / stats_season[0].time_played.minutes;
+
+                    //Foul stats
+                    stats_season[0].fouls_stats.total_fouls_made += game_stats.fouls_made;
+                    stats_season[0].fouls_stats.total_fouls_received += game_stats.fouls_received;
+                    stats_season[0].fouls_stats.fouls_made_per_minute = stats_season[0].fouls_stats.total_fouls_made / game_stats.time_played.minutes;
+                    stats_season[0].fouls_stats.fouls_received_per_minute = stats_season[0].fouls_stats.total_fouls_received / game_stats.time_played.minutes;
+
+                    //Usage
+                    stats_season[0].usage = (stats_season[0].usage + game_stats.usage) / stats_season[0].games_played;
+
+                  }
+                });
+
+              })
+              .catch( (err:HttpErrorResponse) => {
+                Swal.close();
+
+                Swal.fire({
+                  title: 'Error al recibir las estadísticas de jugador de la base de datos.',
+                  icon: 'error'
+                });
+
+              });
+
+            }
+
+          }
         }
 
       }
@@ -1276,6 +1449,8 @@ export class MainPageComponent implements OnInit {
   substitution(){
 
     if( (this.player_active != [-1, -1] && this.bench_home_players != [-1,-1]) || (this.player_active != [-1, -1] && this.bench_visitor_players != [-1,-1]) ){
+
+      this.pauseTimer();
 
       if(this.player_active[0] == this.player_bench[0]){
         let active_player_index;

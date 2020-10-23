@@ -51,13 +51,14 @@ var player_stats_seasonSchema = new Schema({
         points_per_field_shot: {type: Number, min: 0}, // (t2_made*2 + t3_made*3) / total_shots
         points_per_shot_t2: {type: Number, min: 0}, // (t2_made*2) / t2_total
         points_per_shot_t3: {type: Number, min: 0}, // (t3_made*3) / t3_total
-        points_per_possesion: {type: Number, min: 0} // total_points / usage.player
+        //points_per_possesion: {type: Number, min: 0} // total_points / usage.player
     },
     //Shots stats
     shots_stats: {
         _id: false,
         //Shots location stats
-        total_shots: {type: Number, min: 0}, //Number of shots through the season (free throws not included)
+        total_shots: {type: Number, min: 0}, //Number of shots through the season (FT included)
+        total_FG_shots: {type: Number, min: 0}, //Number of shots through the season (FT NOT included)
         shots_list: shots_listSchema, //We will save the shot locations.
         eFG: {type: Number, min: 0}, //
         fg_percentage: {type: Number, min: 0},
@@ -66,18 +67,18 @@ var player_stats_seasonSchema = new Schema({
             //T2
             t2_made: {type: Number, min: 0},
             t2_attempted: {type: Number, min: 0},
-            t2_total: {type: Number, min: 0}, // = t2_made + t2_attempted
+            //t2_total: {type: Number, min: 0}, // = t2_made + t2_attempted
             t2_percentage: {type: Number, min: 0}, // %t2
-            t2_volume_percentage: {type: Number, min: 0}, // %t2 compared to total shots, = total shots / t2_total
+            t2_volume_percentage: {type: Number, min: 0}, // %t2 compared to total FG shots, = total shots / t2_total
         },
         t3_stats: {
             _id: false,
             //T3
             t3_made: {type: Number, min: 0},
             t3_attempted: {type: Number, min: 0},
-            t3_total: {type: Number, min: 0}, // = t3_made + t3_attempted
+            //t3_total: {type: Number, min: 0}, // = t3_made + t3_attempted
             t3_percentage: {type: Number, min: 0}, // %t3
-            t3_volume_percentage: {type: Number, min: 0}, // %t3 compared to total shots, = total shots / t3_total
+            t3_volume_percentage: {type: Number, min: 0}, // %t3 compared to total FG shots, = total shots / t3_total
         },
         t1_stats: {
             _id: false,
@@ -104,7 +105,8 @@ var player_stats_seasonSchema = new Schema({
     },
     //Lost balls stats
     lost_balls_stats: {
-        total_losts: {type: Number, min: 0}
+        total_losts: {type: Number, min: 0},
+        turnovers_per_minute: {type: Number, min: 0}
     },
     //Rebounds stats
     rebounds_stats: {
@@ -116,7 +118,7 @@ var player_stats_seasonSchema = new Schema({
         total_rebounds_per_minute: {type: Number, min: 0}, // total_rebounds / minutes_played
         off_rebounds_per_minute: {type: Number, min: 0}, // off_rebounds / minutes_played
         def_rebounds_per_minute: {type: Number, min: 0}, // def_rebounds / minutes_played
-        rebounds_percentage: {type: Number, min: 0}, //100*(total_rebounds*(Team Minutes Played/5))/(Minutes Played*(Team Total Rebounds + Opponent Team’s Total Rebounds))
+        //rebounds_percentage: {type: Number, min: 0}, //100*(total_rebounds*(Team Minutes Played/5))/(Minutes Played*(Team Total Rebounds + Opponent Team’s Total Rebounds))
     },
     //Blocks stats
     blocks_stats: {

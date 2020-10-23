@@ -196,8 +196,6 @@ export class NewplayerFormComponent implements OnInit {
         allowOutsideClick: false
       });
 
-      Swal.showLoading();
-
       this.playersService.createPlayer(this.player).then( resp => {
 
         //Necesito recibir el jugador creado para obtener el ID generado por MongoDB.
