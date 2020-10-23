@@ -925,10 +925,11 @@ export class NewgameFormComponent implements OnInit {
                       points_per_field_shot: 0,
                       points_per_shot_t2: 0,
                       points_per_shot_t3: 0,
-                      points_per_possesion: 0
+                      //points_per_possesion: 0
                     },
                     shots_stats: {
                       total_shots: 0, 
+                      total_FG_shots: 0,
                       shots_list: {
                         lc3: {made: 0, attempted: 0},
                         le3: {made: 0, attempted: 0},
@@ -950,14 +951,14 @@ export class NewgameFormComponent implements OnInit {
                       t2_stats: {
                           t2_made: 0,
                           t2_attempted: 0,
-                          t2_total: 0,
+                          //t2_total: 0,
                           t2_percentage: 0,
                           t2_volume_percentage: 0,
                       },
                       t3_stats: {
                           t3_made: 0,
                           t3_attempted:0,
-                          t3_total: 0, // = t3_made + t3_attempted
+                          //t3_total: 0, // = t3_made + t3_attempted
                           t3_percentage: 0, // %t3
                           t3_volume_percentage: 0, // %t3 compared to total shots, = total shots / t3_total
                       },
@@ -979,7 +980,8 @@ export class NewgameFormComponent implements OnInit {
                       steals_per_game: 0
                     },
                     lost_balls_stats: {
-                      total_losts: 0
+                      total_losts: 0,
+                      turnovers_per_minute: 0
                     },
                     rebounds_stats: {
                       total_rebounds: 0,
@@ -989,7 +991,7 @@ export class NewgameFormComponent implements OnInit {
                       total_rebounds_per_minute: 0,
                       off_rebounds_per_minute: 0,
                       def_rebounds_per_minute: 0,
-                      rebounds_percentage: 0
+                      //rebounds_percentage: 0
                     },
                     blocks_stats: {
                       total_blocks_made: 0,
@@ -1126,10 +1128,11 @@ export class NewgameFormComponent implements OnInit {
                       points_per_field_shot: 0,
                       points_per_shot_t2: 0,
                       points_per_shot_t3: 0,
-                      points_per_possesion: 0
+                      //points_per_possesion: 0
                     },
                     shots_stats: {
                       total_shots: 0, 
+                      total_FG_shots: 0,
                       shots_list: {
                         lc3: {made: 0, attempted: 0},
                         le3: {made: 0, attempted: 0},
@@ -1151,14 +1154,14 @@ export class NewgameFormComponent implements OnInit {
                       t2_stats: {
                           t2_made: 0,
                           t2_attempted: 0,
-                          t2_total: 0,
+                          //t2_total: 0,
                           t2_percentage: 0,
                           t2_volume_percentage: 0,
                       },
                       t3_stats: {
                           t3_made: 0,
                           t3_attempted:0,
-                          t3_total: 0, // = t3_made + t3_attempted
+                          //t3_total: 0, // = t3_made + t3_attempted
                           t3_percentage: 0, // %t3
                           t3_volume_percentage: 0, // %t3 compared to total shots, = total shots / t3_total
                       },
@@ -1180,7 +1183,8 @@ export class NewgameFormComponent implements OnInit {
                       steals_per_game: 0
                     },
                     lost_balls_stats: {
-                      total_losts: 0
+                      total_losts: 0,
+                      turnovers_per_minute: 0
                     },
                     rebounds_stats: {
                       total_rebounds: 0,
@@ -1190,7 +1194,7 @@ export class NewgameFormComponent implements OnInit {
                       total_rebounds_per_minute: 0,
                       off_rebounds_per_minute: 0,
                       def_rebounds_per_minute: 0,
-                      rebounds_percentage: 0
+                      //rebounds_percentage: 0
                     },
                     blocks_stats: {
                       total_blocks_made: 0,
