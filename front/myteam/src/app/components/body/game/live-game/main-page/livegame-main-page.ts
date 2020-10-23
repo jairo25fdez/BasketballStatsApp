@@ -485,11 +485,18 @@ export class MainPageComponent implements OnInit {
 
     if(team_index == 0){
       for(let player_index of this.oncourt_home_players){
+
+        console.log("ACTUALIZO USG DE: "+this.home_players[player_index].player_name);
         
         let usg_1 = 100*( (this.home_players[player_index].t2_attempted + this.home_players[player_index].t3_attempted) + 0.44*(this.home_players[player_index].t1_attempted) + (this.home_players[player_index].turnovers))*this.home_team_stats.time_played.minutes;
         let usg_2 = ( (this.home_team_stats.t2_attempted + this.home_team_stats.t3_attempted) + 0.44*(this.home_team_stats.t1_attempted) + this.home_team_stats.turnovers)*(this.home_players[player_index].time_played.minutes);
 
+        console.log("USG_1: "+usg_1);
+        console.log("USG_2: "+usg_2);
+
         this.home_players[player_index].usage = (usg_1 / usg_2);
+
+        console.log("USO DE "+this.home_players[player_index].player_name+": "+this.home_players[player_index].usage);
 
       }
     }
@@ -1265,6 +1272,8 @@ export class MainPageComponent implements OnInit {
 
           this.calculateTime(0, this.player_active[1], this.home_oncourt_timers[active_player_index]);
           this.home_oncourt_timers[active_player_index] = [this.quarter, this.minutes, this.seconds];
+
+          this.updateUSG(0);
   
           this.oncourt_home_players[active_player_index] = this.player_bench[1];
           this.bench_home_players[bench_player_index] = this.player_active[1];
@@ -1279,6 +1288,8 @@ export class MainPageComponent implements OnInit {
 
           this.calculateTime(1, this.player_active[1], this.visitor_oncourt_timers[active_player_index]);
           this.visitor_oncourt_timers[active_player_index] = [this.quarter, this.minutes, this.seconds];
+
+          this.updateUSG(1);
   
           this.oncourt_visitor_players[active_player_index] = this.player_bench[1];
           this.bench_visitor_players[bench_player_index] = this.player_active[1];

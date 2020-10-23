@@ -33,13 +33,6 @@ export class Player_stats_gamesService{
 
     updatePlayer_stats_game(player_stats_game:Player_stats_gameModel){
 
-        //console.log("JUGADOR: "+player_stats_game.player_name);
-        //console.log("ME LLEGA EL USO: "+player_stats_game.usage);
-
-        if(player_stats_game.player_name == "Jose Juan"){
-            console.log("ERROR");
-        }
-
         const player_stats_gameTemp = {
             ...player_stats_game
         };
