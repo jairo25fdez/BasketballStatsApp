@@ -40,6 +40,21 @@ export class PlayByPlayComponent implements OnInit {
 
     this.game_id = router.url.split('/')[2].toString();  //Game ID
     
+    
+
+  }
+
+  ngOnInit(): void {
+
+    //Load the plays
+    this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+      this.plays = plays;
+    });
+    //Load the plays
+    this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+      this.plays = plays;
+    });
+
     this.gameService.getGame(this.game_id).then( (game:GameModel) => {
       this.game = game;
       this.home_team_id = game.home_team.team_id;
@@ -55,31 +70,18 @@ export class PlayByPlayComponent implements OnInit {
         this.home_team_stats = teams_stats[1];
         this.visitor_team_stats = teams_stats[0];
       }
+
     });
+
 
   }
 
-  ngOnInit(): void {
-
-    //Load the plays
-    this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
-      this.plays = plays;
-    });
-    //Load the plays
-    this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
-      this.plays = plays;
-    });
-
-  }
-
-  deletePlay(play){
+  deletePlay(play:PlayModel){
     let play_index = this.plays.indexOf(play);
     let shot_points = 0;
     let team = -1;
     let shot_position = this.plays[play_index].shot_position;
     let player_stats:Player_stats_gameModel;
-
-    console.log("PLAY QUE LLEGA: "+JSON.stringify(play));
     
     this.player_stats_gameService.getPlayer_stats_games("?player_id="+this.plays[play_index].player.player_id+"&game_id="+this.game_id).then( (players_stats:Player_stats_gameModel[]) => {
       player_stats = players_stats[0];
@@ -103,19 +105,14 @@ export class PlayByPlayComponent implements OnInit {
         //If the play that we want to delete is a made shot we need to update the plays that were created after it
         if( (this.plays[play_index].shot_made == true) ){
 
-          console.log("TIRO ANOTADO");
-
           if(this.plays[play_index].team.team_id == this.home_team_id){
             team = 0;
 
-            console.log("ES DEL EQUIPO LOCAL");
-
             //Game home team score
-            console.log("SHOT POINTS: "+shot_points);
-            console.log("GAME.HOME_TEAM_SCORE: "+this.game.home_team_score);
             this.game.home_team_score -= shot_points;
             //Home team stats
             this.home_team_stats.points -= shot_points;
+
             if(shot_points != 1){
               this.home_team_stats.shots_list[shot_position].made--;
               this.home_team_stats.shots_list[shot_position].attempted--;
@@ -457,44 +454,38 @@ export class PlayByPlayComponent implements OnInit {
         }
       }
 
-      //Delete the play in the server and update the actual plays
-      this.playsService.deletePlay(play._id).then( () => {
-        this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
-          this.plays = plays;
-        });
-      })
-      .catch( (err:HttpErrorResponse) => {
       Swal.fire({
-        title: 'Error al borrar la jugada.',
-        icon: 'error'
-      });
-    });
-
-      this.player_stats_gameService.updatePlayer_stats_game(player_stats).catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al actualizar las estadísticas del jugador.',
-          icon: 'error'
-        });
+        title: 'Por favor espere',
+        text: 'Actualizando estadísticas.',
+        icon: 'info',
+        allowOutsideClick: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        },
       });
 
-      this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats).catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al actualizar las estadísticas del equipo local.',
-          icon: 'error'
-        });
-      });
+      this.gameService.updateGame(this.game).then( () => {
+        this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats).then(() => {
+          this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats).then(() => {
 
-      this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats).catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al actualizar las estadísticas del equipo visitante.',
-          icon: 'error'
-        });
-      });
+            this.player_stats_gameService.updatePlayer_stats_game(player_stats).then( () => {
+              //Delete the play in the server and update the actual plays
+              this.playsService.deletePlay(play._id).then( () => {
+                this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+                  this.plays = plays;
+                  Swal.close();
+                });
+              })
+              .catch( (err:HttpErrorResponse) => {
+                Swal.fire({
+                  title: 'Error al borrar la jugada.',
+                  icon: 'error'
+                });
+              });
 
-      this.gameService.updateGame(this.game).catch( (err:HttpErrorResponse) => {
-        Swal.fire({
-          title: 'Error al actualizar el partido.',
-          icon: 'error'
+            });
+      
+          });
         });
       });
 

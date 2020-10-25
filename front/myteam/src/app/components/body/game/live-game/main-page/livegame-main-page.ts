@@ -195,6 +195,7 @@ export class MainPageComponent implements OnInit {
 
     this.updateStats();
 
+
   }
 
   updateStats():void{
@@ -1155,11 +1156,6 @@ export class MainPageComponent implements OnInit {
       //Get the team's info
       if(this.player_active[0] == 0){
 
-        //If the shot was made we add to the score
-        if(shot_made){
-          this.game.home_team_score += 1;
-        }
-
         play.player = {
           player_id: this.home_players[this.player_active[1]].player_id,
           player_name: this.home_players[this.player_active[1]].player_name,
@@ -1174,10 +1170,6 @@ export class MainPageComponent implements OnInit {
       else{
         if(this.player_active[0] == 1){
 
-          //If the shot was made we add to the score
-          if(shot_made){
-            this.game.visitor_team_score += 1;
-          }
 
           play.player = {
             player_id: this.visitor_players[this.player_active[1]].player_id,
@@ -1191,6 +1183,59 @@ export class MainPageComponent implements OnInit {
           }
 
         }
+      }
+
+      //If the player belongs to the home team
+      if(this.player_active[0] == 0){
+
+        if(shot_made){
+          this.home_players[this.player_active[1]].points++;
+          this.home_players[this.player_active[1]].t1_made++;
+
+          this.home_team_stats.t1_made++;
+          this.home_team_stats.points++;
+
+          console.log("TIRO LIBRE");
+          console.log("HOME TEAM SCORE ANTES: "+this.game.home_team_score);
+          this.game.home_team_score++;
+          console.log("HOME TEAM SCORE DESPUES: "+this.game.home_team_score);
+
+        }
+
+        this.home_team_stats.t1_attempted++;
+
+        //Update team FT%
+        this.home_team_stats.t1_percentage = (this.home_team_stats.t1_made / this.home_team_stats.t1_attempted)*100;
+
+        this.home_players[this.player_active[1]].t1_attempted++;
+
+        //Update player FT%
+        this.home_players[this.player_active[1]].t1_percentage = (this.home_players[this.player_active[1]].t1_made / this.home_players[this.player_active[1]].t1_attempted)*100;
+
+        
+      }
+      //If the player belongs to the visitor team
+      else{
+        if(shot_made){
+          this.visitor_players[this.player_active[1]].points++;
+          this.visitor_players[this.player_active[1]].t1_made++;
+
+          this.visitor_team_stats.t1_made++;
+          this.visitor_team_stats.points++;
+
+          this.game.visitor_team_score++;
+        }
+
+        this.visitor_players[this.player_active[1]].t1_attempted++;
+
+        //Update player FT%
+        this.visitor_players[this.player_active[1]].t1_percentage = (this.visitor_players[this.player_active[1]].t1_made / this.visitor_players[this.player_active[1]].t1_attempted)*100;
+
+        this.visitor_team_stats.t1_attempted++;
+
+        //Update team FT%
+        this.visitor_team_stats.t1_percentage = (this.visitor_team_stats.t1_made / this.visitor_team_stats.t1_attempted)*100;
+
       }
 
       //Check the rest of the fields
@@ -1213,52 +1258,13 @@ export class MainPageComponent implements OnInit {
       else{
         this.plays.push(play);
       }
-      
-
-      //If the player belongs to the home team
-      if(this.player_active[0] == 0){
-
-        if(shot_made){
-          this.home_players[this.player_active[1]].points++;
-          this.home_players[this.player_active[1]].t1_made++;
-
-          this.home_team_stats.t1_made++;
-        }
-
-        this.home_team_stats.t1_attempted++;
-
-        //Update team FT%
-        this.home_team_stats.t1_percentage = (this.home_team_stats.t1_made / this.home_team_stats.t1_attempted)*100;
-
-        this.home_players[this.player_active[1]].t1_attempted++;
-
-        //Update player FT%
-        this.home_players[this.player_active[1]].t1_percentage = (this.home_players[this.player_active[1]].t1_made / this.home_players[this.player_active[1]].t1_attempted)*100;
-
-        
-      }
-      //If the player belongs to the visitor team
-      else{
-        if(shot_made){
-          this.visitor_players[this.player_active[1]].points++;
-          this.visitor_players[this.player_active[1]].t1_made++;
-
-          this.visitor_team_stats.t1_made++;
-        }
-
-        this.visitor_players[this.player_active[1]].t1_attempted++;
-
-        //Update player FT%
-        this.visitor_players[this.player_active[1]].t1_percentage = (this.visitor_players[this.player_active[1]].t1_made / this.visitor_players[this.player_active[1]].t1_attempted)*100;
-
-        this.visitor_team_stats.t1_attempted++;
-
-        //Update team FT%
-        this.visitor_team_stats.t1_percentage = (this.visitor_team_stats.t1_made / this.visitor_team_stats.t1_attempted)*100;
-
-      }
 
     }
+
+    this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+    this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
+
+    this.gamesService.updateGame(this.game);
 
   }
 
@@ -1862,28 +1868,6 @@ export class MainPageComponent implements OnInit {
         }
       }
 
-      //Check the rest of the fields
-      play.game_id = this.game._id;
-      play.home_team_score = this.game.home_team_score;
-      play.visitor_team_score = this.game.visitor_team_score;
-      play.time = {
-        minute: this.minutes,
-        second: this.seconds
-      };
-      play.period = this.quarter;
-      play.type = "shot";
-      play.shot_type = "fg";
-      play.shot_position = this.shot_zone;
-      play.shot_made = shot_made;
-
-      //Save the play in the array
-      if(this.plays.length == 0){
-        this.plays[0] = play;
-      }
-      else{
-        this.plays.push(play);
-      }
-
 
       //If the player belongs to the home team
       if(this.player_active[0] == 0){
@@ -1898,9 +1882,15 @@ export class MainPageComponent implements OnInit {
             //Team stats
             this.home_team_stats.shots_list[this.shot_zone].made++;
             this.home_team_stats.t3_made++;
+            console.log("HOME TEAM STATS POINTS ANTES: "+this.home_team_stats.points);
             this.home_team_stats.points += 3;
+            console.log("HOME TEAM STATS POINTS DESPUES: "+this.home_team_stats.points);
+
+            console.log("GAME HOME TEAM SCORE ANTES: "+this.game.home_team_score);
 
             this.game.home_team_score += 3;
+            console.log("GAME HOME TEAM SCORE DESPUES: "+this.game.home_team_score);
+
           }
           //Player stats
           this.home_players[this.player_active[1]].shots_list[this.shot_zone].attempted++;
@@ -1923,9 +1913,14 @@ export class MainPageComponent implements OnInit {
             //Team stats
             this.home_team_stats.shots_list[this.shot_zone].made++;
             this.home_team_stats.t2_made++;
+            console.log("HOME TEAM STATS POINTS ANTES: "+this.home_team_stats.points);
             this.home_team_stats.points += 2;
+            console.log("HOME TEAM STATS POINTS DESPUES: "+this.home_team_stats.points);
 
+            console.log("GAME HOME TEAM SCORE ANTES: "+this.game.home_team_score);
             this.game.home_team_score += 2;
+            console.log("GAME HOME TEAM SCORE DESPUES: "+this.game.home_team_score);
+
           }
           //Player stats
           this.home_players[this.player_active[1]].shots_list[this.shot_zone].attempted++;
@@ -1995,7 +1990,34 @@ export class MainPageComponent implements OnInit {
 
       }
 
+      //Check the rest of the fields
+      play.game_id = this.game._id;
+      play.home_team_score = this.game.home_team_score;
+      play.visitor_team_score = this.game.visitor_team_score;
+      play.time = {
+        minute: this.minutes,
+        second: this.seconds
+      };
+      play.period = this.quarter;
+      play.type = "shot";
+      play.shot_type = "fg";
+      play.shot_position = this.shot_zone;
+      play.shot_made = shot_made;
+
+      //Save the play in the array
+      if(this.plays.length == 0){
+        this.plays[0] = play;
+      }
+      else{
+        this.plays.push(play);
+      }
+
     }
+
+    this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
+    this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
+
+    this.gamesService.updateGame(this.game);
 
     this.shot_zone = "";
 
