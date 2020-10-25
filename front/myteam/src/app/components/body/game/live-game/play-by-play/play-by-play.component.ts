@@ -78,41 +78,54 @@ export class PlayByPlayComponent implements OnInit {
     let team = -1;
     let shot_position = this.plays[play_index].shot_position;
     let player_stats:Player_stats_gameModel;
+
+    console.log("PLAY QUE LLEGA: "+JSON.stringify(play));
     
     this.player_stats_gameService.getPlayer_stats_games("?player_id="+this.plays[play_index].player.player_id+"&game_id="+this.game_id).then( (players_stats:Player_stats_gameModel[]) => {
       player_stats = players_stats[0];
 
       if( this.plays[play_index].type == "shot" ){
-        //If they play that we want to delete if a made shot we need to update the plays that were created after it
+
+        //Check if the shot was a ft or fg and if it was a 2 points shot or 3 points shot
+        if( this.plays[play_index].shot_type == "ft" ){
+          shot_points = 1;
+        }
+        else{
+          if( this.plays[play_index].shot_position == "lc3" || this.plays[play_index].shot_position == "le3" || this.plays[play_index].shot_position == "c3" || this.plays[play_index].shot_position == "re3" || this.plays[play_index].shot_position == "rc3"){
+            shot_points = 3;
+          }
+
+          else{
+            shot_points = 2;
+          }
+        }
+
+        //If the play that we want to delete is a made shot we need to update the plays that were created after it
         if( (this.plays[play_index].shot_made == true) ){
 
-          //Check if the shot was a ft or fg and if it was a 2 points shot or 3 points shot
-          if( this.plays[play_index].shot_type == "ft" ){
-            shot_points = 1;
-          }
-          else{
-            if( this.plays[play_index].shot_position == "lc3" || this.plays[play_index].shot_position == "le3" || this.plays[play_index].shot_position == "c3" || this.plays[play_index].shot_position == "re3" || this.plays[play_index].shot_position == "rc3"){
-              shot_points = 3;
-            }
-
-            else{
-              shot_points = 2;
-            }
-          }
+          console.log("TIRO ANOTADO");
 
           if(this.plays[play_index].team.team_id == this.home_team_id){
             team = 0;
 
+            console.log("ES DEL EQUIPO LOCAL");
+
             //Game home team score
+            console.log("SHOT POINTS: "+shot_points);
+            console.log("GAME.HOME_TEAM_SCORE: "+this.game.home_team_score);
             this.game.home_team_score -= shot_points;
             //Home team stats
             this.home_team_stats.points -= shot_points;
-            this.home_team_stats.shots_list[shot_position].made--;
-            this.home_team_stats.shots_list[shot_position].attempted--;
+            if(shot_points != 1){
+              this.home_team_stats.shots_list[shot_position].made--;
+              this.home_team_stats.shots_list[shot_position].attempted--;
+            }
             //Player stats
             player_stats.points -= shot_points;
-            player_stats.shots_list[shot_position].made--;
-            player_stats.shots_list[shot_position].attempted--;
+            if(shot_points != 1){
+              player_stats.shots_list[shot_position].made--;
+              player_stats.shots_list[shot_position].attempted--;
+            }
 
             if(shot_points == 1){
               this.home_team_stats.t1_made--;
@@ -147,7 +160,8 @@ export class PlayByPlayComponent implements OnInit {
           }
           else{
             team = 1;
-
+            console.log("EQUIPO VISITANTE");
+            console.log("GAME.VISITOR_TEAM_SCORE: "+this.game.visitor_team_score);
             //Game visitor team score
             this.game.visitor_team_score -= shot_points;
             //visitor team stats
@@ -222,15 +236,22 @@ export class PlayByPlayComponent implements OnInit {
         //If the shot was missed
         else{
 
+          console.log("SHOT MISSED");
+
           if(this.plays[play_index].team.team_id == this.home_team_id){
             team = 0;
 
-            //Home team stats
-            this.home_team_stats.shots_list[shot_position].made--;
-            this.home_team_stats.shots_list[shot_position].attempted--;
-            //Player stats
-            player_stats.shots_list[shot_position].made--;
-            player_stats.shots_list[shot_position].attempted--;
+            console.log("SHOT_POINTS: "+shot_points);
+
+            if(shot_points != 1){
+              //Home team stats
+              this.home_team_stats.shots_list[shot_position].made--;
+              this.home_team_stats.shots_list[shot_position].attempted--;
+              //Player stats
+              player_stats.shots_list[shot_position].made--;
+              player_stats.shots_list[shot_position].attempted--;
+            }
+
 
             if(shot_points == 1){
               this.home_team_stats.t1_attempted--;

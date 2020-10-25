@@ -1874,6 +1874,7 @@ export class MainPageComponent implements OnInit {
       play.type = "shot";
       play.shot_type = "fg";
       play.shot_position = this.shot_zone;
+      play.shot_made = shot_made;
 
       //Save the play in the array
       if(this.plays.length == 0){
