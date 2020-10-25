@@ -687,42 +687,55 @@ export class MainPageComponent implements OnInit {
 
   //Update the USG for every player in the team
   updateUSG(team_index, player_index){
+    let usg_1;
+    let usg_2;
+
+    let team_time_played;
+    let player_time_played;
 
     if(team_index == 0){
-      let usg_1 = 100*( (this.home_players[player_index].t2_attempted + this.home_players[player_index].t3_attempted) + 0.44*(this.home_players[player_index].t1_attempted) + (this.home_players[player_index].turnovers))*this.home_team_stats.time_played.minutes;
-      let usg_2 = ( (this.home_team_stats.t2_attempted + this.home_team_stats.t3_attempted) + 0.44*(this.home_team_stats.t1_attempted) + this.home_team_stats.turnovers)*(this.home_players[player_index].time_played.minutes);
+      team_time_played = this.home_team_stats.time_played.minutes;
+      player_time_played = this.home_players[player_index].time_played.minutes;
 
-      this.home_players[player_index].usage = (usg_1 / usg_2);
+      if(team_time_played < 1){
+        team_time_played = this.home_team_stats.time_played.seconds / 60;
+      }
+      if(player_time_played < 1){
+        player_time_played = this.home_players[player_index].time_played.seconds / 60;
+      }
+
     }
     else{
-      let usg_1 = 100*( (this.visitor_players[player_index].t2_attempted + this.visitor_players[player_index].t3_attempted) + 0.44*(this.visitor_players[player_index].t1_attempted) + (this.visitor_players[player_index].turnovers))*this.visitor_team_stats.time_played.minutes;
-      let usg_2 = ( (this.visitor_team_stats.t2_attempted + this.visitor_team_stats.t3_attempted) + 0.44*(this.visitor_team_stats.t1_attempted) + this.visitor_team_stats.turnovers)*(this.visitor_players[player_index].time_played.minutes);
+      team_time_played = this.visitor_team_stats.time_played.minutes;
+      player_time_played = this.visitor_players[player_index].time_played.minutes;
+
+      if(team_time_played < 1){
+        team_time_played = this.visitor_team_stats.time_played.seconds / 60;
+      }
+      if(player_time_played < 1){
+        player_time_played = this.visitor_players[player_index].time_played.seconds / 60;
+      }
+
+    }
+
+
+    
+
+    if(team_index == 0){
+
+      usg_1 = 100*( (this.home_players[player_index].t2_attempted + this.home_players[player_index].t3_attempted) + 0.44*(this.home_players[player_index].t1_attempted) + (this.home_players[player_index].turnovers))*team_time_played;
+      usg_2 = ( (this.home_team_stats.t2_attempted + this.home_team_stats.t3_attempted) + 0.44*(this.home_team_stats.t1_attempted) + this.home_team_stats.turnovers)*(player_time_played);
+
+      this.home_players[player_index].usage = (usg_1 / usg_2);
+
+    }
+    else{
+      usg_1 = 100*( (this.visitor_players[player_index].t2_attempted + this.visitor_players[player_index].t3_attempted) + 0.44*(this.visitor_players[player_index].t1_attempted) + (this.visitor_players[player_index].turnovers))*team_time_played;
+      usg_2 = ( (this.visitor_team_stats.t2_attempted + this.visitor_team_stats.t3_attempted) + 0.44*(this.visitor_team_stats.t1_attempted) + this.visitor_team_stats.turnovers)*(player_time_played);
       
       this.visitor_players[player_index].usage = usg_1 / usg_2;
     }
 
-    /*
-    if(team_index == 0){
-      for(let player_index of this.oncourt_home_players){
-        
-        let usg_1 = 100*( (this.home_players[player_index].t2_attempted + this.home_players[player_index].t3_attempted) + 0.44*(this.home_players[player_index].t1_attempted) + (this.home_players[player_index].turnovers))*this.home_team_stats.time_played.minutes;
-        let usg_2 = ( (this.home_team_stats.t2_attempted + this.home_team_stats.t3_attempted) + 0.44*(this.home_team_stats.t1_attempted) + this.home_team_stats.turnovers)*(this.home_players[player_index].time_played.minutes);
-
-        this.home_players[player_index].usage = (usg_1 / usg_2);
-
-      }
-    }
-    else{
-      for(let player_index of this.oncourt_visitor_players){
-
-        let usg_1 = 100*( (this.visitor_players[player_index].t2_attempted + this.visitor_players[player_index].t3_attempted) + 0.44*(this.visitor_players[player_index].t1_attempted) + (this.visitor_players[player_index].turnovers))*this.visitor_team_stats.time_played.minutes;
-        let usg_2 = ( (this.visitor_team_stats.t2_attempted + this.visitor_team_stats.t3_attempted) + 0.44*(this.visitor_team_stats.t1_attempted) + this.visitor_team_stats.turnovers)*(this.visitor_players[player_index].time_played.minutes);
-      
-        this.visitor_players[player_index].usage = usg_1 / usg_2;
-
-      }
-    }
-    */
 
 
   }
