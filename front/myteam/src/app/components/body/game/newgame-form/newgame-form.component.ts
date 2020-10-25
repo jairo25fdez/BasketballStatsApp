@@ -604,6 +604,7 @@ export class NewgameFormComponent implements OnInit {
                   },
                   shots_stats: {
                       total_shots: 0,
+                      total_FG_shots: 0,
                       shots_list: {
                         lc3: {made: 0, attempted: 0},
                         le3: {made: 0, attempted: 0},
@@ -655,6 +656,7 @@ export class NewgameFormComponent implements OnInit {
                   },
                   lost_balls_stats: {
                       total_losts: 0,
+                      turnovers_per_minute: 0
                   },
                   rebounds_stats: {
                       total_rebounds: 0,
@@ -664,7 +666,6 @@ export class NewgameFormComponent implements OnInit {
                       total_rebounds_per_minute: 0,
                       off_rebounds_per_minute: 0,
                       def_rebounds_per_minute: 0,
-                      rebounds_percentage: 0,
                   },
                   blocks_stats: {
                       total_blocks_made: 0,
@@ -673,10 +674,6 @@ export class NewgameFormComponent implements OnInit {
                       blocks_received_per_game: 0,
                       blocks_received_per_minute: 0,
                       blocks_made_per_minute: 0,
-                  },
-                  possessions: {
-                      total_possessions: 0,
-                      possessions_per_game: 0,
                   },
                   fouls_stats: {
                       total_fouls_made: 0,
@@ -705,10 +702,10 @@ export class NewgameFormComponent implements OnInit {
                 let visitor_team_stats_season = new Team_stats_seasonModel();
 
                 visitor_team_stats_season = {
-                  team_id: this.game.home_team.team_id,
+                  team_id: this.game.visitor_team.team_id,
                   league_id: this.game.league.league_id,
                   season: this.game.season,
-                  team_name: this.game.home_team.club_name,
+                  team_name: this.game.visitor_team.club_name,
                   time_played: {
                       minutes: 0,
                       seconds: 0,
@@ -728,6 +725,7 @@ export class NewgameFormComponent implements OnInit {
                   },
                   shots_stats: {
                       total_shots: 0,
+                      total_FG_shots: 0,
                       shots_list: {
                         lc3: {made: 0, attempted: 0},
                         le3: {made: 0, attempted: 0},
@@ -779,6 +777,7 @@ export class NewgameFormComponent implements OnInit {
                   },
                   lost_balls_stats: {
                       total_losts: 0,
+                      turnovers_per_minute: 0
                   },
                   rebounds_stats: {
                       total_rebounds: 0,
@@ -787,8 +786,7 @@ export class NewgameFormComponent implements OnInit {
                       defensive_rebounds: 0,
                       total_rebounds_per_minute: 0,
                       off_rebounds_per_minute: 0,
-                      def_rebounds_per_minute: 0,
-                      rebounds_percentage: 0,
+                      def_rebounds_per_minute: 0
                   },
                   blocks_stats: {
                       total_blocks_made: 0,
@@ -797,10 +795,6 @@ export class NewgameFormComponent implements OnInit {
                       blocks_received_per_game: 0,
                       blocks_received_per_minute: 0,
                       blocks_made_per_minute: 0,
-                  },
-                  possessions: {
-                      total_possessions: 0,
-                      possessions_per_game: 0,
                   },
                   fouls_stats: {
                       total_fouls_made: 0,

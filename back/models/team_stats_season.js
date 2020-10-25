@@ -51,7 +51,8 @@ var team_stats_seasonSchema = new Schema({
     shots_stats: {
         _id: false,
         //Shots location stats
-        total_shots: {type: Number, min: 0}, //Number of shots through the season (free throws not included)
+        total_shots: {type: Number, min: 0}, //Number of shots through the season
+        total_FG_shots: {type: Number, min: 0}, //Number of shots through the season (FT NOT included)
         shots_list: shots_listSchema, //We will save the shot locations.
         eFG: {type: Number, min: 0}, //
         fg_percentage: {type: Number, min: 0},
@@ -98,7 +99,8 @@ var team_stats_seasonSchema = new Schema({
     },
     //Lost balls stats
     lost_balls_stats: {
-        total_losts: {type: Number, min: 0}
+        total_losts: {type: Number, min: 0},
+        turnovers_per_minute: {type: Number, min: 0}
     },
     //Rebounds stats
     rebounds_stats: {
@@ -110,7 +112,7 @@ var team_stats_seasonSchema = new Schema({
         total_rebounds_per_minute: {type: Number, min: 0}, // total_rebounds / minutes_played
         off_rebounds_per_minute: {type: Number, min: 0}, // off_rebounds / minutes_played
         def_rebounds_per_minute: {type: Number, min: 0}, // def_rebounds / minutes_played
-        rebounds_percentage: {type: Number, min: 0}, //100*(total_rebounds*(Team Minutes Played/5))/(Minutes Played*(Team Total Rebounds + Opponent Team’s Total Rebounds))
+        //rebounds_percentage: {type: Number, min: 0}, //100*(total_rebounds*(Team Minutes Played/5))/(Minutes Played*(Team Total Rebounds + Opponent Team’s Total Rebounds))
     },
     //Blocks stats
     blocks_stats: {
@@ -123,10 +125,12 @@ var team_stats_seasonSchema = new Schema({
         blocks_made_per_minute: {type: Number, min: 0},
     },
     //Usage stats
+    /*
     possessions: {
         total_possessions: {type: Number, min: 0},
         possessions_per_game: {type: Number, min: 0},
     },
+    */
     //Fouls stats
     fouls_stats: {
         _id: false,
@@ -137,6 +141,9 @@ var team_stats_seasonSchema = new Schema({
     }
 
 });
+
+team_stats_seasonSchema.index( {team_id: 1, season_id: 1, league_id: 1}, { unique: true } );
+
 
 team_stats_seasonSchema = mongoose.Schema(team_stats_seasonSchema);
 team_stats_seasonModel = mongoose.model('Team Stats Season', team_stats_seasonSchema);

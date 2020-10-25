@@ -23,6 +23,7 @@ export class Team_stats_seasonModel{
     };
     shots_stats: {
         total_shots: number;
+        total_FG_shots: number;
         shots_list: {
             lc3: {made: 0, attempted: 0};
             le3: {made: 0, attempted: 0};
@@ -74,6 +75,7 @@ export class Team_stats_seasonModel{
     };
     lost_balls_stats: {
         total_losts: number;
+        turnovers_per_minute: number;
     };
     rebounds_stats: {
         total_rebounds: number;
@@ -83,7 +85,7 @@ export class Team_stats_seasonModel{
         total_rebounds_per_minute: number;
         off_rebounds_per_minute: number;
         def_rebounds_per_minute: number;
-        rebounds_percentage: number;
+        //rebounds_percentage: number;
     };
     blocks_stats: {
         total_blocks_made: number;
@@ -93,10 +95,12 @@ export class Team_stats_seasonModel{
         blocks_received_per_minute: number;
         blocks_made_per_minute: number;
     };
+    /*
     possessions: {
         total_possessions: number;
         possessions_per_game: number;
     };
+    */
     fouls_stats: {
         total_fouls_made: number;
         fouls_made_per_minute: number;
