@@ -229,9 +229,6 @@ export class MainPageComponent implements OnInit {
       this.player_stats_gameService.updatePlayer_stats_game(this.visitor_players[player_index]);
     }
 
-
-    
-
     this.team_stats_gameService.updateTeam_stats_game(this.home_team_stats);
     this.team_stats_gameService.updateTeam_stats_game(this.visitor_team_stats);
 
@@ -385,15 +382,110 @@ export class MainPageComponent implements OnInit {
             for(let player of this.home_players){
               this.player_stats_seasonService.getPlayer_stats_seasons("?player_id="+player.player_id+"&team_id="+player.team_id+"&season="+player.season).then( (stats_season:Player_stats_seasonModel[]) => {
 
-                //Find for every game played for the selected player with the team this season
+                //Reset the values
+
+                stats_season[0].time_played = {
+                  minutes: 0,
+                  seconds: 0,
+                  average: 0,
+                };
+                stats_season[0].games_played = 0;
+                stats_season[0].wins = 0;
+                stats_season[0].losses = 0;
+                stats_season[0].win_percentage = 0;
+                stats_season[0].points_stats = {
+                    total_points: 0,
+                    average_points: 0,
+                    points_per_minute: 0,
+                    points_per_field_shot: 0,
+                    points_per_shot_t2: 0,
+                    points_per_shot_t3: 0
+                };
+                stats_season[0].shots_stats = {
+                    total_shots: 0,
+                    total_FG_shots: 0,
+                    shots_list: {
+                        lc3: {made: 0, attempted: 0},
+                        le3: {made: 0, attempted: 0},
+                        c3: {made: 0, attempted: 0},
+                        re3: {made: 0, attempted: 0},
+                        rc3: {made: 0, attempted: 0},
+                        lmc2: {made: 0, attempted: 0},
+                        lme2: {made: 0, attempted: 0},
+                        cm2: {made: 0, attempted: 0},
+                        rme2: {made: 0, attempted: 0},
+                        rmc2: {made: 0, attempted: 0},
+                        lp2: {made: 0, attempted: 0},
+                        rp2: {made: 0, attempted: 0},
+                        lft2: {made: 0, attempted: 0},
+                        rft2: {made: 0, attempted: 0}
+                    },
+                    eFG: 0,
+                    fg_percentage: 0,
+                    t2_stats: {
+                        t2_made: 0,
+                        t2_attempted: 0,
+                        t2_percentage: 0,
+                        t2_volume_percentage: 0
+                    },
+                    t3_stats: {
+                        t3_made: 0,
+                        t3_attempted: 0,
+                        t3_percentage: 0,
+                        t3_volume_percentage: 0
+                    },
+                    t1_stats: {
+                        t1_made: 0,
+                        t1_attempted: 0,
+                        t1_percentage: 0,
+                        t1_volume_percentage: 0
+                    }
+                };
+                stats_season[0].assists_stats = {
+                    total_assists: 0,
+                    assists_percentage: 0,
+                    assists_per_lost: 0
+                };
+                stats_season[0].steals_stats = {
+                    total_steals: 0,
+                    steals_per_minute: 0,
+                    steals_per_game: 0
+                };
+                stats_season[0].lost_balls_stats = {
+                    total_losts: 0,
+                    turnovers_per_minute: 0
+                };
+                stats_season[0].rebounds_stats = {
+                    total_rebounds: 0,
+                    average_rebounds: 0,
+                    offensive_rebounds: 0,
+                    defensive_rebounds: 0,
+                    total_rebounds_per_minute: 0,
+                    off_rebounds_per_minute: 0,
+                    def_rebounds_per_minute: 0
+                };
+                stats_season[0].blocks_stats = {
+                    total_blocks_made: 0,
+                    total_blocks_received: 0,
+                    blocks_made_per_game: 0,
+                    blocks_received_per_game: 0,
+                    blocks_received_per_minute: 0,
+                    blocks_made_per_minute: 0
+                };
+                stats_season[0].usage = 0;
+                stats_season[0].fouls_stats = {
+                    total_fouls_made: 0,
+                    fouls_made_per_minute: 0,
+                    total_fouls_received: 0,
+                    fouls_received_per_minute: 0,
+                };
+                
+
+                //Find every game played for the selected player with the team this season
                 this.player_stats_gameService.getPlayer_stats_games("?player_id="+player.player_id+"&team_id="+player.team_id+"&season="+player.season).then( (stats_game:Player_stats_gameModel[]) => {
 
                   //Por cada partido devuelto actualizo las stats de season
                   for(let game_stats of stats_game){
-
-                    if(game_stats.player_name == "Jose Juan"){
-                      console.log("STATS DE PARTIDO: "+JSON.stringify(game_stats));
-                    }
 
                     //Update the time played through the season
                     if( (stats_season[0].time_played.seconds + game_stats.time_played.seconds) > 59){
