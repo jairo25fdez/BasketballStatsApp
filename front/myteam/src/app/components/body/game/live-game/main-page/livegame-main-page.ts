@@ -1195,10 +1195,7 @@ export class MainPageComponent implements OnInit {
           this.home_team_stats.t1_made++;
           this.home_team_stats.points++;
 
-          console.log("TIRO LIBRE");
-          console.log("HOME TEAM SCORE ANTES: "+this.game.home_team_score);
           this.game.home_team_score++;
-          console.log("HOME TEAM SCORE DESPUES: "+this.game.home_team_score);
 
         }
 

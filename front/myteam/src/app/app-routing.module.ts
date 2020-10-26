@@ -20,6 +20,7 @@ import { NewplayerFormComponent } from './components/body/players/newplayer-form
 import { PlayersMenuComponent } from './components/body/players/players-menu/players-menu.component';
 import { PlayersViewComponent } from './components/body/players/players-view/players-view.component';
 import { UpdateplayerFormComponent } from './components/body/players/updateplayer-form/updateplayer-form.component';
+import { PlayerProfileComponent } from './components/body/players/player-profile/player-profile.component';
 
 //Leagues components
 import { NewleagueFormComponent } from './components/body/leagues/newleague-form/newleague-form.component';
@@ -64,6 +65,7 @@ const routes: Routes = [
         {path: 'new-player', component: NewplayerFormComponent},
         {path: 'players-list', component: PlayersViewComponent},
         {path: 'edit-player/:id', component: UpdateplayerFormComponent},
+        {path: 'player-profile/:id', component: PlayerProfileComponent},
         {path: '**', pathMatch: 'full', redirectTo: 'players-list'}
       ]
     },

@@ -1,0 +1,32 @@
+<div class="container-fluid">
+
+    <div class="row no-gutters mt-3">
+
+        <!-- Player column -->
+        <div class="col-6">
+            <div class="card flex-row text-white" >
+                <img class="img-fluid" src="{{player.img}}" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">{{player.name}} {{player.last_name}}</h5>
+                  <p class="card-text">{{player.birth_date | date: 'dd/MM/yyyy' }}</p>
+                  <p class="card-text">{{player.height}} cm  {{player.weight}} kg</p>
+                  <p class="card-text">{{player.primary_position}} / {{player.secondary_position}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats chart column -->
+        <div class="col-3">
+
+        </div>
+
+        <!-- Team logo column -->
+        <div class="col-3">
+
+        </div>
+
+        
+
+    </div>
+
+</div>
