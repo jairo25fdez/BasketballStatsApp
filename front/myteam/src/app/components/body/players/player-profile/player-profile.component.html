@@ -1,12 +1,12 @@
 <div class="container-fluid">
 
-    <div class="row no-gutters pt-3">
+    <div class="row h-50 no-gutters pt-3">
 
         <!-- Player column -->
-        <div class="col-6">
-            <div class="card flex-row h-50 text-white" >
+        <div class="col-7">
+            <div class="card flex-row h-50  text-white" >
                 <img class="img-fluid" src="{{player.img}}" alt="Card image cap">
-                <div class="card-body">
+                <div class="card-body text-center">
                   <h5 class="card-title">{{player.name}} {{player.last_name}}</h5>
                   <p class="card-text">{{player.birth_date | date: 'dd/MM/yyyy' }}</p>
                   <p class="card-text">{{player.height}} cm  {{player.weight}} kg</p>
@@ -17,17 +17,15 @@
 
         <!-- Stats chart column -->
         <div class="col-3">
-            <div class="card season_stats h-50">
+            <div class="card h-50 season_stats">
                 <div echarts [options]="options"  class="season_stats_chart"></div>
             </div>
         </div>
 
         <!-- Team logo column -->
-        <div class="col-3">
-
+        <div class="col-2">
+                <img class="card-img-top img-fluid w-100" src="{{player.teams[0].club_img}}" alt="Card image cap">
         </div>
-
-        
 
     </div>
 
