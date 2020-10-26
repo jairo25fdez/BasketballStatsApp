@@ -53,6 +53,10 @@ import { NewgameFormComponent } from './components/body/game/newgame-form/newgam
 import { GamesViewComponent } from './components/body/game/games-view/games-view.component';
 import { PlayerProfileComponent } from './components/body/players/player-profile/player-profile.component';
 
+
+//Charts
+import { NgxEchartsModule } from 'ngx-echarts';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,7 +97,11 @@ import { PlayerProfileComponent } from './components/body/players/player-profile
     //Forms
     ReactiveFormsModule,
     //Http
-    HttpClientModule
+    HttpClientModule,
+    //Charts
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    })
   ],
   providers: [
     LeaguesService,

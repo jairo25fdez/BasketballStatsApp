@@ -1,10 +1,10 @@
 <div class="container-fluid">
 
-    <div class="row no-gutters mt-3">
+    <div class="row no-gutters pt-3">
 
         <!-- Player column -->
         <div class="col-6">
-            <div class="card flex-row text-white" >
+            <div class="card flex-row h-50 text-white" >
                 <img class="img-fluid" src="{{player.img}}" alt="Card image cap">
                 <div class="card-body">
                   <h5 class="card-title">{{player.name}} {{player.last_name}}</h5>
@@ -17,7 +17,9 @@
 
         <!-- Stats chart column -->
         <div class="col-3">
-
+            <div class="card season_stats h-50">
+                <div echarts [options]="options"  class="season_stats_chart"></div>
+            </div>
         </div>
 
         <!-- Team logo column -->
@@ -28,5 +30,7 @@
         
 
     </div>
+
+    <div class="row no-gutters pt-3"></div>
 
 </div>

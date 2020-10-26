@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { EChartOption } from 'echarts';
+
 //Models
 import { LeagueModel } from 'src/app/models/league.model';
 import { GameModel } from '../../../../models/game.model';
@@ -31,8 +33,11 @@ import { Team_stats_seasonService } from 'src/app/services/team_stats_season.ser
 export class PlayerProfileComponent implements OnInit {
 
   player:PlayerModel;
+  player_stats:Player_stats_seasonModel;
 
-  constructor(private playersService:PlayersService, private route:ActivatedRoute) { 
+  options:EChartOption;
+
+  constructor(private playersService:PlayersService, private player_stats_seasonService:Player_stats_seasonService, private route:ActivatedRoute) { 
 
     const player_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
@@ -40,9 +45,53 @@ export class PlayerProfileComponent implements OnInit {
       this.player = player;
     });
 
+    this.player_stats_seasonService.getPlayer_stats_seasons("?player_id="+player_id+"&sort=-season").then( (player_stats:Player_stats_seasonModel) => {
+      this.player_stats = player_stats;
+    });
+
   }
 
   ngOnInit(): void {
+
+    this.options = {
+      
+      title: {
+        text: ''
+      },
+      tooltip: {
+          trigger: 'axis'
+      },
+      radar: [
+          {
+            indicator: [
+                {text: 'PPTC', max: 100},
+                {text: 'ASPPer', max: 100},
+                {text: 'eFG', max: 100},
+                {text: 'RobPMin', max: 100},
+                {text: 'PérPMin', max: 100},
+                {text: 'RebPMin', max: 100},
+                {text: '%Uso', max: 100}
+            ],
+            radius: ["0%", "70%"] //Chart width
+          }
+      ],
+      series: [
+          {
+            type: 'radar',
+            tooltip: {
+                trigger: 'item'
+            },
+            areaStyle: {},
+            data: [
+                {
+                    value: [50,100]
+                }
+            ]
+          }
+      ]
+
+    };
+
   }
 
 }

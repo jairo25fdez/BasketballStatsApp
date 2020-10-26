@@ -1,6 +1,19 @@
+.player-row{
+    height: 20%;
+}
+
+
 .card{
     border: solid;
     border-color: white;
     border-width: 2px;
+    background-color: #27293D;
+}
+
+.row{
+    border: solid red 1px;
+}
+
+.season_stats_chart{
     background-color: #27293D;
 }
