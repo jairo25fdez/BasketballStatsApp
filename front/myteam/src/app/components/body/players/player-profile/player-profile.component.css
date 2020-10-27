@@ -9,8 +9,8 @@ h5{
     color: white;
 }
 
-.row{
-    border: solid red 1px;
+.tab-content{
+    overflow-x: hidden;
 }
 
 .season_stats_chart{
@@ -47,4 +47,8 @@ h5{
 
 #stats-column p{
     color: white;
+}
+
+.addScroll{
+    height: 60vh;
 }

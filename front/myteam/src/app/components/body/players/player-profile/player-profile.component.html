@@ -19,28 +19,30 @@
 
         <!-- Stats chart column -->
         <div class="d-flex flex-column  col-4">
-            <div echarts [options]="options"  class="season_stats_chart h-100"></div>
+            <div echarts [options]="season_stats_heptagon"  class="season_stats_chart h-100"></div>
         </div>
 
     </div>
 
     <!-- 2nd row -->
-    <div class="row no-gutters h-100 pt-3">
+    <div class="row no-gutters h-100 pt-3 ">
 
         <div class="d-flex flex-column col h-100" id="stats-column">
 
             <!-- Pills -->
             <nav class="nav nav-pills nav-justified ">
-                <a class="nav-item nav-link active w-25" data-toggle="pill" href="#season_stats">Stats temporada</a>
-                <a class="nav-item nav-link w-25" data-toggle="pill" href="#actions">Stats por partido</a>
-                <a class="nav-item nav-link w-25" data-toggle="pill" href="#shotchart">Comparar stats temporada</a>
-                <a class="nav-item nav-link w-25" data-toggle="pill" href="#local_bench">Comparar heptágono</a>
+                <a class="nav-item nav-link active" data-toggle="pill" href="#season_stats">Stats temporada</a>
+                <!-- <a class="nav-item nav-link w-25" data-toggle="pill" href="#actions">Stats por partido</a> -->
+                <a class="nav-item nav-link" data-toggle="pill" href="#stats_comparator">Comparar stats temporada</a>
+                <a class="nav-item nav-link" data-toggle="pill" href="#local_bench">Comparar heptágono</a>
             </nav>
             <!-- Content -->
-            <div class="tab-content h-100">
-                <div class="tab-pane fade show active h-100" id="season_stats" role="tabpanel" >
+            <div class="tab-content addScroll">
+                <!-- Season stats -->
+                <div class="tab-pane fade show active " id="season_stats" role="tabpanel" >
+
                     <div class="row align-items-center no-gutters h-100">
-                        <h5>Estadísticas generales acumuladas</h5>
+                        <h5 class="mt-2">Estadísticas generales acumuladas</h5>
                         <!-- Stats per season table -->
                         <div class="table-responsive">
 
@@ -87,7 +89,54 @@
 
                         </div>
 
-                        <h5>Estadísticas de tiro</h5>
+                        <h5 class="mt-2">Promedios por partido</h5>
+                        <!-- Stats per season table -->
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered table-dark  table-striped table-hover mt-2 local-team-table overflow-auto">
+                                <thead class="thead-dark">
+                                    <tr  class="text-center">
+                                        <th scope="col">Temporada</th>
+                                        <th scope="col">Equipo</th>
+                                        <th scope="col">Liga</th>
+                                        <th scope="col">Partidos jugados</th>
+                                        <th scope="col">Minutos PP</th>
+                                        <th scope="col">Puntos PP</th>
+                                        <th scope="col">Asistencias PP</th>
+                                        <th scope="col">Rebotes totales PP</th>
+                                        <th scope="col">Balones robados PP</th>
+                                        <th scope="col">Tapones realizados PP</th>
+                                        <th scope="col">Tapones recibidos PP</th>
+                                        <th scope="col">Faltas realizadas PP</th>
+                                        <th scope="col">Faltas recibidas PP</th>
+                                        <th scope="col">%Uso</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                      
+                                    <tr *ngFor="let season of player_stats_season; index as i;"  class="text-center">
+                                        <th scope="row align-items-center">{{ player_stats_season[i].season }}</th>
+                                        <th scope="row align-items-center">{{ player_teams[i][0] }}</th>
+                                        <th scope="row align-items-center">{{ player_teams[i][1] }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].games_played}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].time_played.minutes / player_stats_season[i].games_played}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].points_stats.average_points}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].assists_stats.total_assists / player_stats_season[i].games_played }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].rebounds_stats.average_rebounds}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].steals_stats.steals_per_game}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.blocks_made_per_game}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.blocks_received_per_game}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_made / player_stats_season[i].games_played }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_received / player_stats_season[i].games_played }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].usage | number:'2.2-2'}}</th>
+                                    </tr>
+                      
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <h5 class="mt-2">Estadísticas de tiro</h5>
                         <!-- Shots stats per season table -->
                         <div class="table-responsive">
                             <table class="table table-bordered table-dark  table-striped table-hover mt-2 local-team-table overflow-auto">
@@ -125,7 +174,24 @@
                       
                                 </tbody>
                             </table>
+                        </div>
 
+                        <div class="d-flex flex-column col-6">
+                            <div echarts [options]="total_shots_volume_pie"  class="season_stats_chart h-100"></div>
+                        </div>
+
+                        <div class="d-flex flex-column col-6">
+                            <div echarts [options]="FG_shots_volume_pie"  class="season_stats_chart h-100"></div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="tab-pane fade show h-100"  id="stats_comparator" role="tabpanel">
+                    <div class="row align-items-center no-gutters h-100">
+                        <div class="d-flex flex-column col-3">
+                            <img class="img-fluid col " src="{{player.img}}" alt="Card image cap">
                         </div>
                     </div>
                 </div>

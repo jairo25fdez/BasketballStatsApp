@@ -37,7 +37,9 @@ export class PlayerProfileComponent implements OnInit {
 
   player_teams:any = [];
 
-  options:EChartOption;
+  season_stats_heptagon:EChartOption;
+  total_shots_volume_pie:EChartOption;
+  FG_shots_volume_pie:EChartOption;
 
 
   pptc:number[] = [];
@@ -122,7 +124,7 @@ export class PlayerProfileComponent implements OnInit {
             this.perpmin_value = ( (this.perpmin.lastIndexOf(this.player_stats.lost_balls_stats.turnovers_per_minute)+1)*100) / this.perpmin_counter;
             this.rebpmin_value = ( (this.rebpmin.lastIndexOf(this.player_stats.rebounds_stats.total_rebounds_per_minute)+1)*100) / this.rebpmin_counter;
     
-            this.options = {
+            this.season_stats_heptagon = {
           
               title: {
                 text: ''
@@ -160,6 +162,118 @@ export class PlayerProfileComponent implements OnInit {
                   }
               ]
         
+            };
+
+            this.total_shots_volume_pie = {
+              title: {
+                  text: '% de volumen de tiro por tipo',
+                  textStyle: {
+                    color: "white"
+                  },
+                  left: 'center'
+              },
+              tooltip: {
+                  trigger: 'item',
+                  formatter: '{a} <br/>{b} : {c} ({d}%)'
+              },
+              series: [
+                  {
+                    name: this.player_stats_season[0].player_name+" "+this.player_stats_season[0].player_lastName,
+                    type: 'pie',
+                    data: [
+                      {
+                        value: this.player_stats_season[0].shots_stats.t1_stats.t1_attempted,
+                        name: "T1"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.t2_stats.t2_attempted,
+                        name: "T2"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.t3_stats.t3_attempted,
+                        name: "T3"
+                      }
+                    ]
+                  }
+              ]
+            };
+
+            this.FG_shots_volume_pie = {
+              title: {
+                  text: '% de volumen de tiro por zona',
+                  textStyle: {
+                    color: "white"
+                  },
+                  left: 'center'
+              },
+              tooltip: {
+                  trigger: 'item',
+                  formatter: '{a} <br/>{b} : {c} ({d}%)'
+              },
+              series: [
+                  {
+                    name: this.player_stats_season[0].player_name+" "+this.player_stats_season[0].player_lastName,
+                    type: 'pie',
+                    data: [
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.lc3.attempted,
+                        name: "LC3"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.le3.attempted,
+                        name: "LE3"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.c3.attempted,
+                        name: "C3"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.re3.attempted,
+                        name: "RE3"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.rc3.attempted,
+                        name: "RC3"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.lmc2.attempted,
+                        name: "LMC2"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.lme2.attempted,
+                        name: "LME2"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.cm2.attempted,
+                        name: "CM2"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.rme2.attempted,
+                        name: "RME2"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.rmc2.attempted,
+                        name: "RMC2"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.lp2.attempted,
+                        name: "LP2"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.rp2.attempted,
+                        name: "RP2"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.lft2.attempted,
+                        name: "LFT2"
+                      },
+                      {
+                        value: this.player_stats_season[0].shots_stats.shots_list.rft2.attempted,
+                        name: "RFT2"
+                      },
+                    ]
+                  }
+              ]
             };
     
           });
