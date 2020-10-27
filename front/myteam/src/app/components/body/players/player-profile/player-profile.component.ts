@@ -41,6 +41,7 @@ export class PlayerProfileComponent implements OnInit {
   player_teams:any = [];
 
   season_stats_heptagon:EChartOption;
+  season_stats_heptagon_comparator:EChartOption;
   total_shots_volume_pie:EChartOption;
   FG_shots_volume_pie:EChartOption;
 
@@ -59,6 +60,13 @@ export class PlayerProfileComponent implements OnInit {
   perpmin_value:number;
   rebpmin_value:number;
 
+  //Second player comparator stats
+  second_player_pptc_value:number;
+  second_player_aspp_value:number;
+  second_player_robpm_value:number;
+  second_player_perpmin_value:number;
+  second_player_rebpmin_value:number;
+
   pptc_counter:number = 0;
   aspp_counter:number = 0;
   robpm_counter:number = 0;
@@ -66,12 +74,21 @@ export class PlayerProfileComponent implements OnInit {
   rebpmin_counter:number = 0;
 
   form:FormGroup;
+  form_heptagon:FormGroup;
 
   form_leagues:LeagueModel[];
   league_id:string;
   form_teams:TeamModel[];
   form_players_stats:Player_stats_seasonModel;
   second_player_stats:Player_stats_seasonModel;
+
+  form_leagues_heptagon:LeagueModel[];
+  league_id_heptagon:string;
+  form_teams_heptagon:TeamModel[];
+  form_players_stats_heptagon:Player_stats_seasonModel;
+  second_player_stats_heptagon:Player_stats_seasonModel;
+
+  season_stats_view = false;
 
   constructor(private fb:FormBuilder, private playersService:PlayersService, private leaguesService:LeaguesService, private teamsService:TeamsService, private player_stats_seasonService:Player_stats_seasonService, private route:ActivatedRoute) { 
 
@@ -306,6 +323,7 @@ export class PlayerProfileComponent implements OnInit {
 
     this.leaguesService.getLeagues("?sort=name").then( (leagues:LeagueModel[]) => {
       this.form_leagues = leagues;
+      this.form_leagues_heptagon = leagues;
     });
 
   }
@@ -324,29 +342,103 @@ export class PlayerProfileComponent implements OnInit {
       players: ['',],
     });
 
+    this.form_heptagon = this.fb.group({
+      leagues: ['',],
+      teams: ['',],
+      players: ['',],
+    });
+
   }
 
-  selectLeague(league_id){
+  selectLeague(league_id, heptagon=false){
 
     this.league_id = league_id;
 
     this.teamsService.getTeams("?season="+this.player_stats.season+"&league.league_id="+league_id+"&sort=club.club_name").then( (teams:TeamModel[]) => {
-      this.form_teams = teams;
+      if(!heptagon){
+        this.form_teams = teams;
+      }
+      else{
+        this.form_teams_heptagon = teams;
+      }
     });
 
   }
 
-  selectTeam(team_id){
+  selectTeam(team_id, heptagon=false){
 
     this.player_stats_seasonService.getPlayer_stats_seasons("?season="+this.player_stats.season+"&league_id="+this.league_id+"&team_id="+team_id+"&sort=player_name").then( (player_stats:Player_stats_seasonModel) => {
-      this.form_players_stats = player_stats;
+      if(!heptagon){
+        this.form_players_stats = player_stats;
+      }
+      else{
+        this.form_players_stats_heptagon = player_stats;
+      }
     });
 
   }
 
-  selectPlayerStats(player_stats_index){
+  selectPlayerStats(player_stats_index, heptagon=false){
 
-    this.second_player_stats = this.form_players_stats[player_stats_index];
+    if(heptagon){
+      
+      this.second_player_stats_heptagon = this.form_players_stats_heptagon[player_stats_index];
+      
+        this.second_player_pptc_value = ( (this.pptc.lastIndexOf(this.second_player_stats_heptagon.points_stats.points_per_field_shot)+1)*100) / this.pptc_counter;
+        this.second_player_aspp_value = ( (this.aspp.lastIndexOf(this.second_player_stats_heptagon.assists_stats.assists_per_lost)+1)*100) / this.aspp_counter;
+        this.second_player_robpm_value = ( (this.robpm.lastIndexOf(this.second_player_stats_heptagon.steals_stats.steals_per_minute)+1)*100) / this.robpm_counter;
+        this.second_player_perpmin_value = ( (this.perpmin.lastIndexOf(this.second_player_stats_heptagon.lost_balls_stats.turnovers_per_minute)+1)*100) / this.perpmin_counter;
+        this.second_player_rebpmin_value = ( (this.rebpmin.lastIndexOf(this.second_player_stats_heptagon.rebounds_stats.total_rebounds_per_minute)+1)*100) / this.rebpmin_counter;
+
+        this.season_stats_heptagon_comparator = {
+      
+          title: {
+            text: ''
+          },
+          tooltip: {
+              trigger: 'axis'
+          },
+          radar: [
+              {
+                indicator: [
+                    {text: 'PPTC', max: 100},
+                    {text: 'ASPPer', max: 100},
+                    {text: 'eFG%', max: 150},
+                    {text: 'RobPMin', max: 100},
+                    {text: 'PérPMin', max: 100},
+                    {text: 'RebPMin', max: 100},
+                    {text: '%Uso', max: 100}
+                ],
+                radius: ["0%", "80%"] //Chart width
+              }
+          ],
+          series: [
+              {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                areaStyle: {},
+                data: [
+                  {
+                    value: [this.pptc_value, this.aspp_value, this.player_stats.shots_stats.eFG, this.robpm_value, this.perpmin_value, this.rebpmin_value, this.player_stats.usage],
+                    name: this.player_stats.player_name+" "+this.player_stats.player_lastName
+                  },
+                  {
+                    value: [this.second_player_pptc_value, this.second_player_aspp_value, this.second_player_stats.shots_stats.eFG, this.second_player_robpm_value, this.second_player_perpmin_value, this.second_player_rebpmin_value, this.second_player_stats.usage],
+                    name: this.second_player_stats.player_name+" "+this.second_player_stats.player_lastName
+                  }
+                ],
+                color: ['#c23531', 'yellow']
+              }
+          ]
+    
+        };
+
+    }
+    else{
+      this.second_player_stats = this.form_players_stats[player_stats_index];
+    }
 
   }
 

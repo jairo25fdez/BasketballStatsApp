@@ -18,7 +18,7 @@
         </div>
 
         <!-- Stats chart column -->
-        <div class="d-flex flex-column  col-4">
+        <div class="d-flex flex-column col-4">
             <div echarts [options]="season_stats_heptagon"  class="season_stats_chart h-100"></div>
         </div>
 
@@ -33,8 +33,8 @@
             <nav class="nav nav-pills nav-justified ">
                 <a class="nav-item nav-link active" data-toggle="pill" href="#season_stats">Stats temporada</a>
                 <!-- <a class="nav-item nav-link w-25" data-toggle="pill" href="#actions">Stats por partido</a> -->
-                <a class="nav-item nav-link" data-toggle="pill" href="#stats_comparator">Comparar stats temporada</a>
-                <a class="nav-item nav-link" data-toggle="pill" href="#local_bench">Comparar heptágono</a>
+                <a class="nav-item nav-link" data-toggle="pill" href="#stats_comparator" >Comparar stats temporada</a>
+                <a class="nav-item nav-link" data-toggle="pill" href="#heptagon_comparator" >Comparar heptágono</a>
             </nav>
             <!-- Content -->
             <div class="tab-content addScroll">
@@ -189,6 +189,7 @@
                     </div>
 
                 </div>
+
                 <!-- Stats comparator -->
                 <div class="tab-pane fade show"  id="stats_comparator" role="tabpanel">
                     <!-- 2nd Player Form-->
@@ -200,7 +201,7 @@
                     
                                 <label class="col-3 col-form-label ">Liga</label>
                                 <div class="col">
-                                    <select class="custom-select" formControlName="league" (change)="selectLeague($event.target.value)">
+                                    <select class="custom-select" formControlName="leagues" (change)="selectLeague($event.target.value)">
                                         <option *ngFor="let league of form_leagues;" value="{{league._id}}">{{league.name}}</option>
                                     </select>
                                 </div>
@@ -222,7 +223,7 @@
                     
                                 <label class="col-3 col-form-label">Jugador</label>
                                 <div class="col">
-                                    <select class="custom-select" formControlName="players" (change)="selectPlayerStats($event.target.value)">
+                                    <select class="custom-select" formControlName="players" (change)="selectPlayerStats($event.target.value, false)">
                                         <option *ngFor="let player of form_players_stats; index as i;" value="{{i}}">{{player.player_name}} {{player.player_lastName}}</option>
                                     </select>
                                 </div>
@@ -363,7 +364,67 @@
 
                     </div>
                 </div>
+
                 <!-- Heptagon comparator -->
+                <div class="tab-pane fade show " id="heptagon_comparator" role="tabpanel" >
+                    <!-- 2nd Player Form-->
+                    <div class="row align-items-center no-gutters">                    
+                        <form class="col mt-1 d-flex" [formGroup]="form_heptagon">
+                        
+                            <div class="form-group col no-gutters">
+
+                                <label class="col-3 col-form-label ">Liga</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="leagues" (change)="selectLeague($event.target.value, true)">
+                                        <option *ngFor="let league of form_leagues_heptagon;" value="{{league._id}}">{{league.name}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group col no-gutters">
+
+                                <label class="col-3 col-form-label ">Equipo</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="teams" (change)="selectTeam($event.target.value, true)">
+                                        <option *ngFor="let team of form_teams_heptagon;" value="{{team._id}}">{{team.club.club_name}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group col no-gutters">
+
+                                <label class="col-3 col-form-label">Jugador</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="players" (change)="selectPlayerStats($event.target.value, true)">
+                                        <option *ngFor="let player of form_players_stats_heptagon; index as i;" value="{{i}}">{{player.player_name}} {{player.player_lastName}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <div class="row align-items-center no-gutters mt-2">
+                        <!-- Player image -->
+                        <div class="d-flex flex-column col-3">
+                            <img class="img-fluid col " src="{{player.img}}" alt="Card image cap">
+                        </div>
+                        <!-- Heptagon comparator -->
+                        <div class="d-flex flex-column col-6">
+                            <div echarts [options]="season_stats_heptagon_comparator"  *ngIf="second_player_stats != undefined;"></div>
+                        </div>
+
+                        <!-- 2nd Player image -->
+                        <div class="d-flex flex-column col-3">
+                            <img *ngIf="second_player_stats_heptagon != undefined;" class="img-fluid col " src="{{second_player_stats_heptagon.player_img}}" alt="Card image cap">
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
