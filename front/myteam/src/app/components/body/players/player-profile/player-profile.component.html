@@ -38,6 +38,7 @@
             </nav>
             <!-- Content -->
             <div class="tab-content addScroll">
+
                 <!-- Season stats -->
                 <div class="tab-pane fade show active " id="season_stats" role="tabpanel" >
 
@@ -188,13 +189,86 @@
                     </div>
 
                 </div>
+                <!-- Stats comparator -->
                 <div class="tab-pane fade show h-100"  id="stats_comparator" role="tabpanel">
-                    <div class="row align-items-center no-gutters h-100">
+                    <!-- 2nd Player Form-->
+                    <div class="row align-items-center no-gutters">
+                        
+                        <form class="col mt-1 d-flex" [formGroup]="form">
+                        
+                            <div class="form-group col no-gutters">
+                    
+                                <label class="col-3 col-form-label ">Liga</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="league" (change)="selectLeague($event.target.value)">
+                                        <option *ngFor="let league of form_leagues;" value="{{league._id}}">{{league.name}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group col no-gutters">
+                    
+                                <label class="col-3 col-form-label ">Equipo</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="teams" (change)="selectTeam($event.target.value)">
+                                        <option *ngFor="let team of form_teams;" value="{{team._id}}">{{team.club.club_name}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                    
+                            <div class="form-group col no-gutters">
+                    
+                                <label class="col-3 col-form-label">Jugador</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="players" (change)="selectPlayerStats($event.target.value)">
+                                        <option *ngFor="let player of form_players_stats; index as i;" value="{{i}}">{{player.player_name}} {{player.player_lastName}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                    
+
+                        </form>
+                    </div>
+                    <div class="row align-items-center no-gutters mt-5">
+                        <!-- Player image -->
                         <div class="d-flex flex-column col-3">
                             <img class="img-fluid col " src="{{player.img}}" alt="Card image cap">
                         </div>
+                        <!-- Table -->
+                        <div class="d-flex flex-column col table-responsive">
+                            <table *ngIf="second_player_stats != undefined;" class="table table-bordered table-dark  table-striped table-hover mt-2 local-team-table overflow-auto">
+                                <thead class="thead-dark">
+                                    <tr  class="text-center">
+                                        <th scope="col">{{player_stats.player_name}} {{player_stats.player_lastName}}</th>
+                                        <th scope="col">Estadística</th>
+                                        <th scope="col">{{second_player_stats.player_name}} {{second_player_stats.player_lastName}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>      
+                                    <tr *ngFor="let season of player_stats_season; index as i;"  class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats_season[i].season }}</td>
+                                        <th scope="row align-items-center">Minutos jugados</th>
+                                        <td scope="row align-items-center">{{ player_teams[i][1] }}</td>
+                                    </tr>              
+                                    <tr *ngFor="let season of player_stats_season; index as i;"  class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats_season[i].season }}</td>
+                                        <th scope="row align-items-center">Minutos jugados</th>
+                                        <td scope="row align-items-center">{{ player_teams[i][1] }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 2nd Player image -->
+                        <div class="d-flex flex-column col-3">
+                            <img *ngIf="second_player_stats != undefined;" class="img-fluid col " src="{{second_player_stats.player_img}}" alt="Card image cap">
+                        </div>
+
                     </div>
                 </div>
+                <!-- Heptagon comparator -->
             </div>
 
         </div>

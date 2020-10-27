@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { EChartOption } from 'echarts';
 
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 //Models
 import { LeagueModel } from 'src/app/models/league.model';
 import { GameModel } from '../../../../models/game.model';
@@ -21,6 +23,7 @@ import { TeamsService } from 'src/app/services/teams.service';
 import { PlayersService } from 'src/app/services/players.service';
 import { Player_stats_gamesService } from 'src/app/services/player_stats_game.service';
 import { Player_stats_seasonService } from 'src/app/services/player_stats_season.service';
+
 
 
 
@@ -62,8 +65,15 @@ export class PlayerProfileComponent implements OnInit {
   perpmin_counter:number = 0;
   rebpmin_counter:number = 0;
 
+  form:FormGroup;
 
-  constructor(private playersService:PlayersService, private teamsService:TeamsService, private player_stats_seasonService:Player_stats_seasonService, private route:ActivatedRoute) { 
+  form_leagues:LeagueModel[];
+  league_id:string;
+  form_teams:TeamModel[];
+  form_players_stats:Player_stats_seasonModel;
+  second_player_stats:Player_stats_seasonModel;
+
+  constructor(private fb:FormBuilder, private playersService:PlayersService, private leaguesService:LeaguesService, private teamsService:TeamsService, private player_stats_seasonService:Player_stats_seasonService, private route:ActivatedRoute) { 
 
     const player_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
@@ -292,7 +302,12 @@ export class PlayerProfileComponent implements OnInit {
   
     });
 
-    
+    this.createForm();
+
+    this.leaguesService.getLeagues("?sort=name").then( (leagues:LeagueModel[]) => {
+      this.form_leagues = leagues;
+    });
+
   }
 
   ngOnInit(): void {
@@ -300,5 +315,40 @@ export class PlayerProfileComponent implements OnInit {
     
 
   }
+
+  createForm(){
+
+    this.form = this.fb.group({
+      leagues: ['',],
+      teams: ['',],
+      players: ['',],
+    });
+
+  }
+
+  selectLeague(league_id){
+
+    this.league_id = league_id;
+
+    this.teamsService.getTeams("?season="+this.player_stats.season+"&league.league_id="+league_id+"&sort=club.club_name").then( (teams:TeamModel[]) => {
+      this.form_teams = teams;
+    });
+
+  }
+
+  selectTeam(team_id){
+
+    this.player_stats_seasonService.getPlayer_stats_seasons("?season="+this.player_stats.season+"&league_id="+this.league_id+"&team_id="+team_id+"&sort=player_name").then( (player_stats:Player_stats_seasonModel) => {
+      this.form_players_stats = player_stats;
+    });
+
+  }
+
+  selectPlayerStats(player_stats_index){
+
+    this.second_player_stats = this.form_players_stats[player_stats_index];
+
+  }
+
 
 }

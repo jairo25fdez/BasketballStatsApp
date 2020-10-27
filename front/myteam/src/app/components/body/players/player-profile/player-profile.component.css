@@ -13,6 +13,10 @@ h5{
     overflow-x: hidden;
 }
 
+.form-group label{
+    color: white;
+}
+
 .season_stats_chart{
     background-color: transparent;
 }
