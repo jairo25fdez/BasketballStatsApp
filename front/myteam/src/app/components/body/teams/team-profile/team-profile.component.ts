@@ -39,7 +39,28 @@ export class TeamProfileComponent implements OnInit {
 
   season_stats_heptagon:EChartOption;
 
-  wins_percentage:number;
+  wins_percentage:number[] = [];
+  ppfs:number[] = [];
+  aspp:number[] = [];
+  robpm:number[] = [];
+  perpmin:number[] = [];
+  rebpmin:number[] = [];
+  eFG:number[] = [];
+
+  ppfs_value:number;
+  aspp_value:number;
+  robpm_value:number;
+  perpmin_value:number
+  rebpmin_value:number;
+  eFG_value:number;
+
+  wins_percentage_counter:number = 0;
+  ppfs_counter:number = 0;
+  aspp_counter:number = 0;
+  robpm_counter:number = 0;
+  perpmin_counter:number = 0;
+  rebpmin_counter:number = 0;
+  eFG_counter:number = 0;
 
   team_stats:Team_stats_seasonModel;
 
@@ -50,23 +71,105 @@ export class TeamProfileComponent implements OnInit {
     this.teamsService.getTeam(team_id).then( (team:TeamModel) => {
       this.team = team;
 
-      this.team_stats_season.getTeam_stats_season("?team_id="+this.team._id+"&season="+this.team.season).then( (team_stats:Team_stats_seasonModel) => {
-        this.team_stats = team_stats;
-
+      this.team_stats_season.getTeams_stats_season("?team_id="+this.team._id+"&season="+this.team.season).then( (team_stats:Team_stats_seasonModel[]) => {
+        this.team_stats = team_stats[0];
+        
         if(this.team_stats != undefined){
+
           this.team_stats_season.getTeams_stats_season("?season="+this.team_stats.season+"&league_id="+this.team_stats.league_id).then( (league_team_stats:Team_stats_seasonModel[]) => {
             
+
             for(let team_stats of league_team_stats){
               
-              if(team_stats.points_stats.points_per_field_shot != null){
-                //this.wins_percentage.push(team_stats.games_played / team_stats.win_percentage);
-                //this.pptc_counter++;
+              if(team_stats.win_percentage != null){
+                this.wins_percentage.push(team_stats.win_percentage);
+                this.wins_percentage_counter++;
               }
-  
+              if(team_stats.points_stats.points_per_field_shot != null){
+                this.ppfs.push(team_stats.points_stats.points_per_field_shot);
+                this.ppfs_counter++;
+              }
+              if(team_stats.assists_stats.assists_per_lost != null){
+                this.aspp.push(team_stats.assists_stats.assists_per_lost);
+                this.aspp_counter++;
+              }
+              if(team_stats.steals_stats.steals_per_minute != null){
+                this.robpm.push(team_stats.steals_stats.steals_per_minute);
+                this.robpm_counter++;
+              }
+              if(team_stats.lost_balls_stats.turnovers_per_minute != null){
+                this.perpmin.push(team_stats.lost_balls_stats.turnovers_per_minute);
+                this.perpmin_counter++;
+              }
+              if(team_stats.rebounds_stats.total_rebounds_per_minute != null){
+                this.rebpmin.push(team_stats.rebounds_stats.total_rebounds_per_minute);
+                this.rebpmin_counter++;
+              }
+              if(team_stats.shots_stats.eFG != null){
+                this.eFG.push(team_stats.shots_stats.eFG);
+                this.eFG_counter++;
+              }
+
             }
+
+            this.ppfs.sort(function(a, b){return a-b});
+            this.aspp.sort(function(a, b){return a-b});
+            this.robpm.sort(function(a, b){return a-b});
+            this.perpmin.sort(function(a, b){return a-b});
+            this.rebpmin.sort(function(a, b){return a-b});
+            this.eFG.sort(function(a, b){return a-b});
+  
+            this.ppfs_value = ( (this.ppfs.lastIndexOf(this.team_stats.points_stats.points_per_field_shot)+1)*100) / this.ppfs_counter;
+            this.aspp_value = ( (this.aspp.lastIndexOf(this.team_stats.assists_stats.assists_per_lost)+1)*100) / this.aspp_counter;
+            this.robpm_value = ( (this.robpm.lastIndexOf(this.team_stats.steals_stats.steals_per_minute)+1)*100) / this.robpm_counter;
+            this.perpmin_value = ( (this.perpmin.lastIndexOf(this.team_stats.lost_balls_stats.turnovers_per_minute)+1)*100) / this.perpmin_counter;
+            this.rebpmin_value = ( (this.rebpmin.lastIndexOf(this.team_stats.rebounds_stats.total_rebounds_per_minute)+1)*100) / this.rebpmin_counter;
+            this.eFG_value = ( (this.eFG.lastIndexOf(this.team_stats.shots_stats.eFG)+1)*100) / this.eFG_counter;
+
+
+            this.season_stats_heptagon = {
+          
+              title: {
+                text: ''
+              },
+              tooltip: {
+                  trigger: 'axis'
+              },
+              radar: [
+                  {
+                    indicator: [
+                        {text: 'PPTC', max: 100},
+                        {text: 'ASPPer', max: 100},
+                        {text: 'eFG%', max: 150},
+                        {text: 'RobPMin', max: 100},
+                        {text: 'PérPMin', max: 100},
+                        {text: 'RebPMin', max: 100}
+                    ],
+                    radius: ["0%", "70%"] //Chart width
+                  }
+              ],
+              series: [
+                  {
+                    type: 'radar',
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    areaStyle: {},
+                    data: [
+                      {
+                        value: [this.ppfs_value, this.aspp_value, this.eFG_value, this.robpm_value, this.perpmin_value, this.rebpmin_value],
+                        name: this.team_stats.team_name
+                      }
+                    ]
+                  }
+              ]
+        
+            };
+
           });
 
         }
+        
 
       });
 

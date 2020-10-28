@@ -8,10 +8,10 @@ export class Team_stats_seasonService{
     private team_stats_seasonUrl = 'http://localhost:8000/api/v1/team_stats_season';
 
     constructor(private http: HttpClient){
-        //console.log("Player_stats_teams service ready");
+        //console.log("Team_stats_teams service ready");
     }
 
-    //Player_stats_teams collection
+    //Team_stats_teams collection
 
     getTeams_stats_season(search = ""){
         return this.http.get(this.team_stats_seasonUrl+search).toPromise();
