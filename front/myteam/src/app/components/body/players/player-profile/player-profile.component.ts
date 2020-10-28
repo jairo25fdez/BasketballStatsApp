@@ -90,7 +90,7 @@ export class PlayerProfileComponent implements OnInit {
 
   season_stats_view = false;
 
-  constructor(private fb:FormBuilder, private playersService:PlayersService, private leaguesService:LeaguesService, private teamsService:TeamsService, private player_stats_seasonService:Player_stats_seasonService, private route:ActivatedRoute) { 
+  constructor(private fb:FormBuilder, private fb_heptagon:FormBuilder, private playersService:PlayersService, private leaguesService:LeaguesService, private teamsService:TeamsService, private player_stats_seasonService:Player_stats_seasonService, private route:ActivatedRoute) { 
 
     const player_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
@@ -134,16 +134,6 @@ export class PlayerProfileComponent implements OnInit {
             this.robpm.sort(function(a, b){return a-b});
             this.perpmin.sort(function(a, b){return a-b});
             this.rebpmin.sort(function(a, b){return a-b});
-
-            /*
-            this.pptc = [...new Set(this.pptc)];
-            this.aspp = [...new Set(this.aspp)];
-            //[...new Set(this.efg)];
-            this.robpm = [...new Set(this.robpm)];
-            this.perpmin = [...new Set(this.perpmin)];
-            this.rebpmin = [...new Set(this.rebpmin)];
-            //[...new Set(this.uso)];
-            */
   
             this.pptc_value = ( (this.pptc.lastIndexOf(this.player_stats.points_stats.points_per_field_shot)+1)*100) / this.pptc_counter;
             this.aspp_value = ( (this.aspp.lastIndexOf(this.player_stats.assists_stats.assists_per_lost)+1)*100) / this.aspp_counter;
@@ -342,10 +332,10 @@ export class PlayerProfileComponent implements OnInit {
       players: ['',],
     });
 
-    this.form_heptagon = this.fb.group({
-      leagues: ['',],
-      teams: ['',],
-      players: ['',],
+    this.form_heptagon = this.fb_heptagon.group({
+      leagues_heptagon: ['',],
+      teams_heptagon: ['',],
+      players_heptagon: ['',],
     });
 
   }
@@ -373,6 +363,7 @@ export class PlayerProfileComponent implements OnInit {
       }
       else{
         this.form_players_stats_heptagon = player_stats;
+
       }
     });
 
@@ -384,56 +375,56 @@ export class PlayerProfileComponent implements OnInit {
       
       this.second_player_stats_heptagon = this.form_players_stats_heptagon[player_stats_index];
       
-        this.second_player_pptc_value = ( (this.pptc.lastIndexOf(this.second_player_stats_heptagon.points_stats.points_per_field_shot)+1)*100) / this.pptc_counter;
-        this.second_player_aspp_value = ( (this.aspp.lastIndexOf(this.second_player_stats_heptagon.assists_stats.assists_per_lost)+1)*100) / this.aspp_counter;
-        this.second_player_robpm_value = ( (this.robpm.lastIndexOf(this.second_player_stats_heptagon.steals_stats.steals_per_minute)+1)*100) / this.robpm_counter;
-        this.second_player_perpmin_value = ( (this.perpmin.lastIndexOf(this.second_player_stats_heptagon.lost_balls_stats.turnovers_per_minute)+1)*100) / this.perpmin_counter;
-        this.second_player_rebpmin_value = ( (this.rebpmin.lastIndexOf(this.second_player_stats_heptagon.rebounds_stats.total_rebounds_per_minute)+1)*100) / this.rebpmin_counter;
+      this.second_player_pptc_value = ( (this.pptc.lastIndexOf(this.second_player_stats_heptagon.points_stats.points_per_field_shot)+1)*100) / this.pptc_counter;
+      this.second_player_aspp_value = ( (this.aspp.lastIndexOf(this.second_player_stats_heptagon.assists_stats.assists_per_lost)+1)*100) / this.aspp_counter;
+      this.second_player_robpm_value = ( (this.robpm.lastIndexOf(this.second_player_stats_heptagon.steals_stats.steals_per_minute)+1)*100) / this.robpm_counter;
+      this.second_player_perpmin_value = ( (this.perpmin.lastIndexOf(this.second_player_stats_heptagon.lost_balls_stats.turnovers_per_minute)+1)*100) / this.perpmin_counter;
+      this.second_player_rebpmin_value = ( (this.rebpmin.lastIndexOf(this.second_player_stats_heptagon.rebounds_stats.total_rebounds_per_minute)+1)*100) / this.rebpmin_counter;
 
-        this.season_stats_heptagon_comparator = {
-      
-          title: {
-            text: ''
-          },
-          tooltip: {
-              trigger: 'axis'
-          },
-          radar: [
-              {
-                indicator: [
-                    {text: 'PPTC', max: 100},
-                    {text: 'ASPPer', max: 100},
-                    {text: 'eFG%', max: 150},
-                    {text: 'RobPMin', max: 100},
-                    {text: 'PérPMin', max: 100},
-                    {text: 'RebPMin', max: 100},
-                    {text: '%Uso', max: 100}
-                ],
-                radius: ["0%", "80%"] //Chart width
-              }
-          ],
-          series: [
-              {
-                type: 'radar',
-                tooltip: {
-                    trigger: 'item'
-                },
-                areaStyle: {},
-                data: [
-                  {
-                    value: [this.pptc_value, this.aspp_value, this.player_stats.shots_stats.eFG, this.robpm_value, this.perpmin_value, this.rebpmin_value, this.player_stats.usage],
-                    name: this.player_stats.player_name+" "+this.player_stats.player_lastName
-                  },
-                  {
-                    value: [this.second_player_pptc_value, this.second_player_aspp_value, this.second_player_stats.shots_stats.eFG, this.second_player_robpm_value, this.second_player_perpmin_value, this.second_player_rebpmin_value, this.second_player_stats.usage],
-                    name: this.second_player_stats.player_name+" "+this.second_player_stats.player_lastName
-                  }
-                ],
-                color: ['#c23531', 'yellow']
-              }
-          ]
+      this.season_stats_heptagon_comparator = {
     
-        };
+        title: {
+          text: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+              indicator: [
+                  {text: 'PPTC', max: 100},
+                  {text: 'ASPPer', max: 100},
+                  {text: 'eFG%', max: 150},
+                  {text: 'RobPMin', max: 100},
+                  {text: 'PérPMin', max: 100},
+                  {text: 'RebPMin', max: 100},
+                  {text: '%Uso', max: 100}
+              ],
+              radius: ["0%", "80%"] //Chart width
+            }
+        ],
+        series: [
+            {
+              type: 'radar',
+              tooltip: {
+                  trigger: 'item'
+              },
+              areaStyle: {},
+              data: [
+                {
+                  value: [this.pptc_value, this.aspp_value, this.player_stats.shots_stats.eFG, this.robpm_value, this.perpmin_value, this.rebpmin_value, this.player_stats.usage],
+                  name: this.player_stats.player_name+" "+this.player_stats.player_lastName
+                },
+                {
+                  value: [this.second_player_pptc_value, this.second_player_aspp_value, this.second_player_stats_heptagon.shots_stats.eFG, this.second_player_robpm_value, this.second_player_perpmin_value, this.second_player_rebpmin_value, this.second_player_stats_heptagon.usage],
+                  name: this.second_player_stats_heptagon.player_name+" "+this.second_player_stats_heptagon.player_lastName
+                }
+              ],
+              color: ['#c23531', 'yellow']
+            }
+        ]
+  
+      };
 
     }
     else{
