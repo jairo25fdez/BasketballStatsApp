@@ -883,12 +883,53 @@ export class MainPageComponent implements OnInit {
 
                 }
 
-                this.team_stats_seasonService.updateTeam_stats_season(stats_season[0]);
+                this.gamesService.getGames("?home_team.team_id="+this.home_team_stats.team_id+"&season="+this.home_team_stats.season+"&league.league_id="+this.home_team_stats.league_id).then( (games:GameModel[]) => {
+                  let wins = 0;
+                  let losses = 0;
+                  let win_percentage = 0;
+                  
+                  for(let game of games){
+                    if(game.home_team_score > game.visitor_team_score){
+                      wins++;
+                    }
+                    else{
+                      if(game.home_team_score < game.visitor_team_score){
+                        losses++;
+                      }
+                    }
+                    win_percentage = wins / (wins+losses);
+                  }
+  
+                  this.gamesService.getGames("?visitor_team.team_id="+this.home_team_stats.team_id+"&season="+this.home_team_stats.season+"&league.league_id="+this.home_team_stats.league_id).then( (games:GameModel[]) => {
+                    
+                    for(let game of games){
+                      if(game.home_team_score < game.visitor_team_score){
+                        wins++;
+                      }
+                      else{
+                        if(game.home_team_score > game.visitor_team_score){
+                          losses++;
+                        }
+                      }
+                      win_percentage = wins / (wins+losses);
+                    }
+    
+                    stats_season[0].wins = wins;
+                    stats_season[0].losses = losses;
+                    stats_season[0].win_percentage = win_percentage;
+
+                    this.team_stats_seasonService.updateTeam_stats_season(stats_season[0]);
+
+  
+                  });
+  
+                });
+  
+
 
               });
 
               
-
             });
 
             //Visitor team stats
@@ -1124,12 +1165,56 @@ export class MainPageComponent implements OnInit {
 
                 }
 
-                this.team_stats_seasonService.updateTeam_stats_season(stats_season[0]);
+                this.gamesService.getGames("?home_team.team_id="+this.visitor_team_stats.team_id+"&season="+this.visitor_team_stats.season+"&league.league_id="+this.visitor_team_stats.league_id).then( (games:GameModel[]) => {
+                  let wins = 0;
+                  let losses = 0;
+                  let win_percentage = 0;
+                  
+                  for(let game of games){
+                    if(game.home_team_score > game.visitor_team_score){
+                      wins++;
+                    }
+                    else{
+                      if(game.home_team_score < game.visitor_team_score){
+                        losses++;
+                      }
+                    }
+                    win_percentage = wins / (wins+losses);
+                  }
+    
+                  this.gamesService.getGames("?visitor_team.team_id="+this.visitor_team_stats.team_id+"&season="+this.visitor_team_stats.season+"&league.league_id="+this.visitor_team_stats.league_id).then( (games:GameModel[]) => {
+                    
+                    for(let game of games){
+                      if(game.home_team_score < game.visitor_team_score){
+                        wins++;
+                      }
+                      else{
+                        if(game.home_team_score > game.visitor_team_score){
+                          losses++;
+                        }
+                      }
+                      win_percentage = wins / (wins+losses);
+                    }
+    
+                    stats_season[0].wins = wins;
+                    stats_season[0].losses = losses;
+                    stats_season[0].win_percentage = win_percentage;
+
+                    this.team_stats_seasonService.updateTeam_stats_season(stats_season[0]);
+    
+                  });
+    
+                });
+    
+
 
               });
 
+              
+
             });
 
+            
 
             Swal.close();
 
