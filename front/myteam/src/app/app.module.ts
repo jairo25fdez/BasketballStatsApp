@@ -32,10 +32,14 @@ import { GameMenuComponent } from './components/body/game/game-menu/game-menu.co
 import { MainPageComponent } from './components/body/game/live-game/main-page/livegame-main-page';
 import { BoxscoreComponent } from './components/body/game/live-game/boxscore/boxscore.component';
 import { PlayByPlayComponent } from './components/body/game/live-game/play-by-play/play-by-play.component';
+import { NewgameFormComponent } from './components/body/game/newgame-form/newgame-form.component';
+import { GamesViewComponent } from './components/body/game/games-view/games-view.component';
 //Players
 import { NewplayerFormComponent } from './components/body/players/newplayer-form/newplayer-form.component';
 import { PlayersMenuComponent } from './components/body/players/players-menu/players-menu.component';
 import { PlayersViewComponent } from './components/body/players/players-view/players-view.component';
+import { UpdateplayerFormComponent } from './components/body/players/updateplayer-form/updateplayer-form.component';
+import { PlayerProfileComponent } from './components/body/players/player-profile/player-profile.component';
 //Leagues
 import { NewleagueFormComponent } from './components/body/leagues/newleague-form/newleague-form.component';
 import { LeaguesMenuComponent } from './components/body/leagues/menu/leagues-menu.component';
@@ -44,19 +48,17 @@ import { LeaguesViewComponent } from './components/body/leagues/leagues-view/lea
 import { ClubsMenuComponent } from './components/body/clubs/clubs-menu/clubs-menu.component';
 import { ClubsListComponent } from './components/body/clubs/clubs-list/clubs-list.component';
 import { NewclubFormComponent } from './components/body/clubs/newclub-form/newclub-form.component';
+//Teams
 import { TeamsMenuComponent } from './components/body/teams/teams-menu/teams-menu.component';
 import { TeamsListComponent } from './components/body/teams/teams-list/teams-list.component';
+import { TeamProfileComponent } from './components/body/teams/team-profile/team-profile.component';
 import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
 import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
-import { UpdateplayerFormComponent } from './components/body/players/updateplayer-form/updateplayer-form.component';
-import { NewgameFormComponent } from './components/body/game/newgame-form/newgame-form.component';
-import { GamesViewComponent } from './components/body/game/games-view/games-view.component';
-import { PlayerProfileComponent } from './components/body/players/player-profile/player-profile.component';
-
 
 //Charts
 import { NgxEchartsModule } from 'ngx-echarts';
-import { TeamProfileComponent } from './components/body/teams/team-profile/team-profile.component';
+import * as echarts from 'echarts';
+
 
 @NgModule({
   declarations: [
@@ -102,7 +104,7 @@ import { TeamProfileComponent } from './components/body/teams/team-profile/team-
     HttpClientModule,
     //Charts
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
+      echarts
     })
   ],
   providers: [
