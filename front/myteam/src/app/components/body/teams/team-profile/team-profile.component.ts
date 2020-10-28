@@ -35,10 +35,25 @@ export class TeamProfileComponent implements OnInit {
   team:TeamModel;
   team_stats:Team_stats_seasonModel;
 
+  //Form variables
   form:FormGroup;
   form_heptagon:FormGroup;
 
+  league_id:string;
+  form_leagues:LeagueModel[]; //Leagues to be shown in the form
+  form_leagues_heptagon:LeagueModel[]; //Leagues to be shown in the heptagon form
+
+  form_teams:Team_stats_seasonModel[]; //Teams to be shown in the form
+  form_teams_heptagon:Team_stats_seasonModel[]; //Leagues to be shown in the heptagon form
+
+  second_team_stats:Team_stats_seasonModel;
+  second_team_img:string;
+  second_team_stats_heptagon:Team_stats_seasonModel;
+
+  //Charts variables
   season_stats_heptagon:EChartOption;
+  season_stats_heptagon_comparator:EChartOption;
+
   total_shots_volume_pie:EChartOption;
   FG_shots_volume_pie:EChartOption;
   players_usage_pie:EChartOption;
@@ -61,6 +76,13 @@ export class TeamProfileComponent implements OnInit {
   rebpmin_value:number;
   eFG_value:number;
 
+  second_team_ppfs_value:number;
+  second_team_aspp_value:number;
+  second_team_robpm_value:number;
+  second_team_perpmin_value:number;
+  second_team_rebpmin_value:number;
+  second_team_eFG_value:number;
+
   wins_percentage_counter:number = 0;
   ppfs_counter:number = 0;
   aspp_counter:number = 0;
@@ -77,9 +99,17 @@ export class TeamProfileComponent implements OnInit {
 
   
 
-  constructor(private route:ActivatedRoute, private fb:FormBuilder, private teamsService:TeamsService, private players_stats_season:Player_stats_seasonService, private team_stats_season:Team_stats_seasonService){
+  constructor(private route:ActivatedRoute, private fb:FormBuilder, private leaguesService:LeaguesService, private teamsService:TeamsService, private teams_stats_seasonService:Team_stats_seasonService, private players_stats_season:Player_stats_seasonService, private team_stats_season:Team_stats_seasonService){
 
     const team_id = this.route.snapshot.paramMap.get('id'); //Game ID
+
+    this.createForm();
+
+    this.leaguesService.getLeagues("?sort=name").then( (leagues:LeagueModel[]) => {
+      this.form_leagues = leagues;
+      this.form_leagues_heptagon = leagues;
+    });
+
 
     this.teamsService.getTeam(team_id).then( (team:TeamModel) => {
       this.team = team;
@@ -153,7 +183,7 @@ export class TeamProfileComponent implements OnInit {
                     indicator: [
                         {text: 'PPTC', max: 100},
                         {text: 'ASPPer', max: 100},
-                        {text: 'eFG%', max: 150},
+                        {text: 'eFG%', max: 100},
                         {text: 'RobPMin', max: 100},
                         {text: 'PérPMin', max: 100},
                         {text: 'RebPMin', max: 100}
@@ -435,8 +465,6 @@ export class TeamProfileComponent implements OnInit {
 
     });
 
-    this.createForm();
-
   }
 
   ngOnInit(): void {
@@ -455,6 +483,96 @@ export class TeamProfileComponent implements OnInit {
       teams_heptagon: ['',],
       players_heptagon: ['',],
     });
+
+  }
+
+  selectLeague(league_id, heptagon=false){
+
+    this.league_id = league_id;
+
+    this.teams_stats_seasonService.getTeams_stats_season("?season="+this.team.season+"&league_id="+league_id+"&sort=club.club_name").then( (teams_stats:Team_stats_seasonModel[]) => {
+      if(!heptagon){
+        this.form_teams = teams_stats;
+      }
+      else{
+        this.form_teams_heptagon = teams_stats;
+        
+      }
+    });
+
+  }
+
+  selectTeam(team_index, heptagon=false){
+
+    
+
+    if(!heptagon){
+      this.teamsService.getTeam(this.form_teams[team_index].team_id).then( (team:TeamModel) => {
+        this.second_team_img = team.club.club_img;
+      });
+
+      this.second_team_stats = this.form_teams[team_index];
+    }
+    else{
+
+      this.teamsService.getTeam(this.form_teams_heptagon[team_index].team_id).then( (team:TeamModel) => {
+        this.second_team_img = team.club.club_img;
+      });
+
+      this.second_team_stats_heptagon = this.form_teams_heptagon[team_index];
+
+      this.second_team_ppfs_value = ( (this.ppfs.lastIndexOf(this.second_team_stats_heptagon.points_stats.points_per_field_shot)+1)*100) / this.ppfs_counter;
+      this.second_team_aspp_value = ( (this.aspp.lastIndexOf(this.second_team_stats_heptagon.assists_stats.assists_per_lost)+1)*100) / this.aspp_counter;
+      this.second_team_robpm_value = ( (this.robpm.lastIndexOf(this.second_team_stats_heptagon.steals_stats.steals_per_minute)+1)*100) / this.robpm_counter;
+      this.second_team_perpmin_value = ( (this.perpmin.lastIndexOf(this.second_team_stats_heptagon.lost_balls_stats.turnovers_per_minute)+1)*100) / this.perpmin_counter;
+      this.second_team_rebpmin_value = ( (this.rebpmin.lastIndexOf(this.second_team_stats_heptagon.rebounds_stats.total_rebounds_per_minute)+1)*100) / this.rebpmin_counter;
+      this.second_team_eFG_value = ( (this.eFG.lastIndexOf(this.second_team_stats_heptagon.shots_stats.eFG)+1)*100) / this.eFG_counter;
+
+      this.season_stats_heptagon_comparator = {
+    
+        title: {
+          text: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+              indicator: [
+                {text: 'PPTC', max: 100},
+                {text: 'ASPPer', max: 100},
+                {text: 'eFG%', max: 100},
+                {text: 'RobPMin', max: 100},
+                {text: 'PérPMin', max: 100},
+                {text: 'RebPMin', max: 100}
+              ],
+              radius: ["0%", "80%"] //Chart width
+            }
+        ],
+        series: [
+            {
+              type: 'radar',
+              tooltip: {
+                  trigger: 'item'
+              },
+              areaStyle: {},
+              data: [
+                {
+                  value: [this.ppfs_value, this.aspp_value, this.eFG_value, this.robpm_value, this.perpmin_value, this.rebpmin_value],
+                  name: this.team_stats.team_name
+                },
+                {
+                  value: [this.second_team_ppfs_value, this.second_team_aspp_value, this.second_team_eFG_value, this.second_team_robpm_value, this.second_team_perpmin_value, this.second_team_rebpmin_value ],
+                  name: this.second_team_stats_heptagon.team_name
+                }
+              ],
+              color: ['#c23531', 'yellow']
+            }
+        ]
+  
+      };
+
+    }
 
   }
 
