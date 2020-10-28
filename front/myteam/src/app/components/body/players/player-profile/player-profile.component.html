@@ -178,11 +178,11 @@
                         </div>
 
                         <div class="d-flex flex-column col-6">
-                            <div echarts [options]="total_shots_volume_pie"  class="season_stats_chart h-100"></div>
+                            <div echarts [options]="total_shots_volume_pie" [autoResize]="false" class="season_stats_chart h-100"></div>
                         </div>
 
                         <div class="d-flex flex-column col-6">
-                            <div echarts [options]="FG_shots_volume_pie"  class="season_stats_chart h-100"></div>
+                            <div echarts [options]="FG_shots_volume_pie" [autoResize]="false" class="season_stats_chart h-100"></div>
                         </div>
 
 
@@ -414,7 +414,7 @@
                         </div>
                         <!-- Heptagon comparator -->
                         <div class="d-flex flex-column col-6 col-xl-8">
-                            <div echarts [options]="season_stats_heptagon_comparator"  ></div>
+                            <div echarts [options]="season_stats_heptagon_comparator"  [autoResize]="false"></div>
                         </div>
 
                         <!-- 2nd Player image -->

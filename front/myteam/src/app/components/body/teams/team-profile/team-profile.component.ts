@@ -97,8 +97,6 @@ export class TeamProfileComponent implements OnInit {
   players_assists:[any] = [{}];
   players_minutes:[any] = [{}];
 
-  
-
   constructor(private route:ActivatedRoute, private fb:FormBuilder, private leaguesService:LeaguesService, private teamsService:TeamsService, private teams_stats_seasonService:Team_stats_seasonService, private players_stats_season:Player_stats_seasonService, private team_stats_season:Team_stats_seasonService){
 
     const team_id = this.route.snapshot.paramMap.get('id'); //Game ID
