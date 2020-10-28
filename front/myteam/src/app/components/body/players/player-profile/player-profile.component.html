@@ -6,14 +6,14 @@
         <!-- Player column -->
         <div class="d-flex flex-column h-50 col-8">
             <div class="card d-flex flex-row  no-gutters text-white" >
-                <img class="img-fluid col-3 h-50" src="{{player.img}}" alt="Card image cap">
+                <img class="img-fluid col-3 h-50 my-auto" src="{{player.img}}" alt="Card image cap">
                 <div class="card-body col-4 text-center">
                   <h5 class="card-title">{{player.name}} {{player.last_name}}</h5>
                   <p class="card-text">{{player.birth_date | date: 'dd/MM/yyyy' }}</p>
                   <p class="card-text">{{player.height}} cm  {{player.weight}} kg</p>
                   <p class="card-text">{{player.primary_position}} / {{player.secondary_position}}</p>
                 </div>
-                <img class="img-fluid col-2 h-50" src="{{player.teams[0].club_img}}" alt="Card image cap">
+                <img class="img-fluid col-2 h-50 my-auto mx-auto" src="{{player.teams[0].club_img}}" alt="Card image cap">
             </div>
         </div>
 
