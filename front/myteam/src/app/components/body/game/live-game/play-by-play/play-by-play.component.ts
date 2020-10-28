@@ -47,11 +47,11 @@ export class PlayByPlayComponent implements OnInit {
   ngOnInit(): void {
 
     //Load the plays
-    this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+    this.playsService.getPlays("?game_id="+this.game_id+"&sort=-period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
       this.plays = plays;
     });
     //Load the plays
-    this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+    this.playsService.getPlays("?game_id="+this.game_id+"&sort=-period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
       this.plays = plays;
     });
 
@@ -471,7 +471,7 @@ export class PlayByPlayComponent implements OnInit {
             this.player_stats_gameService.updatePlayer_stats_game(player_stats).then( () => {
               //Delete the play in the server and update the actual plays
               this.playsService.deletePlay(play._id).then( () => {
-                this.playsService.getPlays("?game_id="+this.game_id+"&sort=period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
+                this.playsService.getPlays("?game_id="+this.game_id+"&sort=-period,time.minute,time.second,-home_team_score,-visitor_team_score").then( (plays:PlayModel[]) => {
                   this.plays = plays;
                   Swal.close();
                 });
