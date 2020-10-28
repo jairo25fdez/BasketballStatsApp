@@ -32,6 +32,7 @@ import { TeamsMenuComponent } from './components/body/teams/teams-menu/teams-men
 import { TeamsListComponent } from './components/body/teams/teams-list/teams-list.component';
 import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
 import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
+import { TeamProfileComponent } from './components/body/teams/team-profile/team-profile.component';
 
 const routes: Routes = [
   //Clubs routes
@@ -75,6 +76,7 @@ const routes: Routes = [
         {path: 'new-team', component: NewteamFormComponent},
         {path: 'teams-list', component: TeamsListComponent},
         {path: 'edit-team/:id', component: UpdateteamFormComponent},
+        {path: 'team-profile/:id', component: TeamProfileComponent},
         {path: '**', pathMatch: 'full', redirectTo: 'teams-list'}
       ]
     },

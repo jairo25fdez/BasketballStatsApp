@@ -1,0 +1,437 @@
+<div class="container-fluid no-gutters">
+
+    <!-- 1st row -->
+    <div class="row no-gutters ">
+
+        <!-- Team column -->
+        <div class="d-flex flex-column h-50 col-8">
+            <div class="card d-flex flex-row  no-gutters text-white" >
+                <img class="img-fluid col-3 h-50 my-auto" src="{{team.club.club_img}}" alt="Team logo">
+                <div class="card-body col-9 text-center">
+                    <div class="col">
+                        <h5 class="card-title">{{team.club.club_name}}</h5>
+                        <h5 class="card-title">{{team.league.league_name}}</h5>
+                        <h5 class="card-title">Temporada: {{team.season-1}}/{{team.season}}</h5>
+                        <h5 class="card-title">Entrenador: {{team.coach}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats chart column -->
+        <div class="d-flex flex-column col-4">
+            <div echarts [options]="season_stats_heptagon"  class="season_stats_chart h-100"></div>
+        </div>
+
+    </div>
+
+    <!-- 2nd row -->
+    <div class="row no-gutters h-100 pt-3 ">
+
+        <div class="d-flex flex-column col h-100" id="stats-column">
+
+            <!-- Pills -->
+            <nav class="nav nav-pills nav-justified ">
+                <a class="nav-item nav-link active" data-toggle="pill" href="#season_stats">Stats temporada</a>
+                <!-- <a class="nav-item nav-link w-25" data-toggle="pill" href="#actions">Stats por partido</a> -->
+                <a class="nav-item nav-link" data-toggle="pill" href="#stats_comparator" >Comparar stats temporada</a>
+                <a class="nav-item nav-link" data-toggle="pill" href="#heptagon_comparator" >Comparar heptágono</a>
+            </nav>
+            <!-- Content -->
+            <div class="tab-content addScroll">
+
+                <!-- Season stats -->
+                <div class="tab-pane fade show active " id="season_stats" role="tabpanel" >
+
+                    <div class="row align-items-center no-gutters h-100">
+                        <h5 class="mt-2">Estadísticas generales acumuladas</h5>
+                        <!-- Stats per season table -->
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered table-dark  table-striped table-hover mt-2 local-team-table overflow-auto">
+                                <thead class="thead-dark">
+                                    <tr  class="text-center">
+                                        <th scope="col">Temporada</th>
+                                        <th scope="col">Equipo</th>
+                                        <th scope="col">Liga</th>
+                                        <th scope="col">Partidos jugados</th>
+                                        <th scope="col">Tiempo jugado</th>
+                                        <th scope="col">Puntos anotados</th>
+                                        <th scope="col">Asistencias</th>
+                                        <th scope="col">Rebotes</th>
+                                        <th scope="col">Balones robados</th>
+                                        <th scope="col">Tapones realizados</th>
+                                        <th scope="col">Tapones recibidos</th>
+                                        <th scope="col">Faltas realizadas</th>
+                                        <th scope="col">Faltas recibidas</th>
+                                        <th scope="col">%Uso</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                      
+                                    <tr *ngFor="let season of player_stats_season; index as i;"  class="text-center">
+                                        <th scope="row align-items-center">{{ player_stats_season[i].season }}</th>
+                                        <th scope="row align-items-center">{{ player_teams[i][0] }}</th>
+                                        <th scope="row align-items-center">{{ player_teams[i][1] }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].games_played}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].time_played.minutes}}:{{ player_stats_season[i].time_played.seconds}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].points_stats.total_points}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].assists_stats.total_assists}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].rebounds_stats.total_rebounds}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].lost_balls_stats.total_losts}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.total_blocks_made}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.total_blocks_received}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_made}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_received}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].usage | number:'2.2-2'}}</th>
+                                    </tr>
+                      
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <h5 class="mt-2">Promedios por partido</h5>
+                        <!-- Stats per season table -->
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered table-dark  table-striped table-hover mt-2 local-team-table overflow-auto">
+                                <thead class="thead-dark">
+                                    <tr  class="text-center">
+                                        <th scope="col">Temporada</th>
+                                        <th scope="col">Equipo</th>
+                                        <th scope="col">Liga</th>
+                                        <th scope="col">Partidos jugados</th>
+                                        <th scope="col">Minutos PP</th>
+                                        <th scope="col">Puntos PP</th>
+                                        <th scope="col">Asistencias PP</th>
+                                        <th scope="col">Rebotes totales PP</th>
+                                        <th scope="col">Balones robados PP</th>
+                                        <th scope="col">Tapones realizados PP</th>
+                                        <th scope="col">Tapones recibidos PP</th>
+                                        <th scope="col">Faltas realizadas PP</th>
+                                        <th scope="col">Faltas recibidas PP</th>
+                                        <th scope="col">%Uso</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                      
+                                    <tr *ngFor="let season of player_stats_season; index as i;"  class="text-center">
+                                        <th scope="row align-items-center">{{ player_stats_season[i].season }}</th>
+                                        <th scope="row align-items-center">{{ player_teams[i][0] }}</th>
+                                        <th scope="row align-items-center">{{ player_teams[i][1] }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].games_played}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].time_played.minutes / player_stats_season[i].games_played}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].points_stats.average_points}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].assists_stats.total_assists / player_stats_season[i].games_played }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].rebounds_stats.average_rebounds}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].steals_stats.steals_per_game}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.blocks_made_per_game}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.blocks_received_per_game}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_made / player_stats_season[i].games_played }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_received / player_stats_season[i].games_played }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].usage | number:'2.2-2'}}</th>
+                                    </tr>
+                      
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <h5 class="mt-2">Estadísticas de tiro</h5>
+                        <!-- Shots stats per season table -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-dark  table-striped table-hover mt-2 local-team-table overflow-auto">
+                                <thead class="thead-dark">
+                                    <tr  class="text-center">
+                                        <th scope="col">Temporada</th>
+                                        <th scope="col">Equipo</th>
+                                        <th scope="col">Liga</th>
+                                        <th scope="col">Partidos jugados</th>
+                                        <th scope="col">Tiros totales</th>
+                                        <th scope="col">Tiros libres</th>
+                                        <th scope="col">Tiros de campo totales</th>
+                                        <th scope="col">eFG%</th>
+                                        <th scope="col">%TC</th>
+                                        <th scope="col">%TL</th>
+                                        <th scope="col">%T2</th>
+                                        <th scope="col">%T3</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let season of player_stats_season; index as i;"  class="text-center">
+                                        <th scope="row align-items-center">{{ player_stats_season[i].season }}</th>
+                                        <th scope="row align-items-center">{{ player_teams[i][0] }}</th>
+                                        <th scope="row align-items-center">{{ player_teams[i][1] }}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].games_played}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.total_shots}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.t1_stats.t1_attempted}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.total_FG_shots}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.eFG}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.fg_percentage}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.t1_stats.t1_percentage}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.t2_stats.t2_percentage}}</th>
+                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.t3_stats.t3_percentage}}</th>
+                                    </tr>
+                      
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex flex-column col-6">
+                            <div echarts [options]="total_shots_volume_pie"  class="season_stats_chart h-100"></div>
+                        </div>
+
+                        <div class="d-flex flex-column col-6">
+                            <div echarts [options]="FG_shots_volume_pie"  class="season_stats_chart h-100"></div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <!-- Stats comparator -->
+                <div class="tab-pane fade show"  id="stats_comparator" role="tabpanel">
+                    <!-- 2nd Player Form-->
+                    <div class="row align-items-center no-gutters">
+                        
+                        <form class="col mt-1 d-flex" [formGroup]="form">
+                        
+                            <div class="form-group col no-gutters">
+                    
+                                <label class="col-3 col-form-label ">Liga</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="leagues" (change)="selectLeague($event.target.value)">
+                                        <option *ngFor="let league of form_leagues;" value="{{league._id}}">{{league.name}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group col no-gutters">
+                    
+                                <label class="col-3 col-form-label ">Equipo</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="teams" (change)="selectTeam($event.target.value)">
+                                        <option *ngFor="let team of form_teams;" value="{{team._id}}">{{team.club.club_name}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                    
+                            <div class="form-group col no-gutters">
+                    
+                                <label class="col-3 col-form-label">Jugador</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="players" (change)="selectPlayerStats($event.target.value, false)">
+                                        <option *ngFor="let player of form_players_stats; index as i;" value="{{i}}">{{player.player_name}} {{player.player_lastName}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                    
+
+                        </form>
+                    </div>
+                    <div class="row align-items-center no-gutters mt-2">
+                        <!-- Player image -->
+                        <div class="d-flex flex-column col-3 col-xl-2">
+                            <img class="img-fluid col " src="{{player.img}}" alt="Card image cap">
+                        </div>
+                        <!-- Table -->
+                        <div class="d-flex flex-column col " id="comparator_table">
+                            <table *ngIf="second_player_stats != undefined;" class="table table-bordered table-dark  table-striped table-hover mt-2 local-team-table overflow-auto">
+                                <thead class="thead-dark">
+                                    <tr  class="text-center">
+                                        <th scope="col">{{player_stats.player_name}} {{player_stats.player_lastName}}</th>
+                                        <th scope="col">Estadística</th>
+                                        <th scope="col">{{second_player_stats.player_name}} {{second_player_stats.player_lastName}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>      
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.games_played }}</td>
+                                        <th scope="row align-items-center">Partidos jugados</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.games_played }}</td>
+                                    </tr>              
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.time_played.minutes }}</td>
+                                        <th scope="row align-items-center">Minutos jugados</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.time_played.minutes }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.usage | number:'.2-2' }}</td>
+                                        <th scope="row align-items-center">%Uso</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.usage | number:'.2-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.points_stats.average_points | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Puntos PP</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.points_stats.average_points | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.points_stats.points_per_field_shot | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Puntos / TC</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.points_stats.points_per_field_shot | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.points_stats.points_per_shot_t2 | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Puntos / T2</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.points_stats.points_per_shot_t2 | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.points_stats.points_per_shot_t3 | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Puntos / T3</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.points_stats.points_per_shot_t3 | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.assists_stats.total_assists / player_stats.games_played | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Asistencias PP</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.assists_stats.total_assists / second_player_stats.games_played | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.assists_stats.assists_per_lost | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Asistencias PPer</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.assists_stats.assists_per_lost | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.rebounds_stats.average_rebounds | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Rebotes PP</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.rebounds_stats.average_rebounds | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.rebounds_stats.total_rebounds_per_minute | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Rebotes PMin</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.rebounds_stats.total_rebounds_per_minute | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.rebounds_stats.off_rebounds_per_minute | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Rebotes Ofensivos PMin</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.rebounds_stats.off_rebounds_per_minute | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.rebounds_stats.def_rebounds_per_minute | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Rebotes Defensivos PMin</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.rebounds_stats.def_rebounds_per_minute | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.blocks_stats.blocks_made_per_game | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Tapones Realizados PP</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.blocks_stats.blocks_made_per_game | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.blocks_stats.blocks_made_per_minute | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Tapones Realizados PMin</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.blocks_stats.blocks_made_per_minute | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.blocks_stats.blocks_received_per_game | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Tapones Recibidos PP</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.blocks_stats.blocks_received_per_game | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.blocks_stats.blocks_received_per_minute | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Tapones Recibidos PMin</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.blocks_stats.blocks_received_per_minute | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.fouls_stats.total_fouls_made / player_stats.games_played | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Faltas Realizadas PP</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.fouls_stats.total_fouls_made / second_player_stats.games_played | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.fouls_stats.fouls_made_per_minute | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Faltas Realizadas PMin</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.fouls_stats.fouls_made_per_minute | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.fouls_stats.total_fouls_received / player_stats.games_played | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Faltas Recibidas PP</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.fouls_stats.total_fouls_received / second_player_stats.games_played | number:'.0-2' }}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td scope="row align-items-center">{{ player_stats.fouls_stats.fouls_received_per_minute | number:'.0-2'}}</td>
+                                        <th scope="row align-items-center">Faltas Recibidas PMin</th>
+                                        <td scope="row align-items-center">{{ second_player_stats.fouls_stats.fouls_received_per_minute | number:'.0-2' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 2nd Player image -->
+                        <div class="d-flex flex-column col-3 col-xl-2">
+                            <img *ngIf="second_player_stats != undefined;" class="img-fluid col " src="{{second_player_stats.player_img}}" alt="Card image cap">
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Heptagon comparator -->
+                <div class="tab-pane fade show " id="heptagon_comparator" role="tabpanel" >
+                    <!-- 2nd Player Form-->
+                    <div class="row align-items-center no-gutters">                    
+                        <form class="col mt-1 d-flex" [formGroup]="form_heptagon">
+                        
+                            <div class="form-group col no-gutters">
+
+                                <label class="col-3 col-form-label ">Liga</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="leagues_heptagon" (change)="selectLeague($event.target.value, true)">
+                                        <option *ngFor="let league of form_leagues_heptagon;" value="{{league._id}}">{{league.name}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group col no-gutters">
+
+                                <label class="col-3 col-form-label ">Equipo</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="teams_heptagon" (change)="selectTeam($event.target.value, true)">
+                                        <option *ngFor="let team of form_teams_heptagon;" value="{{team._id}}">{{team.club.club_name}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-group col no-gutters">
+
+                                <label class="col-3 col-form-label">Jugador</label>
+                                <div class="col">
+                                    <select class="custom-select" formControlName="players_heptagon" (change)="selectPlayerStats($event.target.value, true)">
+                                        <option *ngFor="let player of form_players_stats_heptagon; index as i;" value="{{i}}">{{player.player_name}} {{player.player_lastName}}</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <div class="row align-items-center no-gutters mt-2">
+                        <!-- Player image -->
+                        <div class="d-flex flex-column col-3 col-xl-2">
+                            <img class="img-fluid col " src="{{player.img}}" alt="Card image cap">
+                        </div>
+                        <!-- Heptagon comparator -->
+                        <div class="d-flex flex-column col-6 col-xl-8">
+                            <div echarts [options]="season_stats_heptagon_comparator"  ></div>
+                        </div>
+
+                        <!-- 2nd Player image -->
+                        <div class="d-flex flex-column col-3 col-xl-2">
+                            <img *ngIf="second_player_stats_heptagon != undefined;" class="img-fluid col " src="{{second_player_stats_heptagon.player_img}}" alt="Card image cap">
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        
+        
+
+    </div>
+
+</div>

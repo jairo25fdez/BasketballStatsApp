@@ -1,0 +1,58 @@
+.card{
+    border: solid;
+    border-color: white;
+    border-width: 2px;
+    background-color: #27293D;
+}
+
+h5{
+    color: white;
+}
+
+.tab-content{
+    overflow-x: hidden;
+}
+
+.form-group label{
+    color: white;
+}
+
+.season_stats_chart{
+    background-color: transparent;
+}
+
+#stats-column{
+    border: solid;
+    background-color: #27293D;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: 0 0 10px black;
+    box-shadow: 0 0 15px black;
+}
+
+#stats-column .nav a{
+    color: white;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: solid;
+    border-width: 0.5px;
+    background-color: #27293D;
+}
+#stats-column .nav a:hover{
+    border-color: #E69C1C;
+}
+
+#stats-column .nav a.active{
+    background-color: #E69C1C;
+    border-color: #E69C1C;;
+}
+
+#stats-column p{
+    color: white;
+}
+
+.addScroll{
+    height: 60vh;
+}

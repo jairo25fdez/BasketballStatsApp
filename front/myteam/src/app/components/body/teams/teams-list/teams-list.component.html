@@ -37,16 +37,17 @@
 
         <div class="row justify-content-center w-100">
 
-            <div class="card col-5 m-3 text-center w-100 pr-0 p-3" *ngFor="let team of teams; index as team_index;" value="{{team_index}}">
+            <div class="card col-5 m-3 text-center w-100 pr-0 p-3" *ngFor="let team of teams; index as team_index;" value="{{team._id}}" [routerLink]="['../team-profile', team._id]">
 
                 <div class="row no-gutters w-100 h-100">
                     <div class="flex-column col-6 ">
                         <img class="card-img-top w-75" src="{{team.club.club_img}}">
-                        
+                        <!--
                         <div class="card-body pt-0 pb-0">
                             <h5 class="card-title">{{team.club.club_name}}</h5>
                         </div>
-                        <div class="card-body pt-0 pb-0">
+                        -->
+                        <div class="card-body mt-1 pb-0">
                             <h5 class="card-title">{{team.league.league_name}}</h5>
                         </div>
                     </div>

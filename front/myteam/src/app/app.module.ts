@@ -56,6 +56,7 @@ import { PlayerProfileComponent } from './components/body/players/player-profile
 
 //Charts
 import { NgxEchartsModule } from 'ngx-echarts';
+import { TeamProfileComponent } from './components/body/teams/team-profile/team-profile.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     UpdateplayerFormComponent,
     NewgameFormComponent,
     GamesViewComponent,
-    PlayerProfileComponent
+    PlayerProfileComponent,
+    TeamProfileComponent
   ],
   imports: [
     BrowserModule,
