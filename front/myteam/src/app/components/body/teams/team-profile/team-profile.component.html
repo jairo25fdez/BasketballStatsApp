@@ -6,7 +6,7 @@
         <!-- Team column -->
         <div class="d-flex flex-column h-50 col-8">
             <div class="card d-flex flex-row  no-gutters text-white" >
-                <img class="img-fluid col-3 h-50 my-auto" src="{{team.club.club_img}}" alt="Team logo">
+                <img class="img-fluid col-2 h-50 mx-auto my-auto" src="{{team.club.club_img}}" alt="Team logo">
                 <div class="card-body col-9 text-center">
                     <div class="col">
                         <h5 class="card-title">{{team.club.club_name}}</h5>
@@ -52,38 +52,38 @@
                                 <thead class="thead-dark">
                                     <tr  class="text-center">
                                         <th scope="col">Temporada</th>
-                                        <th scope="col">Equipo</th>
-                                        <th scope="col">Liga</th>
                                         <th scope="col">Partidos jugados</th>
+                                        <th scope="col">Victorias</th>
+                                        <th scope="col">Derrotas</th>
                                         <th scope="col">Tiempo jugado</th>
                                         <th scope="col">Puntos anotados</th>
                                         <th scope="col">Asistencias</th>
                                         <th scope="col">Rebotes</th>
                                         <th scope="col">Balones robados</th>
+                                        <th scope="col">Balones perdidos</th>
                                         <th scope="col">Tapones realizados</th>
                                         <th scope="col">Tapones recibidos</th>
                                         <th scope="col">Faltas realizadas</th>
                                         <th scope="col">Faltas recibidas</th>
-                                        <th scope="col">%Uso</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                       
-                                    <tr *ngFor="let season of player_stats_season; index as i;"  class="text-center">
-                                        <th scope="row align-items-center">{{ player_stats_season[i].season }}</th>
-                                        <th scope="row align-items-center">{{ player_teams[i][0] }}</th>
-                                        <th scope="row align-items-center">{{ player_teams[i][1] }}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].games_played}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].time_played.minutes}}:{{ player_stats_season[i].time_played.seconds}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].points_stats.total_points}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].assists_stats.total_assists}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].rebounds_stats.total_rebounds}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].lost_balls_stats.total_losts}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.total_blocks_made}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.total_blocks_received}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_made}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_received}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].usage | number:'2.2-2'}}</th>
+                                    <tr class="text-center">
+                                        <th scope="row align-items-center">{{ team_stats.season }}</th>
+                                        <th scope="row align-items-center">{{ team_stats.games_played }}</th>
+                                        <th scope="row align-items-center">{{ team_stats.wins }}</th>
+                                        <th scope="row align-items-center">{{ team_stats.losses }}</th>
+                                        <th scope="row align-items-center">{{ team_stats.time_played.minutes}}:{{ team_stats.time_played.seconds}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.points_stats.total_points}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.assists_stats.total_assists}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.rebounds_stats.total_rebounds}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.steals_stats.total_steals}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.lost_balls_stats.total_losts}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.blocks_stats.total_blocks_made}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.blocks_stats.total_blocks_received}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.fouls_stats.total_fouls_made}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.fouls_stats.total_fouls_received}}</th>
                                     </tr>
                       
                                 </tbody>
@@ -99,38 +99,32 @@
                                 <thead class="thead-dark">
                                     <tr  class="text-center">
                                         <th scope="col">Temporada</th>
-                                        <th scope="col">Equipo</th>
-                                        <th scope="col">Liga</th>
                                         <th scope="col">Partidos jugados</th>
-                                        <th scope="col">Minutos PP</th>
                                         <th scope="col">Puntos PP</th>
                                         <th scope="col">Asistencias PP</th>
                                         <th scope="col">Rebotes totales PP</th>
                                         <th scope="col">Balones robados PP</th>
+                                        <th scope="col">Balones perdidos PP</th>
                                         <th scope="col">Tapones realizados PP</th>
                                         <th scope="col">Tapones recibidos PP</th>
                                         <th scope="col">Faltas realizadas PP</th>
                                         <th scope="col">Faltas recibidas PP</th>
-                                        <th scope="col">%Uso</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                       
-                                    <tr *ngFor="let season of player_stats_season; index as i;"  class="text-center">
-                                        <th scope="row align-items-center">{{ player_stats_season[i].season }}</th>
-                                        <th scope="row align-items-center">{{ player_teams[i][0] }}</th>
-                                        <th scope="row align-items-center">{{ player_teams[i][1] }}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].games_played}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].time_played.minutes / player_stats_season[i].games_played}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].points_stats.average_points}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].assists_stats.total_assists / player_stats_season[i].games_played }}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].rebounds_stats.average_rebounds}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].steals_stats.steals_per_game}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.blocks_made_per_game}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].blocks_stats.blocks_received_per_game}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_made / player_stats_season[i].games_played }}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].fouls_stats.total_fouls_received / player_stats_season[i].games_played }}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].usage | number:'2.2-2'}}</th>
+                                    <tr class="text-center">
+                                        <th scope="row align-items-center">{{ team_stats.season }}</th>
+                                        <th scope="row align-items-center">{{ team_stats.games_played}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.points_stats.average_points}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.assists_stats.total_assists / team_stats.games_played }}</th>
+                                        <th scope="row align-items-center">{{ team_stats.rebounds_stats.average_rebounds}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.steals_stats.steals_per_game}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.lost_balls_stats.total_losts / team_stats.games_played}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.blocks_stats.blocks_made_per_game}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.blocks_stats.blocks_received_per_game}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.fouls_stats.total_fouls_made / team_stats.games_played }}</th>
+                                        <th scope="row align-items-center">{{ team_stats.fouls_stats.total_fouls_received / team_stats.games_played }}</th>
                                     </tr>
                       
                                 </tbody>
@@ -145,8 +139,6 @@
                                 <thead class="thead-dark">
                                     <tr  class="text-center">
                                         <th scope="col">Temporada</th>
-                                        <th scope="col">Equipo</th>
-                                        <th scope="col">Liga</th>
                                         <th scope="col">Partidos jugados</th>
                                         <th scope="col">Tiros totales</th>
                                         <th scope="col">Tiros libres</th>
@@ -159,19 +151,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let season of player_stats_season; index as i;"  class="text-center">
-                                        <th scope="row align-items-center">{{ player_stats_season[i].season }}</th>
-                                        <th scope="row align-items-center">{{ player_teams[i][0] }}</th>
-                                        <th scope="row align-items-center">{{ player_teams[i][1] }}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].games_played}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.total_shots}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.t1_stats.t1_attempted}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.total_FG_shots}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.eFG}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.fg_percentage}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.t1_stats.t1_percentage}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.t2_stats.t2_percentage}}</th>
-                                        <th scope="row align-items-center">{{ player_stats_season[i].shots_stats.t3_stats.t3_percentage}}</th>
+                                    <tr class="text-center">
+                                        <th scope="row align-items-center">{{ team_stats.season }}</th>
+                                        <th scope="row align-items-center">{{ team_stats.games_played}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.shots_stats.total_shots}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.shots_stats.t1_stats.t1_attempted}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.shots_stats.total_FG_shots}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.shots_stats.eFG | number:'.0-2'}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.shots_stats.fg_percentage | number:'.0-2'}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.shots_stats.t1_stats.t1_percentage | number:'.0-2'}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.shots_stats.t2_stats.t2_percentage | number:'.0-2'}}</th>
+                                        <th scope="row align-items-center">{{ team_stats.shots_stats.t3_stats.t3_percentage | number:'.0-2'}}</th>
                                     </tr>
                       
                                 </tbody>
@@ -184,6 +174,22 @@
 
                         <div class="d-flex flex-column col-6">
                             <div echarts [options]="FG_shots_volume_pie"  class="season_stats_chart h-100"></div>
+                        </div>
+
+                        <div class="d-flex flex-column col-6">
+                            <div echarts [options]="players_usage_pie"  class="season_stats_chart h-100"></div>
+                        </div>
+
+                        <div class="d-flex flex-column col-6">
+                            <div echarts [options]="players_points_pie"  class="season_stats_chart h-100"></div>
+                        </div>
+
+                        <div class="d-flex flex-column col-6">
+                            <div echarts [options]="players_assists_pie"  class="season_stats_chart h-100"></div>
+                        </div>
+
+                        <div class="d-flex flex-column col-6">
+                            <div echarts [options]="players_minutes_pie"  class="season_stats_chart h-100"></div>
                         </div>
 
 

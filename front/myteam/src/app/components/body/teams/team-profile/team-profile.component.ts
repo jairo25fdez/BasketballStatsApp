@@ -33,11 +33,18 @@ import { Team_stats_seasonService } from '../../../../services/team_stats_season
 export class TeamProfileComponent implements OnInit {
 
   team:TeamModel;
+  team_stats:Team_stats_seasonModel;
 
   form:FormGroup;
   form_heptagon:FormGroup;
 
   season_stats_heptagon:EChartOption;
+  total_shots_volume_pie:EChartOption;
+  FG_shots_volume_pie:EChartOption;
+  players_usage_pie:EChartOption;
+  players_points_pie:EChartOption;
+  players_assists_pie:EChartOption;
+  players_minutes_pie:EChartOption;
 
   wins_percentage:number[] = [];
   ppfs:number[] = [];
@@ -62,9 +69,15 @@ export class TeamProfileComponent implements OnInit {
   rebpmin_counter:number = 0;
   eFG_counter:number = 0;
 
-  team_stats:Team_stats_seasonModel;
 
-  constructor(private route:ActivatedRoute, private fb:FormBuilder, private teamsService:TeamsService, private team_stats_season:Team_stats_seasonService){
+  players_usage:[any] = [{}];
+  players_points:[any] = [{}];
+  players_assists:[any] = [{}];
+  players_minutes:[any] = [{}];
+
+  
+
+  constructor(private route:ActivatedRoute, private fb:FormBuilder, private teamsService:TeamsService, private players_stats_season:Player_stats_seasonService, private team_stats_season:Team_stats_seasonService){
 
     const team_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
@@ -166,6 +179,253 @@ export class TeamProfileComponent implements OnInit {
         
             };
 
+            this.total_shots_volume_pie = {
+              title: {
+                  text: '% de volumen de tiro por tipo',
+                  textStyle: {
+                    color: "white"
+                  },
+                  left: 'center'
+              },
+              tooltip: {
+                  trigger: 'item',
+                  formatter: '{a} <br/>{b} : {c} ({d}%)'
+              },
+              series: [
+                  {
+                    name: this.team_stats.team_name,
+                    type: 'pie',
+                    data: [
+                      {
+                        value: this.team_stats.shots_stats.t1_stats.t1_attempted,
+                        name: "T1"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.t2_stats.t2_attempted,
+                        name: "T2"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.t3_stats.t3_attempted,
+                        name: "T3"
+                      }
+                    ]
+                  }
+              ]
+            };
+
+            this.FG_shots_volume_pie = {
+              title: {
+                  text: '% de volumen de tiro por zona',
+                  textStyle: {
+                    color: "white"
+                  },
+                  left: 'center'
+              },
+              tooltip: {
+                  trigger: 'item',
+                  formatter: '{a} <br/>{b} : {c} ({d}%)'
+              },
+              series: [
+                  {
+                    name: this.team_stats.team_name,
+                    type: 'pie',
+                    data: [
+                      {
+                        value: this.team_stats.shots_stats.shots_list.lc3.attempted,
+                        name: "LC3"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.le3.attempted,
+                        name: "LE3"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.c3.attempted,
+                        name: "C3"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.re3.attempted,
+                        name: "RE3"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.rc3.attempted,
+                        name: "RC3"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.lmc2.attempted,
+                        name: "LMC2"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.lme2.attempted,
+                        name: "LME2"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.cm2.attempted,
+                        name: "CM2"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.rme2.attempted,
+                        name: "RME2"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.rmc2.attempted,
+                        name: "RMC2"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.lp2.attempted,
+                        name: "LP2"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.rp2.attempted,
+                        name: "RP2"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.lft2.attempted,
+                        name: "LFT2"
+                      },
+                      {
+                        value: this.team_stats.shots_stats.shots_list.rft2.attempted,
+                        name: "RFT2"
+                      },
+                    ]
+                  }
+              ]
+            }; 
+
+            this.players_stats_season.getPlayer_stats_seasons("?team_id="+this.team_stats.team_id+"&season="+this.team_stats.season).then( (players:Player_stats_seasonModel[]) => {
+              for(let player of players){
+                if(player.usage != undefined){
+
+                  this.players_usage.push({
+                    value: player.usage,
+                    name: player.player_name+" "+player.player_lastName
+                  });
+                  
+                }
+
+                if(player.points_stats.total_points != undefined){
+
+                  this.players_points.push({
+                    value: player.points_stats.total_points,
+                    name: player.player_name+" "+player.player_lastName
+                  });
+                  
+                }
+
+                if(player.time_played.minutes != undefined){
+
+                  this.players_minutes.push({
+                    value: player.time_played.minutes,
+                    name: player.player_name+" "+player.player_lastName
+                  });
+                  
+                }
+
+                if(player.assists_stats.total_assists != undefined){
+
+                  this.players_assists.push({
+                    value: player.assists_stats.total_assists,
+                    name: player.player_name+" "+player.player_lastName
+                  });
+                  
+                }
+
+              }
+
+              this.players_usage_pie = {
+
+                title: {
+                    text: '% de uso del equipo',
+                    textStyle: {
+                      color: "white"
+                    },
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                series: [
+                    {
+                      name: this.team_stats.team_name,
+                      type: 'pie',
+                      data: this.players_usage
+                    }
+                ]
+  
+              };
+
+              this.players_points_pie = {
+
+                title: {
+                    text: '% de puntos del equipo por jugador',
+                    textStyle: {
+                      color: "white"
+                    },
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                series: [
+                    {
+                      name: this.team_stats.team_name,
+                      type: 'pie',
+                      data: this.players_points
+                    }
+                ]
+  
+              };
+
+              this.players_assists_pie = {
+
+                title: {
+                    text: '% de asistencias del equipo por jugador',
+                    textStyle: {
+                      color: "white"
+                    },
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                series: [
+                    {
+                      name: this.team_stats.team_name,
+                      type: 'pie',
+                      data: this.players_assists
+                    }
+                ]
+  
+              };
+
+              this.players_minutes_pie = {
+
+                title: {
+                    text: '% de minutos del equipo por jugador',
+                    textStyle: {
+                      color: "white"
+                    },
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                series: [
+                    {
+                      name: this.team_stats.team_name,
+                      type: 'pie',
+                      data: this.players_minutes
+                    }
+                ]
+  
+              };
+
+            });
+
+            
           });
 
         }
