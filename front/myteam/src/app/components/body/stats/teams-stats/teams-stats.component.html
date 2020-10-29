@@ -1,1 +1,41 @@
-<p>teams-stats works!</p>
+<div class="container-fluid no-gutters">
+
+    <div class="row no-gutters body h-100">
+        <!-- Chart column -->
+        <div class="d-flex flex-column col-10 chart-body mt-2 h-100">
+            <div echarts [options]="teams_stats_chart" [autoResize]="false" class="demo-chart"></div>
+        </div>
+        <!-- Filters column -->
+        <div class="d-flex flex-column col-2 filters text-center pl-2 mt-2">
+            <p class="h5">Filtros</p>
+            <form class="col h-100 mt-1" [formGroup]="form">
+
+                <div class="form-group row no-gutters">
+        
+                    <label class="col-3 col-form-label">Liga</label>
+                    <div class="col-8">
+                        <select class="custom-select" formControlName="leagues" >
+                            <option disabled selected>Liga del Equipo</option>
+                            <option *ngFor="let league of leagues;">{{league.name}}</option>
+                        </select>
+                    </div>
+                    
+                </div>
+        
+                <div class="form-group row no-gutters">
+        
+                    <label class="col-3 col-form-label">Club</label>
+                    <div class="col-8">
+                        <select class="custom-select" formControlName="teams">
+                            <option ></option>
+                        </select>
+                    </div>
+                    
+                </div>
+          
+        
+            </form>
+        </div>
+    </div>
+
+</div>
