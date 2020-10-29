@@ -55,6 +55,12 @@ import { TeamProfileComponent } from './components/body/teams/team-profile/team-
 import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
 import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
 
+
+//Stats
+import { StatsMenuComponent } from './components/body/stats/stats-menu/stats-menu.component';
+import { PlayersStatsComponent } from './components/body/stats/players-stats/players-stats.component';
+import { TeamsStatsComponent } from './components/body/stats/teams-stats/teams-stats.component';
+
 //Charts
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
@@ -66,12 +72,15 @@ import * as echarts from 'echarts';
     FooterComponent,
     SidebarComponent,
     //Game Components
+    NewgameFormComponent,
+    GamesViewComponent,
     LiveGameComponent,
     GameMenuComponent,
     MainPageComponent,
     BoxscoreComponent,
     PlayByPlayComponent,
     //Players components
+    PlayerProfileComponent,
     NewplayerFormComponent,
     PlayersMenuComponent,
     PlayersViewComponent,
@@ -84,15 +93,16 @@ import * as echarts from 'echarts';
     ClubsListComponent,
     NewclubFormComponent,
     //Teams components
+    TeamProfileComponent,
     TeamsMenuComponent,
     TeamsListComponent,
     NewteamFormComponent,
     UpdateteamFormComponent,
     UpdateplayerFormComponent,
-    NewgameFormComponent,
-    GamesViewComponent,
-    PlayerProfileComponent,
-    TeamProfileComponent
+    //Stats components
+    StatsMenuComponent,
+    TeamsStatsComponent,
+    PlayersStatsComponent
   ],
   imports: [
     BrowserModule,

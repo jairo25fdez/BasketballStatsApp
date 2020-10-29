@@ -34,6 +34,11 @@ import { NewteamFormComponent } from './components/body/teams/newteam-form/newte
 import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
 import { TeamProfileComponent } from './components/body/teams/team-profile/team-profile.component';
 
+//Stats components
+import { StatsMenuComponent } from './components/body/stats/stats-menu/stats-menu.component';
+import { TeamsStatsComponent } from './components/body/stats/teams-stats/teams-stats.component';
+import { PlayersStatsComponent } from './components/body/stats/players-stats/players-stats.component';
+
 const routes: Routes = [
   //Clubs routes
   {path: 'clubs', component: ClubsMenuComponent,
@@ -89,7 +94,14 @@ const routes: Routes = [
         {path: '**', pathMatch: 'full', redirectTo: 'leagues-list'}
       ]
     },
-    
+  //Stats routes
+  {path: 'stats', component: StatsMenuComponent,
+    children: [
+      {path: 'teams-stats', component: TeamsStatsComponent},
+      {path: 'players-stats', component: PlayersStatsComponent},
+      {path: '**', pathMatch: 'full', redirectTo: 'teams-stats'}
+    ]
+  },
   //Default routes
     {path: '**', pathMatch: 'full', redirectTo: ''},
 
