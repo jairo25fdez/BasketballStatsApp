@@ -3,7 +3,7 @@
     <div class="row no-gutters body h-100">
         <!-- Chart column -->
         <div class="d-flex flex-column col-10 chart-body mt-2 h-100">
-            <div echarts [options]="teams_stats_chart" [autoResize]="false" class="demo-chart"></div>
+            <div echarts class="w-100" [options]="teams_stats_chart" class="demo-chart"></div>
         </div>
         <!-- Filters column -->
         <div class="d-flex flex-column col-2 filters text-center pl-2 mt-2">
@@ -27,7 +27,7 @@
                     <div class="col-8">
                         <select class="custom-select" formControlName="axis_Y" (ngModel)="axis_Y">
                             <option disabled selected></option>
-                            <option value="wins_percentage">% Victorias</option>
+                            <option value="win_percentage">% Victorias</option>
                             <option value="points_stats.total_points">Puntos totales</option>
                             <option value="points_stats.average_points">Puntos por partido</option>
                             <option value="points_stats.points_per_field_shot">Puntos por tiro de campo</option>
@@ -85,7 +85,7 @@
                     <div class="col-8">
                         <select class="custom-select" formControlName="axis_X" (ngModel)="axis_X">
                             <option disabled selected></option>
-                            <option value="wins_percentage">% Victorias</option>
+                            <option value="win_percentage">% Victorias</option>
                             <option value="points_stats.total_points">Puntos totales</option>
                             <option value="points_stats.average_points">Puntos por partido</option>
                             <option value="points_stats.points_per_field_shot">Puntos por tiro de campo</option>

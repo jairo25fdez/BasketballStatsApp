@@ -36,6 +36,8 @@ export class TeamsStatsComponent implements OnInit {
   teams_stats_chart:EChartOption;
 
   form:FormGroup;
+  axis_Y;
+  axis_X;
 
   leagues:LeagueModel[];
   teams_stats:Team_stats_seasonModel[];
@@ -43,6 +45,8 @@ export class TeamsStatsComponent implements OnInit {
   chart_data = [];
   data_x = []; //Save the ordered array with the stats of X axis.
   data_y = []; //Save the ordered array with the stats of Y axis.
+
+  filters_names = ["PRUEBA"];
 
   constructor(private fb:FormBuilder, private leaguesService:LeaguesService, private teams_stats_season:Team_stats_seasonService){
 
@@ -89,7 +93,7 @@ export class TeamsStatsComponent implements OnInit {
           //console.log("NOMBRE: "+params[0].data.name);
           //console.log("EQUIPO: "+params[0].data.team);
 
-          let res = "<p class='text-center'>"+params[0].data.name+"</p>"+"<p class='text-center'>"+params[0].data.team+"</p><p>Percentil X: "+params[0].value[0]+"<p>Percentil Y: "+params[0].value[1];
+          let res = "<p class='text-center'>"+params[0].data.name+"</p>"+"</p><p>Percentil"+ this.filters_names[0] +":"+params[0].value[0]+"<p>Percentil Y: "+params[0].value[1];
           setTimeout(function() {
                     
             callback(ticket, res);
@@ -234,7 +238,7 @@ export class TeamsStatsComponent implements OnInit {
             //console.log("NOMBRE: "+params[0].data.name);
             //console.log("EQUIPO: "+params[0].data.team);
   
-            let res = "<p class='text-center'>"+params[0].data.name+"</p>"+"<p class='text-center'>"+params[0].data.team+"</p><p>Percentil X: "+params[0].value[0]+"<p>Percentil Y: "+params[0].value[1];
+            let res = "<p class='text-center'>"+params[0].data.name+"</p><p>Percentil X: "+params[0].value[0]+"<p>Percentil Y: "+params[0].value[1];
             setTimeout(function() {
                       
               callback(ticket, res);
