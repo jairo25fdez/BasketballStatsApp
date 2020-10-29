@@ -46,7 +46,6 @@ export class TeamsStatsComponent implements OnInit {
   data_x = []; //Save the ordered array with the stats of X axis.
   data_y = []; //Save the ordered array with the stats of Y axis.
 
-  filters_names = ["PRUEBA"];
 
   constructor(private fb:FormBuilder, private leaguesService:LeaguesService, private teams_stats_season:Team_stats_seasonService){
 
@@ -55,57 +54,6 @@ export class TeamsStatsComponent implements OnInit {
     this.leaguesService.getLeagues().then( (leagues:LeagueModel[]) => {
       this.leagues = leagues;
     });
-    /*
-    this.chart_data = [
-      {name: "PRUEBA", value: [0,0]}
-    ];
-    */
-    this.teams_stats_chart = {
-      xAxis: [
-        {
-          type: 'value',
-          axisLabel: {
-            color: "white"
-          }
-      }],
-      yAxis: [
-        {
-          type: 'value',
-          axisLabel: {
-            color: "white"
-          }
-      }],
-      series: [{
-          data: this.chart_data,
-          type: 'scatter'
-      }],
-      tooltip: {
-        //trigger: 'item',
-        trigger: 'axis',
-        axisPointer: {
-            type: 'cross'
-            //type: 'line'
-            //type: 'shadow'
-        },
-        //formatter: '{b0}: {c0}<br />{b1}: {c1}',
-        formatter: function(params, ticket, callback) {
-          //console.log(params)
-          //console.log("NOMBRE: "+params[0].data.name);
-          //console.log("EQUIPO: "+params[0].data.team);
-
-          let res = "<p class='text-center'>"+params[0].data.name+"</p>"+"</p><p>Percentil"+ this.filters_names[0] +":"+params[0].value[0]+"<p>Percentil Y: "+params[0].value[1];
-          setTimeout(function() {
-                    
-            callback(ticket, res);
-
-          }, 100)
-
-          return 'loading';
-        }
-      },
-    };
-
-    
 
   }
 
@@ -225,20 +173,19 @@ export class TeamsStatsComponent implements OnInit {
             type: 'scatter'
         }],
         tooltip: {
-          //trigger: 'item',
-          trigger: 'axis',
+          trigger: 'item',
+          //trigger: 'axis',
           axisPointer: {
               type: 'cross'
               //type: 'line'
               //type: 'shadow'
           },
-          //formatter: '{b0}: {c0}<br />{b1}: {c1}',
           formatter: function(params, ticket, callback) {
-            //console.log(params)
-            //console.log("NOMBRE: "+params[0].data.name);
-            //console.log("EQUIPO: "+params[0].data.team);
-  
-            let res = "<p class='text-center'>"+params[0].data.name+"</p><p>Percentil X: "+params[0].value[0]+"<p>Percentil Y: "+params[0].value[1];
+            //If trigger:axis ---->
+            //let res = "<p class='text-center'>"+params[0].data.name+"</p><p>Percentil X: "+params[0].value[0]+"<p>Percentil Y: "+params[0].value[1];
+            //If trigger:item --->
+            let res = "<p class='text-center'>"+params.data.name+"</p><p>Percentil X: "+params.data.value[0]+"<p>Percentil Y: "+params.data.value[1];
+            
             setTimeout(function() {
                       
               callback(ticket, res);
