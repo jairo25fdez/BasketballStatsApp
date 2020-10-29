@@ -8,29 +8,142 @@
         <!-- Filters column -->
         <div class="d-flex flex-column col-2 filters text-center pl-2 mt-2">
             <p class="h5">Filtros</p>
-            <form class="col h-100 mt-1" [formGroup]="form">
+            <form class="col h-100 mt-1" [formGroup]="form" (ngSubmit)="submit()">
 
                 <div class="form-group row no-gutters">
         
                     <label class="col-3 col-form-label">Liga</label>
                     <div class="col-8">
-                        <select class="custom-select" formControlName="leagues" >
-                            <option disabled selected>Liga del Equipo</option>
-                            <option *ngFor="let league of leagues;">{{league.name}}</option>
+                        <select class="custom-select" formControlName="leagues" (change)="selectLeague($event.target.value)">
+                            <option *ngFor="let league of leagues; index as i;" value="{{i}}">{{league.name}}</option>
                         </select>
                     </div>
                     
                 </div>
         
-                <div class="form-group row no-gutters">
+                <div class="form-group row no-gutters mt-5">
         
-                    <label class="col-3 col-form-label">Club</label>
+                    <label class="col-3 col-form-label">Eje Y</label>
                     <div class="col-8">
-                        <select class="custom-select" formControlName="teams">
-                            <option ></option>
+                        <select class="custom-select" formControlName="axis_Y" (ngModel)="axis_Y">
+                            <option disabled selected></option>
+                            <option value="wins_percentage">% Victorias</option>
+                            <option value="points_stats.total_points">Puntos totales</option>
+                            <option value="points_stats.average_points">Puntos por partido</option>
+                            <option value="points_stats.points_per_field_shot">Puntos por tiro de campo</option>
+                            <option value="points_stats.points_per_shot_t2">Puntos por T2</option>
+                            <option value="points_stats.points_per_shot_t3">Puntos por T3</option>
+
+                            <option value="shots_stats.eFG">eFG%</option>
+                            <option value="shots_stats.fg_percentage">%TC</option>
+
+                            <option value="shots_stats.total_FG_shots">Tiros de campos totales</option>
+
+                            <option value="shots_stats.t1_stats.t1_made">T1 anotados</option>
+                            <option value="shots_stats.t1_stats.t1_attempted">T1 intentados</option>
+                            <option value="shots_stats.t1_stats.t1_percentage">%T1</option>
+                            <option value="shots_stats.t1_stats.t1_volume_percentage">Volumen T1</option>
+
+                            <option value="shots_stats.t2_stats.t2_made">T2 anotados</option>
+                            <option value="shots_stats.t2_stats.t2_attempted">T2 intentados</option>
+                            <option value="shots_stats.t2_stats.t2_percentage">%T2</option>
+                            <option value="shots_stats.t2_stats.t2_volume_percentage">Volumen T2</option>
+
+                            <option value="shots_stats.t3_stats.t3_made">T3 anotados</option>
+                            <option value="shots_stats.t3_stats.t3_attempted">T3 intentados</option>
+                            <option value="shots_stats.t3_stats.t3_percentage">%T3</option>
+                            <option value="shots_stats.t3_stats.t3_volume_percentage">Volumen T3</option>
+
+                            <option value="assists_stats.total_assists">Asistencias totales</option>
+                            <option value="assists_stats.assists_per_lost">Asistencias por pérdida</option>
+                            <option value="steals_stats.total_steals">Robos totales</option>
+                            <option value="steals_stats.steals_per_minute">Robos por minuto</option>
+                            <option value="lost_balls_stats.total_losts">Pérdidas totales</option>
+                            <option value="lost_balls_stats.turnovers_per_minute">Pérdidas por minuto</option>
+                            <option value="rebounds_stats.total_rebounds">Rebotes totales</option>
+                            <option value="rebounds_stats.total_rebounds_per_minute">Rebotes totales por minuto</option>
+                            <option value="rebounds_stats.offensive_rebounds_per_minute">Rebotes ofensivos por minuto</option>
+                            <option value="rebounds_stats.defensive_rebounds_per_minute">Rebotes defensivos por minuto</option>
+                            <option value="blocks_stats.total_blocks_made">Tapones hechos totales</option>
+                            <option value="blocks_stats.total_blocks_received">Tapones recibidos totales</option>
+                            <option value="blocks_stats.blocks_made_per_game">Tapones hechos por partido</option>
+                            <option value="blocks_stats.blocks_received_per_game">Tapones recibidos por partido</option>
+                            <option value="blocks_stats.blocks_made_per_minute">Tapones hechos por minuto</option>
+                            <option value="blocks_stats.blocks_received_per_minute">Tapones recibidos por minuto</option>
+                            <option value="fouls_stats.total_fouls_made">Faltas hechas totales</option>
+                            <option value="fouls_stats.fouls_made_per_minute">Faltas hechas por minuto</option>
+                            <option value="fouls_stats.total_fouls_received">Faltas recibidas totales</option>
+                            <option value="fouls_stats.fouls_received_per_minute">Faltas recibidas por minuto</option>
                         </select>
                     </div>
                     
+                </div>
+
+                <div class="form-group row no-gutters">
+        
+                    <label class="col-3 col-form-label">Eje X</label>
+                    <div class="col-8">
+                        <select class="custom-select" formControlName="axis_X" (ngModel)="axis_X">
+                            <option disabled selected></option>
+                            <option value="wins_percentage">% Victorias</option>
+                            <option value="points_stats.total_points">Puntos totales</option>
+                            <option value="points_stats.average_points">Puntos por partido</option>
+                            <option value="points_stats.points_per_field_shot">Puntos por tiro de campo</option>
+                            <option value="points_stats.points_per_shot_t2">Puntos por T2</option>
+                            <option value="points_stats.points_per_shot_t3">Puntos por T3</option>
+
+                            <option value="shots_stats.eFG">eFG%</option>
+                            <option value="shots_stats.fg_percentage">%TC</option>
+
+                            <option value="shots_stats.total_FG_shots">Tiros de campos totales</option>
+
+                            <option value="shots_stats.t1_stats.t1_made">T1 anotados</option>
+                            <option value="shots_stats.t1_stats.t1_attempted">T1 intentados</option>
+                            <option value="shots_stats.t1_stats.t1_percentage">%T1</option>
+                            <option value="shots_stats.t1_stats.t1_volume_percentage">Volumen T1</option>
+
+                            <option value="shots_stats.t2_stats.t2_made">T2 anotados</option>
+                            <option value="shots_stats.t2_stats.t2_attempted">T2 intentados</option>
+                            <option value="shots_stats.t2_stats.t2_percentage">%T2</option>
+                            <option value="shots_stats.t2_stats.t2_volume_percentage">Volumen T2</option>
+
+                            <option value="shots_stats.t3_stats.t3_made">T3 anotados</option>
+                            <option value="shots_stats.t3_stats.t3_attempted">T3 intentados</option>
+                            <option value="shots_stats.t3_stats.t3_percentage">%T3</option>
+                            <option value="shots_stats.t3_stats.t3_volume_percentage">Volumen T3</option>
+
+                            <option value="assists_stats.total_assists">Asistencias totales</option>
+                            <option value="assists_stats.assists_per_lost">Asistencias por pérdida</option>
+                            <option value="steals_stats.total_steals">Robos totales</option>
+                            <option value="steals_stats.steals_per_minute">Robos por minuto</option>
+                            <option value="lost_balls_stats.total_losts">Pérdidas totales</option>
+                            <option value="lost_balls_stats.turnovers_per_minute">Pérdidas por minuto</option>
+                            <option value="rebounds_stats.total_rebounds">Rebotes totales</option>
+                            <option value="rebounds_stats.total_rebounds_per_minute">Rebotes totales por minuto</option>
+                            <option value="rebounds_stats.offensive_rebounds_per_minute">Rebotes ofensivos por minuto</option>
+                            <option value="rebounds_stats.defensive_rebounds_per_minute">Rebotes defensivos por minuto</option>
+                            <option value="blocks_stats.total_blocks_made">Tapones hechos totales</option>
+                            <option value="blocks_stats.total_blocks_received">Tapones recibidos totales</option>
+                            <option value="blocks_stats.blocks_made_per_game">Tapones hechos por partido</option>
+                            <option value="blocks_stats.blocks_received_per_game">Tapones recibidos por partido</option>
+                            <option value="blocks_stats.blocks_made_per_minute">Tapones hechos por minuto</option>
+                            <option value="blocks_stats.blocks_received_per_minute">Tapones recibidos por minuto</option>
+                            <option value="fouls_stats.total_fouls_made">Faltas hechas totales</option>
+                            <option value="fouls_stats.fouls_made_per_minute">Faltas hechas por minuto</option>
+                            <option value="fouls_stats.total_fouls_received">Faltas recibidas totales</option>
+                            <option value="fouls_stats.fouls_received_per_minute">Faltas recibidas por minuto</option>
+                        </select>
+                    </div>
+                    
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">&nbsp;</label>
+                    <div class="input-group col-md-8">
+                    <button type="submit" class="btn btn-primary w-100">
+                        Buscar
+                    </button>
+                    </div>
                 </div>
           
         
