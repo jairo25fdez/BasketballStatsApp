@@ -7,23 +7,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 //Models
 import { LeagueModel } from 'src/app/models/league.model';
-import { GameModel } from '../../../../models/game.model';
-import { PlayModel } from '../../../../models/play.model';
-import { Player_stats_gameModel } from '../../../../models/player_stats_game.model';
-import { Team_stats_gameModel } from '../../../../models/team_stats_game.model';
 import { Team_stats_seasonModel } from '../../../../models/team_stats_season.model';
-import { Player_stats_seasonModel } from '../../../../models/player_stats_season.model';
-import { PlayerModel } from 'src/app/models/player.model';
-import { TeamModel } from '../../../../models/team.model';
 
 
 //Services
 import { LeaguesService } from 'src/app/services/leagues.service';
-import { TeamsService } from 'src/app/services/teams.service';
-import { PlayersService } from 'src/app/services/players.service';
-import { Player_stats_gamesService } from 'src/app/services/player_stats_game.service';
-import { Player_stats_seasonService } from 'src/app/services/player_stats_season.service';
-import { reduceEachLeadingCommentRange } from 'typescript';
 import { Team_stats_seasonService } from '../../../../services/team_stats_season.service';
 
 @Component({
@@ -83,7 +71,6 @@ export class TeamsStatsComponent implements OnInit {
 
   selectFilterX(filter){
     
-    //Para empezar creo la lista ordenada de la estadística de X
     let array_filter = filter.split(".");
     let axis_x_data;
     let team_name = [];
