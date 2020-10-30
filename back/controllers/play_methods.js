@@ -3,6 +3,7 @@ module.exports = function (app){
     const path = require('path');
     const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
+    const checkToken = require('../middlewares/authentication');
 
     //URL to Mongoose package.
     const aqp = require('api-query-params');
@@ -18,7 +19,7 @@ module.exports = function (app){
     //Methods to work with the whole collection.
 
     //DELETE every Play in DB.
-    app.delete(BASE_API_URL+"/plays",(request,response) =>{
+    app.delete(BASE_API_URL+"/plays", checkToken ,(request,response) =>{
         Play.deleteMany({}, function (err) {
             if(err){
                 console.log("Error while trying to delete plays.");
@@ -30,7 +31,7 @@ module.exports = function (app){
     });
 
     //GET every Play in DB.
-    app.get(BASE_API_URL+"/plays",(request,response) =>{
+    app.get(BASE_API_URL+"/plays", checkToken ,(request,response) =>{
 
         const { filter, skip, limit, sort, projection, population } = aqp(request.query);
 
@@ -53,7 +54,7 @@ module.exports = function (app){
     });
 
     //POST a Play in DB.
-    app.post(BASE_API_URL+"/plays",(request,response) =>{
+    app.post(BASE_API_URL+"/plays", checkToken ,(request,response) =>{
         let play_data = request.body;
 
         let play = new Play({
@@ -93,7 +94,7 @@ module.exports = function (app){
     });
 
     //PUT is not allowed when we are working with collections.
-    app.put(BASE_API_URL+"/plays",(request,response) =>{
+    app.put(BASE_API_URL+"/plays", checkToken ,(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A COLLECTION.")
     });
 
@@ -101,7 +102,7 @@ module.exports = function (app){
     //Methods to work with a specific play.
 
     //DELETE a specific play by the ID.
-    app.delete(BASE_API_URL+"/plays/:play_id",(request,response) =>{
+    app.delete(BASE_API_URL+"/plays/:play_id", checkToken ,(request,response) =>{
         var play_id = request.params.play_id;
 
 		Play.deleteOne({_id: play_id}, function (err){
@@ -118,7 +119,7 @@ module.exports = function (app){
     });
 
     //GET a specific play by the ID.
-    app.get(BASE_API_URL+"/plays/:play_id",(request,response) =>{
+    app.get(BASE_API_URL+"/plays/:play_id", checkToken ,(request,response) =>{
         var play_id = request.params.play_id;
 
         Play.findOne({_id: play_id}, function (err, doc){
@@ -135,12 +136,12 @@ module.exports = function (app){
 
 
     //POST is not allowed when we are working with a specific play.
-    app.post(BASE_API_URL+"/plays/:play_id",(request,response) =>{
+    app.post(BASE_API_URL+"/plays/:play_id", checkToken ,(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
     });
 
     //PUT a specific play in the database.
-    app.put(BASE_API_URL+"/plays/:play_id",(request,response) =>{
+    app.put(BASE_API_URL+"/plays/:play_id", checkToken ,(request,response) =>{
 
         var play_id = request.params.play_id;
         var updatedData = request.body;

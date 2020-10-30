@@ -6,6 +6,7 @@ module.exports = function (app){
     const { isNull } = require('util');
     const fs = require('fs');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
+    const checkToken = require('../middlewares/authentication');
 
     //URL to Mongoose package.
     const aqp = require('api-query-params');
@@ -24,7 +25,7 @@ module.exports = function (app){
     //Methods to work with the whole collection.
 
     //DELETE every League in DB.
-    app.delete(BASE_API_URL+"/leagues",(request,response) =>{
+    app.delete(BASE_API_URL+"/leagues", checkToken ,(request,response) =>{
         League.deleteMany({}, function (err) {
             if(err){
                 console.log("Error while trying to delete leagues.");
@@ -36,7 +37,7 @@ module.exports = function (app){
     });
 
     //GET every League in DB.
-    app.get(BASE_API_URL+"/leagues",(request,response) =>{
+    app.get(BASE_API_URL+"/leagues", checkToken ,(request,response) =>{
 
         const { filter, skip, limit, sort, projection, population } = aqp(request.query);
 
@@ -59,7 +60,7 @@ module.exports = function (app){
     });
 
     //POST a League in DB.
-    app.post(BASE_API_URL+"/leagues",(request,response) =>{
+    app.post(BASE_API_URL+"/leagues", checkToken ,(request,response) =>{
         let league_data = request.body;
 
         let league = new League({
@@ -89,7 +90,7 @@ module.exports = function (app){
     });
 
     //PUT is not allowed when we are working with collections.
-    app.put(BASE_API_URL+"/leagues",(request,response) =>{
+    app.put(BASE_API_URL+"/leagues", checkToken ,(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A COLLECTION.")
     });
 
@@ -97,7 +98,7 @@ module.exports = function (app){
     //Methods to work with a specific club.
 
     //DELETE a specific Club by the ID.
-    app.delete(BASE_API_URL+"/leagues/:league_id",(request,response) =>{
+    app.delete(BASE_API_URL+"/leagues/:league_id", checkToken ,(request,response) =>{
         var league_id = request.params.league_id;
 
 		League.deleteOne({_id: league_id}, function (err){
@@ -114,7 +115,7 @@ module.exports = function (app){
     });
 
     //GET a specific League by the ID.
-    app.get(BASE_API_URL+"/leagues/:league_id",(request,response) =>{
+    app.get(BASE_API_URL+"/leagues/:league_id", checkToken ,(request,response) =>{
         var league_id = request.params.league_id;
 
         League.findOne({_id: league_id}, function (err, doc){
@@ -131,12 +132,12 @@ module.exports = function (app){
 
 
     //POST is not allowed when we are working with a specific league.
-    app.post(BASE_API_URL+"/leagues/:league_id",(request,response) =>{
+    app.post(BASE_API_URL+"/leagues/:league_id", checkToken ,(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC LEAGUE.")
     });
 
     //PUT a specific League in the database.
-    app.put(BASE_API_URL+"/leagues/:league_id",(request,response) =>{
+    app.put(BASE_API_URL+"/leagues/:league_id", checkToken ,(request,response) =>{
 
         var league_id = request.params.league_id;
         var updatedData = request.body;

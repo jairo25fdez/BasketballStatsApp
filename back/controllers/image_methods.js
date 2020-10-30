@@ -2,6 +2,7 @@ module.exports = function (app){
     const multer = require('multer'); 
     const cloudinary = require('cloudinary').v2;
     const fs = require('fs')
+    const checkToken = require('../middlewares/authentication');
 
     cloudinary.config({
         cloud_name: process.env.CLOUD_NAME,
@@ -29,10 +30,8 @@ module.exports = function (app){
     });
 
 
-
-
     //GET all images
-    app.get(BASE_API_URL+'/images', (req, res) => { 
+    app.get(BASE_API_URL+'/images', checkToken ,(req, res) => { 
         imgModel.find({}, (err, items) => { 
             if (err) { 
                 console.log(err); 
@@ -44,7 +43,7 @@ module.exports = function (app){
     });
 
     //POST image in Cloudinary
-    app.post(BASE_API_URL+'/images', upload.single('image'),(request, response) => { 
+    app.post(BASE_API_URL+'/images', upload.single('image'), checkToken ,(request, response) => { 
 
         const file_path = request.file.path;
         

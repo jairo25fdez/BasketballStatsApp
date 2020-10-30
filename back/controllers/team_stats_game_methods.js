@@ -3,6 +3,7 @@ module.exports = function (app){
     const path = require('path');
     const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
+    const checkToken = require('../middlewares/authentication');
 
     //URL to Mongoose package.
     const aqp = require('api-query-params');
@@ -18,7 +19,7 @@ module.exports = function (app){
     //Methods to work with the whole collection.
 
     //DELETE every Team_stats_game in DB.
-    app.delete(BASE_API_URL+"/team_stats_game",(request,response) =>{
+    app.delete(BASE_API_URL+"/team_stats_game", checkToken ,(request,response) =>{
         Team_stats_game.deleteMany({}, function (err) {
             if(err){
                 console.log("Error while trying to delete teams stats.");
@@ -30,7 +31,7 @@ module.exports = function (app){
     });
 
     //GET every Team_stats_game in DB.
-    app.get(BASE_API_URL+"/team_stats_game",(request,response) =>{
+    app.get(BASE_API_URL+"/team_stats_game", checkToken ,(request,response) =>{
 
         const { filter, skip, limit, sort, projection, population } = aqp(request.query);
 
@@ -53,7 +54,7 @@ module.exports = function (app){
     });
 
     //POST a Team_stats_game in DB.
-    app.post(BASE_API_URL+"/team_stats_game",(request,response) =>{
+    app.post(BASE_API_URL+"/team_stats_game", checkToken ,(request,response) =>{
         let team_stats_data = request.body;
 
         let team_stats = new Team_stats_game({
@@ -104,7 +105,7 @@ module.exports = function (app){
     });
 
     //PUT is not allowed when we are working with collections.
-    app.put(BASE_API_URL+"/team_stats_game",(request,response) =>{
+    app.put(BASE_API_URL+"/team_stats_game", checkToken ,(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A COLLECTION.")
     });
 
@@ -112,7 +113,7 @@ module.exports = function (app){
     //Methods to work with a specific team_stats_data.
 
     //DELETE a specific stats by the ID.
-    app.delete(BASE_API_URL+"/team_stats_game/:team_stats_id",(request,response) =>{
+    app.delete(BASE_API_URL+"/team_stats_game/:team_stats_id", checkToken ,(request,response) =>{
         var team_stats_id = request.params.team_stats_id;
 
 		Team_stats_game.deleteOne({_id: team_stats_id}, function (err){
@@ -129,7 +130,7 @@ module.exports = function (app){
     });
 
     //GET a specific stats by the ID.
-    app.get(BASE_API_URL+"/team_stats_game/:team_stats_id",(request,response) =>{
+    app.get(BASE_API_URL+"/team_stats_game/:team_stats_id", checkToken ,(request,response) =>{
         var team_stats_id = request.params.team_stats_id;
 
         Team_stats_game.findOne({_id: team_stats_id}, function (err, doc){
@@ -146,12 +147,12 @@ module.exports = function (app){
 
 
     //POST is not allowed when we are working with a specific team_stats_data.
-    app.post(BASE_API_URL+"/team_stats_game/:play_id",(request,response) =>{
+    app.post(BASE_API_URL+"/team_stats_game/:play_id", checkToken ,(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
     });
 
     //PUT a specific stats in the database.
-    app.put(BASE_API_URL+"/team_stats_game/:team_stats_id",(request,response) =>{
+    app.put(BASE_API_URL+"/team_stats_game/:team_stats_id", checkToken ,(request,response) =>{
 
         var team_stats_id = request.params.team_stats_id;
         var updatedData = request.body;

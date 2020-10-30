@@ -3,6 +3,7 @@ module.exports = function (app){
     const path = require('path');
     const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
+    const checkToken = require('../middlewares/authentication');
 
     //URL to Mongoose package.
     const aqp = require('api-query-params');
@@ -17,7 +18,7 @@ module.exports = function (app){
     //Methods to work with the whole collection.
 
     //DELETE every Game in DB.
-    app.delete(BASE_API_URL+"/games",(request,response) =>{
+    app.delete(BASE_API_URL+"/games", checkToken ,(request,response) =>{
         Game.deleteMany({}, function (err) {
             if(err){
                 console.log("Error while trying to delete games.");
@@ -29,7 +30,7 @@ module.exports = function (app){
     });
 
     //GET every Game in DB.
-    app.get(BASE_API_URL+"/games",(request,response) =>{
+    app.get(BASE_API_URL+"/games", checkToken ,(request,response) =>{
 
         const { filter, skip, limit, sort, projection, population } = aqp(request.query);
 
@@ -52,7 +53,7 @@ module.exports = function (app){
     });
 
     //POST a Game in DB.
-    app.post(BASE_API_URL+"/games",(request,response) =>{
+    app.post(BASE_API_URL+"/games", checkToken ,(request,response) =>{
         let game_data = request.body;
 
         let game = new Game({
@@ -87,14 +88,14 @@ module.exports = function (app){
     });
 
     //PUT is not allowed when we are working with collections.
-    app.put(BASE_API_URL+"/games",(request,response) =>{
+    app.put(BASE_API_URL+"/games", checkToken ,(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A COLLECTION.")
     });
 
     //Methods to work with a specific game.
 
     //DELETE a specific Game by the ID.
-    app.delete(BASE_API_URL+"/games/:game_id",(request,response) =>{
+    app.delete(BASE_API_URL+"/games/:game_id", checkToken ,(request,response) =>{
         var game_id = request.params.game_id;
 
 		Game.deleteOne({_id: game_id}, function (err){
@@ -111,7 +112,7 @@ module.exports = function (app){
     });
 
     //GET a specific Game by the ID.
-    app.get(BASE_API_URL+"/games/:game_id",(request,response) =>{
+    app.get(BASE_API_URL+"/games/:game_id", checkToken ,(request,response) =>{
         var game_id = request.params.game_id;
 
         Game.findOne({_id: game_id}, function (err, doc){
@@ -128,12 +129,12 @@ module.exports = function (app){
 
 
     //POST is not allowed when we are working with a specific game.
-    app.post(BASE_API_URL+"/games/:game_id",(request,response) =>{
+    app.post(BASE_API_URL+"/games/:game_id", checkToken ,(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
     });
 
     //PUT a specific Game in the database.
-    app.put(BASE_API_URL+"/games/:game_id",(request,response) =>{
+    app.put(BASE_API_URL+"/games/:game_id", checkToken ,(request,response) =>{
 
         var game_id = request.params.game_id;
         var updatedData = request.body;
