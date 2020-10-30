@@ -31,7 +31,7 @@ let checkToken = (request, response, next) => {
 let checkAdminRole = (request, response, next) => {
     let user = request.user;
 
-    if(user.role == "admin"){
+    if(user.rol == "admin"){
         next();
     }
     else{
