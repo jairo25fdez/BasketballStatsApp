@@ -35,7 +35,7 @@ module.exports = function (app){
                     //If the email exists and the password match
                     let token = jwt.sign({
                         user: user
-                    },'secret', {expiresIn: 60 * 60 * 24 * 30});
+                    },process.env.SEED, {expiresIn: 60 * 60 * 24 * 30});
 
                     response.json({
                         user: user,
