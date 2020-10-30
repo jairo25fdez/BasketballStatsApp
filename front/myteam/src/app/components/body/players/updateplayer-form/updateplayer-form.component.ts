@@ -10,12 +10,20 @@ import { ClubsService } from '../../../../services/clubs.service';
 import { TeamsService } from '../../../../services/teams.service';
 import { PlayersService } from 'src/app/services/players.service';
 import { ImagesService } from 'src/app/services/images.service';
+import { Player_stats_gamesService } from '../../../../services/player_stats_game.service';
+import { Player_stats_seasonService } from '../../../../services/player_stats_season.service';
+import { PlaysService } from '../../../../services/plays.service';
 
 //Models
 import { ClubModel } from '../../../../models/club.model';
 import { LeagueModel } from '../../../../models/league.model';
 import { TeamModel } from '../../../../models/team.model';
 import { PlayerModel } from 'src/app/models/player.model';
+import { Player_stats_gameModel } from '../../../../models/player_stats_game.model';
+import { Player_stats_seasonModel } from '../../../../models/player_stats_season.model';
+import { PlayModel } from 'src/app/models/play.model';
+
+
 
 
 @Component({
@@ -37,7 +45,7 @@ export class UpdateplayerFormComponent implements OnInit {
 
   selected_club_index:number;
 
-  constructor( private fb:FormBuilder, private LeaguesService:LeaguesService, private TeamsService:TeamsService, private ImagesService:ImagesService, private PlayersService:PlayersService, private route:ActivatedRoute, private ClubsService:ClubsService ) { 
+  constructor( private fb:FormBuilder, private playsService:PlaysService, private players_stats_game:Player_stats_gamesService, private players_stats_season:Player_stats_seasonService, private LeaguesService:LeaguesService, private TeamsService:TeamsService, private ImagesService:ImagesService, private PlayersService:PlayersService, private route:ActivatedRoute, private ClubsService:ClubsService ) { 
     
     const id = this.route.snapshot.paramMap.get('id');
 
@@ -264,14 +272,13 @@ export class UpdateplayerFormComponent implements OnInit {
       this.PlayersService.updatePlayer(this.player).then(resp => {
         //If the post success
 
-        //Tengo que buscar al jugador en los rosters de los equipos para actualizar su información
+        //Update the players info in the teams
         this.TeamsService.getTeams("?roster.player_id="+this.player._id).then( (teams:TeamModel[]) => {
 
           for(let player of teams[0].roster){
             if(player.player_id == this.player._id){
               player.player_id = this.player._id;
               player.player_name = this.player.name;
-              //console.log("CAMBIO "+player.player_name+" POR "+this.player.name);
               player.player_last_name = this.player.last_name;
               player.player_birth_date = this.player.birth_date;
               player.player_img = this.player.img;
@@ -285,6 +292,38 @@ export class UpdateplayerFormComponent implements OnInit {
             console.error("Error while trying to update the player in the team roster");
           });
 
+        });
+
+        //Update player info in the player_stats_game and playyer_stats_season
+        this.players_stats_game.getPlayer_stats_games("?player_id="+this.player._id).then( (player_stats_games:Player_stats_gameModel[]) => {
+          for(let player_stats of player_stats_games){
+            player_stats.player_name = this.player.name;
+            player_stats.player_lastName = this.player.last_name;
+            player_stats.player_img = this.player.img;
+            player_stats.player_number = this.player.number;
+
+            this.players_stats_game.updatePlayer_stats_game(player_stats);
+          }
+        });
+
+        this.players_stats_season.getPlayer_stats_seasons("?player_id="+this.player._id).then( (player_stats_seasons:Player_stats_seasonModel[]) => {
+          for(let player_stats of player_stats_seasons){
+            player_stats.player_name = this.player.name;
+            player_stats.player_lastName = this.player.last_name;
+            player_stats.player_img = this.player.img;
+
+            this.players_stats_season.updatePlayer_stats_season(player_stats);
+          }
+        });
+
+        this.playsService.getPlays("?player.player_id="+this.player._id).then( (player_plays:PlayModel[]) => {
+          for(let play of player_plays){
+            play.player.player_name = this.player.name;
+            play.player.player_last_name = this.player.last_name;
+            play.player.player_img = this.player.img;
+
+            this.playsService.updatePlay(play);
+          }
         });
 
         Swal.fire({
