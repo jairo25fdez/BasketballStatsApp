@@ -9,13 +9,14 @@ import { ClubModel } from 'src/app/models/club.model';
 import { PlayerModel } from 'src/app/models/player.model';
 import { TeamModel } from 'src/app/models/team.model';
 import { GameModel } from '../../../../models/game.model';
+import { Team_stats_gameModel } from '../../../../models/team_stats_game.model';
+import { Player_stats_gameModel } from '../../../../models/player_stats_game.model';
 
 //Services
-import { LeaguesService } from 'src/app/services/leagues.service';
-import { ClubsService } from 'src/app/services/clubs.service';
-import { PlayersService } from 'src/app/services/players.service';
-import { TeamsService } from 'src/app/services/teams.service';
 import { GamesService } from '../../../../services/games.service';
+import { Team_stats_gameService } from 'src/app/services/team_stats_game.service';
+import { Player_stats_gamesService } from 'src/app/services/player_stats_game.service';
+
 
 
 @Component({
@@ -32,7 +33,7 @@ export class GamesViewComponent implements OnInit {
   players:PlayerModel[];
   games:GameModel[];
 
-  constructor(private fb:FormBuilder, private gamesService:GamesService){ 
+  constructor(private fb:FormBuilder, private gamesService:GamesService, private team_stats_gameService:Team_stats_gameService, private player_stats_gameService:Player_stats_gamesService){ 
     this.gamesService.getGames().then( (games:GameModel[]) => {
 
       this.games = games;
@@ -82,6 +83,18 @@ export class GamesViewComponent implements OnInit {
     Swal.showLoading();
 
     this.gamesService.deleteGame(game._id).then(res => {
+
+      this.player_stats_gameService.getPlayer_stats_games("?game_id="+game._id).then( (players_stats:Player_stats_gameModel[]) => {
+        for(let player_stats of players_stats){
+          this.player_stats_gameService.deletePlayer_stats_game(player_stats._id);
+        }
+      });
+
+      this.team_stats_gameService.getTeams_stats_game("?game_id="+game._id).then( (teams_stats:Team_stats_gameModel[]) => {
+        for(let team_stats of teams_stats){
+          this.team_stats_gameService.deleteTeam_stats_game(team_stats._id);
+        }
+      });
 
       Swal.fire({
         title: 'Partido borrado correctamente.',
