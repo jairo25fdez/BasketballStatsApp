@@ -2,13 +2,20 @@ span.navbar-brand{
     color: white;
 }
 
-a:hover{
-    color: white;
-    background-color: #E69C1C;
-    
+a{
+    color: #c6c5b9;
 }
 
-li, a{
+a:hover{
+    color: white;
+    /*background-color: #E69C1C;*/
+}
+
+li.active a{
+    color: white;
+}
+
+li{
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -18,8 +25,14 @@ li, a{
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
+    -webkit-box-shadow: 0 0 10px black;
+    box-shadow: 0 0 15px black;
+    border: solid;
+    border-color: white;
+    border-width: 2px;
     width: 175px;
-    background-color:#0B0C10;
+    /*background-color:#0B0C10;*/
+    background-color: #27293D;
     margin-left: 20px;
     margin-top: 50px;    
 }
@@ -28,9 +41,7 @@ li img{
     width: 35px;
 }
 
-a{
-    color: #66FCF1;
-}
+
 
 li.active{
     background-color: #E69C1C;

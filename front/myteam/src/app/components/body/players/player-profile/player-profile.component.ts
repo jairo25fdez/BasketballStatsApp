@@ -420,7 +420,7 @@ export class PlayerProfileComponent implements OnInit {
                   name: this.second_player_stats_heptagon.player_name+" "+this.second_player_stats_heptagon.player_lastName
                 }
               ],
-              color: ['#c23531', 'yellow']
+              color: ['#c23531', '#ffb000']
             }
         ]
   

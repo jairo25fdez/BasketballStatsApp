@@ -564,7 +564,7 @@ export class TeamProfileComponent implements OnInit {
                   name: this.second_team_stats_heptagon.team_name
                 }
               ],
-              color: ['#c23531', 'yellow']
+              color: ['#c23531', '#ffb000']
             }
         ]
   
