@@ -29,6 +29,11 @@ export class UpdateteamFormComponent implements OnInit {
 
   constructor(private TeamsService:TeamsService, private ClubsService:ClubsService, private LeaguesService:LeaguesService, private route:ActivatedRoute, private fb:FormBuilder) { 
     
+    const id = this.route.snapshot.paramMap.get('id');
+
+    this.TeamsService.getTeam(id).then((res:TeamModel) => {
+      this.team = res;
+    });
 
     this.LeaguesService.getLeagues().then((res:LeagueModel[]) => {
       this.leagues = res;
@@ -43,14 +48,7 @@ export class UpdateteamFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
-    const id = this.route.snapshot.paramMap.get('id');
-
-    this.TeamsService.getTeam(id).then((res:TeamModel) => {
-      this.team = res;
-    });
-
-
+  
   }
 
   createForm(){
@@ -118,11 +116,9 @@ export class UpdateteamFormComponent implements OnInit {
 
       Swal.showLoading();
 
-      //Debo comprobar el id del club y liga que tengo para actualizar el resto de info: nombre del club, nombre de la liga... a partir de ese ID
-
       this.TeamsService.updateTeam(this.team).then( resp => {
         //If the put success
-
+        
         Swal.fire({
           title: 'Equipo editado correctamente.',
           icon: 'success'

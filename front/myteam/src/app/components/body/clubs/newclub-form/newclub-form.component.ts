@@ -1,13 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
-import { ClubModel } from 'src/app/models/club.model';
-
-import { ImagesService } from '../../../../services/images.service';
-import { ClubsService } from '../../../../services/clubs.service';
 import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
+
+//Models
+import { ClubModel } from 'src/app/models/club.model';
+import { GameModel } from '../../../../models/game.model';
+import { PlayerModel } from '../../../../models/player.model';
+import { TeamModel } from 'src/app/models/team.model';
+
+//Services
+import { ImagesService } from '../../../../services/images.service';
+import { ClubsService } from '../../../../services/clubs.service';
+import { GamesService } from '../../../../services/games.service';
+import { PlayersService } from '../../../../services/players.service';
+import { TeamsService } from '../../../../services/teams.service';
+
+
 
 @Component({
   selector: 'app-newclub-form',
@@ -22,7 +32,7 @@ export class NewclubFormComponent implements OnInit {
   selectedFile:File = null;
   exists_img:boolean = false; 
 
-  constructor(private fb:FormBuilder, private route:ActivatedRoute, private ImagesService:ImagesService, private ClubsService:ClubsService) {
+  constructor(private fb:FormBuilder, private route:ActivatedRoute, private TeamsService:TeamsService, private ImagesService:ImagesService, private PlayersService:PlayersService, private ClubsService:ClubsService, private gamesService:GamesService) {
     this.crearFormulario();
 
    }
@@ -161,7 +171,45 @@ export class NewclubFormComponent implements OnInit {
   
         this.ClubsService.updateClub(this.club).then( resp => {
           //If the put success
+
+          this.gamesService.getGames("?home_team.club_id="+this.club._id).then( (games:GameModel[]) => {
+            for(let game of games){
+              game.home_team.club_name = this.club.name;
+              game.home_team.club_img = this.club.img;
+              game.home_team.club_acronym = this.club.acronym;
+
+              this.gamesService.updateGame(game);
+            }
+          });
+
+          this.gamesService.getGames("?visitor_team.club_id="+this.club._id).then( (games:GameModel[]) => {
+            for(let game of games){
+              game.visitor_team.club_name = this.club.name;
+              game.visitor_team.club_img = this.club.img;
+              game.visitor_team.club_acronym = this.club.acronym;
+
+              this.gamesService.updateGame(game);
+            }
+          });
   
+          this.PlayersService.getPlayers("?teams.club_id="+this.club._id).then( (players:PlayerModel[]) => {
+            for(let player of players){
+              player.teams[0].club_name = this.club.name;
+              player.teams[0].club_img = this.club.img;
+
+              this.PlayersService.updatePlayer(player);
+            }
+          });
+
+          this.TeamsService.getTeams("?club.club_id="+this.club._id).then( (teams:TeamModel[]) => {
+            for(let team of teams){
+              team.club.club_name = this.club.name;
+              team.club.club_img = this.club.img;
+
+              this.TeamsService.updateTeam(team);
+            }
+          });
+
           Swal.fire({
             title: 'Liga editada correctamente.',
             icon: 'success'
