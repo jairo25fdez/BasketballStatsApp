@@ -6,6 +6,7 @@ module.exports = function (app){
     const jwt = require('jsonwebtoken');
 
     const { checkToken } = require('../middlewares/authentication');
+    const { checkAdminRole } = require('../middlewares/authentication');
 
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
@@ -55,7 +56,7 @@ module.exports = function (app){
     });
 
     //DELETE every User in DB.
-    app.delete(BASE_API_URL+"/users", checkToken ,(request,response) =>{
+    app.delete(BASE_API_URL+"/users", [checkToken, checkAdminRole], (request,response) =>{
         User.deleteMany({}, function (err) {
             if(err){
                 console.log("Error while trying to delete users.");
@@ -67,7 +68,7 @@ module.exports = function (app){
     });
 
     //GET every User in DB.
-    app.get(BASE_API_URL+"/users", checkToken ,(request,response) =>{
+    app.get(BASE_API_URL+"/users", [checkToken, checkAdminRole],(request,response) =>{
 
         const { filter, skip, limit, sort, projection, population } = aqp(request.query);
 
@@ -90,7 +91,7 @@ module.exports = function (app){
     });
 
     //POST a User in DB.
-    app.post(BASE_API_URL+"/users", checkToken ,(request,response) =>{
+    app.post(BASE_API_URL+"/users", [checkToken, checkAdminRole],(request,response) =>{
         let user_data = request.body;
 
         let user = new User({
@@ -119,15 +120,15 @@ module.exports = function (app){
     });
 
     //PUT is not allowed when we are working with collections.
-    app.put(BASE_API_URL+"/users", checkToken ,(request,response) =>{
+    app.put(BASE_API_URL+"/users", [checkToken, checkAdminRole],(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A COLLECTION.")
     });
 
 
-    //Methods to work with a specific club.
+    //Methods to work with a specific user.
 
     //DELETE a specific User by the ID.
-    app.delete(BASE_API_URL+"/users/:user_id", checkToken ,(request,response) =>{
+    app.delete(BASE_API_URL+"/users/:user_id", [checkToken, checkAdminRole],(request,response) =>{
         var user_id = request.params.user_id;
 
 		User.deleteOne({_id: user_id}, function (err){
@@ -144,7 +145,7 @@ module.exports = function (app){
     });
 
     //GET a specific User by the ID.
-    app.get(BASE_API_URL+"/users/:user_id", checkToken ,(request,response) =>{
+    app.get(BASE_API_URL+"/users/:user_id", [checkToken, checkAdminRole],(request,response) =>{
         var user_id = request.params.user_id;
 
         User.findOne({_id: user_id}, function (err, doc){
@@ -160,13 +161,13 @@ module.exports = function (app){
     });
 
 
-    //POST is not allowed when we are working with a specific club.
-    app.post(BASE_API_URL+"/users/:user_id", checkToken ,(request,response) =>{
+    //POST is not allowed when we are working with a specific user.
+    app.post(BASE_API_URL+"/users/:user_id", [checkToken, checkAdminRole],(request,response) =>{
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
     });
 
     //PUT a specific User in the database.
-    app.put(BASE_API_URL+"/users/:user_id", checkToken ,(request,response) =>{
+    app.put(BASE_API_URL+"/users/:user_id", [checkToken, checkAdminRole],(request,response) =>{
 
         var user_id = request.params.user_id;
         var updatedData = request.body;
