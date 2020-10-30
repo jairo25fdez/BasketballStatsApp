@@ -2,7 +2,7 @@ module.exports = function (app){
     const multer = require('multer'); 
     const cloudinary = require('cloudinary').v2;
     const fs = require('fs')
-    const checkToken = require('../middlewares/authentication');
+    const { checkToken } = require('../middlewares/authentication');
 
     cloudinary.config({
         cloud_name: process.env.CLOUD_NAME,

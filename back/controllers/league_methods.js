@@ -6,7 +6,7 @@ module.exports = function (app){
     const { isNull } = require('util');
     const fs = require('fs');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
-    const checkToken = require('../middlewares/authentication');
+    const { checkToken } = require('../middlewares/authentication');
 
     //URL to Mongoose package.
     const aqp = require('api-query-params');

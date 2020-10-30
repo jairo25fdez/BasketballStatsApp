@@ -3,7 +3,7 @@ module.exports = function (app){
     const path = require('path');
     const { isNull } = require('util');
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
-    const checkToken = require('../middlewares/authentication');
+    const { checkToken } = require('../middlewares/authentication');
 
 
     //URL to Mongoose package.
