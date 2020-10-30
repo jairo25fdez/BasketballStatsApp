@@ -2,6 +2,9 @@ module.exports = function (app){
 
     const path = require('path');
     const { isNull } = require('util');
+    const bcrypt = require('bcrypt');
+    const jwt = require('jsonwebtoken');
+
     const mongoose_util = require(path.join(__dirname, './mongoose_util.js'));
 
     //URL to Mongoose package.
@@ -15,6 +18,39 @@ module.exports = function (app){
     mongoose_util.getDB();
 
     //Methods to work with the whole collection.
+
+    //Login
+    app.post(BASE_API_URL+"/login", (request, response) => {
+        let body = request.body;
+
+        User.findOne({ email: body.email }, (err, user) => {
+            if(err){
+                response.sendStatus(500);
+            }
+            else{
+                if(!bcrypt.compareSync(body.password, user.password)){
+                    response.sendStatus(400);
+                }
+                else{
+                    //If the email exists and the password match
+                    let token = jwt.sign({
+                        user: user
+                    },'secret', {expiresIn: 60 * 60 * 24 * 30});
+
+                    response.json({
+                        user: user,
+                        token: token
+                    });
+
+                }
+            }
+
+            if(!user){
+                response.sendStatus(400);
+            }
+
+        });
+    });
 
     //DELETE every User in DB.
     app.delete(BASE_API_URL+"/users",(request,response) =>{
@@ -57,10 +93,9 @@ module.exports = function (app){
 
         let user = new User({
             displayName: user_data.displayName,
-            avatar: user_data.avatar,
             name: user_data.name,
             last_name: user_data.last_name,
-            password: user_data.password,
+            password: bcrypt.hashSync(user_data.password,10),
             email: user_data.email,
             phone: user_data.phone,
             rol: user_data.rol,
@@ -89,7 +124,7 @@ module.exports = function (app){
 
     //Methods to work with a specific club.
 
-    //DELETE a specific Club by the ID.
+    //DELETE a specific User by the ID.
     app.delete(BASE_API_URL+"/users/:user_id",(request,response) =>{
         var user_id = request.params.user_id;
 
@@ -106,7 +141,7 @@ module.exports = function (app){
         
     });
 
-    //GET a specific Club by the ID.
+    //GET a specific User by the ID.
     app.get(BASE_API_URL+"/users/:user_id",(request,response) =>{
         var user_id = request.params.user_id;
 
@@ -128,7 +163,7 @@ module.exports = function (app){
         response.sendStatus(405, "METHOD NOT ALLOWED ON A SPECIFIC CLUB.")
     });
 
-    //PUT a specific Club in the database.
+    //PUT a specific User in the database.
     app.put(BASE_API_URL+"/users/:user_id",(request,response) =>{
 
         var user_id = request.params.user_id;
@@ -141,7 +176,6 @@ module.exports = function (app){
             }
             else{
                 user.displayName = updatedData.displayName,
-                user.avatar = updatedData.avatar,
                 user.name = updatedData.name,
                 user.last_name = updatedData.last_name,
                 user.password = updatedData.password,
