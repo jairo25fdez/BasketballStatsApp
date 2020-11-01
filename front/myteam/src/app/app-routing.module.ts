@@ -39,6 +39,9 @@ import { StatsMenuComponent } from './components/body/stats/stats-menu/stats-men
 import { TeamsStatsComponent } from './components/body/stats/teams-stats/teams-stats.component';
 import { PlayersStatsComponent } from './components/body/stats/players-stats/players-stats.component';
 
+//Login component
+import { LoginComponent } from './components/body/login/login.component';
+
 const routes: Routes = [
   //Clubs routes
   {path: 'clubs', component: ClubsMenuComponent,
@@ -49,6 +52,8 @@ const routes: Routes = [
       {path: '**', pathMatch: 'full', redirectTo: 'clubs-list'}
     ]
   },
+  //Login routes
+  {path: 'login', component: LoginComponent},
   //Game routes
     {path: 'live-game/:id', component: LiveGameComponent,
     children: [
@@ -103,7 +108,7 @@ const routes: Routes = [
     ]
   },
   //Default routes
-    {path: '**', pathMatch: 'full', redirectTo: ''},
+    {path: '**', pathMatch: 'full', redirectTo: 'login'},
 
 ];
 

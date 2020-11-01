@@ -64,6 +64,8 @@ import { TeamsStatsComponent } from './components/body/stats/teams-stats/teams-s
 //Charts
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
+import { MainComponent } from './components/body/main/main.component';
+import { LoginComponent } from './components/body/login/login.component';
 
 
 @NgModule({
@@ -102,7 +104,9 @@ import * as echarts from 'echarts';
     //Stats components
     StatsMenuComponent,
     TeamsStatsComponent,
-    PlayersStatsComponent
+    PlayersStatsComponent,
+    MainComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
