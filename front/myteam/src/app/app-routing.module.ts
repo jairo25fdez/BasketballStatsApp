@@ -42,6 +42,9 @@ import { PlayersStatsComponent } from './components/body/stats/players-stats/pla
 //Login component
 import { LoginComponent } from './components/body/login/login.component';
 
+//Main component
+import { MainComponent } from './components/body/main/main.component';
+
 const routes: Routes = [
   //Clubs routes
   {path: 'clubs', component: ClubsMenuComponent,
@@ -53,7 +56,9 @@ const routes: Routes = [
     ]
   },
   //Login routes
-  {path: 'login', component: LoginComponent},
+    {path: 'login', component: LoginComponent},
+  //Main component
+    {path: 'home', component: MainComponent},
   //Game routes
     {path: 'live-game/:id', component: LiveGameComponent,
     children: [

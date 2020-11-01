@@ -1,0 +1,23 @@
+.main-body{
+    background-color: #1C1C2C;
+}
+
+.login-form{
+    background-color: #27293D;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: 0 0 10px black;
+    box-shadow: 0 0 15px black;
+    border: solid;
+    border-color: white;
+    border-width: 2px;
+}
+
+label, p{
+    color: white;
+}
+
+img{
+    margin-top: 15%;
+}

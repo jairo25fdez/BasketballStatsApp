@@ -31,26 +31,33 @@ module.exports = function (app){
                 response.sendStatus(500);
             }
             else{
-                if(!bcrypt.compareSync(body.password, user.password)){
+
+                if(!user){
                     response.sendStatus(400);
                 }
                 else{
-                    //If the email exists and the password match
-                    let token = jwt.sign({
-                        user: user
-                    },process.env.SEED, {expiresIn: 60 * 60 * 24 * 30});
-
-                    response.json({
-                        user: user,
-                        token: token
-                    });
-
+                    if(!bcrypt.compareSync(body.password, user.password)){
+                        response.sendStatus(400);
+                    }
+                    else{
+                        //If the email exists and the password match
+                        let token = jwt.sign({
+                            user: user
+                        },process.env.SEED, {expiresIn: 60 * 60 * 24 * 30});
+    
+                        response.json({
+                            user: user,
+                            token: token
+                        });
+    
+                    }
                 }
+
+
+                
             }
 
-            if(!user){
-                response.sendStatus(400);
-            }
+            
 
         });
     });

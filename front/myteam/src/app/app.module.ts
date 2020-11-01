@@ -54,7 +54,8 @@ import { TeamsListComponent } from './components/body/teams/teams-list/teams-lis
 import { TeamProfileComponent } from './components/body/teams/team-profile/team-profile.component';
 import { NewteamFormComponent } from './components/body/teams/newteam-form/newteam-form.component';
 import { UpdateteamFormComponent } from './components/body/teams/updateteam-form/updateteam-form.component';
-
+//Login
+import { LoginService } from './services/login.service';
 
 //Stats
 import { StatsMenuComponent } from './components/body/stats/stats-menu/stats-menu.component';
@@ -132,7 +133,8 @@ import { LoginComponent } from './components/body/login/login.component';
     Player_stats_gamesService,
     Player_stats_seasonService,
     Team_stats_gameService,
-    Team_stats_seasonService
+    Team_stats_seasonService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })
