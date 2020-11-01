@@ -36,6 +36,11 @@ export class LoginService{
         
     }
 
+    getToken(){
+        this.readToken();
+        return this.userToken;
+    }
+
     isAuth():boolean{
         this.readToken();
         return this.userToken.length > 2;

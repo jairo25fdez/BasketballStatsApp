@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 
-import { HttpClientModule } from '@angular/common/http'; //Http
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; //Http
 //import { AppRoutingModule } from './app-routing.module';
 import { APP_ROUTING } from './app-routing.module'; //Routes
 import {ReactiveFormsModule} from '@angular/forms'; //Forms
@@ -68,6 +68,8 @@ import * as echarts from 'echarts';
 import { MainComponent } from './components/body/main/main.component';
 import { LoginComponent } from './components/body/login/login.component';
 
+//Interceptor
+import { AuthInterceptorService } from './services/authinterceptor.service';
 
 @NgModule({
   declarations: [
@@ -134,7 +136,12 @@ import { LoginComponent } from './components/body/login/login.component';
     Player_stats_seasonService,
     Team_stats_gameService,
     Team_stats_seasonService,
-    LoginService
+    LoginService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
