@@ -49,19 +49,19 @@ import { MainComponent } from './components/body/main/main.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  //Clubs routes
-  {path: 'clubs', component: ClubsMenuComponent, canActivate: [AuthGuard],
-    children: [
-      {path: 'clubs-list', component: ClubsListComponent},
-      {path: 'new-club', component: NewclubFormComponent},
-      {path: 'edit-club/:id', component: NewclubFormComponent},
-      {path: '**', pathMatch: 'full', redirectTo: 'clubs-list'}
-    ]
-  },
   //Login routes
-    {path: 'login', component: LoginComponent},
-  //Main component
-    {path: 'home', component: MainComponent, canActivate: [AuthGuard]},
+  {path: 'login', component: LoginComponent},
+  {path: 'home', component: MainComponent, canActivate: [AuthGuard],
+    children : [
+  //Clubs routes
+    {path: 'clubs', component: ClubsMenuComponent, canActivate: [AuthGuard],
+      children: [
+        {path: 'clubs-list', component: ClubsListComponent},
+        {path: 'new-club', component: NewclubFormComponent},
+        {path: 'edit-club/:id', component: NewclubFormComponent},
+        {path: '**', pathMatch: 'full', redirectTo: 'clubs-list'}
+      ]
+    },
   //Game routes
     {path: 'live-game/:id', component: LiveGameComponent, canActivate: [AuthGuard],
     children: [
@@ -108,7 +108,7 @@ const routes: Routes = [
       ]
     },
   //Stats routes
-  {path: 'stats', component: StatsMenuComponent, canActivate: [AuthGuard],
+    {path: 'stats', component: StatsMenuComponent, canActivate: [AuthGuard],
     children: [
       {path: 'teams-stats', component: TeamsStatsComponent},
       {path: 'players-stats', component: PlayersStatsComponent},
@@ -116,7 +116,10 @@ const routes: Routes = [
     ]
   },
   //Default routes
-    {path: '**', pathMatch: 'full', redirectTo: 'login'},
+    {path: '**', pathMatch: 'full', redirectTo: 'home'},
+
+  ]},
+  {path: '**', pathMatch: 'full', redirectTo: 'login'},
 
 ];
 

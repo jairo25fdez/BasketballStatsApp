@@ -16,10 +16,15 @@ export class AuthGuard implements CanActivate {
 
   canActivate():boolean{
 
+    console.log("ENTRO EN CAN_ACTIVATE");
+
     if(this.loginService.isAuth()){
+      console.log("GUARD TRUE");
       return true;
     }
     else{
+      console.log("GUARD FALSE");
+
       this.router.navigate(['login']);
       return false;
     }

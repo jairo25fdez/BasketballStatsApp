@@ -41,8 +41,14 @@ li img{
     width: 35px;
 }
 
-
-
 li.active{
     background-color: #E69C1C;
+}
+
+.logout{
+    color: red;
+}
+
+.logout:hover{
+    color:red;
 }
