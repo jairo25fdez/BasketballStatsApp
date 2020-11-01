@@ -72,6 +72,8 @@ export class LoginComponent implements OnInit {
 
         console.log("TOKEN: "+JSON.stringify(auth.token));
 
+        this.loginService.saveToken(auth.token);
+
         this.router.navigate(['home']);
 
       })
