@@ -45,9 +45,12 @@ import { LoginComponent } from './components/body/login/login.component';
 //Main component
 import { MainComponent } from './components/body/main/main.component';
 
+//Guards
+import { AuthGuard } from './guards/auth.guard';
+
 const routes: Routes = [
   //Clubs routes
-  {path: 'clubs', component: ClubsMenuComponent,
+  {path: 'clubs', component: ClubsMenuComponent, canActivate: [AuthGuard],
     children: [
       {path: 'clubs-list', component: ClubsListComponent},
       {path: 'new-club', component: NewclubFormComponent},
@@ -58,9 +61,9 @@ const routes: Routes = [
   //Login routes
     {path: 'login', component: LoginComponent},
   //Main component
-    {path: 'home', component: MainComponent},
+    {path: 'home', component: MainComponent, canActivate: [AuthGuard]},
   //Game routes
-    {path: 'live-game/:id', component: LiveGameComponent,
+    {path: 'live-game/:id', component: LiveGameComponent, canActivate: [AuthGuard],
     children: [
       {path: 'main-page', component: MainPageComponent},
       {path: 'boxscore', component: BoxscoreComponent},
@@ -68,7 +71,7 @@ const routes: Routes = [
       {path: '**', pathMatch: 'full', redirectTo: 'main-page'}
     ]
     },
-    {path: 'game-menu', component: GameMenuComponent,
+    {path: 'game-menu', component: GameMenuComponent, canActivate: [AuthGuard],
     children: [
       {path: 'new-game', component: NewgameFormComponent},
       {path: 'games-list', component: GamesViewComponent},
@@ -76,7 +79,7 @@ const routes: Routes = [
     ]
     },
   //Player routes
-    {path: 'players', component: PlayersMenuComponent,
+    {path: 'players', component: PlayersMenuComponent, canActivate: [AuthGuard],
     children: [
         {path: 'new-player', component: NewplayerFormComponent},
         {path: 'players-list', component: PlayersViewComponent},
@@ -86,7 +89,7 @@ const routes: Routes = [
       ]
     },
     //Teams routes
-    {path: 'teams', component: TeamsMenuComponent,
+    {path: 'teams', component: TeamsMenuComponent, canActivate: [AuthGuard],
     children: [
         {path: 'new-team', component: NewteamFormComponent},
         {path: 'teams-list', component: TeamsListComponent},
@@ -96,7 +99,7 @@ const routes: Routes = [
       ]
     },
   //Leagues routes
-    {path: 'leagues', component: LeaguesMenuComponent,
+    {path: 'leagues', component: LeaguesMenuComponent, canActivate: [AuthGuard],
       children: [
         {path: 'new-league', component: NewleagueFormComponent},
         {path: 'leagues-list', component: LeaguesViewComponent},
@@ -105,7 +108,7 @@ const routes: Routes = [
       ]
     },
   //Stats routes
-  {path: 'stats', component: StatsMenuComponent,
+  {path: 'stats', component: StatsMenuComponent, canActivate: [AuthGuard],
     children: [
       {path: 'teams-stats', component: TeamsStatsComponent},
       {path: 'players-stats', component: PlayersStatsComponent},

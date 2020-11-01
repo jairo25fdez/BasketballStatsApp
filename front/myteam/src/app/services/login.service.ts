@@ -13,10 +13,7 @@ export class LoginService{
     private userToken:string;
 
     constructor(private http: HttpClient){
-        //console.log("Player_stats_games service ready");
     }
-
-    //Player_stats_games collection
 
     checkLogin(user:UserModel){
         return this.http.post(this.loginUrl, user).toPromise();
@@ -36,6 +33,11 @@ export class LoginService{
             this.userToken = "";
         }
         
+    }
+
+    isAuth():boolean{
+        this.readToken();
+        return this.userToken.length > 2;
     }
 
 }
