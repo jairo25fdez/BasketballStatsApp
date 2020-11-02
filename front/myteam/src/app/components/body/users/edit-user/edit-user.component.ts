@@ -13,13 +13,12 @@ import { ClubModel } from '../../../../models/club.model';
 import { UsersService } from '../../../../services/users.service';
 import { ClubsService } from '../../../../services/clubs.service';
 
-
 @Component({
-  selector: 'app-newuser-form',
-  templateUrl: './newuser-form.component.html',
-  styleUrls: ['./newuser-form.component.css']
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrls: ['./edit-user.component.css']
 })
-export class NewuserFormComponent implements OnInit {
+export class EditUserComponent implements OnInit {
 
   user = new UserModel();
   form:FormGroup;
@@ -63,10 +62,10 @@ export class NewuserFormComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', [Validators.required] ],
       last_name: ['', [Validators.required] ],
-      password: ['', [Validators.required] ],
+      password: ['', ],
       email: ['', [Validators.required, Validators.email] ],
       rol: ['', [Validators.required] ],
-      club: ['', [Validators.required] ]
+      club: ['', ]
     });
   }
 
@@ -114,24 +113,48 @@ export class NewuserFormComponent implements OnInit {
 
       Swal.showLoading();
       
-      this.clubsService.getClub(this.club_id).then( (club:ClubModel) => {
-        this.user.club_img = club.img;
+      if(this.club_id != null){
 
-        this.usersService.createUser(this.user).then( () => {
+        console.log("ENTRO");
+        console.log("USER: "+JSON.stringify(this.user));
+
+        this.clubsService.getClub(this.club_id).then( (club:ClubModel) => {
+          this.user.club_img = club.img;
+
+          this.usersService.updateUser(this.user).then( () => {
+            Swal.fire({
+              title: 'Usuario actualizado correctamente.',
+              icon: 'success'
+            });
+          })
+          .catch( (err:HttpErrorResponse) => {
+            Swal.fire({
+              title: 'Error al crear el usuario.',
+              text: 'Compruebe que el email no está ya registrado.',
+              icon: 'error'
+            });
+          });
+  
+        });
+
+      }
+      else{
+
+        this.usersService.updateUser(this.user).then( () => {
           Swal.fire({
-            title: 'Usuario creado correctamente.',
+            title: 'Usuario actualizado correctamente.',
             icon: 'success'
           });
         })
         .catch( (err:HttpErrorResponse) => {
           Swal.fire({
-            title: 'Error al crear el usuario.',
-            text: 'Compruebe que el email no está ya registrado.',
+            title: 'Error al actualizar el usuario.',
             icon: 'error'
           });
         });
 
-      });
+      }
+
       
     }
 

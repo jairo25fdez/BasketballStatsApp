@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="flex-column col-6 p-2 ">
-                        <button type="button" class="btn btn-warning w-100 h-50" >Editar</button>
+                        <button type="button" class="btn btn-warning w-100 h-50" [routerLink]="['../edit-user', user._id]">Editar</button>
                         <button type="button" class="btn btn-danger w-100 h-50" (click)="deleteUser(user)">Eliminar</button>
                     </div>
 

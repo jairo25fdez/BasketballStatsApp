@@ -181,12 +181,11 @@ module.exports = function (app){
         var updatedData = request.body;
 
         User.findOne({_id: user_id}, function (err, user){
-            if(isNull(club)){
+            if(isNull(user)){
                 console.log("User with id: "+user_id+" doesn't exists in the database.");
                 response.sendStatus(400);
             }
             else{
-                user.displayName = updatedData.displayName,
                 user.name = updatedData.name,
                 user.last_name = updatedData.last_name,
                 user.password = updatedData.password,

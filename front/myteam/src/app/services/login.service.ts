@@ -30,6 +30,12 @@ export class LoginService{
         return this.user;
     }
 
+    getUserRol(){
+        this.decoded_token = jwt_decode(localStorage.getItem('token'));
+        this.user = this.decoded_token.user;
+        return this.user.rol;
+    }
+
     saveToken(token:string){
         this.userToken = token;
         localStorage.setItem('token', token);

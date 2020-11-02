@@ -6,6 +6,8 @@ import { UsersService } from '../../../../services/users.service';
 
 //Models
 import { UserModel } from '../../../../models/user.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-users-list',
@@ -38,6 +40,28 @@ export class UsersListComponent implements OnInit {
       teams: ['']
     });
 
+  }
+
+
+  deleteUser(user:UserModel){
+    this.usersService.deleteUser(user._id).then( () => {
+
+      this.usersService.getUsers().then( (users:UserModel[]) => {
+        this.users = users;
+      });
+
+      Swal.fire({
+        title: 'Usuario borrado correctamente.',
+        icon: 'success'
+      });
+      
+    })
+    .catch( (err:HttpErrorResponse) => {
+      Swal.fire({
+        title: 'Error al borrar el usuario.',
+        icon: 'error'
+      });
+    });
   }
 
 }

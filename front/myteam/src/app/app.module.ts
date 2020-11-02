@@ -76,6 +76,7 @@ import { LoginComponent } from './components/body/login/login.component';
 //Interceptor
 import { AuthInterceptorService } from './services/authinterceptor.service';
 import { NewuserFormComponent } from './components/body/users/newuser-form/newuser-form.component';
+import { EditUserComponent } from './components/body/users/edit-user/edit-user.component';
 
 
 @NgModule({
@@ -121,7 +122,8 @@ import { NewuserFormComponent } from './components/body/users/newuser-form/newus
     //Users
     UsersListComponent,
     UsersMenuComponent,
-    NewuserFormComponent
+    NewuserFormComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,

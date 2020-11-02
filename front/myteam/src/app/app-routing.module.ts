@@ -43,6 +43,7 @@ import { PlayersStatsComponent } from './components/body/stats/players-stats/pla
 import { UsersListComponent } from './components/body/users/users-list/users-list.component';
 import { UsersMenuComponent } from './components/body/users/users-menu/users-menu.component';
 import { NewuserFormComponent } from './components/body/users/newuser-form/newuser-form.component';
+import { EditUserComponent } from './components/body/users/edit-user/edit-user.component';
 
 //Login component
 import { LoginComponent } from './components/body/login/login.component';
@@ -125,6 +126,7 @@ const routes: Routes = [
     children: [
       {path: 'users-list', component: UsersListComponent},
       {path: 'new-user', component: NewuserFormComponent},
+      {path: 'edit-user/:id', component: EditUserComponent},
       {path: '**', pathMatch: 'full', redirectTo: 'users-list'}
     ]
     },
