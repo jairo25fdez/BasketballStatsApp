@@ -1,0 +1,117 @@
+<div class="container-fluid no-gutters">
+
+    <div class="row no-gutters main-row overflow-auto addScroll">
+
+        
+        <form class="col-12 mt-3 p-3 " [formGroup]="form" (ngSubmit)="saveUser()">
+    
+            <h4>Crear usuario</h4>
+            <hr>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Nombre</label>
+
+                <div class="col-8">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Nombre"
+                            formControlName="name"
+                            [class.is-invalid]="nameNoValid"
+                            [(ngModel)]="user.name">
+                    <small *ngIf="nameNoValid" class="text-danger">Ingrese un nombre</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Apellido/s</label>
+
+                <div class="col-8">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Apellidos"
+                            formControlName="last_name"
+                            [class.is-invalid]="lastnameNoValid"
+                            [(ngModel)]="user.last_name">
+                    <small *ngIf="lastnameNoValid" class="text-danger">Ingrese los apellidos</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Contraseña</label>
+
+                <div class="col-8">
+                    <input class="form-control"
+                            type="password"
+                            placeholder="Contraseña"
+                            formControlName="password"
+                            [class.is-invalid]="passwordNoValid"
+                            [(ngModel)]="user.password">
+                    <small *ngIf="passwordNoValid" class="text-danger">Ingrese contraseña</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+                <label class="col-2 col-form-label">Email</label>
+
+                <div class="col-8">
+                    <input class="form-control"
+                            type="text"
+                            placeholder="Email"
+                            formControlName="email"
+                            [class.is-invalid]="emailNoValid"
+                            [(ngModel)]="user.email">
+                    <small *ngIf="emailNoValid" class="text-danger">Ingrese su email</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+
+                <label class="col-2 col-form-label">Club</label>
+
+                <div class="col-8">
+                    <select class="form-control" formControlName="club">
+                        <option disabled value="null">Club al que pertenece el usuario</option>
+                        <option *ngFor="let club of clubs; index as i;" value="{{club._id}}" >{{club.name}}</option>
+                    </select>
+                    
+                    <small *ngIf="clubNoValid" class="text-danger mr-3">Ingrese un club</small>
+                </div>
+
+            </div>
+
+            <div class="form-group row no-gutters">
+
+                <label class="col-2 col-form-label">Rol</label>
+
+                <div class="col-8">
+                    <select class="form-control" formControlName="rol" [(ngModel)]="user.rol">
+                        <option disabled value="null">Rol del usuario</option>
+                        <option value="admin" >Administrador</option>
+                        <option value="employee" >Empleado</option>
+                    </select>
+                    
+                    <small *ngIf="rolNoValid" class="text-danger mr-3">Seleccione un rol</small>
+                </div>
+
+            </div>
+
+    
+            <div class="form-group row">
+                <label class="col-2 col-form-label">&nbsp;</label>
+                <div class="input-group col-md-8">
+                <button type="submit" class="btn btn-primary w-100">
+                    Guardar
+                </button>
+                </div>
+            </div>
+    
+        </form>
+    
+        
+    </div>
+    
+</div>

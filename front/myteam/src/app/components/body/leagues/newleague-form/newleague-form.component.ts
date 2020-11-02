@@ -155,8 +155,6 @@ export class NewleagueFormComponent implements OnInit {
     }
     else{
 
-      
-
       if(this.update){
 
         Swal.fire({

@@ -42,6 +42,7 @@ import { PlayersStatsComponent } from './components/body/stats/players-stats/pla
 //Users components
 import { UsersListComponent } from './components/body/users/users-list/users-list.component';
 import { UsersMenuComponent } from './components/body/users/users-menu/users-menu.component';
+import { NewuserFormComponent } from './components/body/users/newuser-form/newuser-form.component';
 
 //Login component
 import { LoginComponent } from './components/body/login/login.component';
@@ -123,6 +124,7 @@ const routes: Routes = [
     {path: 'users', component: UsersMenuComponent, canActivate: [AuthGuard],
     children: [
       {path: 'users-list', component: UsersListComponent},
+      {path: 'new-user', component: NewuserFormComponent},
       {path: '**', pathMatch: 'full', redirectTo: 'users-list'}
     ]
     },
