@@ -12,7 +12,7 @@ import jwt_decode from 'jwt-decode';
 export class LoginService{
 
     //private loginUrl = 'http://localhost:8000/api/v1/login';
-    private loginUrl = 'http://jbasketstats.herokuapp.com/api/v1/login';
+    private loginUrl = 'https://jbasketstats.herokuapp.com/api/v1/login';
 
     private userToken:string;
     private user:UserModel;
