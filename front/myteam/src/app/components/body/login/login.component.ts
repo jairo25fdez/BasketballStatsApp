@@ -70,6 +70,8 @@ export class LoginComponent implements OnInit {
 
         Swal.close();
 
+        this.loginService.setUser(auth.user);
+
         this.loginService.saveToken(auth.token);
 
         this.router.navigate(['home']);

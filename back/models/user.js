@@ -9,7 +9,8 @@ var userSchema = new Schema({
     password: {type: String, required: true}, 
     email: {type: String, unique: true, required: true},
     rol: {type: String, enum: ['admin', 'coordinator', 'employee']},
-    club: {type: Schema.Types.ObjectId, ref: 'Club'}
+    club: {type: Schema.Types.ObjectId, ref: 'Club'},
+    club_img: String
 });
 
 userSchema.index( {email:1 }, { unique: true } );

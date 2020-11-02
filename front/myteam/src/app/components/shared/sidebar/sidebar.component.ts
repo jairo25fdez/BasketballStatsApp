@@ -10,7 +10,13 @@ import { LoginService } from '../../../services/login.service';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private loginService:LoginService) { }
+  private club_logo:string;
+  private user_rol:string;
+
+  constructor(private loginService:LoginService) { 
+    this.club_logo = this.loginService.getClubImage();
+    this.user_rol = this.loginService.getUserRol();
+  }
 
   ngOnInit(): void {
   }

@@ -1,10 +1,11 @@
 import { EmailValidator } from '@angular/forms';
 
 export class UserModel{
-    name: String;
-    last_name: String;
-    password: String;
-    email: String;
-    rol: String;
-    club: String;
+    name: string;
+    last_name: string;
+    password: string;
+    email: string;
+    rol: string;
+    club: string;
+    club_img: string;
 }

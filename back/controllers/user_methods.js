@@ -109,7 +109,8 @@ module.exports = function (app){
             email: user_data.email,
             phone: user_data.phone,
             rol: user_data.rol,
-            club: user_data.club
+            club: user_data.club,
+            club_img: user_data.club_img
         });
 
         user.save(function(err,doc){
@@ -193,6 +194,7 @@ module.exports = function (app){
                 user.phone = updatedData.phone,
                 user.rol = updatedData.rol,
                 user.club = updatedData.club
+                user.club_img = updatedData.club_img
 
                 user.save();
 

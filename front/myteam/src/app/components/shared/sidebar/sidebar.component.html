@@ -4,7 +4,7 @@
         <ul class="nav  flex-column flex-nowrap vh-100 overflow-auto p-2 text-center">
 
             <span class="navbar-brand">My Team</span>
-            <img src="https://as00.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png" class="img-fluid" alt="Responsive image">
+            <img src="{{club_logo}}" class="img-fluid" alt="Responsive image">
 
             <hr style="width:100%;background-color:white">
 
@@ -65,7 +65,7 @@
                 </a>
             </li>
 
-            <li class="nav-item " (click)="logout()" >
+            <li *ngIf="user_rol == 'admin'" class="nav-item " (click)="logout()" >
                 <a class="nav-link h6 h-100 m-0 p-3 w-100 logout" [routerLink]="[]" >   
                     <!--<img src="../../../assets/img/sidebar/stats.png" class="sidebar-icon" alt="Responsive image">-->
                     Cerrar sesión

@@ -12,12 +12,25 @@ export class LoginService{
     private loginUrl = 'http://localhost:8000/api/v1/login';
 
     private userToken:string;
+    private user:UserModel;
 
     constructor(private http: HttpClient, private router:Router){
     }
 
     checkLogin(user:UserModel){
         return this.http.post(this.loginUrl, user).toPromise();
+    }
+
+    setUser(user:UserModel){
+        this.user = user;
+    }
+
+    getClubImage(){
+        return this.user.club_img;
+    }
+
+    getUserRol(){
+        return this.user.rol;
     }
 
     saveToken(token:string){
