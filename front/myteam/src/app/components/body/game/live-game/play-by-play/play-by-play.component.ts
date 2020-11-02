@@ -38,7 +38,7 @@ export class PlayByPlayComponent implements OnInit {
 
   constructor(private playsService:PlaysService, private gameService:GamesService, private player_stats_gameService:Player_stats_gamesService, private team_stats_gameService:Team_stats_gameService, private router:Router) { 
 
-    this.game_id = router.url.split('/')[2].toString();  //Game ID
+    this.game_id = router.url.split('/')[3].toString();  //Game ID
     
     
 

@@ -73,7 +73,7 @@ export class MainPageComponent implements OnInit {
 
     //const game_id = this.route.snapshot.paramMap.get('id'); //Game ID
 
-    const game_id = router.url.split('/')[2].toString();  //Game ID
+    const game_id = router.url.split('/')[3].toString();  //Game ID
 
     this.gamesService.getGame(game_id).then((res:GameModel) => {
       this.game = res;
