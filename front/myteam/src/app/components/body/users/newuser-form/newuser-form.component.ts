@@ -21,6 +21,7 @@ export class NewuserFormComponent implements OnInit {
   user = new UserModel();
   form:FormGroup;
   clubs:ClubModel[];
+  club_id:string;
 
   constructor(private usersService:UsersService, private clubsService:ClubsService, private fb:FormBuilder){ 
     this.clubsService.getClubs("?sort=name").then( (clubs:ClubModel[]) => {
@@ -92,12 +93,12 @@ export class NewuserFormComponent implements OnInit {
 
       Swal.showLoading();
       
-      this.clubsService.getClub(this.user.club).then( (club:ClubModel) => {
+      this.clubsService.getClub(this.club_id).then( (club:ClubModel) => {
         this.user.club_img = club.img;
 
         this.usersService.createUser(this.user).then( () => {
           Swal.fire({
-            title: 'Equipo creado correctamente.',
+            title: 'Usuario creado correctamente.',
             icon: 'success'
           });
         })

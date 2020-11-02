@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 //Services
 import { LoginService } from '../../../services/login.service';
 
+//Models
+import { UserModel } from '../../../models/user.model';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -10,12 +13,16 @@ import { LoginService } from '../../../services/login.service';
 })
 export class SidebarComponent implements OnInit {
 
+  user:UserModel;
   club_logo:string;
   user_rol:string;
 
   constructor(private loginService:LoginService) { 
-    this.club_logo = this.loginService.getClubImage();
-    this.user_rol = this.loginService.getUserRol();
+
+    this.user = this.loginService.getUser();
+    this.club_logo = this.user.club_img;
+    this.user_rol = this.user.rol;
+
   }
 
   ngOnInit(): void {
@@ -24,11 +31,6 @@ export class SidebarComponent implements OnInit {
   logout(){
     this.loginService.logout();
   }
-
-  getClubLogo(){
-
-  }
-
 
 
 }

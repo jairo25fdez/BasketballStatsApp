@@ -73,7 +73,7 @@
                 <label class="col-2 col-form-label">Club</label>
 
                 <div class="col-8">
-                    <select class="form-control" formControlName="club">
+                    <select class="form-control" formControlName="club" [(ngModel)]="club_id">
                         <option disabled value="null">Club al que pertenece el usuario</option>
                         <option *ngFor="let club of clubs; index as i;" value="{{club._id}}" >{{club.name}}</option>
                     </select>

@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 //Models
 import { UserModel } from '../models/user.model';
 
+import jwt_decode from 'jwt-decode';
+
 @Injectable()
 export class LoginService{
 
@@ -13,6 +15,7 @@ export class LoginService{
 
     private userToken:string;
     private user:UserModel;
+    private decoded_token;
 
     constructor(private http: HttpClient, private router:Router){
     }
@@ -21,16 +24,10 @@ export class LoginService{
         return this.http.post(this.loginUrl, user).toPromise();
     }
 
-    setUser(user:UserModel){
-        this.user = user;
-    }
-
-    getClubImage(){
-        return this.user.club_img;
-    }
-
-    getUserRol(){
-        return this.user.rol;
+    getUser(){
+        this.decoded_token = jwt_decode(localStorage.getItem('token'));
+        this.user = this.decoded_token.user;
+        return this.user;
     }
 
     saveToken(token:string){

@@ -14,6 +14,7 @@ let checkToken = (request, response, next) => {
         }
         else{
             request.user = decoded.user;
+            request.rol = decoded.user.rol;
 
             next();
         }
@@ -29,9 +30,9 @@ let checkToken = (request, response, next) => {
 // ==============================
 
 let checkAdminRole = (request, response, next) => {
-    let user = request.user;
+    let user_rol = request.rol;
 
-    if(user.rol == "admin"){
+    if(user_rol == "admin"){
         next();
     }
     else{
