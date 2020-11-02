@@ -58,14 +58,14 @@
                 </a>
             </li>
 
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link h6 h-100 m-0 p-3 w-100" [routerLink]="['stats']">   
+            <li *ngIf="user_rol == 'admin'" class="nav-item" routerLinkActive="active">
+                <a class="nav-link h6 h-100 m-0 p-3 w-100" [routerLink]="['users']">   
                     <!--<img src="../../../assets/img/sidebar/stats.png" class="sidebar-icon" alt="Responsive image">-->
                     Usuarios
                 </a>
             </li>
 
-            <li *ngIf="user_rol == 'admin'" class="nav-item " (click)="logout()" >
+            <li class="nav-item " (click)="logout()" >
                 <a class="nav-link h6 h-100 m-0 p-3 w-100 logout" [routerLink]="[]" >   
                     <!--<img src="../../../assets/img/sidebar/stats.png" class="sidebar-icon" alt="Responsive image">-->
                     Cerrar sesión

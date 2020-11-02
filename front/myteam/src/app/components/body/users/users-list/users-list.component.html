@@ -1,0 +1,39 @@
+<div class="row no-gutters">
+    
+    <form class="col mt-1 p-3 d-flex" [formGroup]="form">        
+
+    </form>
+
+</div>
+
+<div class="row d-flex justify-content-center no-gutters addScroll overflow-auto">
+
+    <div class="d-flex col-10 mt-2">
+
+        <div class="row justify-content-center w-100">
+
+            <div class="card col-4 m-3 text-center w-100 pr-0 p-3" *ngFor="let user of users;" value="{{user._id}}" >
+
+                <div class="row no-gutters w-100 h-100 ">
+                    <div class="flex-column col-6 ">
+                        
+                        <div class="card-body pb-0">
+                            <h5 class="card-title">{{user.name}} {{user.last_name}}</h5>
+                            <h5 class="card-title">{{user.rol}}</h5>
+                        </div>
+                    </div>
+                    <div class="flex-column col-6 p-2 ">
+                        <button type="button" class="btn btn-warning w-100 h-50" >Editar</button>
+                        <button type="button" class="btn btn-danger w-100 h-50" (click)="deleteUser(user)">Eliminar</button>
+                    </div>
+
+                </div>
+                
+            </div>     
+
+        </div>
+    
+    </div>
+
+</div>
+

@@ -19,6 +19,7 @@ import { Player_stats_gamesService } from './services/player_stats_game.service'
 import { Player_stats_seasonService } from './services/player_stats_season.service';
 import { Team_stats_gameService } from './services/team_stats_game.service';
 import { Team_stats_seasonService } from './services/team_stats_season.service';
+import { UsersService } from './services/users.service';
 
 //Components
 
@@ -62,6 +63,10 @@ import { StatsMenuComponent } from './components/body/stats/stats-menu/stats-men
 import { PlayersStatsComponent } from './components/body/stats/players-stats/players-stats.component';
 import { TeamsStatsComponent } from './components/body/stats/teams-stats/teams-stats.component';
 
+//Users
+import { UsersListComponent } from './components/body/users/users-list/users-list.component';
+import { UsersMenuComponent } from './components/body/users/users-menu/users-menu.component';
+
 //Charts
 import { NgxEchartsModule } from 'ngx-echarts';
 import * as echarts from 'echarts';
@@ -70,6 +75,7 @@ import { LoginComponent } from './components/body/login/login.component';
 
 //Interceptor
 import { AuthInterceptorService } from './services/authinterceptor.service';
+
 
 @NgModule({
   declarations: [
@@ -109,7 +115,11 @@ import { AuthInterceptorService } from './services/authinterceptor.service';
     TeamsStatsComponent,
     PlayersStatsComponent,
     MainComponent,
-    LoginComponent
+    //Login
+    LoginComponent,
+    //Users
+    UsersListComponent,
+    UsersMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -137,6 +147,7 @@ import { AuthInterceptorService } from './services/authinterceptor.service';
     Team_stats_gameService,
     Team_stats_seasonService,
     LoginService,
+    UsersService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,

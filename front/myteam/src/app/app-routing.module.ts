@@ -39,6 +39,10 @@ import { StatsMenuComponent } from './components/body/stats/stats-menu/stats-men
 import { TeamsStatsComponent } from './components/body/stats/teams-stats/teams-stats.component';
 import { PlayersStatsComponent } from './components/body/stats/players-stats/players-stats.component';
 
+//Users components
+import { UsersListComponent } from './components/body/users/users-list/users-list.component';
+import { UsersMenuComponent } from './components/body/users/users-menu/users-menu.component';
+
 //Login component
 import { LoginComponent } from './components/body/login/login.component';
 
@@ -114,12 +118,19 @@ const routes: Routes = [
       {path: 'players-stats', component: PlayersStatsComponent},
       {path: '**', pathMatch: 'full', redirectTo: 'teams-stats'}
     ]
-  },
+    },
+    //Users routes
+    {path: 'users', component: UsersMenuComponent, canActivate: [AuthGuard],
+    children: [
+      {path: 'users-list', component: UsersListComponent},
+      {path: '**', pathMatch: 'full', redirectTo: 'users-list'}
+    ]
+    },
   //Default routes
     {path: '**', pathMatch: 'full', redirectTo: 'home'},
 
   ]},
-  {path: '**', pathMatch: 'full', redirectTo: 'login'},
+  {path: '**', pathMatch: 'full', redirectTo: 'login'}
 
 ];
 

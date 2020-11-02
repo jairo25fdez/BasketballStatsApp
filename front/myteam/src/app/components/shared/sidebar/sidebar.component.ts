@@ -10,8 +10,8 @@ import { LoginService } from '../../../services/login.service';
 })
 export class SidebarComponent implements OnInit {
 
-  private club_logo:string;
-  private user_rol:string;
+  club_logo:string;
+  user_rol:string;
 
   constructor(private loginService:LoginService) { 
     this.club_logo = this.loginService.getClubImage();
