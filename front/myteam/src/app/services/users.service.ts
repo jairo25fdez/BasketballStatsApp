@@ -5,7 +5,8 @@ import { UserModel } from '../models/user.model';
 @Injectable()
 export class UsersService{
 
-    private usersUrl = 'http://localhost:8000/api/v1/users';
+    //private usersUrl = 'http://localhost:8000/api/v1/users';
+    private usersUrl = 'http://jbasketstats.herokuapp.com/api/v1/users';
 
     constructor(private http: HttpClient){
         //console.log("Users service ready");
