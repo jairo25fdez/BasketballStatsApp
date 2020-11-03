@@ -16,7 +16,8 @@ import { Player_stats_gameModel } from '../../../../models/player_stats_game.mod
 import { GamesService } from '../../../../services/games.service';
 import { Team_stats_gameService } from 'src/app/services/team_stats_game.service';
 import { Player_stats_gamesService } from 'src/app/services/player_stats_game.service';
-
+import { LeaguesService } from 'src/app/services/leagues.service';
+import { ClubsService } from 'src/app/services/clubs.service';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class GamesViewComponent implements OnInit {
   players:PlayerModel[];
   games:GameModel[];
 
-  constructor(private fb:FormBuilder, private gamesService:GamesService, private team_stats_gameService:Team_stats_gameService, private player_stats_gameService:Player_stats_gamesService){ 
+  constructor(private fb:FormBuilder, private clubsService:ClubsService, private leaguesService:LeaguesService, private gamesService:GamesService, private team_stats_gameService:Team_stats_gameService, private player_stats_gameService:Player_stats_gamesService){ 
     this.gamesService.getGames().then( (games:GameModel[]) => {
 
       this.games = games;
@@ -42,6 +43,14 @@ export class GamesViewComponent implements OnInit {
 
      console.log(dt.getDay()+"/"+dt.getMonth()+"/"+dt.getFullYear());
 
+    });
+
+    this.leaguesService.getLeagues("?sort=name").then( (leagues:LeagueModel[]) => {
+      this.leagues = leagues;
+    });
+
+    this.clubsService.getClubs("?sort=name").then( (clubs:ClubModel[]) => {
+      this.clubs = clubs;
     });
 
     this.createForm();
@@ -55,14 +64,20 @@ export class GamesViewComponent implements OnInit {
 
     this.form = this.fb.group({
       leagues: [''],
-      clubs: [''],
-      teams: ['']
+      clubs: ['']
     });
 
   }
 
-  setLeague(){
-
+  searchGames(){
+    this.gamesService.getGames("?league.league_id="+this.form.get('leagues').value+"&home_team.club_id="+this.form.get('clubs').value).then( (games:GameModel[]) => {
+      this.games = games;
+      this.gamesService.getGames("?league.league_id="+this.form.get('leagues').value+"&visitor_team.club_id="+this.form.get('clubs').value).then( (games:GameModel[]) => {
+        for(let game of games){
+          this.games.push(game);
+        }
+      });
+    });
   }
 
   getDate(game_index){

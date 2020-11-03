@@ -30,15 +30,20 @@ export class PlayersViewComponent implements OnInit {
   teams:TeamModel[];
   players:PlayerModel[];
 
-  constructor( private fb:FormBuilder, private LeaguesService:LeaguesService, private PlayersService:PlayersService ) { 
+  constructor( private fb:FormBuilder, private playersService:PlayersService, private clubsService:ClubsService, private leaguesService:LeaguesService, private PlayersService:PlayersService ) { 
 
     this.PlayersService.getPlayers().then((res:PlayerModel[]) => {
       this.players = res;
     });
 
-    this.LeaguesService.getLeagues().then((res:LeagueModel[]) => {
-      this.leagues = res;
+    this.leaguesService.getLeagues("?sort=name").then( (leagues:LeagueModel[]) => {
+      this.leagues = leagues;
     });
+
+    this.clubsService.getClubs("?sort=name").then( (clubs:ClubModel[]) => {
+      this.clubs = clubs;
+    });
+
 
     this.createForm();
 
@@ -54,15 +59,17 @@ export class PlayersViewComponent implements OnInit {
 
     this.form = this.fb.group({
       leagues: [''],
-      clubs: [''],
-      teams: ['']
+      clubs: ['']
     });
 
   }
 
-  setLeague(){
-    //GET Clubs that play in the selected League
-    console.log(this.form.get('leagues').value);
+  searchPlayers(){
+
+    this.playersService.getPlayers("?teams.league_id="+this.form.get('leagues').value+"&teams.club_id="+this.form.get('clubs').value).then( (players:PlayerModel[]) => {
+      this.players = players;
+    });
+    
   }
 
   deletePlayer(player:PlayerModel){

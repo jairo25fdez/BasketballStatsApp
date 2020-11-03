@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     else{
       Swal.fire({
         title: 'Espere',
-        text: 'Guardando información',
+        text: 'Comprobando usuario.',
         icon: 'info',
         allowOutsideClick: false
       });
