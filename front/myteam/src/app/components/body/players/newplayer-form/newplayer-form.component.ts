@@ -151,7 +151,7 @@ export class NewplayerFormComponent implements OnInit {
 
   selectClub(club_index){
 
-    this.teamsService.getTeam("?club.club_id="+this.clubs[club_index]._id).then((res:TeamModel[]) => {
+    this.teamsService.getTeam("?club.club_id="+this.clubs[club_index]._id+"&sort=-season").then((res:TeamModel[]) => {
       this.teams = res;
     });
 

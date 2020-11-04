@@ -149,7 +149,7 @@
                 <div class="col-md-8">
                     <select class="custom-select" formControlName="league" (change)="setLeague($event.target.value)">
                         <option disabled>Liga del Equipo</option>
-                        <option *ngFor="let team of teams; index as i;" value="{{i}}">{{team.league.league_name}}</option>
+                        <option *ngFor="let team of teams; index as i;" value="{{i}}">{{team.league.league_name}} ({{team.season}})</option>
                     </select>
                     <small *ngIf="leagueNoValid" class="text-danger">Seleccione una liga</small>
                 </div>
