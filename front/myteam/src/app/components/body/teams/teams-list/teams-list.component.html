@@ -1,14 +1,13 @@
 <div class="row no-gutters">
 
-    <form class="col mt-1 p-3 d-flex" [formGroup]="form">
+    <form class="col mt-1 p-3 d-flex" [formGroup]="form" (ngSubmit)="searchTeams()">
 
-    
+
         <div class="form-group d-flex col-4 no-gutters">
 
             <label class="col-3 col-form-label">Liga</label>
             <div class="col-8">
-                <select class="custom-select" formControlName="leagues" (change)="setLeague()">
-                    <option disabled>Liga del Equipo</option>
+                <select class="custom-select" formControlName="leagues" >
                     <option *ngFor="let league of leagues;" value="{{league._id}}">{{league.name}}</option>
                 </select>
             </div>
@@ -20,12 +19,21 @@
             <label class="col-3 col-form-label">Club</label>
             <div class="col-8">
                 <select class="custom-select" formControlName="clubs">
-                    <option *ngFor="let club of leagues" value="{{club_id}}">{{club.club_name}}</option>
+                    <option *ngFor="let club of clubs;" value="{{club._id}}">{{club.name}}</option>
                 </select>
             </div>
             
         </div>
-  
+
+        <div class="form-group d-flex col-4 no-gutters">
+            <label class="col-3 col-form-label">&nbsp;</label>
+            <div class="input-group col-8">
+            <button type="submit" class="btn btn-primary col-12">
+                Buscar
+            </button>
+            </div>
+        </div>
+        
 
     </form>
 
@@ -51,9 +59,9 @@
                             <h5 class="card-title">{{team.league.league_name}}</h5>
                         </div>
                     </div>
-                    <div class="flex-column col-6">
-                        <button type="button" class="btn btn-warning w-100" [routerLink]="['../edit-team', team._id]">Editar</button>
-                        <button type="button" class="btn btn-danger w-100" (click)="deleteTeam(team)">Eliminar</button>
+                    <div class="flex-column col-6 p-2">
+                        <button type="button" class="btn btn-warning w-100 h-50" [routerLink]="['../edit-team', team._id]">Editar</button>
+                        <button type="button" class="btn btn-danger w-100 h-50" (click)="deleteTeam(team)">Eliminar</button>
                     </div>
 
                 </div>

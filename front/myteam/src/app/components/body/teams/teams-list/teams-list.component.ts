@@ -11,6 +11,7 @@ import { ClubModel } from '../../../../models/club.model';
 //Services
 import { TeamsService } from '../../../../services/teams.service';
 import { LeaguesService } from '../../../../services/leagues.service';
+import { ClubsService } from '../../../../services/clubs.service';
 import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -26,14 +27,18 @@ export class TeamsListComponent implements OnInit {
   clubs:ClubModel[];
   leagues:LeagueModel[];
 
-  constructor(private TeamsService:TeamsService, private LeaguesService:LeaguesService, private route:ActivatedRoute, private fb:FormBuilder) {
+  constructor(private TeamsService:TeamsService, private LeaguesService:LeaguesService,  private ClubsService:ClubsService, private route:ActivatedRoute, private fb:FormBuilder) {
 
     this.TeamsService.getTeams().then((res:TeamModel[]) => {
       this.teams = res;
     });
 
-    this.LeaguesService.getLeagues().then((res:LeagueModel[]) => {
+    this.LeaguesService.getLeagues("?sort=name").then((res:LeagueModel[]) => {
       this.leagues = res;
+    });
+
+    this.ClubsService.getClubs("?sort=name").then( (clubs:ClubModel[]) => {
+      this.clubs = clubs;
     });
 
     this.createForm();
@@ -51,8 +56,10 @@ export class TeamsListComponent implements OnInit {
   }
 
 
-  setLeague(){
-
+  searchTeams(){
+    this.TeamsService.getTeams("?league.league_id="+this.form.get('leagues').value+"&club.club_id="+this.form.get('clubs').value).then( (teams:TeamModel[]) => {
+      this.teams = teams;
+    });
   }
 
   deleteTeam(team: TeamModel){
