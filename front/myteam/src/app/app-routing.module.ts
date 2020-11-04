@@ -131,7 +131,7 @@ const routes: Routes = [
     ]
     },
   //Default routes
-    {path: '**', pathMatch: 'full', redirectTo: 'home'},
+    {path: '**', pathMatch: 'full', redirectTo: 'game-menu'},
 
   ]},
   {path: '**', pathMatch: 'full', redirectTo: 'login'}
