@@ -1223,8 +1223,10 @@ export class NewgameFormComponent implements OnInit {
 
             }
 
+            //console.log("QUIERO IR AL PARTIDO CON ID: "+games[0]._id);
+
             //Navigate to game component
-            this.router.navigateByUrl('/live-game/'+games[0]._id);
+            this.router.navigateByUrl('/home/live-game/'+games[0]._id);
           
           })
           .catch( (err:HttpErrorResponse) => {

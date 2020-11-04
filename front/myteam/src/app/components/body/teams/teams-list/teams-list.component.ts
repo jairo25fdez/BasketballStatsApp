@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
 
 //Model
 import { TeamModel } from '../../../../models/team.model';
@@ -12,8 +14,7 @@ import { ClubModel } from '../../../../models/club.model';
 import { TeamsService } from '../../../../services/teams.service';
 import { LeaguesService } from '../../../../services/leagues.service';
 import { ClubsService } from '../../../../services/clubs.service';
-import Swal from 'sweetalert2';
-import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-teams-list',
@@ -27,7 +28,7 @@ export class TeamsListComponent implements OnInit {
   clubs:ClubModel[];
   leagues:LeagueModel[];
 
-  constructor(private TeamsService:TeamsService, private LeaguesService:LeaguesService,  private ClubsService:ClubsService, private route:ActivatedRoute, private fb:FormBuilder) {
+  constructor(private router:Router, private TeamsService:TeamsService, private LeaguesService:LeaguesService,  private ClubsService:ClubsService, private route:ActivatedRoute, private fb:FormBuilder) {
 
     this.TeamsService.getTeams().then((res:TeamModel[]) => {
       this.teams = res;
@@ -81,8 +82,9 @@ export class TeamsListComponent implements OnInit {
         icon: 'success'
       });
 
-      //Reload Leagues info when delete is successful
+      //Reload teams when delete is successful
       this.TeamsService.getTeams().then((res:TeamModel[]) => {
+        this.router.navigateByUrl('/home/teams/teams-list');
         this.teams = res;
       });
 

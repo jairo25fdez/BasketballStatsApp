@@ -33,11 +33,11 @@ export class NewteamFormComponent implements OnInit {
   constructor(private TeamsService:TeamsService, private ClubsService:ClubsService, private LeaguesService:LeaguesService, private route:ActivatedRoute, private fb:FormBuilder) { 
     
 
-    this.LeaguesService.getLeagues().then((res:LeagueModel[]) => {
+    this.LeaguesService.getLeagues("?sort=name").then((res:LeagueModel[]) => {
       this.leagues = res;
     });
 
-    this.ClubsService.getClubs().then((res:ClubModel[]) => {
+    this.ClubsService.getClubs("?sort=name").then((res:ClubModel[]) => {
       this.clubs = res;
     });
 

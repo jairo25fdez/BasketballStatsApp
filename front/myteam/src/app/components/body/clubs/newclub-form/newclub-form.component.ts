@@ -127,8 +127,7 @@ export class NewclubFormComponent implements OnInit {
       if(res.status == 200){
         //Guardo la url en la propiedad correspondiente
         this.club.img = res.image_url;
-
-
+        
         Swal.fire({
           title: 'Imagen subida correctamente.',
           icon: 'success'
@@ -211,7 +210,7 @@ export class NewclubFormComponent implements OnInit {
           });
 
           Swal.fire({
-            title: 'Liga editada correctamente.',
+            title: 'Club editado correctamente.',
             icon: 'success'
           });
   
