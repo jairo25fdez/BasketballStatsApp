@@ -16,4 +16,18 @@
 }
 .addScroll{
     height: 92vh;
-  }
+}
+
+.minutes{
+    color: #C82333;
+}
+.qrt{
+    color: #E69C1C
+}
+.shot_made{
+    color: green;
+}
+
+.shot_missed{
+    color: red;
+}

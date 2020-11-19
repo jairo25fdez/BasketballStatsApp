@@ -12,9 +12,34 @@
                 </div>
             </div>
             <div class="row col-12 p-0 main no-gutters">
-                <div class="home-score col-1 h3 m-0 text-center align-self-center">{{ play.home_team_score }}</div>
-                <div class="visitor-score col-1 h3 m-0 text-center align-self-center">{{ play.visitor_team_score }}</div>
-                <div class="play-type col-4 pl-3 h5 m-0  align-self-center">{{ play.type }}</div>
+                <div class="home-score col-1 h1 m-0 text-center align-self-center">{{ play.home_team_score }}</div>
+                <div class="visitor-score col-1 h1 m-0 text-center align-self-center">{{ play.visitor_team_score }}</div>
+                <div class="col-1 m-0 text-center align-self-center">
+                    <p *ngIf="play.type == 'shot' && play.shot_type == 'ft' && play.shot_made == true" class="m-0 h4 shot_made">+1</p>
+                    <p *ngIf="play.type == 'shot' && play.shot_type == 'ft' && play.shot_made == true" class="m-0 h4 shot_missed">X</p>
+
+                    <p *ngIf="play.type == 'shot' && play.shot_type == 'fg' && play.shot_made == true && play.shot_position != 'lc3' && play.shot_position != 'le3' && play.shot_position != 'c3' && play.shot_position != 're3' && play.shot_position != 'rc3'" class="m-0 h2 shot_made">+2</p>
+                    <p *ngIf="play.type == 'shot' && play.shot_type == 'fg' && play.shot_made == true && (play.shot_position == 'lc3' || play.shot_position == 'le3' || play.shot_position == 'c3' || play.shot_position == 're3' || play.shot_position == 'rc3')" class="m-0 h2 shot_made">+3</p>
+                    <p *ngIf="play.type == 'shot' && play.shot_type == 'fg' && play.shot_made == false" class="m-0 h2 shot_missed">X</p>
+                </div>
+                <div class="play-type col-3 pl-3 h5 m-0  align-self-center">
+                    
+                    <p *ngIf="play.type == 'shot' && play.shot_type == 'ft' && play.shot_made == true" class="m-0 h4">Tiro libre anotado</p>
+                    <p *ngIf="play.type == 'shot' && play.shot_type == 'ft' && play.shot_made == false" class="m-0 h4">Tiro libre fallado</p>
+
+                    <p *ngIf="play.type == 'shot' && play.shot_type == 'fg' && play.shot_made == true" class="m-0 h4">Tiro anotado</p>
+                    <p *ngIf="play.type == 'shot' && play.shot_type == 'fg' && play.shot_made == false" class="m-0 h4">Tiro fallado</p>
+
+                    <p *ngIf="play.type == 'rebound' && play.rebound_type == 'offensive'" class="m-0 h4">Rebote ofensivo</p>
+                    <p *ngIf="play.type == 'rebound' && play.rebound_type == 'defensive'" class="m-0 h4">Rebote defensivo</p>
+                    <p *ngIf="play.type == 'assist'" class="m-0 h4">Asistencia</p>
+                    <p *ngIf="play.type == 'steal'" class="m-0 h4">Robo</p>
+                    <p *ngIf="play.type == 'block'" class="m-0 h4">Tapón</p>
+                    <p *ngIf="play.type == 'lost ball'" class="m-0 h4">Pérdida</p>
+                    <p *ngIf="play.type == 'personal foul' && play.foul_type == 'received'" class="m-0 h4">Falta Personal recibida</p>
+                    <p *ngIf="play.type == 'personal foul' && play.foul_type == 'made'" class="m-0 h4">Falta Personal hecha</p>
+                    
+                </div>
                 <div class="player-picture col-2">
                     <img src="{{ play.player.player_img }}" class="img-fluid player-img">
                 </div>
