@@ -266,8 +266,8 @@ export class MainPageComponent implements OnInit {
 
       if( (this.home_players[player_index].time_played.seconds + seconds) > 59){
         this.home_players[player_index].time_played.seconds = 0;
-        
-        minutes += Math.ceil(seconds / 60);
+        //minutes += Math.ceil(seconds / 60);
+        minutes += Math.floor(seconds / 60);
         seconds = seconds % 60;
       }
       this.home_players[player_index].time_played.minutes += minutes;
@@ -278,7 +278,8 @@ export class MainPageComponent implements OnInit {
       if( (this.visitor_players[player_index].time_played.seconds + seconds) > 59){
         this.visitor_players[player_index].time_played.seconds = 0;
         
-        minutes += Math.ceil(seconds / 60);
+        //minutes += Math.ceil(seconds / 60);
+        minutes += Math.floor(seconds / 60);
         seconds = seconds % 60;
       }
 
@@ -1224,6 +1225,7 @@ export class MainPageComponent implements OnInit {
   }
 
   pauseTimer(){
+
     clearInterval(this.interval);
 
     let timer_cont = 0;
@@ -1982,14 +1984,9 @@ export class MainPageComponent implements OnInit {
             //Team stats
             this.home_team_stats.shots_list[this.shot_zone].made++;
             this.home_team_stats.t3_made++;
-            console.log("HOME TEAM STATS POINTS ANTES: "+this.home_team_stats.points);
             this.home_team_stats.points += 3;
-            console.log("HOME TEAM STATS POINTS DESPUES: "+this.home_team_stats.points);
-
-            console.log("GAME HOME TEAM SCORE ANTES: "+this.game.home_team_score);
 
             this.game.home_team_score += 3;
-            console.log("GAME HOME TEAM SCORE DESPUES: "+this.game.home_team_score);
 
           }
           //Player stats
@@ -2013,13 +2010,9 @@ export class MainPageComponent implements OnInit {
             //Team stats
             this.home_team_stats.shots_list[this.shot_zone].made++;
             this.home_team_stats.t2_made++;
-            console.log("HOME TEAM STATS POINTS ANTES: "+this.home_team_stats.points);
             this.home_team_stats.points += 2;
-            console.log("HOME TEAM STATS POINTS DESPUES: "+this.home_team_stats.points);
 
-            console.log("GAME HOME TEAM SCORE ANTES: "+this.game.home_team_score);
             this.game.home_team_score += 2;
-            console.log("GAME HOME TEAM SCORE DESPUES: "+this.game.home_team_score);
 
           }
           //Player stats
