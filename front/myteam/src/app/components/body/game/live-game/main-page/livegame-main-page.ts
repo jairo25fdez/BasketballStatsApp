@@ -262,29 +262,26 @@ export class MainPageComponent implements OnInit {
     // what's left is seconds
     var seconds = delta % 60;
 
+
     if(team == 0){
 
       if( (this.home_players[player_index].time_played.seconds + seconds) > 59){
-        this.home_players[player_index].time_played.seconds = 0;
-        //minutes += Math.ceil(seconds / 60);
-        minutes += Math.floor(seconds / 60);
-        seconds = seconds % 60;
+        minutes += Math.ceil(seconds / 60);
       }
+      
       this.home_players[player_index].time_played.minutes += minutes;
       this.home_players[player_index].time_played.seconds += seconds;
+      this.home_players[player_index].time_played.seconds = this.home_players[player_index].time_played.seconds % 60;
     }
     else{
 
       if( (this.visitor_players[player_index].time_played.seconds + seconds) > 59){
-        this.visitor_players[player_index].time_played.seconds = 0;
-        
-        //minutes += Math.ceil(seconds / 60);
-        minutes += Math.floor(seconds / 60);
-        seconds = seconds % 60;
+        minutes += Math.ceil(seconds / 60);
       }
 
       this.visitor_players[player_index].time_played.minutes += minutes;
       this.visitor_players[player_index].time_played.seconds += seconds;
+      this.visitor_players[player_index].time_played.seconds = this.visitor_players[player_index].time_played.seconds % 60;
     }
     
 
