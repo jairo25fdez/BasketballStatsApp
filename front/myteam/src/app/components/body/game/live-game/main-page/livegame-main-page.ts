@@ -252,6 +252,10 @@ export class MainPageComponent implements OnInit {
     let date2 = new Date();
     date2.setHours(0, player_out[1], player_out[2]);
 
+    if( (this.minutes == this.minutes_per_quarter) && (this.seconds == 0) ){
+      date2.setHours(0, 0, 0);
+    }
+
     // get total seconds between the times
     var delta = Math.abs(date2.getTime() - date1.getTime()) / 1000;
 
@@ -262,11 +266,11 @@ export class MainPageComponent implements OnInit {
     // what's left is seconds
     var seconds = delta % 60;
 
-
     if(team == 0){
 
       if( (this.home_players[player_index].time_played.seconds + seconds) > 59){
         minutes += Math.ceil(seconds / 60);
+        //seconds = seconds % 60;
       }
       
       this.home_players[player_index].time_played.minutes += minutes;
@@ -354,6 +358,29 @@ export class MainPageComponent implements OnInit {
         clearInterval(this.interval);
 
         if(this.quarter < 4){
+
+          let timer_cont = 0;
+          for(let player_index of this.oncourt_home_players){
+            //Update the time played for every player
+            this.calculateTime(0, player_index, this.home_oncourt_timers[timer_cont]);
+          }
+
+          timer_cont = 0;
+          for(let player_index of this.oncourt_home_players){
+            this.home_oncourt_timers[timer_cont] = [this.quarter, this.minutes, this.seconds];
+          }
+
+          timer_cont = 0;
+          for(let player_index of this.oncourt_visitor_players){
+            //Update the time played for every player
+            this.calculateTime(1, player_index, this.visitor_oncourt_timers[timer_cont]);
+          }
+
+          timer_cont = 0;
+          for(let player_index of this.oncourt_visitor_players){
+            this.visitor_oncourt_timers[timer_cont] = [this.quarter, this.minutes, this.seconds];
+          }
+
           this.quarter++;
           this.minutes = this.minutes_per_quarter;
         }
