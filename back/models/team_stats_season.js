@@ -142,7 +142,7 @@ var team_stats_seasonSchema = new Schema({
 
 });
 
-team_stats_seasonSchema.index( {team_id: 1, season_id: 1, league_id: 1}, { unique: true } );
+team_stats_seasonSchema.index( {team_id: 1, season: 1, league_id: 1}, { unique: true } );
 
 
 team_stats_seasonSchema = mongoose.Schema(team_stats_seasonSchema);
